@@ -1,0 +1,1 @@
+ALTER TABLE `glpi_plugin_cmdb_criticity_items` RENAME `glpi_plugin_cmdb_criticities_items`;

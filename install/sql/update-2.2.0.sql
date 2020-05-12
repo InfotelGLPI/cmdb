@@ -1,0 +1,1 @@
+ALTER TABLE `glpi_plugin_cmdb_criticities_items` CHANGE `value` `plugin_cmdb_criticities_id` int(11) NOT NULL default '0';
