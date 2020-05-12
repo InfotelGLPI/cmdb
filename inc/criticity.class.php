@@ -292,7 +292,8 @@ class PluginCmdbCriticity extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       $colspan = 4;
-      if ($itemtype == "PluginCmdbCI") {
+
+      if (strpos($itemtype,"PluginCmdb") !== false) {
          $colspan = 2;
       }
       echo "<th colspan='$colspan'>". PluginCmdbCmdb::getTypeName()."</th>";
@@ -306,7 +307,7 @@ class PluginCmdbCriticity extends CommonDBTM {
       $crit->criticityDropdown(["itemtype" => $itemtype,
                                 "items_id" => $item->getID()]);
       echo "</td>";
-      if ($itemtype != "PluginCmdbCI") {
+      if (strpos($itemtype,"PluginCmdb") === false) {
          echo "<td colspan='2'></td>";
       }
       echo "</tr>";

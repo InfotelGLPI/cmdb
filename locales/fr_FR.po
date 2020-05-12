@@ -510,38 +510,3 @@ msgstr "Haute"
 #: install/update_110_111.php:87
 msgid "very high"
 msgstr "Très haute"
-
-#~ msgid "This plugin requires GLPI >= 0.90"
-#~ msgstr "Ce plugin nécessite GLPI >= 0.90"
-
-#~ msgid "Positions of all CIs have been saved !"
-#~ msgstr "La position de tous les CIs ont été sauvegardées !"
-
-#~ msgid "Save positions for all CI"
-#~ msgstr "Sauver la positions pour tous les CIs"
-
-#~ msgid "CMDB preferences"
-#~ msgstr "Préférences de la CMDB"
-
-#~ msgid "Choose colors criticities"
-#~ msgstr "Choisissez les couleurs liés aux criticités"
-
-#~ msgid "Actions"
-#~ msgstr "Actions"
-
-#~ msgid "Fields"
-#~ msgstr "Champs"
-
-#~ msgid "Types"
-#~ msgstr "Types"
-
-#~ msgid "Operation Process"
-#~ msgid_plural "Operation Processes"
-#~ msgstr[0] "Service"
-#~ msgstr[1] "Services"
-
-#~ msgid "no elements is linked to the ticket"
-#~ msgstr "Aucun élément est lié au ticket"
-
-#~ msgid "Impacted Items"
-#~ msgstr "Eléments impactés"

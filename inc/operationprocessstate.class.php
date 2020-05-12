@@ -47,6 +47,6 @@ class PluginCmdbOperationprocessState extends CommonDropdown {
     */
    static function getTypeName($nb = 0) {
 
-      return _n('State of Operation process', 'States of Operation process', $nb, 'cmdb');
+      return _n('State of service', 'States of service', $nb, 'cmdb');
    }
 }

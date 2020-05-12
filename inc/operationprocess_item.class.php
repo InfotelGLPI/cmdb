@@ -480,7 +480,7 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
                                                                   'used'   => $used]);
 
             echo "</td><td class='center' width='20%'>";
-            echo Html::submit(_sx('button', 'Associate an Operation process', 'cmdb'), ['name' => 'additem']);
+            echo Html::submit(_sx('button', 'Associate a service', 'cmdb'), ['name' => 'additem']);
             echo "</td>";
             echo "</tr>";
             echo "</table>";

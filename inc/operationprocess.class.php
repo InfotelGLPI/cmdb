@@ -48,7 +48,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
     * @return string
     **/
    public static function getTypeName($nb = 0) {
-      return _n('Operation process', 'Operation processes', $nb, 'cmdb');
+      return _n('Service', 'Services', $nb, 'cmdb');
    }
 
    /**

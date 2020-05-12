@@ -75,7 +75,7 @@ function plugin_init_cmdb() {
 
       $PLUGIN_HOOKS['plugin_fields']['cmdb'] = 'PluginCmdbOperationprocess';
 
-      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = "plugins/cmdb/operationprocess.png";
+      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = "plugins/cmdb/pics/service.png";
 
 
       //      $CFG_GLPI['impact_asset_types']['PluginCmdbCI'] = "plugins/cmdb/client.png";
