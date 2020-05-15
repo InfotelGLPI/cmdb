@@ -114,7 +114,7 @@ class PluginCmdbProfile extends Profile {
             $rights = $this->getOperationprocessRights();
             $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                                                           'default_class' => 'tab_bg_2',
-                                                          'title'         => __('Operation process', 'cmdb')]);
+                                                          'title'         => _n('Service','Services', 2, 'cmdb')]);
          }
       }
 
@@ -146,7 +146,7 @@ class PluginCmdbProfile extends Profile {
     */
    function getOperationprocessRights() {
       $rights = [['itemtype' => 'PluginCmdbOperationprocess',
-                  'label'    => _n('Operation process', 'Operation processes', 2, 'cmdb'),
+                  'label'    => _n('Service', 'Services', 2, 'cmdb'),
                   'field'    => 'plugin_cmdb_operationprocesses']];
       return $rights;
    }
@@ -184,7 +184,7 @@ class PluginCmdbProfile extends Profile {
    static function getAllRights($all = false) {
       $rights = [
          ['itemtype' => 'PluginCmdbOperationprocess',
-          'label'    => _n('Operation process', 'Operation processes', 2, 'cmdb'),
+          'label'    => _n('Service', 'Services', 2, 'cmdb'),
           'field'    => 'plugin_cmdb_operationprocesses'
          ],
          ['itemtype' => 'PluginCmdbCI',

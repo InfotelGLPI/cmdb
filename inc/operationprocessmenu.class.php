@@ -46,7 +46,7 @@ class PluginCmdbOperationprocessMenu extends CommonGLPI {
     * @return character menu shortcut key
     **/
    static function getMenuName() {
-      return _n('Operation process', 'Operation processes', 2, 'cmdb');
+      return _n('Service', 'Services', 2, 'cmdb');
    }
 
    /**
