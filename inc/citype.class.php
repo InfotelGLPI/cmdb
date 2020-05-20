@@ -38,7 +38,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
    static $typeCI = ["Budget", "Supplier", "Contact", "Contract",
                      "Document", "Group", "Entity",
-                     "Project", "Location", "ComputerVirtualMachine"];
+                     "Project", "Location", "ComputerVirtualMachine", "Appliance"];
   //CANNOT use :( No fields entities
    //, "Reminder", "Profile", "KnowbaseItem", "User"
    static $typeField;

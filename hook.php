@@ -203,6 +203,9 @@ function plugin_cmdb_getDropdown() {
       $fields    = $field_obj->find(['is_imported' => 0]);
       foreach ($fields as $field) {
          $classname = $field["name"];
+         if (!getItemForItemtype($classname)) {
+            continue;
+         }
          $dropdowns[$field['name']] = $classname::getTypeName();
       }
 

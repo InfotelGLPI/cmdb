@@ -102,8 +102,8 @@ class PluginCmdbCriticity extends CommonDBTM {
       if (!self::canView()) {
          return false;
       }
-      echo Html::script('public/lib/spectrum-colorpicker.js');
-      echo Html::css('public/lib/spectrum-colorpicker.css');
+//      echo Html::script('public/lib/spectrum-colorpicker.js');
+//      echo Html::css('public/lib/spectrum-colorpicker.css');
 
       $criticity = new PluginCmdbCriticity();
       if ($criticity->getFromDBByCrit(['businesscriticities_id' => $ID])) {
@@ -293,7 +293,8 @@ class PluginCmdbCriticity extends CommonDBTM {
       echo "<tr class='tab_bg_1'>";
       $colspan = 4;
 
-      if (strpos($itemtype,"PluginCmdb") !== false) {
+      if (strpos($itemtype,"PluginCmdb") !== false
+            && $itemtype != "PluginCmdbOperationprocess") {
          $colspan = 2;
       }
       echo "<th colspan='$colspan'>". PluginCmdbCmdb::getTypeName()."</th>";
@@ -307,7 +308,8 @@ class PluginCmdbCriticity extends CommonDBTM {
       $crit->criticityDropdown(["itemtype" => $itemtype,
                                 "items_id" => $item->getID()]);
       echo "</td>";
-      if (strpos($itemtype,"PluginCmdb") === false) {
+      if (strpos($itemtype,"PluginCmdb") === false
+          || $itemtype == "PluginCmdbOperationprocess") {
          echo "<td colspan='2'></td>";
       }
       echo "</tr>";
