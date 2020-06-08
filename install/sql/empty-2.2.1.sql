@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_cmdb_operationprocesses` (
    `users_id_tech` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
    `groups_id_tech` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_groups (id)',
    `locations_id` int(11) NOT NULL default '0' COMMENT 'RELATION to glpi_locations (id)',
-   `date_mod` datetime default NULL,
+   `date_mod` timestamp NULL DEFAULT NULL,
    `is_deleted` tinyint(1) NOT NULL default '0',
    `is_helpdesk_visible` int(11) NOT NULL default '1',
    `comment` text collate utf8_unicode_ci,
