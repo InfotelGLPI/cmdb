@@ -82,7 +82,11 @@ function plugin_init_cmdb() {
       //Define impact_asset_types for ci types
       include_once(GLPI_ROOT . "/plugins/cmdb/inc/citype.class.php");
       $citype = new PluginCmdbCIType();
-      $citype->showInAssetTypes();
+      $plugin = new Plugin();
+      if($plugin->isActivated('cmdb')){
+         $citype->showInAssetTypes();
+      }
+
 
       //Change link from menu.php
       $PLUGIN_HOOKS["javascript"]['cmdb'] = ["/plugins/cmdb/js/changeCIMenu.js",

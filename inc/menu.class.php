@@ -60,6 +60,8 @@ class PluginCmdbMenu extends CommonGLPI {
       $menu['title'] = self::getTypeName();
       $menu['page']  = "/plugins/cmdb/front/menu.php";
 
+      $menu['page']  = "/plugins/cmdb/front/menu.php";
+      $menu['links']["<i class='fas fa-wrench fa-2x' title='" . __('Configure Type of Item Configuration', 'cmdb') . "'></i>"] = '/plugins/cmdb/front/citype.php';
       //ItemConfiguration
       $menu['options']['ci']['title']           = __s("Item Configuration", 'cmdb');
       $menu['options']['ci']['page']            = '/plugins/cmdb/front/ci.php';

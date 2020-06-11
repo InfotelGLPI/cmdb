@@ -360,6 +360,7 @@ class PluginCmdbCIType extends CommonDropdown {
             $input['fields'] = '';
          }
       } else {
+         $input["name"] = str_replace(" ","",$input["name"]);
          $input['name']        = "PluginCmdb" . ucfirst($input['name']);
          $input['is_imported'] = 0;
          if (!empty($input['_fields'])) {
@@ -434,6 +435,14 @@ class PluginCmdbCIType extends CommonDropdown {
          $classname = self::getClassname($this->fields['name']);
          $classname::install();
       }
+      $core_config = Config::getConfigurationValues("core");
+      $db_values = importArrayFromDB($core_config[Impact::CONF_ENABLED]);
+      $db_values[] = $classname;
+      $input[Impact::CONF_ENABLED] = $db_values;
+      $input["id"] = 1;
+
+      $config = new Config();
+      $config->update($input);
    }
 
 

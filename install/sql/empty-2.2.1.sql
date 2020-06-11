@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_cmdb_civalues` (
    `items_id` int(11) NOT NULL,
    `plugin_cmdb_cifields_id` int(11) NOT NULL,
    PRIMARY KEY  (`id`),
-   KEY `plugin_cmdb_cis_id` (`plugin_cmdb_cis_id`),
+   KEY `items_id` (`items_id`),
    KEY `plugin_cmdb_cifields_id` (`plugin_cmdb_cifields_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
