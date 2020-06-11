@@ -307,6 +307,8 @@ class PluginCmdbCIType extends CommonDropdown {
          echo __("Be careful the name cannot be changed after creation", "cmdb");
          echo "<br>";
          echo __("Do not use a plural classname (like 'myobjects')", "cmdb");
+         echo "<br>";
+         echo __("Do not use a classname with spaces (like 'my objects')", "cmdb");
          echo "</div>";
          echo "</td>";
          echo "</tr>";

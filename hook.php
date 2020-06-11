@@ -150,10 +150,10 @@ function plugin_cmdb_uninstall() {
 
    //remove files
    if (is_dir(PLUGINCMDB_DOC_DIR.'/front')) {
-      rrmdir(PLUGINCMDB_DOC_DIR.'/front');
+      cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/front');
    }
    if (is_dir(PLUGINCMDB_DOC_DIR.'/inc')) {
-      rrmdir(PLUGINCMDB_DOC_DIR.'/inc');
+      cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/inc');
    }
    //PluginCmdbMenu::removeRightsFromSession();
    PluginCmdbProfile::removeRightsFromSession();
@@ -333,14 +333,14 @@ function plugin_cmdb_giveItem($type, $ID, $data, $num) {
    return "";
 }
 
-function rrmdir($dir) {
+function cmdb_rmdir($dir) {
 
    if (is_dir($dir)) {
       $objects = scandir($dir);
       foreach ($objects as $object) {
          if ($object != "." && $object != "..") {
             if (filetype($dir."/".$object) == "dir") {
-               rrmdir($dir."/".$object);
+               cmdb_rmdir($dir."/".$object);
             } else {
                unlink($dir."/".$object);
             }

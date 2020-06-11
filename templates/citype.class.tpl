@@ -137,18 +137,12 @@ class %%CLASSNAME%% extends CommonDropdown {
       Html::autocompletionTextField($this, "name");
       echo "</td>";
       echo "</tr>";
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>";
-      echo "</td>";
 
-      echo "</tr>";
       $cifields = new PluginCmdbCifields();
-
       $cifields->setFieldByType(%%TYPE%%, $ID, self::getType());
+      $this->showFormButtons($options);
 
-        $this->showFormButtons($options);
-
-        return true;
+      return true;
     }
 
    /**

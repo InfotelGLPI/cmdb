@@ -118,19 +118,19 @@ class PluginCmdbCI extends CommonDBTM {
       $this->showFormHeader($options);
 
       echo "<tr class='tab_bg_1'>";
-
       echo "<td>" . __('Name') . "</td>";
       echo "<td>";
       Html::autocompletionTextField($this, "name");
       echo "</td>";
       echo "</tr>";
+
       echo "<tr class='tab_bg_1 fieldCI'>";
       echo "<td>" . PluginCmdbCIType::getTypeName(1) . "</td>";
       echo "<td>";
       $idType = $this->setSelectCITypes($ID);
       echo "</td>";
-
       echo "</tr>";
+
       $cifields = new PluginCmdbCifields();
       if (!isset($this->fields["plugin_cmdb_citypes_id"])
           || $this->fields["plugin_cmdb_citypes_id"] == "") {

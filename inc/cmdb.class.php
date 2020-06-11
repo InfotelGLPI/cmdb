@@ -50,31 +50,6 @@ class PluginCmdbCmdb extends CommonDBTM {
    function displayMenu() {
       global $CFG_GLPI;
 
-      echo "<div class='center'>";
-      echo "<table class='tab_cadre'>";
-      echo "<tr>";
-      echo "<th colspan='6'>" . __("Display Item Configuration", 'cmdb') . "</th>";
-      echo "</tr>";
-      echo "<tr>";
-
-      $this->displayCIMenuCMDB(__("Display Item Configuration", 'cmdb'), "ci.php", "iconCI.png");
-      echo "</tr>";
-      //      echo "<tr class='tab_bg_1'>";
-      //      $this->displayItemMenuCMDB(__("Configure links", 'cmdb'), "typelink.php", "iconTypelink.png");
-      //      $this->displayItemMenuCMDB(__("Display Baseline", 'cmdb'), "baseline.php", "iconBaseline.png");
-      //      echo "</tr>";
-      echo "</table>";
-      echo "</div>";
-   }
-
-   /**
-    * @param $title
-    * @param $url
-    * @param $nameIcon
-    */
-   function  displayCIMenuCMDB($title, $url, $nameIcon) {
-      global $DB, $CFG_GLPI;
-
       Html::requireJs('cmdb');
 
       $dbu = new DbUtils();
@@ -95,41 +70,49 @@ class PluginCmdbCmdb extends CommonDBTM {
             $entities  = $entity;
             $recursive = false;
          }
-         $where  = $dbu->getEntitiesRestrictCriteria("glpi_plugin_cmdb_citypes", '', $entities, $recursive);
+         $where = $dbu->getEntitiesRestrictCriteria("glpi_plugin_cmdb_citypes", '', $entities, $recursive);
       }
 
       $ci_type = new PluginCmdbCIType();
       $ciTypes = $ci_type->find($where);
 
-//      echo "<td class='center b' >";
-//      echo "<i class='fas fa-cog fa-3x'></i>";
-//      echo "<br/><br/>";
+      //      echo "<td class='center b' >";
+      //      echo "<i class='fas fa-cog fa-3x'></i>";
+      //      echo "<br/><br/>";
 
       if (count($ciTypes) > 0) {
+
+         echo "<div class='center'>";
+         echo "<table class='tab_cadre' width='30%'>";
+         echo "<tr>";
+         echo "<th colspan='6'>" . __("Display Item Configuration", 'cmdb') . "</th>";
+         echo "</tr>";
+         echo "<tr>";
+
          $tabCIType = [];
          foreach ($ciTypes as $data) {
             $id   = $data["id"];
             $name = $data["name"];
 
-//            if ($data["is_imported"]) {
-               if ($item = $dbu->getItemForItemtype($data["name"])) {
-                  $item = $dbu->getItemForItemtype($data["name"]);
-                  $name = $item::getTypeName(1);
-                  if (!array_search($name, $tabCIType)) {
-                     $tabCIType[$id] = $name;
-                  }
+            //            if ($data["is_imported"]) {
+            if ($item = $dbu->getItemForItemtype($data["name"])) {
+               $item = $dbu->getItemForItemtype($data["name"]);
+               $name = $item::getTypeName(1);
+               if (!array_search($name, $tabCIType)) {
+                  $tabCIType[$id] = $name;
                }
-//            } else {
-//               if (!array_search($name, $tabCIType)) {
-//                  $tabCIType[$id] = $name;
-//               }
-//            }
+            }
+            //            } else {
+            //               if (!array_search($name, $tabCIType)) {
+            //                  $tabCIType[$id] = $name;
+            //               }
+            //            }
          }
          if (count($tabCIType) > 0) {
-//            $boucle = intval(count($tabCIType) / 3);
+            //            $boucle = intval(count($tabCIType) / 3);
             $reste = count($tabCIType) % 3;
-            $i = 0;
-            foreach ($tabCIType as $id => $val){
+            $i     = 0;
+            foreach ($tabCIType as $id => $val) {
                if ($i % 3 == 0) {
 
                   echo "<tr class='tab_bg_1'>";
@@ -137,7 +120,7 @@ class PluginCmdbCmdb extends CommonDBTM {
                $citype = new PluginCmdbCIType();
                $citype->getFromDB($id);
                if (isset($citype->fields["is_imported"])
-                  && $citype->fields["is_imported"]) {
+                   && $citype->fields["is_imported"]) {
                   $link = Toolbox::getItemTypeSearchURL($citype->fields["name"]);
                } else {
                   $link = $citype->fields["name"]::getSearchURL();
@@ -146,15 +129,14 @@ class PluginCmdbCmdb extends CommonDBTM {
                echo "<td class='center b' colspan='2' >";
                echo "<a href='$link'>";
                if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $id,
-                  'types_id'               => 0])) {
+                                                 'types_id'               => 0])) {
 
-                  echo "<img width='32' height='32' src='" . $CFG_GLPI['root_doc'] .
-                     "/front/document.send.php?docid=" . $citype_doc->fields['documents_id'] . "'/>";
+                  echo "<img width='64' height='64' src='" . $CFG_GLPI['root_doc'] .
+                       "/front/document.send.php?docid=" . $citype_doc->fields['documents_id'] . "'/>";
 
-               }else{
+               } else {
                   echo "<i class='fas fa-cog fa-3x'></i>";
                }
-
 
                echo "<br/>";
                echo $val;
@@ -164,12 +146,11 @@ class PluginCmdbCmdb extends CommonDBTM {
                $i++;
                if ($i % 3 == 0) {
                   echo "</tr>";
-
                }
             }
 
             if ($i % 3 != 0) {
-               $j = 0;
+               $j    = 0;
                $rest = $i % 3;
                for ($j = 0; $j < 3 - $rest; $j++) {
                   echo "<td colspan='2'></td>";
@@ -177,17 +158,17 @@ class PluginCmdbCmdb extends CommonDBTM {
                echo "</tr>";
 
             }
-//            for ($i=0;$i<$boucle;$i++){
-//
-//            }
-//            echo "<a id='linkDisplay' href='$url'>";
-//            echo $title;
-//            echo "</a><br/>";
-//            Dropdown::showFromArray("citypes", $tabCIType, ["on_change" => "changeLink(this.value)",
-//                                                            "width"     => '150']);
-//
-//            $script = "changeLink($(\"select[name='citypes']\").val());";
-//            echo Html::scriptBlock('$(document).ready(function() {'.$script.'});');
+            //            for ($i=0;$i<$boucle;$i++){
+            //
+            //            }
+            //            echo "<a id='linkDisplay' href='$url'>";
+            //            echo $title;
+            //            echo "</a><br/>";
+            //            Dropdown::showFromArray("citypes", $tabCIType, ["on_change" => "changeLink(this.value)",
+            //                                                            "width"     => '150']);
+            //
+            //            $script = "changeLink($(\"select[name='citypes']\").val());";
+            //            echo Html::scriptBlock('$(document).ready(function() {'.$script.'});');
          } else {
             echo "<i>" . __("No Types of CI found. Please create Types of CI before display CIs", 'cmdb') . "</i>";
          }
@@ -196,5 +177,8 @@ class PluginCmdbCmdb extends CommonDBTM {
       }
 
       echo "</td>";
+      echo "</tr>";
+      echo "</table>";
+      echo "</div>";
    }
 }

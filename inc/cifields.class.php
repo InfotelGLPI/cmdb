@@ -116,6 +116,7 @@ class PluginCmdbCifields extends CommonDBTM {
    /**
     * @param $idType
     * @param $id
+    * @param $itemtype
     */
    function setFieldByType($idType, $id,$itemtype) {
 
