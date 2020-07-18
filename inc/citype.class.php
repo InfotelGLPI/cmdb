@@ -112,6 +112,12 @@ class PluginCmdbCIType extends CommonDropdown {
 
       $types = getAllDataFromTable(getTableForItemType(__CLASS__), []);
       foreach ($types as $type) {
+         if ($tab = isPluginItemType($type['name'])) {
+            $plug = new plugin();
+            if (!$plug->isActivated($tab['plugin'])) {
+               continue;
+            }
+         }
          $citype_doc = new PluginCmdbCIType_Document();
          $icon       = 'plugins/cmdb/pics/iconCI.png';
          if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $type['id'],
@@ -123,7 +129,10 @@ class PluginCmdbCIType extends CommonDropdown {
          }
          //TODO MAJ COEUR - define img location..
          //         $CFG_GLPI['impact_asset_types'][$type['name']] = '/plugins/cmdb/pics/iconCI.png';
-         $CFG_GLPI['impact_asset_types'][$type['name']] = $icon;
+         if (class_exists($type['name'])) {
+            $CFG_GLPI['impact_asset_types'][$type['name']] = $icon;
+         }
+
       }
    }
 

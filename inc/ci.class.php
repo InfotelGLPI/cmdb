@@ -268,7 +268,8 @@ class PluginCmdbCI extends CommonDBTM {
    public function cleanDBonPurge() {
 
       $temp = new PluginCmdbCivalues();
-      $temp->deleteByCriteria(['plugin_cmdb_cis_id' => $this->fields['id']], 1);
+      $temp->deleteByCriteria(['items_id' => $this->fields['id'],
+                               'itemtype' => $this->getType()], 1);
 
    }
 
