@@ -36,11 +36,9 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginCmdbCIType extends CommonDropdown {
 
-   static $typeCI = ["Budget", "Supplier", "Contact", "Contract",
-                     "Document", "Group", "Entity",
-                     "Project", "Location", "ComputerVirtualMachine", "Appliance"];
+   static $typeCI = ["Budget", "Contact", "Document", "ComputerVirtualMachine", "Reminder", "KnowbaseItem"];
   //CANNOT use :( No fields entities
-   //, "Reminder", "Profile", "KnowbaseItem", "User"
+   //
    static $typeField;
 
    static $rightname = "plugin_cmdb_citypes";
@@ -112,7 +110,8 @@ class PluginCmdbCIType extends CommonDropdown {
 
       $types = getAllDataFromTable(getTableForItemType(__CLASS__), []);
       foreach ($types as $type) {
-         if ($tab = isPluginItemType($type['name'])) {
+         if (preg_match("/PluginCmdb/", $type['name'], $matches) == false
+             && $tab = isPluginItemType($type['name'])) {
             $plug = new plugin();
             if (!$plug->isActivated($tab['plugin'])) {
                continue;
@@ -441,7 +440,7 @@ class PluginCmdbCIType extends CommonDropdown {
       if (!self::generateTemplate($this->fields)) {
          return false;
       }
-
+      $classname = $this->fields['name'];
       if (!$this->input['is_imported']) {
          $classname = self::getClassname($this->fields['name']);
          $classname::install();
