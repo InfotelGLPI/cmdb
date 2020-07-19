@@ -625,18 +625,18 @@ class PluginCmdbCIType extends CommonDropdown {
       }
       echo "</td>";
       echo "</tr>\n";
-      echo "<tr class='tab_bg_1' name='importedItem'>";
-      echo "<td>" . __("Display this fields", 'cmdb') . "</td>";
-      echo "<td>";
-      if (isset($this->fields['name'])
-          && $this->fields['name'] != ''
-      ) {
-         self::selectCriterias($this->fields['name'], $ID);
-      } else {
-         self::selectCriterias('', $ID);
-      }
-      echo "</td>";
-      echo "</tr>\n";
+//      echo "<tr class='tab_bg_1' name='importedItem'>";
+//      echo "<td>" . __("Display this fields", 'cmdb') . "</td>";
+//      echo "<td>";
+//      if (isset($this->fields['name'])
+//          && $this->fields['name'] != ''
+//      ) {
+//         self::selectCriterias($this->fields['name'], $ID);
+//      } else {
+//         self::selectCriterias('', $ID);
+//      }
+//      echo "</td>";
+//      echo "</tr>\n";
    }
 
    /**
