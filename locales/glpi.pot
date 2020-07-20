@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-02 11:32+0100\n"
+"POT-Creation-Date: 2020-07-20 09:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,146 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:268 inc/ci_cmdb.class.php:327 inc/ci_cmdb.class.php:341
+#: hook.php:326 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
 msgid "item not found or disabled"
 msgstr ""
 
-#: setup.php:192 inc/ci_cmdb.class - Copie (2).php:49
-#: inc/ci_cmdb.class - Copie.php:49 inc/ci_cmdb.class.php:49
-#: inc/ci_position.class.php:48 inc/cmdb.class.php:47
-#: inc/link_item.class.php:48 inc/menu.class.php:49 inc/profile.class.php:44
-#: inc/profile.class.php:99 inc/profile.class.php:155 inc/profile.class.php:209
+#: setup.php:139 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: inc/menu.class.php:47 inc/profile.class.php:50
 msgid "CMDB"
 msgstr ""
 
-#: ajax/actionCMDB.php:362
-msgid "Error in your form !"
+#: front/ci.form.php:66
+msgid "You can't delete this item, because this item is used on CMDB !"
 msgstr ""
-
-#: ajax/actionCMDB.php:374
-msgid "The link has been registered on the CMDB ! "
-msgstr ""
-
-#: ajax/actionCMDB.php:383
-msgid "Please choose the link that you want to update !"
-msgstr ""
-
-#: ajax/actionCMDB.php:386
-msgid "Error in your form ! "
-msgstr ""
-
-#: ajax/actionCMDB.php:389
-msgid "The link has been update on the CMDB ! "
-msgstr ""
-
-#: ajax/actionCMDB.php:397
-msgid "Please choose the link that you want to delete !"
-msgstr ""
-
-#: ajax/actionCMDB.php:400
-msgid "The link has been delete on the CMDB ! "
-msgstr ""
-
-#: ajax/actionCMDB.php:408
-msgid "CMDB is purged !"
-msgstr ""
-
-#: ajax/contentTooltip.php:41 ajax/contentTooltip.php:63
-#: inc/criticity.class.php:50 inc/criticity.class.php:109
-#: inc/criticity_item.class.php:49
-msgid "Criticity"
-msgid_plural "Criticities"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ajax/dropdownCI.php:234 inc/link_item.class.php:207
-msgid "Choose CI Types"
-msgstr ""
-
-#: ajax/dropdownCI.php:307 ajax/dropdownCI.php:435 inc/link_item.class.php:343
-#: inc/link_item.class.php:544
-msgid "Choose Links"
-msgstr ""
-
-#: ajax/getUrlCMDB.php:58
-msgid "See the CMDB"
-msgstr ""
-
-#: ajax/savePositionsBaseline.php:62 ajax/savePositions.php:76
-msgid "Positions have been saved !"
-msgstr ""
-
-#: inc/baseline.class.php:50 inc/baselinemenu.class.php:49
-#: inc/menu.class.php:72 inc/profile.class.php:115 inc/profile.class.php:173
-#: inc/profile.class.php:205
-msgid "Baseline"
-msgid_plural "Baselines"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/baseline.class.php:88 inc/baseline.class.php:101
-msgid "Reference Item"
-msgstr ""
-
-#: inc/baseline.class.php:162 inc/baseline.class.php:248
-msgid "Date of creation"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:55 inc/cmdb.class.php:62
-msgid "Display Baseline"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:198 inc/baselinedisplay.class.php:220
-#: inc/baselinedisplay.class.php:324 inc/ci_cmdb.class - Copie (2).php:266
-#: inc/ci_cmdb.class - Copie.php:399 inc/ci_cmdb.class.php:414
-msgid "CMDB depth"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:229
-msgid "Compare with an other baseline"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:240
-msgid "Compare with the actual CMDB"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:251 inc/ci_cmdb.class - Copie (2).php:294
-#: inc/ci_cmdb.class - Copie.php:193 inc/ci_cmdb.class.php:197
-msgid "Preferences"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:256 inc/ci_cmdb.class - Copie (2).php:300
-#: inc/ci_cmdb.class - Copie.php:199 inc/ci_cmdb.class.php:203
-msgid "View links"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:267
-msgid "View links Compare"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:280 inc/baselinedisplay.class.php:284
-#: inc/ci_cmdb.class - Copie (2).php:312 inc/ci_cmdb.class - Copie.php:211
-#: inc/ci_cmdb.class.php:215
-msgid "Refresh"
-msgstr ""
-
-#: inc/baselinedisplay.class.php:281 inc/baselinedisplay.class.php:285
-#: inc/ci_cmdb.class - Copie (2).php:315 inc/ci_cmdb.class - Copie.php:214
-#: inc/ci_cmdb.class.php:218
-msgid "Save positions"
-msgstr ""
-
-#: inc/baselinestate.class.php:50
-msgid "State of baseline"
-msgid_plural "States of baseline"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/baselinetype.class.php:50
-msgid "Type of baseline"
-msgid_plural "Type of baseline"
-msgstr[0] ""
-msgstr[1] ""
 
 #: inc/ci.class.php:49
 msgid "Configuration Item"
@@ -165,349 +37,294 @@ msgid_plural "Configuration Items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/ci.class.php:169 inc/typelink.class.php:191 inc/typelink.class.php:235
+#: inc/ci.class.php:199
 msgid "Invalid name !"
 msgstr ""
 
-#. TRANS : %s is the description of the added item
-#: inc/ci.class.php:364
-msgid "You can't delete this item, because this item is used on baseline !"
-msgstr ""
-
-#: inc/ci.class.php:380 inc/citype.class.php:1036 inc/typelink.class.php:300
-msgid "You can't delete that item, because it is linked to a baseline"
-msgstr ""
-
-#: inc/ci.class.php:387
-msgid "Caution: you're about to remove a heading used for one or more items."
-msgstr ""
-
-#: inc/ci.class.php:391
-msgid "If you confirm the deletion, all uses of this dropdown will be blanked."
-msgstr ""
-
-#: inc/ci_cmdb.class - Copie (2).php:66 inc/ci_cmdb.class - Copie.php:66
-#: inc/ci_cmdb.class.php:66
+#: inc/ci_cmdb.class.php:74
 msgid "See CI"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:67 inc/ci_cmdb.class - Copie.php:67
-#: inc/ci_cmdb.class.php:67
+#: inc/ci_cmdb.class.php:75
 msgid "Create Link"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:68 inc/ci_cmdb.class - Copie.php:68
-#: inc/ci_cmdb.class.php:68
+#: inc/ci_cmdb.class.php:76
 msgid "Update Link"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:69 inc/ci_cmdb.class - Copie.php:69
-#: inc/ci_cmdb.class.php:69
+#: inc/ci_cmdb.class.php:77
 msgid "Delete Link"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:70 inc/ci_cmdb.class - Copie.php:70
-#: inc/ci_cmdb.class.php:70
+#: inc/ci_cmdb.class.php:78
 msgid "Zoom in"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:71 inc/ci_cmdb.class - Copie.php:71
-#: inc/ci_cmdb.class.php:71
+#: inc/ci_cmdb.class.php:79
 msgid "Zoom out"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:72 inc/ci_cmdb.class - Copie.php:72
-#: inc/ci_cmdb.class.php:72
+#: inc/ci_cmdb.class.php:80
 msgid "Reset Zoom"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:73 inc/ci_cmdb.class - Copie.php:73
-#: inc/ci_cmdb.class.php:73
+#: inc/ci_cmdb.class.php:81
 msgid "Export PNG"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:74 inc/ci_cmdb.class - Copie.php:74
-#: inc/ci_cmdb.class.php:74 inc/cmdb_ticket.class.php:98
+#: inc/ci_cmdb.class.php:82
 msgid "See associated tickets"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:75 inc/ci_cmdb.class - Copie.php:75
-#: inc/ci_cmdb.class.php:75 inc/link_item.class.php:128
+#: inc/ci_cmdb.class.php:83
 msgid "Purge CMDB"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:76 inc/ci_cmdb.class - Copie.php:76
-#: inc/ci_cmdb.class.php:76
+#: inc/ci_cmdb.class.php:84
 msgid "Create baseline"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:340 inc/ci_cmdb.class - Copie.php:239
-#: inc/ci_cmdb.class.php:243
+#: inc/ci_cmdb.class.php:204
+msgid "Preferences"
+msgstr ""
+
+#: inc/ci_cmdb.class.php:210
+msgid "View links"
+msgstr ""
+
+#: inc/ci_cmdb.class.php:222
+msgid "Refresh"
+msgstr ""
+
+#: inc/ci_cmdb.class.php:225
+msgid "Save positions"
+msgstr ""
+
+#: inc/ci_cmdb.class.php:250
 msgid "Add new type of CI to the CMDB"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:345 inc/ci_cmdb.class - Copie.php:244
-#: inc/ci_cmdb.class.php:248
+#: inc/ci_cmdb.class.php:255
 msgid "Add new type of link to the CMDB"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:351 inc/ci_cmdb.class - Copie.php:250
-#: inc/ci_cmdb.class.php:254
+#: inc/ci_cmdb.class.php:261
 msgid "Manage type of CI to the CMDB"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:356 inc/ci_cmdb.class - Copie.php:255
-#: inc/ci_cmdb.class.php:259
+#: inc/ci_cmdb.class.php:266
 msgid "Manage type of links to the CMDB"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:373 inc/ci_cmdb.class - Copie (2).php:380
-#: inc/ci_cmdb.class - Copie.php:272 inc/ci_cmdb.class - Copie.php:279
-#: inc/ci_cmdb.class.php:276 inc/ci_cmdb.class.php:283
+#: inc/ci_cmdb.class.php:283 inc/ci_cmdb.class.php:290
 msgid "Existing links"
 msgstr ""
 
-#: inc/ci_cmdb.class - Copie (2).php:395 inc/ci_cmdb.class - Copie.php:294
-#: inc/ci_cmdb.class.php:298
+#: inc/ci_cmdb.class.php:307
 msgid "Linked element"
 msgstr ""
 
-#: inc/citype.class.php:55
+#: inc/ci_cmdb.class.php:425
+msgid "CMDB depth"
+msgstr ""
+
+#: inc/citype.class.php:53
 msgid "String"
 msgstr ""
 
-#: inc/citype.class.php:56
+#: inc/citype.class.php:54
 msgid "Area Text"
 msgstr ""
 
-#: inc/citype.class.php:59
+#: inc/citype.class.php:57
 msgid "Yes/No"
 msgstr ""
 
-#: inc/citype.class.php:68
+#: inc/citype.class.php:66
 msgid "Type CI"
 msgid_plural "Types CIs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/citype.class.php:132
+#: inc/citype.class.php:178
 msgid "is already present in GLPI"
 msgstr ""
 
-#: inc/citype.class.php:256
+#: inc/citype.class.php:305
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: inc/citype.class.php:328
+#: inc/citype.class.php:315
+msgid "Be careful the name cannot be changed after creation"
+msgstr ""
+
+#: inc/citype.class.php:317
+msgid "Do not use a plural classname (like 'myobjects')"
+msgstr ""
+
+#: inc/citype.class.php:319
+msgid "Do not use a classname with spaces (like 'my objects')"
+msgstr ""
+
+#: inc/citype.class.php:385
 msgid "Please, choose an imported CI !"
 msgstr ""
 
-#: inc/citype.class.php:333 inc/citype.class.php:396
+#: inc/citype.class.php:390
 msgid "There is already an existing name or the name is invalid"
 msgstr ""
 
-#: inc/citype.class.php:488
+#: inc/citype.class.php:578
 msgid "Import CI"
 msgstr ""
 
-#: inc/citype.class.php:522
+#: inc/citype.class.php:618
 msgid "Icon by types"
 msgstr ""
 
-#: inc/citype.class.php:533
-msgid "Display this fields"
-msgstr ""
-
-#: inc/citype.class.php:560
+#: inc/citype.class.php:657
 msgid "Default icon"
 msgstr ""
 
-#: inc/citype.class.php:836
+#: inc/citype.class.php:940
 msgid "Add New Field"
 msgstr ""
 
-#: inc/citype.class.php:859
+#: inc/citype.class.php:964
 msgid "Upload icon"
 msgstr ""
 
-#: inc/citype.class.php:891
+#: inc/citype.class.php:990
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: inc/citype.class.php:895
+#: inc/citype.class.php:994
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: inc/citype.class.php:969
+#: inc/citype.class.php:1076
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: inc/citype.class.php:1185 inc/citype.class.php:1200
-#: inc/typelink.class.php:406 inc/typelink.class.php:421
+#: inc/citype.class.php:1320 inc/citype.class.php:1335
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
 
-#: inc/cmdb.class.php:57
-msgid "Configure Type of Item Configuration"
-msgstr ""
-
-#: inc/cmdb.class.php:58
+#: inc/cmdb.class.php:88
 msgid "Display Item Configuration"
 msgstr ""
 
-#: inc/cmdb.class.php:61
-msgid "Configure links"
-msgstr ""
-
-#: inc/cmdb.class.php:138 inc/cmdb.class.php:141
+#: inc/cmdb.class.php:173 inc/cmdb.class.php:176
 msgid "No Types of CI found. Please create Types of CI before display CIs"
 msgstr ""
 
-#: inc/cmdb_ticket.class.php:57
-msgid "Impact CMDB"
-msgstr ""
-
-#: inc/cmdb_ticket.class.php:126
+#: inc/cmdb_ticket.class.php:94
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr ""
 
-#: inc/cmdb_ticket.class.php:131
+#: inc/cmdb_ticket.class.php:99
 msgid "No elements of CMDB linked to the ticket"
 msgstr ""
 
-#: inc/cmdb_ticket.class.php:142 inc/cmdb_ticket.class.php:180
+#: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
 msgid "Impacted items"
 msgstr ""
 
-#: inc/cmdb_ticket.class.php:181
+#: inc/cmdb_ticket.class.php:152
 msgid "Proximity"
 msgstr ""
 
-#: inc/cmdb_ticket.class.php:218
+#: inc/cmdb_ticket.class.php:194
 msgid "Direct impact"
 msgstr ""
 
-#: inc/criticity.class.php:128
+#: inc/criticity.class.php:51 inc/criticity.class.php:118
+#: inc/criticity_item.class.php:49
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/criticity.class.php:137
 msgid "All levels have already been added"
 msgstr ""
 
-#: inc/criticity.class.php:178
+#: inc/criticity.class.php:187
 msgid "Please choose a level for criticality"
 msgstr ""
 
-#: inc/link_item.class.php:133
-msgid "Are you sure to purge this CMDB ?"
+#: inc/menu.class.php:64
+msgid "Configure Type of Item Configuration"
 msgstr ""
 
-#: inc/link_item.class.php:228
-msgid "Add Links"
-msgstr ""
-
-#: inc/link_item.class.php:233 inc/link_item.class.php:391
-#: inc/link_item.class.php:594
-msgid "Outgoing link"
-msgstr ""
-
-#: inc/link_item.class.php:234 inc/link_item.class.php:392
-#: inc/link_item.class.php:595
-msgid "Ingoing link"
-msgstr ""
-
-#: inc/link_item.class.php:385
-msgid "Update Links"
-msgstr ""
-
-#: inc/link_item.class.php:588
-msgid "Delete Links"
-msgstr ""
-
-#: inc/link_item.class.php:657
-msgctxt "button"
-msgid "Delete link"
-msgstr ""
-
-#: inc/menu.class.php:66 inc/profile.class.php:103
+#: inc/menu.class.php:66 inc/profile.class.php:109
 msgid "Item Configuration"
 msgstr ""
 
 #: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
-#: inc/profile.class.php:119 inc/profile.class.php:148
-#: inc/profile.class.php:201
-msgid "Operation process"
-msgid_plural "Operation processes"
+#: inc/profile.class.php:117 inc/profile.class.php:149
+#: inc/profile.class.php:187
+msgid "Service"
+msgid_plural "Services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/operationprocess_item.class.php:86
-#: inc/operationprocess_item.class.php:88
+#: inc/operationprocess_item.class.php:87
+#: inc/operationprocess_item.class.php:89
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/operationprocess_item.class.php:468
+#: inc/operationprocess_item.class.php:483
 msgctxt "button"
-msgid "Associate an Operation process"
+msgid "Associate a service"
 msgstr ""
 
 #: inc/operationprocessstate.class.php:50
-msgid "State of Operation process"
-msgid_plural "States of Operation process"
+msgid "State of service"
+msgid_plural "States of service"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/profile.class.php:107 inc/profile.class.php:191
+#: inc/profile.class.php:113 inc/profile.class.php:172
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/profile.class.php:111 inc/profile.class.php:164
-#: inc/profile.class.php:213 inc/typelink.class.php:49
-msgid "Type of link"
-msgid_plural "Types of link"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/profile.class.php:182 inc/profile.class.php:217
+#: inc/profile.class.php:160 inc/profile.class.php:191
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/profile.class.php:221
+#: inc/profile.class.php:195
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/typelink.class.php:62
-msgid "Name of the link"
-msgstr ""
-
-#: inc/typelink.class.php:75
-msgid "Rights of typelink"
-msgstr ""
-
-#: install/update_110_111.php:83
+#: install/update_110_111.php:86
 msgid "very low"
 msgstr ""
 
-#: install/update_110_111.php:84
+#: install/update_110_111.php:87
 msgid "low"
 msgstr ""
 
-#: install/update_110_111.php:85
+#: install/update_110_111.php:88
 msgid "medium"
 msgstr ""
 
-#: install/update_110_111.php:86
+#: install/update_110_111.php:89
 msgid "high"
 msgstr ""
 
-#: install/update_110_111.php:87
+#: install/update_110_111.php:90
 msgid "very high"
 msgstr ""
