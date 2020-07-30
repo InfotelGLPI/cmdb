@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <name>Cmdb</name>
+    <key>cmdb</key>
+    <state>stable</state>
+    <description>
+        <short>
+            <fr><![CDATA[Ce plugin permet d'ajouter un objet Service et d'autres objets divers pour l'analyse d'impact]]></fr>
+            <en><![CDATA[This plugin allows you to add a Service object and other miscellaneous objects for impact analysis]]></en>
+        </short>
+        <long>
+            <fr><![CDATA[Ce plugin permet d'ajouter un objet Service et d'autres objets divers pour l'analyse d'impact]]></fr>
+            <en><![CDATA[This plugin allows you to add a Service object and other miscellaneous objects for impact analysis]]></en>
+        </long>
+    </description>
+    <homepage>https://github.com/InfotelGLPI/cmdb</homepage>
+    <download>https://github.com/InfotelGLPI/cmdb/releases</download>
+    <issues>https://github.com/InfotelGLPI/cmdb/issues</issues>
+    <readme>https://github.com/InfotelGLPI/cmdb/wiki</readme>
+    <authors>
+        <author>Xavier CAILLAUD</author>
+        <author>Infotel</author>
+    </authors>
+    <versions>
+        <version>
+            <num>2.2.1</num>
+            <compatibility>9.5</compatibility>
+        </version>
+    </versions>
+    <langs>
+        <lang>en_GB</lang>
+        <lang>fr_FR</lang>
+    </langs>
+    <license><![CDATA[GPL v2+]]></license>
+    <tags>
+        <fr>
+            <tag>Analyse</tag>
+            <tag>Impact</tag>
+            <tag>Inventaire</tag>
+        </fr>
+        <en>
+            <tag>Analyze</tag>
+            <tag>Impact</tag>
+            <tag>Inventory</tag>
+        </en>
+    </tags>
+</root>

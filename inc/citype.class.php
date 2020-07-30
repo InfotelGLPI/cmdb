@@ -615,7 +615,7 @@ class PluginCmdbCIType extends CommonDropdown {
       echo "</td>";
       echo "</tr>\n";
       echo "<tr class='tab_bg_1' name='importedItem'>";
-      echo "<td>" . __("Icon by types", 'cmdb') . "</td>";
+      echo "<td>" . __("Icon", 'cmdb') . "</td>";
       echo "<td>";
       if (isset($this->fields['name'])
           && $this->fields['name'] != '') {
