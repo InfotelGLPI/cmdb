@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Printercounters Development Team
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR CMDB Development Team
+# This file is distributed under the same license as the GLPI - CMDB plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - CMDB plugin 2.2.1\n"
+"Project-Id-Version: GLPI - CMDB plugin 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-20 09:11+0200\n"
-"PO-Revision-Date: 2020-07-20 09:21+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: en_GB\n"
+"PO-Revision-Date: 2020-07-30 14:44+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "X-Generator: Poedit 2.3\n"
 
 #: hook.php:326 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
@@ -28,7 +28,6 @@ msgid "CMDB"
 msgstr "CMDB"
 
 #: front/ci.form.php:66
-#| msgid "You can't delete this item, because this item is used on baseline !"
 msgid "You can't delete this item, because this item is used on CMDB !"
 msgstr "You can't delete this item, because this item is used on CMDB !"
 
@@ -282,15 +281,11 @@ msgstr[0] "Attached service"
 msgstr[1] "Attached services"
 
 #: inc/operationprocess_item.class.php:483
-#| msgctxt "button"
-#| msgid "Associate an Operation process"
 msgctxt "button"
 msgid "Associate a service"
 msgstr "Associate a service"
 
 #: inc/operationprocessstate.class.php:50
-#| msgid "State of baseline"
-#| msgid_plural "States of baseline"
 msgid "State of service"
 msgid_plural "States of service"
 msgstr[0] "State of service"
@@ -333,170 +328,3 @@ msgstr "high"
 #: install/update_110_111.php:90
 msgid "very high"
 msgstr "very high"
-
-#~ msgid "Error in your form !"
-#~ msgstr "Error in your form !"
-
-#~ msgid "The link has been registered on the CMDB ! "
-#~ msgstr "The link has been registered on the CMDB ! "
-
-#~ msgid "Please choose the link that you want to update !"
-#~ msgstr "Please choose the link that you want to update !"
-
-#~ msgid "Error in your form ! "
-#~ msgstr "Error in your form ! "
-
-#~ msgid "The link has been update on the CMDB ! "
-#~ msgstr "The link has been update on the CMDB ! "
-
-#~ msgid "Please choose the link that you want to delete !"
-#~ msgstr "Please choose the link that you want to delete !"
-
-#~ msgid "The link has been delete on the CMDB ! "
-#~ msgstr "The link has been delete on the CMDB ! "
-
-#~ msgid "CMDB is purged !"
-#~ msgstr "CMDB is purged !"
-
-#~ msgid "Choose CI Types"
-#~ msgstr "Choose CI Types"
-
-#~ msgid "Choose Links"
-#~ msgstr "Choose Links"
-
-#~ msgid "See the CMDB"
-#~ msgstr "See the CMDB"
-
-#~ msgid "Positions have been saved !"
-#~ msgstr "Positions have been saved !"
-
-#~ msgid "Baseline"
-#~ msgid_plural "Baselines"
-#~ msgstr[0] "Baseline"
-#~ msgstr[1] "Baselines"
-
-#~ msgid "Reference Item"
-#~ msgstr "Reference Item"
-
-#~ msgid "Date of creation"
-#~ msgstr "Date of creation"
-
-#~ msgid "Display Baseline"
-#~ msgstr "Display Baseline"
-
-#~ msgid "Compare with an other baseline"
-#~ msgstr "Compare with an other baseline"
-
-#~ msgid "Compare with the actual CMDB"
-#~ msgstr "Compare with the actual CMDB"
-
-#~ msgid "View links Compare"
-#~ msgstr "View links Compare"
-
-#~ msgid "Type of baseline"
-#~ msgid_plural "Type of baseline"
-#~ msgstr[0] "Type of baseline"
-#~ msgstr[1] "Type of baseline"
-
-#~ msgid "You can't delete that item, because it is linked to a baseline"
-#~ msgstr "You can't delete that item, because it is linked to a baseline"
-
-#~ msgid "Caution: you're about to remove a heading used for one or more items."
-#~ msgstr "Caution: you're about to remove a heading used for one or more items."
-
-#~ msgid "If you confirm the deletion, all uses of this dropdown will be blanked."
-#~ msgstr "If you confirm the deletion, all uses of this dropdown will be blanked."
-
-#~ msgid "Display this fields"
-#~ msgstr "Display this fields"
-
-#~ msgid "Configure links"
-#~ msgstr "Configure links"
-
-#~ msgid "Impact CMDB"
-#~ msgstr "Impact CMDB"
-
-#~ msgid "Are you sure to purge this CMDB ?"
-#~ msgstr "Are you sure to purge this CMDB ?"
-
-#~ msgid "Add Links"
-#~ msgstr "Add Links"
-
-#~ msgid "Outgoing link"
-#~ msgstr "Outgoing link"
-
-#~ msgid "Ingoing link"
-#~ msgstr "Ingoing link"
-
-#~ msgid "Update Links"
-#~ msgstr "Update Links"
-
-#~ msgid "Delete Links"
-#~ msgstr "Delete Links"
-
-#~| msgid "Delete Link"
-#~ msgctxt "button"
-#~ msgid "Delete link"
-#~ msgstr "Delete link"
-
-#~ msgid "Operation process"
-#~ msgid_plural "Operation processes"
-#~ msgstr[0] "Operation process"
-#~ msgstr[1] "Operation processes"
-
-#~ msgid "State of Operation process"
-#~ msgid_plural "States of Operation process"
-#~ msgstr[0] "State of Operation process"
-#~ msgstr[1] "States of Operation process"
-
-#~ msgid "Type of link"
-#~ msgid_plural "Types of link"
-#~ msgstr[0] "Type of link"
-#~ msgstr[1] "Types of link"
-
-#~ msgid "Name of the link"
-#~ msgstr "Name of the link"
-
-#~ msgid "Rights of typelink"
-#~ msgstr "Rights of typelink"
-
-#~ msgid "This plugin requires GLPI >= 0.90"
-#~ msgstr "This plugin requires GLPI >= 0.90"
-
-#~ msgid "Positions of all CIs have been saved !"
-#~ msgstr "Positions of all CIs have been saved !"
-
-#~ msgid "Save positions for all CI"
-#~ msgstr "Save positions for all CI"
-
-#~ msgid "CMDB preferences"
-#~ msgstr "CMDB preferences"
-
-#~ msgid "Choose colors criticities"
-#~ msgstr "Choose colors criticities"
-
-#~ msgid "Actions"
-#~ msgstr "Actions"
-
-#~ msgid "Fields"
-#~ msgstr "Fields"
-
-#~ msgid "Types"
-#~ msgstr "Types"
-
-#~ msgid "Operation Process"
-#~ msgid_plural "Operation Processes"
-#~ msgstr[0] "Operation Process"
-#~ msgstr[1] "Operation Processes"
-
-#~ msgid "no elements is linked to the ticket"
-#~ msgstr "no elements is linked to the ticket"
-
-#~ msgid "Impacted Items"
-#~ msgstr "Impacted Items"
-
-#~ msgid "Responsable items"
-#~ msgstr "Responsable items"
-
-#~ msgid "Dependance degrees minimal"
-#~ msgstr "Dependance degrees minimal"
