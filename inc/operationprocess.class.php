@@ -112,6 +112,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
       $this->addStandardTab('KnowbaseItem_Item', $ong, $options);
       $this->addStandardTab('Ticket', $ong, $options);
       $this->addStandardTab('Item_Problem', $ong, $options);
+      $this->addStandardTab('Change_Item', $ong, $options);
       $this->addStandardTab('Document_Item', $ong, $options);
       $this->addStandardTab('Notepad', $ong, $options);
       $this->addStandardTab('Log', $ong, $options);
@@ -368,5 +369,20 @@ class PluginCmdbOperationprocess extends CommonDBTM {
          return $rand;
       }
       return $out;
+   }
+
+   /**
+    * Actions done when item is deleted from the database
+    */
+   public function cleanDBonPurge() {
+
+      $it = new Item_Ticket();
+      $it->cleanDBonItemDelete(__CLASS__, $this->fields['id']);
+
+      $ip = new Item_Problem();
+      $ip->cleanDBonItemDelete(__CLASS__, $this->fields['id']);
+
+      $ci = new Change_Item();
+      $ci->cleanDBonItemDelete(__CLASS__, $this->fields['id']);
    }
 }
