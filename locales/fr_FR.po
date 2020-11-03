@@ -9,10 +9,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - CMDB plugin 2.2.1\n"
+"Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-30 14:31+0200\n"
-"PO-Revision-Date: 2020-11-02 12:52+0000\n"
+"POT-Creation-Date: 2020-11-03 11:40+0000\n"
+"PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2020\n"
 "Language-Team: French (France) (https://www.transifex.com/infotelGLPI/teams/12376/fr_FR/)\n"
 "MIME-Version: 1.0\n"
@@ -185,8 +185,8 @@ msgid "Import CI"
 msgstr "Importer un élément de configuration"
 
 #: inc/citype.class.php:618
-msgid "Icon by types"
-msgstr "Icône par type"
+msgid "Icon"
+msgstr "Icône"
 
 #: inc/citype.class.php:657
 msgid "Default icon"
