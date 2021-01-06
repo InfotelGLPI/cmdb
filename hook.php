@@ -170,7 +170,7 @@ function plugin_cmdb_getDatabaseRelations() {
    $plugin = new Plugin();
 
    if ($plugin->isActivated("cmdb")) {
-      return ["glpi_entities"                           => ["glpi_plugin_cmdb_operationprocess"
+      return ["glpi_entities"                           => ["glpi_plugin_cmdb_operationprocesses"
                                                             => "entities_id",
                                                             "glpi_plugin_cmdb_citypes"
                                                             => "entities_id",
