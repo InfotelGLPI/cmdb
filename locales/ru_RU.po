@@ -1,0 +1,354 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR CMDB Development Team
+# This file is distributed under the same license as the GLPI - CMDB plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Aleksandr Ulyanov <iacsvrn@gmail.com>, 2020
+# Александр Дюжев <frduke51@gmail.com>, 2021
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - CMDB plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-06 10:33+0000\n"
+"PO-Revision-Date: 2020-11-02 15:46+0000\n"
+"Last-Translator: Александр Дюжев <frduke51@gmail.com>, 2021\n"
+"Language-Team: Russian (Russia) (https://www.transifex.com/infotelGLPI/teams/12376/ru_RU/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: hook.php:326 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
+msgid "item not found or disabled"
+msgstr "Устройство не найдено или отключено"
+
+#: setup.php:139 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: inc/menu.class.php:47 inc/profile.class.php:50
+msgid "CMDB"
+msgstr "CMDB"
+
+#: front/ci.form.php:66
+msgid "You can't delete this item, because this item is used on CMDB !"
+msgstr "Вы не можете удалить этот элемент, т.к. он используется в CMDB!"
+
+#: inc/ci.class.php:49
+msgid "Configuration Item"
+msgid_plural "Configuration Items"
+msgstr[0] "Настройка устройства"
+msgstr[1] "Настройка устройств"
+msgstr[2] "Настройка устройств"
+msgstr[3] "Настройка устройств"
+
+#: inc/ci.class.php:199
+msgid "Invalid name !"
+msgstr "Неверное имя!"
+
+#: inc/ci_cmdb.class.php:74
+msgid "See CI"
+msgstr "Просмотр CI"
+
+#: inc/ci_cmdb.class.php:75
+msgid "Create Link"
+msgstr "Создать Ссылку"
+
+#: inc/ci_cmdb.class.php:76
+msgid "Update Link"
+msgstr "Обновить Ссылку"
+
+#: inc/ci_cmdb.class.php:77
+msgid "Delete Link"
+msgstr "Удалить Ссылку"
+
+#: inc/ci_cmdb.class.php:78
+msgid "Zoom in"
+msgstr "Приблизить"
+
+#: inc/ci_cmdb.class.php:79
+msgid "Zoom out"
+msgstr "Отдалить"
+
+#: inc/ci_cmdb.class.php:80
+msgid "Reset Zoom"
+msgstr "Сбросить масштаб"
+
+#: inc/ci_cmdb.class.php:81
+msgid "Export PNG"
+msgstr "Экспорт PNG"
+
+#: inc/ci_cmdb.class.php:82
+msgid "See associated tickets"
+msgstr "Смотреть связанные заявки"
+
+#: inc/ci_cmdb.class.php:83
+msgid "Purge CMDB"
+msgstr "Безвозвратное удаление CMDB"
+
+#: inc/ci_cmdb.class.php:84
+msgid "Create baseline"
+msgstr "Создать базовый план"
+
+#: inc/ci_cmdb.class.php:204
+msgid "Preferences"
+msgstr "Предпочтения"
+
+#: inc/ci_cmdb.class.php:210
+msgid "View links"
+msgstr "Просмотр ссылок"
+
+#: inc/ci_cmdb.class.php:222
+msgid "Refresh"
+msgstr "Обновить"
+
+#: inc/ci_cmdb.class.php:225
+msgid "Save positions"
+msgstr "Сохранить позиции"
+
+#: inc/ci_cmdb.class.php:250
+msgid "Add new type of CI to the CMDB"
+msgstr "Добавить новый тип CI в CMDB"
+
+#: inc/ci_cmdb.class.php:255
+msgid "Add new type of link to the CMDB"
+msgstr "Добавить новый тип ссылки в CMDB"
+
+#: inc/ci_cmdb.class.php:261
+msgid "Manage type of CI to the CMDB"
+msgstr "Управление типом CI в CMDB"
+
+#: inc/ci_cmdb.class.php:266
+msgid "Manage type of links to the CMDB"
+msgstr "Управление типами ссылок в CMDB"
+
+#: inc/ci_cmdb.class.php:283 inc/ci_cmdb.class.php:290
+msgid "Existing links"
+msgstr "Существующие ссылки"
+
+#: inc/ci_cmdb.class.php:307
+msgid "Linked element"
+msgstr "Связанный элемент"
+
+#: inc/ci_cmdb.class.php:425
+msgid "CMDB depth"
+msgstr "Глубина CMDB"
+
+#: inc/citype.class.php:53
+msgid "String"
+msgstr "Строка"
+
+#: inc/citype.class.php:54
+msgid "Area Text"
+msgstr "Текстовая область"
+
+#: inc/citype.class.php:57
+msgid "Yes/No"
+msgstr "Да/Нет"
+
+#: inc/citype.class.php:66
+msgid "Type CI"
+msgid_plural "Types CIs"
+msgstr[0] "Тип CI"
+msgstr[1] "Типы CI"
+msgstr[2] "Типы CI"
+msgstr[3] "Типы CI"
+
+#: inc/citype.class.php:178
+msgid "is already present in GLPI"
+msgstr "уже представлено в GLPI"
+
+#: inc/citype.class.php:305
+msgid "Is this item presents in glpi ?"
+msgstr "Этот предмет есть в GLPI?"
+
+#: inc/citype.class.php:315
+msgid "Be careful the name cannot be changed after creation"
+msgstr "Будьте осторожны, наименование не может быть изменено после создания"
+
+#: inc/citype.class.php:317
+msgid "Do not use a plural classname (like 'myobjects')"
+msgstr ""
+"Не используйте имя класса во множественном числе (например, \"моиобъекты\")."
+
+#: inc/citype.class.php:319
+msgid "Do not use a classname with spaces (like 'my objects')"
+msgstr "Не используйте имя класса с пробелом (например, \"Мои объекты\")."
+
+#: inc/citype.class.php:385
+msgid "Please, choose an imported CI !"
+msgstr "Пожалуйста, выберете импортированный CI!"
+
+#: inc/citype.class.php:390
+msgid "There is already an existing name or the name is invalid"
+msgstr "Имя используется или не действительно"
+
+#: inc/citype.class.php:578
+msgid "Import CI"
+msgstr "Импорт CI"
+
+#: inc/citype.class.php:618
+msgid "Icon"
+msgstr "Значок"
+
+#: inc/citype.class.php:657
+msgid "Default icon"
+msgstr "Значок по умолчанию"
+
+#: inc/citype.class.php:940
+msgid "Add New Field"
+msgstr "Добавить новое поле"
+
+#: inc/citype.class.php:964
+msgid "Upload icon"
+msgstr "Загрузить значок"
+
+#: inc/citype.class.php:990
+msgid "Existing fields for this type of CI"
+msgstr "Существующие поля для этого типа CI"
+
+#: inc/citype.class.php:994
+msgid "Reset Existing fields"
+msgstr "Сбросить существующие поля"
+
+#. TRANS: Default document to files attached to tickets : %d is the ticket id
+#: inc/citype.class.php:1076
+#, php-format
+msgid "Icon CIType %d"
+msgstr "Значок типа CI %d"
+
+#: inc/citype.class.php:1320 inc/citype.class.php:1335
+msgctxt "button"
+msgid "Transfer"
+msgstr "Передача"
+
+#: inc/cmdb.class.php:88
+msgid "Display Item Configuration"
+msgstr "Отображение конфигурации элемента"
+
+#: inc/cmdb.class.php:173 inc/cmdb.class.php:176
+msgid "No Types of CI found. Please create Types of CI before display CIs"
+msgstr ""
+"Не найдены типы CI. Пожалуйста, создайте типы CI перед отображением CI"
+
+#: inc/cmdb_ticket.class.php:94
+msgid "Elements linked to the ticket aren't imported in CMDB"
+msgstr "Элементы, связанные с заявкой, не импортируются в CMDB"
+
+#: inc/cmdb_ticket.class.php:99
+msgid "No elements of CMDB linked to the ticket"
+msgstr "Нет  связанных элементов CMDB с заявкой"
+
+#: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
+msgid "Impacted items"
+msgstr "Затронутые предметы"
+
+#: inc/cmdb_ticket.class.php:152
+msgid "Proximity"
+msgstr "Близость"
+
+#: inc/cmdb_ticket.class.php:194
+msgid "Direct impact"
+msgstr "Прямое влияние"
+
+#: inc/criticity.class.php:51 inc/criticity.class.php:118
+#: inc/criticity_item.class.php:49
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] "Критичность"
+msgstr[1] "Критичностей"
+msgstr[2] "Критичностей"
+msgstr[3] "Критичности"
+
+#: inc/criticity.class.php:137
+msgid "All levels have already been added"
+msgstr "Все уровни уже добавлены"
+
+#: inc/criticity.class.php:187
+msgid "Please choose a level for criticality"
+msgstr "Пожалуйста, выберите уровень критичности"
+
+#: inc/menu.class.php:64
+msgid "Configure Type of Item Configuration"
+msgstr "Настройка типа конфигурации элемента"
+
+#: inc/menu.class.php:66 inc/profile.class.php:109
+msgid "Item Configuration"
+msgstr "Конфигурации элемента"
+
+#: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
+#: inc/profile.class.php:117 inc/profile.class.php:149
+#: inc/profile.class.php:187
+msgid "Service"
+msgid_plural "Services"
+msgstr[0] "Сервис"
+msgstr[1] "Сервисов"
+msgstr[2] "Сервисов"
+msgstr[3] "Сервисы"
+
+#: inc/operationprocess_item.class.php:87
+#: inc/operationprocess_item.class.php:89
+msgid "Attached service"
+msgid_plural "Attached services"
+msgstr[0] "Прикладная услуга"
+msgstr[1] "Прикладных услуг"
+msgstr[2] "Прикладных услуг"
+msgstr[3] "Прикладные услуги "
+
+#: inc/operationprocess_item.class.php:483
+msgctxt "button"
+msgid "Associate a service"
+msgstr "Ассоциация услуги"
+
+#: inc/operationprocessstate.class.php:50
+msgid "State of service"
+msgid_plural "States of service"
+msgstr[0] "Состояние сервиса"
+msgstr[1] "Состояние сервисов"
+msgstr[2] "Состояний сервисов"
+msgstr[3] "Состояние сервиса"
+
+#: inc/profile.class.php:113 inc/profile.class.php:172
+msgid "Type of item configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Тип настройки устройства"
+msgstr[1] "Типы настройки устройств"
+msgstr[2] "Типы настройки устройств"
+msgstr[3] "Типы настройки устройств"
+
+#: inc/profile.class.php:160 inc/profile.class.php:191
+msgid "Item configuration"
+msgid_plural "Items configuration"
+msgstr[0] "Настройка устройства"
+msgstr[1] "Настройка устройств"
+msgstr[2] "Настройки устройств"
+msgstr[3] "Настройка устройств"
+
+#: inc/profile.class.php:195
+msgid "Type of Item Configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Тип настройки устройства"
+msgstr[1] "Типы настройки устройств"
+msgstr[2] "Типов настройки устройств"
+msgstr[3] "Типы настройки устройств"
+
+#: install/update_110_111.php:86
+msgid "very low"
+msgstr "Очень низкий"
+
+#: install/update_110_111.php:87
+msgid "low"
+msgstr "Низкий"
+
+#: install/update_110_111.php:88
+msgid "medium"
+msgstr "Средний"
+
+#: install/update_110_111.php:89
+msgid "high"
+msgstr "Высокий"
+
+#: install/update_110_111.php:90
+msgid "very high"
+msgstr "Очень высокий"
