@@ -2,329 +2,334 @@
 # Copyright (C) YEAR CMDB Development Team
 # This file is distributed under the same license as the GLPI - CMDB plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Kaya Zeren <kayazeren@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-06 10:33+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-11-02 15:46+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2021\n"
+"Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/teams/12376/tr_TR/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Language: tr_TR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: hook.php:326 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
 msgid "item not found or disabled"
-msgstr ""
+msgstr "Öge bulunamadı ya da devre dışı bırakılmış"
 
 #: setup.php:139 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
 #: inc/menu.class.php:47 inc/profile.class.php:50
 msgid "CMDB"
-msgstr ""
+msgstr "CMDB"
 
 #: front/ci.form.php:66
 msgid "You can't delete this item, because this item is used on CMDB !"
-msgstr ""
+msgstr "Bu öge CMD üzerinde kullanıldığından silinemez!"
 
 #: inc/ci.class.php:49
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Yapılandırma Ögesi"
+msgstr[1] "Yapılandırma Ögeleri"
 
 #: inc/ci.class.php:199
 msgid "Invalid name !"
-msgstr ""
+msgstr "Ad geçersiz!"
 
 #: inc/ci_cmdb.class.php:74
 msgid "See CI"
-msgstr ""
+msgstr "CI bak"
 
 #: inc/ci_cmdb.class.php:75
 msgid "Create Link"
-msgstr ""
+msgstr "Bağlantı Ekle"
 
 #: inc/ci_cmdb.class.php:76
 msgid "Update Link"
-msgstr ""
+msgstr "Bağlantıyı Güncelle"
 
 #: inc/ci_cmdb.class.php:77
 msgid "Delete Link"
-msgstr ""
+msgstr "Bağlantıyı Sil"
 
 #: inc/ci_cmdb.class.php:78
 msgid "Zoom in"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: inc/ci_cmdb.class.php:79
 msgid "Zoom out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: inc/ci_cmdb.class.php:80
 msgid "Reset Zoom"
-msgstr ""
+msgstr "Yakınlaştırmayı Sıfırla"
 
 #: inc/ci_cmdb.class.php:81
 msgid "Export PNG"
-msgstr ""
+msgstr "PNG Olarak Dışa Aktar"
 
 #: inc/ci_cmdb.class.php:82
 msgid "See associated tickets"
-msgstr ""
+msgstr "İlgili destek kayıtlarını görüntüle"
 
 #: inc/ci_cmdb.class.php:83
 msgid "Purge CMDB"
-msgstr ""
+msgstr "CMDB Boşalt"
 
 #: inc/ci_cmdb.class.php:84
 msgid "Create baseline"
-msgstr ""
+msgstr "Temel çizgisi oluştur"
 
 #: inc/ci_cmdb.class.php:204
 msgid "Preferences"
-msgstr ""
+msgstr "Ayarlar"
 
 #: inc/ci_cmdb.class.php:210
 msgid "View links"
-msgstr ""
+msgstr "Bağlantıları görüntüle"
 
 #: inc/ci_cmdb.class.php:222
 msgid "Refresh"
-msgstr ""
+msgstr "Yenile"
 
 #: inc/ci_cmdb.class.php:225
 msgid "Save positions"
-msgstr ""
+msgstr "Konumları kaydet"
 
 #: inc/ci_cmdb.class.php:250
 msgid "Add new type of CI to the CMDB"
-msgstr ""
+msgstr "CMDB üzerine yeni bir CI türü ekle"
 
 #: inc/ci_cmdb.class.php:255
 msgid "Add new type of link to the CMDB"
-msgstr ""
+msgstr "CMDB üzerine yeni bir bağlantı türü ekle"
 
 #: inc/ci_cmdb.class.php:261
 msgid "Manage type of CI to the CMDB"
-msgstr ""
+msgstr "CMDB CI türleri yönetimi"
 
 #: inc/ci_cmdb.class.php:266
 msgid "Manage type of links to the CMDB"
-msgstr ""
+msgstr "CMDB bağlantı türleri yönetimi"
 
 #: inc/ci_cmdb.class.php:283 inc/ci_cmdb.class.php:290
 msgid "Existing links"
-msgstr ""
+msgstr "Var olan bağlantılar"
 
 #: inc/ci_cmdb.class.php:307
 msgid "Linked element"
-msgstr ""
+msgstr "Bağlantılı bileşen"
 
 #: inc/ci_cmdb.class.php:425
 msgid "CMDB depth"
-msgstr ""
+msgstr "CMDB derinliği"
 
 #: inc/citype.class.php:53
 msgid "String"
-msgstr ""
+msgstr "Dizge"
 
 #: inc/citype.class.php:54
 msgid "Area Text"
-msgstr ""
+msgstr "Metin Alanı"
 
 #: inc/citype.class.php:57
 msgid "Yes/No"
-msgstr ""
+msgstr "Evet/Hayır"
 
 #: inc/citype.class.php:66
 msgid "Type CI"
 msgid_plural "Types CIs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "CI Türü"
+msgstr[1] "CI Türleri"
 
 #: inc/citype.class.php:178
 msgid "is already present in GLPI"
-msgstr ""
+msgstr "zaten GLPI üzerinde var"
 
 #: inc/citype.class.php:305
 msgid "Is this item presents in glpi ?"
-msgstr ""
+msgstr "Bu öge GLPI üzerinde var mı?"
 
 #: inc/citype.class.php:315
 msgid "Be careful the name cannot be changed after creation"
-msgstr ""
+msgstr "Ad oluşturulduktan sonra değiştirilemeyeceğinden dikkatli olun"
 
 #: inc/citype.class.php:317
 msgid "Do not use a plural classname (like 'myobjects')"
-msgstr ""
+msgstr "Sınıf adında çoğul kullanmayın ('nesnelerim' gibi)"
 
 #: inc/citype.class.php:319
 msgid "Do not use a classname with spaces (like 'my objects')"
-msgstr ""
+msgstr "Sınıf adında boşluk kullanmayın ('bu nesne' gibi)"
 
 #: inc/citype.class.php:385
 msgid "Please, choose an imported CI !"
-msgstr ""
+msgstr "Lütfen içe aktarılmış bir CI seçin!"
 
 #: inc/citype.class.php:390
 msgid "There is already an existing name or the name is invalid"
-msgstr ""
+msgstr "Bu ad zaten var ya da geçersiz"
 
 #: inc/citype.class.php:578
 msgid "Import CI"
-msgstr ""
+msgstr "CI İçe Aktar"
 
 #: inc/citype.class.php:618
 msgid "Icon"
-msgstr ""
+msgstr "Simge"
 
 #: inc/citype.class.php:657
 msgid "Default icon"
-msgstr ""
+msgstr "Varsayılan simge"
 
 #: inc/citype.class.php:940
 msgid "Add New Field"
-msgstr ""
+msgstr "Alan Ekle"
 
 #: inc/citype.class.php:964
 msgid "Upload icon"
-msgstr ""
+msgstr "Yükleme simgesi"
 
 #: inc/citype.class.php:990
 msgid "Existing fields for this type of CI"
-msgstr ""
+msgstr "I türü için var olan alanlar"
 
 #: inc/citype.class.php:994
 msgid "Reset Existing fields"
-msgstr ""
+msgstr "Var olan alanları sıfırla"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
 #: inc/citype.class.php:1076
 #, php-format
 msgid "Icon CIType %d"
-msgstr ""
+msgstr "%d CI Türü Simgesi "
 
 #: inc/citype.class.php:1320 inc/citype.class.php:1335
 msgctxt "button"
 msgid "Transfer"
-msgstr ""
+msgstr "Aktarım"
 
 #: inc/cmdb.class.php:88
 msgid "Display Item Configuration"
-msgstr ""
+msgstr "Öge Yapılandırmasını Görüntüle"
 
 #: inc/cmdb.class.php:173 inc/cmdb.class.php:176
 msgid "No Types of CI found. Please create Types of CI before display CIs"
 msgstr ""
+"Herhangi bir CI türü bulunamadı. Lütfen CI görüntülemeden önce CU türlerini "
+"ekleyin"
 
 #: inc/cmdb_ticket.class.php:94
 msgid "Elements linked to the ticket aren't imported in CMDB"
-msgstr ""
+msgstr "Destek kaydı ile ilişkili bileşenler CMDB içine aktarılmamış"
 
 #: inc/cmdb_ticket.class.php:99
 msgid "No elements of CMDB linked to the ticket"
-msgstr ""
+msgstr "Destek kaydı ile ilişkili bir CMDB bileşeni yok"
 
 #: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
 msgid "Impacted items"
-msgstr ""
+msgstr "Etkilenen ögeler"
 
 #: inc/cmdb_ticket.class.php:152
 msgid "Proximity"
-msgstr ""
+msgstr "Yakınlık"
 
 #: inc/cmdb_ticket.class.php:194
 msgid "Direct impact"
-msgstr ""
+msgstr "Doğrudan etki"
 
 #: inc/criticity.class.php:51 inc/criticity.class.php:118
 #: inc/criticity_item.class.php:49
 msgid "Criticity"
 msgid_plural "Criticities"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kritiklik"
+msgstr[1] "Kritiklikler"
 
 #: inc/criticity.class.php:137
 msgid "All levels have already been added"
-msgstr ""
+msgstr "Tüm düzeyler zaten eklenmiş"
 
 #: inc/criticity.class.php:187
 msgid "Please choose a level for criticality"
-msgstr ""
+msgstr "Lütfen bir kritiklik düzeyi seçin"
 
 #: inc/menu.class.php:64
 msgid "Configure Type of Item Configuration"
-msgstr ""
+msgstr "Öge Yapılandırması Türünü Yapılandırın"
 
 #: inc/menu.class.php:66 inc/profile.class.php:109
 msgid "Item Configuration"
-msgstr ""
+msgstr "Öge Yapılandırması"
 
 #: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
 #: inc/profile.class.php:117 inc/profile.class.php:149
 #: inc/profile.class.php:187
 msgid "Service"
 msgid_plural "Services"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hizmet"
+msgstr[1] "Hizmetler"
 
 #: inc/operationprocess_item.class.php:87
 #: inc/operationprocess_item.class.php:89
 msgid "Attached service"
 msgid_plural "Attached services"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bağlantılı hizmet"
+msgstr[1] "Bağlantılı hizmetler"
 
 #: inc/operationprocess_item.class.php:483
 msgctxt "button"
 msgid "Associate a service"
-msgstr ""
+msgstr "Bir hizmete bağla"
 
 #: inc/operationprocessstate.class.php:50
 msgid "State of service"
 msgid_plural "States of service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hizmet durumu"
+msgstr[1] "Hizmet durumları"
 
 #: inc/profile.class.php:113 inc/profile.class.php:172
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Öge yapılandırması türü"
+msgstr[1] "Öge yapılandırması türleri"
 
 #: inc/profile.class.php:160 inc/profile.class.php:191
 msgid "Item configuration"
 msgid_plural "Items configuration"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Öge yapılandırması"
+msgstr[1] "Öge yapılandırmaları"
 
 #: inc/profile.class.php:195
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Öge yapılandırması türü"
+msgstr[1] "Öge yapılandırması türleri"
 
 #: install/update_110_111.php:86
 msgid "very low"
-msgstr ""
+msgstr "çok düşük"
 
 #: install/update_110_111.php:87
 msgid "low"
-msgstr ""
+msgstr "düşük"
 
 #: install/update_110_111.php:88
 msgid "medium"
-msgstr ""
+msgstr "orta"
 
 #: install/update_110_111.php:89
 msgid "high"
-msgstr ""
+msgstr "yüksek"
 
 #: install/update_110_111.php:90
 msgid "very high"
-msgstr ""
+msgstr "çok yüksek"
