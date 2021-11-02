@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 16:16+0000\n"
+"POT-Creation-Date: 2021-11-02 10:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,61 +155,61 @@ msgstr ""
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: inc/citype.class.php:315
+#: inc/citype.class.php:322
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: inc/citype.class.php:317
+#: inc/citype.class.php:324
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr ""
 
-#: inc/citype.class.php:319
+#: inc/citype.class.php:326
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr ""
 
-#: inc/citype.class.php:385
+#: inc/citype.class.php:392
 msgid "Please, choose an imported CI !"
 msgstr ""
 
-#: inc/citype.class.php:390
+#: inc/citype.class.php:397
 msgid "There is already an existing name or the name is invalid"
 msgstr ""
 
-#: inc/citype.class.php:578
+#: inc/citype.class.php:585
 msgid "Import CI"
 msgstr ""
 
-#: inc/citype.class.php:618
+#: inc/citype.class.php:625
 msgid "Icon"
 msgstr ""
 
-#: inc/citype.class.php:657
+#: inc/citype.class.php:664
 msgid "Default icon"
 msgstr ""
 
-#: inc/citype.class.php:940
+#: inc/citype.class.php:947
 msgid "Add New Field"
 msgstr ""
 
-#: inc/citype.class.php:964
+#: inc/citype.class.php:971
 msgid "Upload icon"
 msgstr ""
 
-#: inc/citype.class.php:990
+#: inc/citype.class.php:997
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: inc/citype.class.php:994
+#: inc/citype.class.php:1001
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: inc/citype.class.php:1076
+#: inc/citype.class.php:1085
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: inc/citype.class.php:1320 inc/citype.class.php:1335
+#: inc/citype.class.php:1329 inc/citype.class.php:1344
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
