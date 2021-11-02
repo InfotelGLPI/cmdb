@@ -255,7 +255,7 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
 
       $dbu = new DbUtils();
 
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $itemType = $data["itemtype"];
 
          if (!($item = $dbu->getItemForItemtype($itemType))) {
@@ -427,7 +427,7 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
       $operationprocess   = new PluginCmdbOperationprocess();
       $used               = [];
       if ($number) {
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             $operationprocesses[$data['assocID']] = $data;
             $used[$data['id']]                    = $data['id'];
          }

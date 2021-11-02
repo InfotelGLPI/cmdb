@@ -255,7 +255,7 @@ class PluginCmdbCifields extends CommonDBTM {
                                                'glpi_plugin_cmdb_civalues' => 'plugin_cmdb_cifields_id']
                                   ]);
 
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             echo "<p>" . $data['name'] . " : " . PluginCmdbCifields::setValue($data['typefield'],
                                                                               $data['value']) . "</p>";
          }

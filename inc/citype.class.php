@@ -1132,7 +1132,7 @@ class PluginCmdbCIType extends CommonDropdown {
                                             'types_id'               => $key]]);
 
       if (count($iterator)) {
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             $doc = new Document_Item();
             $doc->deleteByCriteria(['documents_id' => $data['documents_id']], 1);
 
@@ -1269,7 +1269,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
       $iterator = $DB->request('glpi_plugin_cmdb_citypes');
       $types    = [];
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $types[] = $data;
       }
       return $types;
@@ -1292,7 +1292,7 @@ class PluginCmdbCIType extends CommonDropdown {
                                $dbu->getEntitiesRestrictCriteria('glpi_plugin_cmdb_citypes',
                                                                  'entities_id', $entities, true));
       $types    = [];
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $types[] = $data['id'];
       }
       return $types;

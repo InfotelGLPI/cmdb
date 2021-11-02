@@ -338,7 +338,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
                                 'ORDER'    => 'glpi_plugin_cmdb_operationprocessstates.name']);
 
       $values = [0 => Dropdown::EMPTY_VALUE];
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $values[$data['id']] = $data['name'];
       }
 

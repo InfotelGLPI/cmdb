@@ -231,7 +231,7 @@ class PluginCmdbCriticity extends CommonDBTM {
                                 'ORDER'     => 'glpi_plugin_cmdb_criticities.level'
                                ]);
 
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $all[$data['id']] = $data['name'];
       }
 
@@ -263,7 +263,7 @@ class PluginCmdbCriticity extends CommonDBTM {
                                 'ORDER'     => 'glpi_plugin_cmdb_criticities.level DESC'
                                ]);
 
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $all[$data['id']] = ['name'  => $data['name'],
                               'color' => $data['color']];
       }

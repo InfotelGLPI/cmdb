@@ -306,7 +306,7 @@ class PluginCmdbCI_Cmdb extends CommonDBTM {
          echo "<th>" . PluginCmdbTypelink::getTypeName(1) . "</th>";
          echo "<th>" . __('Linked element', 'cmdb') . "</th>";
          echo "</tr>";
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             $ci_type = new PluginCmdbCIType();
             if ($ci_type->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id'],
                                            'is_imported' => 1])) {
@@ -490,7 +490,7 @@ class PluginCmdbCI_Cmdb extends CommonDBTM {
 
          $iterator  = $link_item->getFromDBbyItem($input);
 
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
             $items_id_1               = $data["items_id_1"];
             $items_id_2               = $data["items_id_2"];
             $plugin_cmdb_citypes_id_1 = $data["plugin_cmdb_citypes_id_1"];

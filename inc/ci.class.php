@@ -164,7 +164,7 @@ class PluginCmdbCI extends CommonDBTM {
          $id = -1;
       }
       $idType = -1;
-      while ($data = $iterator->next()) {
+      foreach ($iterator as $data) {
          $tabCIType[$data["id"]] = $data["name"];
          if ($idType == -1) {
             $idType = $data["id"];
@@ -378,7 +378,7 @@ class PluginCmdbCI extends CommonDBTM {
                                    "WHERE" => ['items_id'               => $input['id'],
                                                'plugin_cmdb_citypes_id' => $input['plugin_cmdb_citypes_id']]]);
          $dbu      = new DbUtils();
-         while ($data = $iterator->next()) {
+         foreach ($iterator as $data) {
 
             if ($dbu->countElementsInTable('glpi_plugin_cmdb_baselines_items_items',
                                            ["OR" => ["plugin_cmdb_baselines_cis_id_1" => $data["id"]],
