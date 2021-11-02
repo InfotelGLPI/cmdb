@@ -230,7 +230,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
 
       echo "<td>" . __('Name') . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "name");
+      echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
       echo "</td>";
       echo "<td>" . PluginCmdbOperationprocessState::getTypeName(1) . "</td>";
       echo "<td>";

@@ -292,7 +292,7 @@ class PluginCmdbCIType extends CommonDropdown {
             echo "<td width='50%'>" . __('Name');
             echo "</td>";
             echo "<td width='50%'>";
-            echo "<input type=''text' value='".$this->fields['name']."' disabled>";
+            echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40, 'disabled' => 'disabled']);
             echo "</td>";
             echo "</tr>";
             $this->showExistingFields();
@@ -303,14 +303,21 @@ class PluginCmdbCIType extends CommonDropdown {
       } else {
          echo "<tr class='tab_bg_1'>";
          echo "<td>" . __('Is this item presents in glpi ?', 'cmdb') . "</td>";
-         echo "<td><input id='is_imported' onclick='checkboxAction()' type='checkbox' name='is_imported' value='1'/>";
+         echo "<td>";
+         Html::showCheckbox([
+                               'name'      => 'is_imported',
+                               'id'        => 'is_imported',
+                               'value'        => '1',
+                               'onclick'   => "javascript:checkboxAction()"
+                            ]);
+
          echo "</td></tr>\n";
          $this->showImportedItem($ID, $options);
          echo "<tr  cellpadding='2' class='newItem tab_bg_1' style='display:none;'>";
          echo "<td width='50%'>" . __('Name') . "</td>";
          echo "<td width='50%'>";
-         Html::autocompletionTextField($this, "name");
-         echo "<br><br><div class='warning'>
+         echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
+         echo "<br><br><div class='alert alert-important alert-warning'>
                      <i class='fas fa-exclamation-triangle fa-2x'></i><br><br>";
          echo __("Be careful the name cannot be changed after creation", "cmdb");
          echo "<br>";
@@ -936,7 +943,7 @@ class PluginCmdbCIType extends CommonDropdown {
    function showNewFields($ID) {
       global $CFG_GLPI;
       echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-      echo "<td colspan='2' class='center'><a class='vsubmit' 
+      echo "<td colspan='2' class='center'><a class='btn btn-primary' 
             onclick='addField(" . json_encode(self::$typeField) . ")'>" . __('Add New Field', 'cmdb') . "</a></td>";
       echo "</tr>";
 
@@ -990,7 +997,7 @@ class PluginCmdbCIType extends CommonDropdown {
             echo "<td class='center' colspan='2'>" . __('Existing fields for this type of CI', 'cmdb') . "</td>";
             echo "</tr>";
             echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-            echo "<td colspan='2' class='center'><a class='vsubmit' 
+            echo "<td colspan='2' class='center'><a class='btn btn-primary' 
                     onclick='resetFields($id," . json_encode(self::$typeField) . ")'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
             echo "</tr>";
             echo "<tr class='newItem tab_bg_1' style='display:none;'>";
@@ -1005,7 +1012,9 @@ class PluginCmdbCIType extends CommonDropdown {
             foreach ($tabFieldsTmp as $k => $d) {
                $i = $d['id'];
                echo "<tr class='tab_bg_2 center field' id='$i'>";
-               echo "<td><input type='text' required='required' name='nameField[" . $i . "]' value='" . $d['name'] . "'/></td>";
+               echo "<td>";
+               $name = "nameField[' . $i . ']";
+               echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
                echo "<td>";
                Dropdown::showFromArray("typeField[$i]", self::$typeField, ["value" => $d['typefield'], "width" => 125]);
 

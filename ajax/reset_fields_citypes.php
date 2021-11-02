@@ -47,7 +47,10 @@ if ($_POST["action"] == "reset") {
          foreach ($tabFieldsTmp as $k => $d) {
             $i = $d['id'];
             echo "<tr class='tab_bg_2 center field' id='$i'>";
-            echo "<td><input type='text' required='required' name='nameField[" . $i . "]' value='" . $d['name'] . "'/></td>";
+            echo "<td>";
+            $name = "nameField['. $i . ']";
+            echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
+            echo "</td>";
             echo "<td>";
             Dropdown::showFromArray("typeField[$i]", $tabType, ["value" => $d['typefield'], "width" => 125]);
             echo "</td>";
@@ -59,7 +62,10 @@ if ($_POST["action"] == "reset") {
 
 } else if ($_POST["action"] == "add") {
    echo "<tr class='tab_bg_2 center' id='" . $_POST['rows'] . "'>";
-   echo "<td><input type='text' required='required' name='nameNewField[]' value=''/></td>";
+   echo "<td>";
+   $name = "nameNewField[]";
+   echo Html::input($name, ['value' => '', 'size' => 40, 'required' => 'required']);
+   echo "</td>";
    echo "<td>";
    Dropdown::showFromArray("typeNewField[]", $tabType, ["width" => 125]);
    echo "</td>";

@@ -167,7 +167,7 @@ class PluginCmdbCifields extends CommonDBTM {
             Html::showDateField($name, ['value' => $value]);
             break;
          case 3:
-            echo "<input type='text' name='$name' value='$value'/>";
+            echo Html::input($name, ['value' => $value, 'size' => 40]);
             break;
          case 4:
             Dropdown::showFromArray($name, ['0' => __('No'),

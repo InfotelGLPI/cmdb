@@ -290,7 +290,7 @@ class PluginCmdbCriticity extends CommonDBTM {
 
       $itemtype = $item::getType();
 
-      echo "<tr class='tab_bg_1'>";
+      echo "<table class='tab_cadre_fixe'><tr class='tab_bg_1'>";
       $colspan = 4;
 
       if (strpos($itemtype,"PluginCmdb") !== false
@@ -312,7 +312,7 @@ class PluginCmdbCriticity extends CommonDBTM {
           || $itemtype == "PluginCmdbOperationprocess") {
          echo "<td colspan='2'></td>";
       }
-      echo "</tr>";
+      echo "</tr></table>";
 
    }
 

@@ -219,10 +219,10 @@ class PluginCmdbCI_Cmdb extends CommonDBTM {
 
             echo "<tr class='tab_bg_1 center'>";
             echo "<td>";
-            echo "<a class='vsubmit' onclick='plugin_cmdb.refresh();'>" . __('Refresh', 'cmdb') . "</a>&nbsp;";
+            echo "<a class='btn btn-primary' onclick='plugin_cmdb.refresh();'>" . __('Refresh', 'cmdb') . "</a>&nbsp;";
 
             if (Session::HaveRight(self::$rightname, UPDATE)) {
-               echo "<a class='vsubmit' onclick='plugin_cmdb.savePositions($id,$idType);'>" . __('Save positions', 'cmdb') . "</a>";
+               echo "<a class='btn btn-primary' onclick='plugin_cmdb.savePositions($id,$idType);'>" . __('Save positions', 'cmdb') . "</a>";
                echo "&nbsp;";
             }
             echo "</td>";
@@ -246,23 +246,23 @@ class PluginCmdbCI_Cmdb extends CommonDBTM {
          echo "<h3 style='margin-bottom:0px'>" . __('Actions') . "</h3>";
          echo "<div class='center'>";
          $rand = mt_rand();
-         echo '<a class="vsubmit" onclick="' . Html::jsGetElementbyID('addCIType' . $rand) . '.dialog(\'open\');">'
+         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('addCIType' . $rand) . '.dialog(\'open\');">'
               . __('Add new type of CI to the CMDB', 'cmdb') . "</a>&nbsp;";
          $item = new PluginCmdbCIType();
          Ajax::createIframeModalWindow('addCIType' . $rand, $item->getFormURL(), ['display' => true]);
          $rand = mt_rand();
-         echo '<a class="vsubmit" onclick="' . Html::jsGetElementbyID('addTypelink' . $rand) . '.dialog(\'open\');">'
+         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('addTypelink' . $rand) . '.dialog(\'open\');">'
               . __('Add new type of link to the CMDB', 'cmdb') . "</a>&nbsp;";
          $item = new PluginCmdbTypelink();
          Ajax::createIframeModalWindow('addTypelink' . $rand, $item->getFormURL(), ['display' => true]);
          echo "<br/><br/>";
          $rand = mt_rand();
-         echo '<a class="vsubmit" onclick="' . Html::jsGetElementbyID('showCIType' . $rand) . '.dialog(\'open\');">'
+         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('showCIType' . $rand) . '.dialog(\'open\');">'
               . __('Manage type of CI to the CMDB', 'cmdb') . "</a>&nbsp;";
          $item = new PluginCmdbCIType();
          Ajax::createIframeModalWindow('showCIType' . $rand, $item->getSearchURL(), ['display' => true]);
          $rand = mt_rand();
-         echo '<a class="vsubmit" onclick="' . Html::jsGetElementbyID('showTypelink' . $rand) . '.dialog(\'open\');">'
+         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('showTypelink' . $rand) . '.dialog(\'open\');">'
               . __('Manage type of links to the CMDB', 'cmdb') . "</a>&nbsp;";
          $item = new PluginCmdbTypelink();
          Ajax::createIframeModalWindow('showTypelink' . $rand, $item->getSearchURL(), ['display' => true]);

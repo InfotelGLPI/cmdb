@@ -216,7 +216,7 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
               __('Add an item') . "</th></tr>";
 
          echo "<tr class='tab_bg_1'><td colspan='" . (3 + $colsup) . "' class='center'>";
-         echo "<input type='hidden' name='plugin_cmdb_operationprocesses_id' value='$instID'>";
+         echo Html::hidden('id', ['plugin_cmdb_operationprocesses_id' => $instID]);
 
          Dropdown::showSelectItemFromItemtypes(['items_id_name'   => 'items_id',
                                                 'itemtypes'       => PluginCmdbOperationprocess::getTypes(),
@@ -226,7 +226,7 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
                                                ]);
          echo "</td>";
          echo "<td colspan='2' class='tab_bg_2'>";
-         echo "<input type='submit' name='additem' value=\"" . _sx('button', 'Add') . "\" class='submit'>";
+         echo Html::submit(_sx('button', 'Add'), ['name' => 'additem', 'class' => 'btn btn-primary']);
          echo "</td></tr>";
          echo "</table>";
          Html::closeForm();

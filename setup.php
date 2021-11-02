@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CMDB_VERSION', '2.2.1');
+define('PLUGIN_CMDB_VERSION', '3.0.0');
 
 if (!defined("PLUGINCMDB_DIR")) {
    define("PLUGINCMDB_DIR", GLPI_ROOT . "/plugins/cmdb");
@@ -143,7 +143,7 @@ function plugin_version_cmdb() {
       'homepage'     => 'https://github.com/InfotelGLPI/cmdb',
       'requirements' => [
          'glpi' => [
-            'min' => '9.5.0',
+            'min' => '10.0',
             'dev' => false
          ]
       ]];
@@ -153,10 +153,10 @@ function plugin_version_cmdb() {
  * @return bool
  */
 function plugin_cmdb_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.5', 'lt')
-       || version_compare(GLPI_VERSION, '9.6', 'ge')) {
+   if (version_compare(GLPI_VERSION, '10.0', 'lt')
+       || version_compare(GLPI_VERSION, '11.0', 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', '9.5');
+         echo Plugin::messageIncompatible('core', '10.0');
       }
       return false;
    }
