@@ -119,7 +119,6 @@ class PluginCmdbCifields extends CommonDBTM {
     * @param $itemtype
     */
    function setFieldByType($idType, $id,$itemtype) {
-
       if ($res = $this->find(['plugin_cmdb_citypes_id' => $idType])) {
          if (count($res) > 0) {
             foreach ($res as $data) {

@@ -1019,8 +1019,7 @@ class PluginCmdbCIType extends CommonDropdown {
                Dropdown::showFromArray("typeField[$i]", self::$typeField, ["value" => $d['typefield'], "width" => 125]);
 
                echo "</td>";
-               echo "<td><img src='" . $CFG_GLPI["root_doc"] .
-                    "/pics/delete.png' onclick='deleteField($i);addHiddenDeletedField($i);'/></td>";
+               echo "<td><i class='fas fas fa-trash-alt pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
                echo "</tr>";
             }
             echo "</table>";
