@@ -36,7 +36,7 @@ function plugin_cmdb_install() {
    include_once(GLPI_ROOT . "/plugins/cmdb/inc/profile.class.php");
 
    if (!$DB->tableExists("glpi_plugin_cmdb_operationprocesses")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/empty-2.2.1.sql");
+      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/empty-3.0.0.sql");
    }
 
    if (!$DB->tableExists("glpi_plugin_cmdb_criticities_items")) {
@@ -61,8 +61,13 @@ function plugin_cmdb_install() {
    if (!$DB->fieldExists("glpi_plugin_cmdb_criticities_items", "plugin_cmdb_criticities_id")) {
       $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-2.2.0.sql");
    }
+
    if (!$DB->fieldExists("glpi_plugin_cmdb_civalues", "itemtype")) {
       $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-2.2.1.sql");
+   }
+
+   if (!$DB->fieldExists("glpi_plugin_cmdb_operationprocesses", "users_id")) {
+      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-3.0.0.sql");
    }
 
    PluginCmdbProfile::initProfile();
