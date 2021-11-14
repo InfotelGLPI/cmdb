@@ -802,7 +802,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
       //Construct list
       echo "<span id='span_fields' name='span_fields'>";
-      echo "<select name='_fields[]' multiple size='15' style='width:400px'>";
+      echo "<select class='form-select' name='_fields[]' multiple size='15' style='width:400px'>";
       $parentIDfield = $dbu->getForeignKeyFieldForTable($dbu->getTableForItemType($citype));
       foreach ($DB->listFields($dbu->getTableForItemType($citype)) as $field) {
          $searchOption = $target->getSearchOptionByField('field', $field['Field']);
