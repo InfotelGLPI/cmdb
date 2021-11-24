@@ -1341,7 +1341,7 @@ class PluginCmdbCIType extends CommonDropdown {
          case 'transfer' :
             echo "&nbsp;" . $_SESSION['glpiactive_entity_shortname'];
             echo "<br><br>" . Html::submit(_x('button', 'Transfer', 'cmdb'),
-                                           ['name' => 'massiveaction']);
+                                           ['name' => 'massiveaction', 'class' => 'btn btn-primary']);
             return true;
 
       }

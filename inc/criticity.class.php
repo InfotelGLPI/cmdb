@@ -155,17 +155,17 @@ class PluginCmdbCriticity extends CommonDBTM {
 
       if ($criticity->getID() < 1 && self::canCreate()) {
          echo "<tr><th colspan='4'>";
-         echo Html::submit(_x('button', 'Add'), ['name' => 'add']);
+         echo Html::submit(_x('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
          echo "</th></tr>";
       }
       if ($criticity->getID() > 1 && self::canUpdate()) {
          echo "<tr><th colspan='4'>";
-         echo Html::submit(_x('button', 'Save'), ['name' => 'update']);
+         echo Html::submit(_x('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
          echo "</th></tr>";
       }
       if ($criticity->getID() > 1 && self::canPurge()) {
          echo "<tr><th colspan='4' style='text-align:right'>";
-         echo Html::submit(__('Delete permanently'), ['name' => 'purge']);
+         echo Html::submit(__('Delete permanently'), ['name' => 'purge', 'class' => 'btn btn-primary']);
          echo "</th></tr>";
       }
       echo "</table></div>";
