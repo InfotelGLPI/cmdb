@@ -304,7 +304,8 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
                Session::initNavigateListItems($itemType,
                                               PluginCmdbOperationprocess::getTypeName(2) . " = " . $operationprocess->fields['name']);
 
-               while ($data = $iterator_item->next()) {
+               foreach ($iterator_item as $data) {
+//               while ($data = $iterator_item->next()) {
 
                   $item->getFromDB($data["id"]);
 
@@ -341,6 +342,7 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
                   }
 
                   echo "</tr>";
+                  $iterator_item->next();
                }
             }
          }
