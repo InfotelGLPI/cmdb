@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-24 10:30+0000\n"
+"POT-Creation-Date: 2021-11-24 11:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -280,7 +280,7 @@ msgid_plural "Attached services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/operationprocess_item.class.php:483
+#: inc/operationprocess_item.class.php:485
 msgctxt "button"
 msgid "Associate a service"
 msgstr ""
