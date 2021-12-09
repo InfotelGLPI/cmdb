@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-24 11:02+0000\n"
+"POT-Creation-Date: 2021-12-09 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,38 +187,38 @@ msgstr ""
 msgid "Default icon"
 msgstr ""
 
-#: inc/citype.class.php:947
+#: inc/citype.class.php:950
 msgid "Add New Field"
 msgstr ""
 
-#: inc/citype.class.php:971
+#: inc/citype.class.php:974
 msgid "Upload icon"
 msgstr ""
 
-#: inc/citype.class.php:997
+#: inc/citype.class.php:1000
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: inc/citype.class.php:1001
+#: inc/citype.class.php:1004
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: inc/citype.class.php:1084
+#: inc/citype.class.php:1087
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: inc/citype.class.php:1328 inc/citype.class.php:1343
+#: inc/citype.class.php:1331 inc/citype.class.php:1346
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
 
-#: inc/cmdb.class.php:88
+#: inc/cmdb.class.php:84
 msgid "Display Item Configuration"
 msgstr ""
 
-#: inc/cmdb.class.php:173 inc/cmdb.class.php:176
+#: inc/cmdb.class.php:169 inc/cmdb.class.php:172
 msgid "No Types of CI found. Please create Types of CI before display CIs"
 msgstr ""
 
@@ -257,11 +257,11 @@ msgstr ""
 msgid "Please choose a level for criticality"
 msgstr ""
 
-#: inc/menu.class.php:64
+#: inc/menu.class.php:63
 msgid "Configure Type of Item Configuration"
 msgstr ""
 
-#: inc/menu.class.php:66 inc/profile.class.php:109
+#: inc/menu.class.php:65 inc/profile.class.php:109
 msgid "Item Configuration"
 msgstr ""
 
