@@ -65,12 +65,8 @@ class PluginCmdbOperationprocessMenu extends CommonGLPI {
       if (PluginCmdbOperationprocess::canCreate()) {
          $menu['links']['add'] = PluginCmdbOperationprocess::getFormURL(false);
       }
-      $menu['icon']    = self::getIcon();
+      $menu['icon']    = PluginCmdbOperationprocess::getIcon();
 
       return $menu;
-   }
-
-   static function getIcon() {
-      return "fas fa-sitemap";
    }
 }

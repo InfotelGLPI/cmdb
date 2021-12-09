@@ -318,7 +318,7 @@ class PluginCmdbCIType extends CommonDropdown {
          echo "<td width='50%'>";
          echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
          echo "<br><br><div class='alert alert-important alert-warning'>
-                     <i class='fas fa-exclamation-triangle fa-2x'></i><br><br>";
+                     <i class='ti ti-alert-triangle fa-2x'></i><br><br>";
          echo __("Be careful the name cannot be changed after creation", "cmdb");
          echo "<br>";
          echo __("Do not use a plural classname (like 'myobjects')", "cmdb");
@@ -723,7 +723,8 @@ class PluginCmdbCIType extends CommonDropdown {
                   }
                }
                $nameFileupload = 'filename$$' . $key;
-               echo Html::file(['multiple' => false, 'name' => $nameFileupload]);
+//               echo Html::file(['multiple' => false, 'name' => $nameFileupload]);
+               echo "<input class='form-control' type='file' name='$nameFileupload'>";
                echo "</div>";
             }
             echo "</div>";
@@ -743,7 +744,8 @@ class PluginCmdbCIType extends CommonDropdown {
                   }
 
                }
-               echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
+//               echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
+               echo "<input class='form-control' type='file' name='filename$$' . $key'>";
                echo "</div>";
             }
             echo "</div>";
@@ -763,7 +765,8 @@ class PluginCmdbCIType extends CommonDropdown {
                        "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                }
             }
-            echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
+//            echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
+            echo "<input class='form-control' type='file' name='filename$$' . $key'>";
             echo "</div>";
          }
          echo "</div>";
@@ -1019,7 +1022,7 @@ class PluginCmdbCIType extends CommonDropdown {
                Dropdown::showFromArray("typeField[$i]", self::$typeField, ["value" => $d['typefield'], "width" => 125]);
 
                echo "</td>";
-               echo "<td><i class='fas fas fa-trash-alt pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
+               echo "<td><i class='fa-2x ti ti-trash pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
                echo "</tr>";
             }
             echo "</table>";

@@ -51,6 +51,10 @@ class PluginCmdbOperationprocess extends CommonDBTM {
       return _n('Service', 'Services', $nb, 'cmdb');
    }
 
+   static function getIcon() {
+      return "ti ti-affiliate";
+   }
+
    /**
     * Type than could be linked to a Rack
     *

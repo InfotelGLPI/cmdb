@@ -76,10 +76,6 @@ class PluginCmdbCmdb extends CommonDBTM {
       $ci_type = new PluginCmdbCIType();
       $ciTypes = $ci_type->find($where);
 
-      //      echo "<td class='center b' >";
-      //      echo "<i class='fas fa-cog fa-3x'></i>";
-      //      echo "<br/><br/>";
-
       if (count($ciTypes) > 0) {
 
          echo "<div class='center'>";
@@ -135,7 +131,7 @@ class PluginCmdbCmdb extends CommonDBTM {
                        "/front/document.send.php?docid=" . $citype_doc->fields['documents_id'] . "'/>";
 
                } else {
-                  echo "<i class='fas fa-cog fa-3x'></i>";
+                  echo "<i class='ti ti-adjustments'></i>";
                }
 
                echo "<br/>";

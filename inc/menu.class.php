@@ -58,26 +58,21 @@ class PluginCmdbMenu extends CommonGLPI {
 
       $menu          = [];
       $menu['title'] = self::getTypeName();
-      $menu['page']  = "/plugins/cmdb/front/menu.php";
 
       $menu['page']  = "/plugins/cmdb/front/menu.php";
-      $menu['links']["<i class='fas fa-wrench fa-2x' title=\"" . __('Configure Type of Item Configuration', 'cmdb') . "\"></i>"] = '/plugins/cmdb/front/citype.php';
+      $menu['links']["<i class='ti ti-tool' title=\"" . __('Configure Type of Item Configuration', 'cmdb') . "\"></i>".__('Configure Type of Item Configuration', 'cmdb')] = '/plugins/cmdb/front/citype.php';
       //ItemConfiguration
       $menu['options']['ci']['title']           = __s("Item Configuration", 'cmdb');
       $menu['options']['ci']['page']            = '/plugins/cmdb/front/ci.php';
       $menu['options']['ci']['links']['add']    = '/plugins/cmdb/front/ci.form.php';
       $menu['options']['ci']['links']['search'] = '/plugins/cmdb/front/ci.php';
 
-      $menu['icon']    = self::getIcon();
+      $menu['icon']    = PluginCmdbOperationprocess::getIcon();
       //baseline
 //      $menu['options']['baseline']['title']           = __('Baseline', 'cmdb');
 //      $menu['options']['baseline']['page']            = '/plugins/cmdb/front/baseline.php';
 //      $menu['options']['baseline']['links']['search'] = '/plugins/cmdb/front/baseline.php';
 
       return $menu;
-   }
-
-   static function getIcon() {
-      return "fas fa-sitemap";
    }
 }
