@@ -5,7 +5,7 @@
  */
 
 
-function addCriticity(param) {
+function addCriticity(param, root) {
    $('document').ready(function () {
       $(document).ajaxComplete(function (event, xhr, option) {
 
@@ -36,11 +36,7 @@ function addCriticity(param) {
                id = paramId[1];
             }
 
-            if (location.pathname.indexOf('plugins') > 0) {
-               urlAjax = "../../cmdb/ajax/criticity_values.php";
-            } else {
-               urlAjax = "../plugins/cmdb/ajax/criticity_values.php";
-            }
+            urlAjax = root + "/ajax/criticity_values.php";
 
             var hidden_fields = "<input type='hidden' name='plugin_cmdb_criticity_id' id='criticity' value='" + id + "'>" +
                "<input type='hidden' name='plugin_cmdb_criticity_itemtype' value='" + itemtype + "'>";

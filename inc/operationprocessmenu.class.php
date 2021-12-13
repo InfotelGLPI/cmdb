@@ -60,7 +60,7 @@ class PluginCmdbOperationprocessMenu extends CommonGLPI {
 
       $menu                    = [];
       $menu['title']           = self::getMenuName();
-      $menu['page']            = "/plugins/cmdb/front/operationprocess.php";
+      $menu['page']            = PluginCmdbOperationprocess::getSearchURL(false);
       $menu['links']['search'] = PluginCmdbOperationprocess::getSearchURL(false);
       if (PluginCmdbOperationprocess::canCreate()) {
          $menu['links']['add'] = PluginCmdbOperationprocess::getFormURL(false);

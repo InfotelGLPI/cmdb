@@ -29,8 +29,13 @@
 
 define('PLUGIN_CMDB_VERSION', '3.0.0');
 
-if (!defined("PLUGINCMDB_DIR")) {
-   define("PLUGINCMDB_DIR", GLPI_ROOT . "/plugins/cmdb");
+if (!defined("PLUGIN_CMDB_DIR")) {
+   define("PLUGINCMDB_DIR", Plugin::getPhpDir("cmdb"));
+   define("PLUGINCMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
+}
+if (!defined("PLUGINCMDB_WEBDIR")) {
+   define("PLUGINCMDB_WEBDIR", Plugin::getWebDir("cmdb"));
+   define("PLUGINCMDB_NOTFULL_WEBDIR", Plugin::getPhpDir("cmdb",false));
 }
 
 if (!defined("PLUGINCMDB_DOC_DIR")) {
@@ -75,12 +80,12 @@ function plugin_init_cmdb() {
 
       $PLUGIN_HOOKS['plugin_fields']['cmdb'] = 'PluginCmdbOperationprocess';
 
-      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = "plugins/cmdb/pics/service.png";
+      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = PLUGINCMDB_NOTFULL_WEBDIR."/pics/service.png";
 
 
       //      $CFG_GLPI['impact_asset_types']['PluginCmdbCI'] = "plugins/cmdb/client.png";
       //Define impact_asset_types for ci types
-      include_once(GLPI_ROOT . "/plugins/cmdb/inc/citype.class.php");
+      include_once(PLUGINCMDB_DIR . "/inc/citype.class.php");
       $citype = new PluginCmdbCIType();
       $plugin = new Plugin();
       if($plugin->isActivated('cmdb')){
@@ -89,10 +94,10 @@ function plugin_init_cmdb() {
 
 
       //Change link from menu.php
-      $PLUGIN_HOOKS["javascript"]['cmdb'] = ["/plugins/cmdb/js/changeCIMenu.js",
-                                             "/plugins/cmdb/js/accordion.js",
-                                             "/plugins/cmdb/js/function_form_CIType.js",
-                                             "/plugins/cmdb/js/show_fields.js"];
+      $PLUGIN_HOOKS["javascript"]['cmdb'] = [PLUGINCMDB_NOTFULL_WEBDIR."/js/changeCIMenu.js",
+                                             PLUGINCMDB_NOTFULL_WEBDIR."/js/accordion.js",
+                                             PLUGINCMDB_NOTFULL_WEBDIR."/js/function_form_CIType.js",
+                                             PLUGINCMDB_NOTFULL_WEBDIR."/js/show_fields.js"];
 
       $PLUGIN_HOOKS['post_item_form']['cmdb'] = ['PluginCmdbCriticity', 'addFieldCriticity'];
 

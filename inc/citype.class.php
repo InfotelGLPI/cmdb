@@ -118,16 +118,14 @@ class PluginCmdbCIType extends CommonDropdown {
             }
          }
          $citype_doc = new PluginCmdbCIType_Document();
-         $icon       = 'plugins/cmdb/pics/iconCI.png';
+         $icon       = PLUGINCMDB_NOTFULL_WEBDIR.'/pics/iconCI.png';
          if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $type['id'],
                                            'types_id'               => 0])) {
             $document = new Document();
             $document->getFromDB($citype_doc->fields['documents_id']);
             //            $icon =  'files/'.$document->getField("filepath");
-            $icon = "plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
+            $icon = PLUGINCMDB_NOTFULL_WEBDIR."/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
          }
-         //TODO MAJ COEUR - define img location..
-         //         $CFG_GLPI['impact_asset_types'][$type['name']] = '/plugins/cmdb/pics/iconCI.png';
          if (class_exists($type['name'])) {
             $CFG_GLPI['impact_asset_types'][$type['name']] = $icon;
          }
@@ -591,7 +589,7 @@ class PluginCmdbCIType extends CommonDropdown {
          $ci                  = $dbu->getItemForItemtype($CIType);
          $tabCIType2[$CIType] = $ci::getTypeName(1);
       }
-      $url_cmdb_ajax = $CFG_GLPI["root_doc"] . "/plugins/cmdb/ajax";
+      $url_cmdb_ajax = PLUGINCMDB_WEBDIR . "/ajax";
       if (isset($this->fields["name"])
           && $this->fields["name"] != "") {
 
@@ -718,8 +716,8 @@ class PluginCmdbCIType extends CommonDropdown {
 
                   if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                     'types_id'               => $key])) {
-                     echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] .
-                          "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
+                     echo "<img width='32' height='32' src=\"" . PLUGINCMDB_WEBDIR .
+                          "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                   }
                }
                $nameFileupload = 'filename$$' . $key;
@@ -739,8 +737,8 @@ class PluginCmdbCIType extends CommonDropdown {
 
                   if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                     'types_id'               => $key])) {
-                     echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] .
-                          "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
+                     echo "<img width='32' height='32' src=\"" . PLUGINCMDB_WEBDIR .
+                          "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                   }
 
                }
@@ -761,8 +759,8 @@ class PluginCmdbCIType extends CommonDropdown {
 
                if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                  'types_id'               => $key])) {
-                  echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] .
-                       "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
+                  echo "<img width='32' height='32' src=\"" . PLUGINCMDB_WEBDIR .
+                       "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                }
             }
 //            echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
@@ -1402,8 +1400,8 @@ class PluginCmdbCIType extends CommonDropdown {
       $sysname   = self::getSystemName($fields['name']);
       $classname = self::getClassname($fields['name']);
 
-      $template_class = file_get_contents(GLPI_ROOT .
-                                          "/plugins/cmdb/templates/citype.class.tpl");
+      $template_class = file_get_contents(PLUGIN_CMDB_DIR .
+                                          "/templates/citype.class.tpl");
       $template_class = str_replace("%%CLASSNAME%%", $classname, $template_class);
       $template_class = str_replace("%%TYPE%%", $fields['id'], $template_class);
       $template_class = str_replace("%%ITEMRIGHT%%", "plugin_cmdb_cis", $template_class);
@@ -1415,7 +1413,7 @@ class PluginCmdbCIType extends CommonDropdown {
          return false;
       }
       //get front template
-      $template_front = file_get_contents(GLPI_ROOT . "/plugins/cmdb/templates/citype.tpl");
+      $template_front = file_get_contents(PLUGIN_CMDB_DIR . "/templates/citype.tpl");
       if ($template_front === false) {
          Toolbox::logDebug("Error : get dropdown front template error");
          return false;
@@ -1431,7 +1429,7 @@ class PluginCmdbCIType extends CommonDropdown {
       }
 
       //get form template
-      $template_form = file_get_contents(GLPI_ROOT . "/plugins/cmdb/templates/citype.form.tpl");
+      $template_form = file_get_contents(PLUGIN_CMDB_DIR . "/templates/citype.form.tpl");
       if ($template_form === false) {
          return false;
       }

@@ -33,41 +33,41 @@
 function plugin_cmdb_install() {
    global $DB;
 
-   include_once(GLPI_ROOT . "/plugins/cmdb/inc/profile.class.php");
+   include_once(PLUGIN_CMDB_DIR . "/inc/profile.class.php");
 
    if (!$DB->tableExists("glpi_plugin_cmdb_operationprocesses")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/empty-3.0.0.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/empty-3.0.0.sql");
    }
 
    if (!$DB->tableExists("glpi_plugin_cmdb_criticities_items")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-1.1.0.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-1.1.0.sql");
    }
 
    if (!$DB->tableExists("glpi_plugin_cmdb_criticities")) {
-      include_once(GLPI_ROOT . "/plugins/cmdb/install/update_110_111.php");
+      include_once(PLUGIN_CMDB_DIR . "/install/update_110_111.php");
       update110to111();
    }
 
    if ($DB->tableExists("glpi_plugin_cmdb_links_items")
        && !$DB->fieldExists("glpi_plugin_cmdb_links_items", "plugin_cmdb_citypes_id")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-1.1.2.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-1.1.2.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_cmdb_criticities", "businesscriticities_id")) {
-      include_once(GLPI_ROOT . "/plugins/cmdb/install/update_120.php");
+      include_once(PLUGIN_CMDB_DIR . "/install/update_120.php");
       update120();
    }
 
    if (!$DB->fieldExists("glpi_plugin_cmdb_criticities_items", "plugin_cmdb_criticities_id")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-2.2.0.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-2.2.0.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_cmdb_civalues", "itemtype")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-2.2.1.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-2.2.1.sql");
    }
 
    if (!$DB->fieldExists("glpi_plugin_cmdb_operationprocesses", "users_id")) {
-      $DB->runFile(GLPI_ROOT . "/plugins/cmdb/install/sql/update-3.0.0.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-3.0.0.sql");
    }
 
    PluginCmdbProfile::initProfile();
@@ -82,7 +82,7 @@ function plugin_cmdb_install() {
 function plugin_cmdb_uninstall() {
    global $DB;
 
-   include_once(GLPI_ROOT . "/plugins/cmdb/inc/profile.class.php");
+   include_once(PLUGIN_CMDB_DIR . "/inc/profile.class.php");
 
    $citype  = new PluginCmdbCIType();
    $citypes = $citype->find(["is_imported" => 0]);
