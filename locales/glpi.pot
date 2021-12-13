@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 14:58+0000\n"
+"POT-Creation-Date: 2021-12-13 07:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "item not found or disabled"
 msgstr ""
 
-#: setup.php:139 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: setup.php:144 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
 #: inc/menu.class.php:47 inc/profile.class.php:50
 msgid "CMDB"
 msgstr ""
@@ -147,69 +147,69 @@ msgid_plural "Types CIs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/citype.class.php:178
+#: inc/citype.class.php:176
 msgid "is already present in GLPI"
 msgstr ""
 
-#: inc/citype.class.php:305
+#: inc/citype.class.php:303
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: inc/citype.class.php:322
+#: inc/citype.class.php:320
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: inc/citype.class.php:324
+#: inc/citype.class.php:322
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr ""
 
-#: inc/citype.class.php:326
+#: inc/citype.class.php:324
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr ""
 
-#: inc/citype.class.php:392
+#: inc/citype.class.php:390
 msgid "Please, choose an imported CI !"
 msgstr ""
 
-#: inc/citype.class.php:397
+#: inc/citype.class.php:395
 msgid "There is already an existing name or the name is invalid"
 msgstr ""
 
-#: inc/citype.class.php:585
+#: inc/citype.class.php:583
 msgid "Import CI"
 msgstr ""
 
-#: inc/citype.class.php:625
+#: inc/citype.class.php:623
 msgid "Icon"
 msgstr ""
 
-#: inc/citype.class.php:664
+#: inc/citype.class.php:662
 msgid "Default icon"
 msgstr ""
 
-#: inc/citype.class.php:950
+#: inc/citype.class.php:948
 msgid "Add New Field"
 msgstr ""
 
-#: inc/citype.class.php:974
+#: inc/citype.class.php:972
 msgid "Upload icon"
 msgstr ""
 
-#: inc/citype.class.php:1000
+#: inc/citype.class.php:998
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: inc/citype.class.php:1004
+#: inc/citype.class.php:1002
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: inc/citype.class.php:1087
+#: inc/citype.class.php:1085
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: inc/citype.class.php:1331 inc/citype.class.php:1346
+#: inc/citype.class.php:1329 inc/citype.class.php:1344
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
