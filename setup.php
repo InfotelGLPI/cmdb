@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CMDB_VERSION', '3.0.0');
+define('PLUGIN_CMDB_VERSION', '3.0.0-rc1');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
    define("PLUGINCMDB_DIR", Plugin::getPhpDir("cmdb"));
