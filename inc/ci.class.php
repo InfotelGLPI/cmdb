@@ -418,36 +418,36 @@ class PluginCmdbCI extends CommonDBTM {
 
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                               'types_id'               => $idType])) {
-               return PLUGINCMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+               return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
                       $citype_doc->fields['documents_id'] . "&type=pics";
             } else {
                if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                                  'types_id'               => 0])) {
-                  return PLUGINCMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+                  return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
                          $citype_doc->fields['documents_id'] . "&type=pics";
                } else {
-                  return PLUGINCMDB_WEBDIR . "/pics/nothing.png";
+                  return PLUGIN_CMDB_WEBDIR . "/pics/nothing.png";
                }
             }
          } else {
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                               'types_id'               => 0])) {
 
-               return PLUGINCMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+               return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
                       $citype_doc->fields['documents_id'] . "&type=pics";
 
             } else {
-               return PLUGINCMDB_WEBDIR . "/pics/nothing.png";
+               return PLUGIN_CMDB_WEBDIR . "/pics/nothing.png";
             }
          }
       } else {
 
          if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                            'types_id'               => 0])) {
-            return PLUGINCMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+            return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
                    $citype_doc->fields['documents_id'] . "&type=pics";
          } else {
-            return PLUGINCMDB_WEBDIR . "/pics/nothing.png";
+            return PLUGIN_CMDB_WEBDIR . "/pics/nothing.png";
          }
       }
       return '';

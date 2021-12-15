@@ -118,13 +118,13 @@ class PluginCmdbCIType extends CommonDropdown {
             }
          }
          $citype_doc = new PluginCmdbCIType_Document();
-         $icon       = PLUGINCMDB_NOTFULL_WEBDIR.'/pics/iconCI.png';
+         $icon       = PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/iconCI.png';
          if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $type['id'],
                                            'types_id'               => 0])) {
             $document = new Document();
             $document->getFromDB($citype_doc->fields['documents_id']);
             //            $icon =  'files/'.$document->getField("filepath");
-            $icon = PLUGINCMDB_NOTFULL_WEBDIR."/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
+            $icon = PLUGIN_CMDB_NOTFULL_WEBDIR."/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
          }
          if (class_exists($type['name'])) {
             $CFG_GLPI['impact_asset_types'][$type['name']] = $icon;
@@ -589,7 +589,7 @@ class PluginCmdbCIType extends CommonDropdown {
          $ci                  = $dbu->getItemForItemtype($CIType);
          $tabCIType2[$CIType] = $ci::getTypeName(1);
       }
-      $url_cmdb_ajax = PLUGINCMDB_WEBDIR . "/ajax";
+      $url_cmdb_ajax = PLUGIN_CMDB_WEBDIR . "/ajax";
       if (isset($this->fields["name"])
           && $this->fields["name"] != "") {
 
@@ -716,7 +716,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
                   if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                     'types_id'               => $key])) {
-                     echo "<img width='32' height='32' src=\"" . PLUGINCMDB_WEBDIR .
+                     echo "<img width='32' height='32' src=\"" . PLUGIN_CMDB_WEBDIR .
                           "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                   }
                }
@@ -737,7 +737,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
                   if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                     'types_id'               => $key])) {
-                     echo "<img width='32' height='32' src=\"" . PLUGINCMDB_WEBDIR .
+                     echo "<img width='32' height='32' src=\"" . PLUGIN_CMDB_WEBDIR .
                           "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                   }
 
@@ -759,7 +759,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
                if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                  'types_id'               => $key])) {
-                  echo "<img width='32' height='32' src=\"" . PLUGINCMDB_WEBDIR .
+                  echo "<img width='32' height='32' src=\"" . PLUGIN_CMDB_WEBDIR .
                        "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                }
             }

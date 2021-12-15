@@ -359,14 +359,14 @@ class PluginCmdbOperationprocess extends CommonDBTM {
                  'used'                  => $p['used']];
 
       $out .= Ajax::updateItemOnSelectEvent($field_id, "show_" . $p['name'] . $rand,
-                                            PLUGINCMDB_WEBDIR . "/pajax/dropdownStateOperationprocesses.php",
+                                            PLUGIN_CMDB_WEBDIR . "/pajax/dropdownStateOperationprocesses.php",
                                             $params, false);
       $out .= "<span id='show_" . $p['name'] . "$rand'>";
       $out .= "</span>\n";
 
       $params['operationprocessstate'] = 0;
       $out                             .= Ajax::updateItem("show_" . $p['name'] . $rand,
-                                                           PLUGINCMDB_WEBDIR . "/ajax/dropdownStateOperationprocesses.php",
+                                                           PLUGIN_CMDB_WEBDIR . "/ajax/dropdownStateOperationprocesses.php",
                                                            $params, false);
       if ($p['display']) {
          echo $out;

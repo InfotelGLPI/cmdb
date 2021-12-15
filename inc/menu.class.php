@@ -59,19 +59,19 @@ class PluginCmdbMenu extends CommonGLPI {
       $menu          = [];
       $menu['title'] = self::getTypeName();
 
-      $menu['page']  = PLUGINCMDB_NOTFULL_WEBDIR."/front/menu.php";
-      $menu['links']["<i class='ti ti-tool' title=\"" . __('Configure Type of Item Configuration', 'cmdb') . "\"></i>".__('Configure Type of Item Configuration', 'cmdb')] = PLUGINCMDB_NOTFULL_WEBDIR.'/front/citype.php';
+      $menu['page']  = PLUGIN_CMDB_NOTFULL_WEBDIR."/front/menu.php";
+      $menu['links']["<i class='ti ti-tool' title=\"" . __('Configure Type of Item Configuration', 'cmdb') . "\"></i>".__('Configure Type of Item Configuration', 'cmdb')] = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/citype.php';
       //ItemConfiguration
       $menu['options']['ci']['title']           = __s("Item Configuration", 'cmdb');
-      $menu['options']['ci']['page']            = PLUGINCMDB_NOTFULL_WEBDIR.'/front/ci.php';
-      $menu['options']['ci']['links']['add']    = PLUGINCMDB_NOTFULL_WEBDIR.'/front/ci.form.php';
-      $menu['options']['ci']['links']['search'] = PLUGINCMDB_NOTFULL_WEBDIR.'/front/ci.php';
+      $menu['options']['ci']['page']            = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/ci.php';
+      $menu['options']['ci']['links']['add']    = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/ci.form.php';
+      $menu['options']['ci']['links']['search'] = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/ci.php';
 
       $menu['icon']    = PluginCmdbOperationprocess::getIcon();
       //baseline
 //      $menu['options']['baseline']['title']           = __('Baseline', 'cmdb');
-//      $menu['options']['baseline']['page']            = PLUGINCMDB_NOTFULL_WEBDIR.'front/baseline.php';
-//      $menu['options']['baseline']['links']['search'] = PLUGINCMDB_NOTFULL_WEBDIR.'front/baseline.php';
+//      $menu['options']['baseline']['page']            = PLUGIN_CMDB_NOTFULL_WEBDIR.'front/baseline.php';
+//      $menu['options']['baseline']['links']['search'] = PLUGIN_CMDB_NOTFULL_WEBDIR.'front/baseline.php';
 
       return $menu;
    }

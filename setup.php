@@ -30,12 +30,12 @@
 define('PLUGIN_CMDB_VERSION', '3.0.0-rc1');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
-   define("PLUGINCMDB_DIR", Plugin::getPhpDir("cmdb"));
-   define("PLUGINCMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
+   define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
+   define("PLUGIN_CMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
 }
-if (!defined("PLUGINCMDB_WEBDIR")) {
-   define("PLUGINCMDB_WEBDIR", Plugin::getWebDir("cmdb"));
-   define("PLUGINCMDB_NOTFULL_WEBDIR", Plugin::getPhpDir("cmdb",false));
+if (!defined("PLUGIN_CMDB_WEBDIR")) {
+   define("PLUGIN_CMDB_WEBDIR", Plugin::getWebDir("cmdb"));
+   define("PLUGIN_CMDB_NOTFULL_WEBDIR", Plugin::getPhpDir("cmdb",false));
 }
 
 if (!defined("PLUGINCMDB_DOC_DIR")) {
@@ -65,7 +65,7 @@ function plugin_init_cmdb() {
    $PLUGIN_HOOKS['csrf_compliant']['cmdb']   = true;
    $PLUGIN_HOOKS['change_profile']['cmdb']   = ['PluginCmdbProfile', 'initProfile'];
    $PLUGIN_HOOKS['assign_to_ticket']['cmdb'] = true;
-   include_once(PLUGINCMDB_DIR . "/inc/autoload.php");
+   include_once(PLUGIN_CMDB_DIR . "/inc/autoload.php");
    $plugincmdb_autoloader = new PluginCmdbAutoloader([PLUGINCMDB_CLASS_PATH]);
    $plugincmdb_autoloader->register();
 
@@ -80,12 +80,12 @@ function plugin_init_cmdb() {
 
       $PLUGIN_HOOKS['plugin_fields']['cmdb'] = 'PluginCmdbOperationprocess';
 
-      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = PLUGINCMDB_NOTFULL_WEBDIR."/pics/service.png";
+      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = PLUGIN_CMDB_NOTFULL_WEBDIR."/pics/service.png";
 
 
       //      $CFG_GLPI['impact_asset_types']['PluginCmdbCI'] = "plugins/cmdb/client.png";
       //Define impact_asset_types for ci types
-      include_once(PLUGINCMDB_DIR . "/inc/citype.class.php");
+      include_once(PLUGIN_CMDB_DIR . "/inc/citype.class.php");
       $citype = new PluginCmdbCIType();
       $plugin = new Plugin();
       if($plugin->isActivated('cmdb')){
@@ -94,10 +94,10 @@ function plugin_init_cmdb() {
 
 
       //Change link from menu.php
-      $PLUGIN_HOOKS["javascript"]['cmdb'] = [PLUGINCMDB_NOTFULL_WEBDIR."/js/changeCIMenu.js",
-                                             PLUGINCMDB_NOTFULL_WEBDIR."/js/accordion.js",
-                                             PLUGINCMDB_NOTFULL_WEBDIR."/js/function_form_CIType.js",
-                                             PLUGINCMDB_NOTFULL_WEBDIR."/js/show_fields.js"];
+      $PLUGIN_HOOKS["javascript"]['cmdb'] = [PLUGIN_CMDB_NOTFULL_WEBDIR."/js/changeCIMenu.js",
+                                             PLUGIN_CMDB_NOTFULL_WEBDIR."/js/accordion.js",
+                                             PLUGIN_CMDB_NOTFULL_WEBDIR."/js/function_form_CIType.js",
+                                             PLUGIN_CMDB_NOTFULL_WEBDIR."/js/show_fields.js"];
 
       $PLUGIN_HOOKS['post_item_form']['cmdb'] = ['PluginCmdbCriticity', 'addFieldCriticity'];
 
