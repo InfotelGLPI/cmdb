@@ -4,7 +4,7 @@
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
   -------------------------------------------------------------------------
   CMDB plugin for GLPI
-  Copyright (C) 2015-2016 by the CMDB Development Team.
+  Copyright (C) 2015-2022 by the CMDB Development Team.
 
   https://github.com/InfotelGLPI/CMDB
   -------------------------------------------------------------------------
