@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-14 08:19+0000\n"
+"POT-Creation-Date: 2022-01-19 17:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:331 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
+#: hook.php:330 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
 msgid "item not found or disabled"
 msgstr ""
 
-#: setup.php:144 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: setup.php:142 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
 #: inc/menu.class.php:47 inc/profile.class.php:50
 msgid "CMDB"
 msgstr ""
