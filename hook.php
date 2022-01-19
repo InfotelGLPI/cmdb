@@ -97,9 +97,8 @@ function plugin_cmdb_uninstall() {
 
       if (file_exists("$dir$item.class.php")) {
          include_once("$dir$item.class.php");
+         $item::uninstall();
       }
-      $item::uninstall();
-
    }
    $tables = ["glpi_plugin_cmdb_criticities_items",
               "glpi_plugin_cmdb_operationprocesses",

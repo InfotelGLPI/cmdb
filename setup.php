@@ -32,8 +32,6 @@ define('PLUGIN_CMDB_VERSION', '3.0.0-rc1');
 if (!defined("PLUGIN_CMDB_DIR")) {
    define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
    define("PLUGIN_CMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
-}
-if (!defined("PLUGIN_CMDB_WEBDIR")) {
    define("PLUGIN_CMDB_WEBDIR", Plugin::getWebDir("cmdb"));
    define("PLUGIN_CMDB_NOTFULL_WEBDIR", Plugin::getPhpDir("cmdb",false));
 }
