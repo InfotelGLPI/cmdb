@@ -155,286 +155,286 @@ class PluginCmdbCI_Cmdb extends CommonDBTM {
     * @param type  $item
     * @param type  $ispopup
     */
-   public static function showCMDB($item, $ispopup = 0) {
-      global $CFG_GLPI;
-
-      Html::requireJs('cmdb');
-
-      if (Session::HaveRight(self::$rightname, UPDATE)) {
-         $typeAction = 1;
-      } else {
-         $typeAction = 0;
-      }
-
-      $id = $item->fields['id'];
-
-      // Get item type
-      if ($item->getType() == 'PluginCmdbCI') {
-         $idType = $item->fields['plugin_cmdb_citypes_id'];
-      } else {
-         $citype = new PluginCmdbCIType();
-         $citype->getFromDBByCrit(['is_imported' => 1,
-                                   'name'        => $item->getType()]);
-         $idType = $citype->getID();
-      }
-
-      $rand  = mt_rand();
-      $idDiv = "diagram$rand";
-      echo "<div id='$idDiv' class='diagram' style='display:block'>";
-      echo "</div>";
-      echo "<br>";
-      echo "<div id='message_save' class='center'></div>";
-      // Prefs
-      $link_item = new PluginCmdbLink_Item();
-      $input     = ["plugin_cmdb_citypes_id_1" => $idType,
-                    "items_id_1"               => $id,
-                    "plugin_cmdb_citypes_id_2" => $idType,
-                    "items_id_2"               => $id];
-      $nb     = $link_item->getCountbyItem($input);
-
-      $rand                = mt_rand();
-      $idAccordionListlink = 'accordion' . $rand;
-      $idListLink          = 'listLink' . mt_rand();
-      $idDepth             = 'depth' . mt_rand();
-
-      if ($nb > 0) {
-         if (!$ispopup) {
-            echo "<table id='pref' class='tab_cadre_fixe'>";
-            echo "<tr class='headerRow'>";
-            echo "<th>" . __('Preferences', 'cmdb') . "</th>";
-            echo "</tr>";
-
-            echo "<tr class='tab_bg_2'>";
-            echo "<td>";
-            echo "<div id='$idAccordionListlink'>";
-            echo "<h3 style='margin-bottom:0px'>" . __('View links', 'cmdb') . "</h3>";
-            echo "<div>";
-            echo "<table id='$idListLink' style='float:left; width:50%'>";
-            echo "</table>";
-            echo "<table id='$idDepth'>";
-            echo "</table>";
-            echo "</div>";
-            echo "</td>";
-            echo "</tr>";
-
-            echo "<tr class='tab_bg_1 center'>";
-            echo "<td>";
-            echo "<a class='btn btn-primary' onclick='plugin_cmdb.refresh();'>" . __('Refresh', 'cmdb') . "</a>&nbsp;";
-
-            if (Session::HaveRight(self::$rightname, UPDATE)) {
-               echo "<a class='btn btn-primary' onclick='plugin_cmdb.savePositions($id,$idType);'>" . __('Save positions', 'cmdb') . "</a>";
-               echo "&nbsp;";
-            }
-            echo "</td>";
-            echo "</tr>";
-         }
-
-         echo "</table>";
-      }
-
-      // Actions
-      if ($typeAction == 1 && $ispopup == 0) {
-         echo "<table id='action' class='tab_cadre_fixe'>";
-         echo "<tr class='headerRow'>";
-         echo "<th>" . __('Actions') . "</th>";
-         echo "</tr>";
-         echo "<tr class='tab_bg_2'>";
-         echo "<td>";
-         $rand              = mt_rand();
-         $idAccordionAction = 'accordion_action' . $rand;
-         echo "<div id='accordion_action$rand'>";
-         echo "<h3 style='margin-bottom:0px'>" . __('Actions') . "</h3>";
-         echo "<div class='center'>";
-         $rand = mt_rand();
-         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('addCIType' . $rand) . '.dialog(\'open\');">'
-              . __('Add new type of CI to the CMDB', 'cmdb') . "</a>&nbsp;";
-         $item = new PluginCmdbCIType();
-         Ajax::createIframeModalWindow('addCIType' . $rand, $item->getFormURL(), ['display' => true]);
-         $rand = mt_rand();
-         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('addTypelink' . $rand) . '.dialog(\'open\');">'
-              . __('Add new type of link to the CMDB', 'cmdb') . "</a>&nbsp;";
-         $item = new PluginCmdbTypelink();
-         Ajax::createIframeModalWindow('addTypelink' . $rand, $item->getFormURL(), ['display' => true]);
-         echo "<br/><br/>";
-         $rand = mt_rand();
-         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('showCIType' . $rand) . '.dialog(\'open\');">'
-              . __('Manage type of CI to the CMDB', 'cmdb') . "</a>&nbsp;";
-         $item = new PluginCmdbCIType();
-         Ajax::createIframeModalWindow('showCIType' . $rand, $item->getSearchURL(), ['display' => true]);
-         $rand = mt_rand();
-         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('showTypelink' . $rand) . '.dialog(\'open\');">'
-              . __('Manage type of links to the CMDB', 'cmdb') . "</a>&nbsp;";
-         $item = new PluginCmdbTypelink();
-         Ajax::createIframeModalWindow('showTypelink' . $rand, $item->getSearchURL(), ['display' => true]);
-         echo "</div>";
-         echo "</div>";
-         echo "</td>";
-         echo "</tr>";
-         echo "</table>";
-      }
-
-      // Resume
-      $link_item = new PluginCmdbLink_Item();
-      $iterator = $link_item->getItemsForItem($id, $idType);
-
-      if ($ispopup == 0 && count($iterator)) {
-         echo "<table id='action' class='tab_cadre_fixe'>";
-         echo "<tr class='headerRow'>";
-         echo "<th>" . __('Existing links', 'cmdb') . "</th>";
-         echo "</tr>";
-         echo "<tr class='tab_bg_2'>";
-         echo "<td>";
-         $rand              = mt_rand();
-         $idAccordionAction = 'accordion_resume' . $rand;
-         echo "<div id='accordion_resume$rand'>";
-         echo "<h3 style='margin-bottom:0px'>" . __('Existing links', 'cmdb') . "</h3>";
-         echo "<div class='center'>";
-
-         $mt_rand = mt_rand();
-         Html::openMassiveActionsForm('mass' . get_class($link_item) . $mt_rand);
-         $massiveactionparams = ['item'      => get_class($link_item),
-                                 'container' => 'mass' . get_class($link_item) . $mt_rand];
-         Html::showMassiveActions($massiveactionparams);
-
-         $dbu = new DbUtils();
-
-         echo "<table class='tab_cadre_fixe'>";
-         echo "<tr class='tab_bg_2'>";
-         echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . get_class($link_item) . $mt_rand) . "</th>";
-         echo "<th>" . __('Type') . "</th>";
-         echo "<th>" . __('Name') . "</th>";
-         echo "<th>" . PluginCmdbTypelink::getTypeName(1) . "</th>";
-         echo "<th>" . __('Linked element', 'cmdb') . "</th>";
-         echo "</tr>";
-         foreach ($iterator as $data) {
-            $ci_type = new PluginCmdbCIType();
-            if ($ci_type->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id'],
-                                           'is_imported' => 1])) {
-               $item = new $ci_type->fields['name'];
-               if ($item->getFromDB($data['plugin_cmdb_id'])) {
-                  echo "<tr class='tab_bg_1'>";
-                  echo "<td width='10'>";
-                  Html::showMassiveActionCheckBox(get_class($link_item), $data['id']);
-                  echo "</td>";
-                  echo "<td>" . $item->getTypeName() . "</td>";
-                  echo "<td>";
-                  echo $item->getLink();
-                  echo "</td>";
-                  echo "<td>";
-                  echo Dropdown::getDropdownName($dbu->getTableForItemType('PluginCmdbTypelink'), $data['plugin_cmdb_typelinks_id']);
-                  echo "</td>";
-                  echo "<td>";
-                  if ($data['plugin_cmdb_citypes_id_1'] == $idType && $data['items_id_1'] == $id) {
-                     $ci_type_2 = new PluginCmdbCIType();
-                     if ($ci_type_2->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id_2'],
-                                                      'is_imported' => 1])) {
-                        if ($item = $dbu->getItemForItemtype($ci_type_2->fields['name'])) {
-                           $cmdb_item = new $ci_type_2->fields['name'];
-                           if ($cmdb_item->getFromDB($data['items_id_2'])) {
-                              echo $cmdb_item->getTypeName() . " - " . $cmdb_item->getLink();
-                           }
-                        } else {
-                           echo __('item not found or disabled', 'cmdb');
-                        }
-                     }
-
-                  } else if ($data['plugin_cmdb_citypes_id_2'] == $idType && $data['items_id_2'] == $id) {
-                     $ci_type_1 = new PluginCmdbCIType();
-                     if ($ci_type_1->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id_1'],
-                                                      'is_imported' => 1])) {
-
-                        if ($item = $dbu->getItemForItemtype($ci_type_1->fields['name'])) {
-                           $cmdb_item = new $ci_type_1->fields['name'];
-                           if ($cmdb_item->getFromDB($data['items_id_1'])) {
-                              echo $cmdb_item->getTypeName() . " - " . $cmdb_item->getLink();
-                           }
-                        } else {
-                           echo __('item not found or disabled', 'cmdb');
-                        }
-
-                     }
-                  }
-                  echo "</td>";
-                  echo "</tr>";
-               }
-            }
-
-         }
-         echo "</table>";
-         $massiveactionparams['ontop'] = false;
-         Html::showMassiveActions($massiveactionparams);
-         Html::closeForm();
-
-         echo "</div>";
-         echo "</div>";
-         echo "</td>";
-         echo "</tr>";
-         echo "</table>";
-      }
-
-      $rand      = mt_rand();
-      $idAddLink = "addLink" . $rand;
-      echo "<div id='$idAddLink' style='display:none'>";
-      echo "<iframe id='Iframe$idAddLink' width='100%' height='100%' marginWidth='0' 
-                   marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
-      $rand         = mt_rand();
-      $idUpdateLink = "updateLink" . $rand;
-      echo "<div id='$idUpdateLink' style='display:none'>";
-      echo "<iframe id='Iframe$idUpdateLink' width='100%' height='100%' marginWidth='0' 
-                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
-      $rand         = mt_rand();
-      $idDeleteLink = "deleteLink" . $rand;
-      echo "<div id='$idDeleteLink' style='display:none'>";
-      echo "<iframe id='Iframe$idDeleteLink' width='100%' height='100%' marginWidth='0' 
-                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
-      $rand               = mt_rand();
-      $idAssociatedTicket = "seeAssociatedTicket" . $rand;
-      echo "<div id='$idAssociatedTicket' style='display:none'>";
-      echo "<iframe id='Iframe$idAssociatedTicket' width='100%' height='100%' marginWidth='0' 
-                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
-      $rand        = mt_rand();
-      $idPurgeCMDB = "purgeCMDB" . $rand;
-      echo "<div id='$idPurgeCMDB' style='display:none'>";
-      echo "<iframe id='Iframe$idPurgeCMDB' width='100%' height='100%' marginWidth='0' 
-                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
-      $rand             = mt_rand();
-      $idCreateBaseline = "createBaseline" . $rand;
-      echo "<div id='$idCreateBaseline' style='display:none'>";
-      echo "<iframe id='Iframe$idCreateBaseline' width='100%' height='100%' marginWidth='0' 
-                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
-      $ci     = new PluginCmdbCI();
-      $citype = new PluginCmdbCIType();
-      $citype->getFromDB($idType);
-      $url = $ci->getLinkUrlReload($citype, $id);
-
-      $options = [
-         'nameObject'          => 'plugin_cmdb',
-         'type'                => 'plugin_cmdb',
-         'root_doc'            => $CFG_GLPI["root_doc"],
-         'id'                  => $id,
-         'idType'              => $idType,
-         'idDiv'               => $idDiv,
-         'idAccordionListlink' => $idAccordionListlink,
-         'idAddLink'           => $idAddLink,
-         'idUpdateLink'        => $idUpdateLink,
-         'idDeleteLink'        => $idDeleteLink,
-         'idAssociatedTicket'  => $idAssociatedTicket,
-         'idPurgeCMDB'         => $idPurgeCMDB,
-         'idCreateBaseline'    => $idCreateBaseline,
-         'idListlink'          => $idListLink,
-         'depth'               => ['id' => $idDepth, 'text' => __('CMDB depth', 'cmdb')],
-         'url'                 => $url,
-         'actionsName'         => self::getNameActionOnOrientedGraph(),
-         'typeAction'          => $typeAction,
-         'ispopup'             => $ispopup
-      ];
-
-      if ($typeAction == 1 && $ispopup == 0) {
-         $options['idAccordionAction'] = $idAccordionAction;
-      }
-
-      self::initCMDBJS($options, $ispopup);
-   }
+//   public static function showCMDB($item, $ispopup = 0) {
+//      global $CFG_GLPI;
+//
+//      Html::requireJs('cmdb');
+//
+//      if (Session::HaveRight(self::$rightname, UPDATE)) {
+//         $typeAction = 1;
+//      } else {
+//         $typeAction = 0;
+//      }
+//
+//      $id = $item->fields['id'];
+//
+//      // Get item type
+//      if ($item->getType() == 'PluginCmdbCI') {
+//         $idType = $item->fields['plugin_cmdb_citypes_id'];
+//      } else {
+//         $citype = new PluginCmdbCIType();
+//         $citype->getFromDBByCrit(['is_imported' => 1,
+//                                   'name'        => $item->getType()]);
+//         $idType = $citype->getID();
+//      }
+//
+//      $rand  = mt_rand();
+//      $idDiv = "diagram$rand";
+//      echo "<div id='$idDiv' class='diagram' style='display:block'>";
+//      echo "</div>";
+//      echo "<br>";
+//      echo "<div id='message_save' class='center'></div>";
+//      // Prefs
+//      $link_item = new PluginCmdbLink_Item();
+//      $input     = ["plugin_cmdb_citypes_id_1" => $idType,
+//                    "items_id_1"               => $id,
+//                    "plugin_cmdb_citypes_id_2" => $idType,
+//                    "items_id_2"               => $id];
+//      $nb     = $link_item->getCountbyItem($input);
+//
+//      $rand                = mt_rand();
+//      $idAccordionListlink = 'accordion' . $rand;
+//      $idListLink          = 'listLink' . mt_rand();
+//      $idDepth             = 'depth' . mt_rand();
+//
+//      if ($nb > 0) {
+//         if (!$ispopup) {
+//            echo "<table id='pref' class='tab_cadre_fixe'>";
+//            echo "<tr class='headerRow'>";
+//            echo "<th>" . __('Preferences', 'cmdb') . "</th>";
+//            echo "</tr>";
+//
+//            echo "<tr class='tab_bg_2'>";
+//            echo "<td>";
+//            echo "<div id='$idAccordionListlink'>";
+//            echo "<h3 style='margin-bottom:0px'>" . __('View links', 'cmdb') . "</h3>";
+//            echo "<div>";
+//            echo "<table id='$idListLink' style='float:left; width:50%'>";
+//            echo "</table>";
+//            echo "<table id='$idDepth'>";
+//            echo "</table>";
+//            echo "</div>";
+//            echo "</td>";
+//            echo "</tr>";
+//
+//            echo "<tr class='tab_bg_1 center'>";
+//            echo "<td>";
+//            echo "<a class='btn btn-primary' onclick='plugin_cmdb.refresh();'>" . __('Refresh', 'cmdb') . "</a>&nbsp;";
+//
+//            if (Session::HaveRight(self::$rightname, UPDATE)) {
+//               echo "<a class='btn btn-primary' onclick='plugin_cmdb.savePositions($id,$idType);'>" . __('Save positions', 'cmdb') . "</a>";
+//               echo "&nbsp;";
+//            }
+//            echo "</td>";
+//            echo "</tr>";
+//         }
+//
+//         echo "</table>";
+//      }
+//
+//      // Actions
+//      if ($typeAction == 1 && $ispopup == 0) {
+//         echo "<table id='action' class='tab_cadre_fixe'>";
+//         echo "<tr class='headerRow'>";
+//         echo "<th>" . __('Actions') . "</th>";
+//         echo "</tr>";
+//         echo "<tr class='tab_bg_2'>";
+//         echo "<td>";
+//         $rand              = mt_rand();
+//         $idAccordionAction = 'accordion_action' . $rand;
+//         echo "<div id='accordion_action$rand'>";
+//         echo "<h3 style='margin-bottom:0px'>" . __('Actions') . "</h3>";
+//         echo "<div class='center'>";
+//         $rand = mt_rand();
+//         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('addCIType' . $rand) . '.dialog(\'open\');">'
+//              . __('Add new type of CI to the CMDB', 'cmdb') . "</a>&nbsp;";
+//         $item = new PluginCmdbCIType();
+//         Ajax::createIframeModalWindow('addCIType' . $rand, $item->getFormURL(), ['display' => true]);
+//         $rand = mt_rand();
+//         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('addTypelink' . $rand) . '.dialog(\'open\');">'
+//              . __('Add new type of link to the CMDB', 'cmdb') . "</a>&nbsp;";
+//         $item = new PluginCmdbTypelink();
+//         Ajax::createIframeModalWindow('addTypelink' . $rand, $item->getFormURL(), ['display' => true]);
+//         echo "<br/><br/>";
+//         $rand = mt_rand();
+//         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('showCIType' . $rand) . '.dialog(\'open\');">'
+//              . __('Manage type of CI to the CMDB', 'cmdb') . "</a>&nbsp;";
+//         $item = new PluginCmdbCIType();
+//         Ajax::createIframeModalWindow('showCIType' . $rand, $item->getSearchURL(), ['display' => true]);
+//         $rand = mt_rand();
+//         echo '<a class="btn btn-primary" onclick="' . Html::jsGetElementbyID('showTypelink' . $rand) . '.dialog(\'open\');">'
+//              . __('Manage type of links to the CMDB', 'cmdb') . "</a>&nbsp;";
+//         $item = new PluginCmdbTypelink();
+//         Ajax::createIframeModalWindow('showTypelink' . $rand, $item->getSearchURL(), ['display' => true]);
+//         echo "</div>";
+//         echo "</div>";
+//         echo "</td>";
+//         echo "</tr>";
+//         echo "</table>";
+//      }
+//
+//      // Resume
+//      $link_item = new PluginCmdbLink_Item();
+//      $iterator = $link_item->getItemsForItem($id, $idType);
+//
+//      if ($ispopup == 0 && count($iterator)) {
+//         echo "<table id='action' class='tab_cadre_fixe'>";
+//         echo "<tr class='headerRow'>";
+//         echo "<th>" . __('Existing links', 'cmdb') . "</th>";
+//         echo "</tr>";
+//         echo "<tr class='tab_bg_2'>";
+//         echo "<td>";
+//         $rand              = mt_rand();
+//         $idAccordionAction = 'accordion_resume' . $rand;
+//         echo "<div id='accordion_resume$rand'>";
+//         echo "<h3 style='margin-bottom:0px'>" . __('Existing links', 'cmdb') . "</h3>";
+//         echo "<div class='center'>";
+//
+//         $mt_rand = mt_rand();
+//         Html::openMassiveActionsForm('mass' . get_class($link_item) . $mt_rand);
+//         $massiveactionparams = ['item'      => get_class($link_item),
+//                                 'container' => 'mass' . get_class($link_item) . $mt_rand];
+//         Html::showMassiveActions($massiveactionparams);
+//
+//         $dbu = new DbUtils();
+//
+//         echo "<table class='tab_cadre_fixe'>";
+//         echo "<tr class='tab_bg_2'>";
+//         echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . get_class($link_item) . $mt_rand) . "</th>";
+//         echo "<th>" . __('Type') . "</th>";
+//         echo "<th>" . __('Name') . "</th>";
+//         echo "<th>" . PluginCmdbTypelink::getTypeName(1) . "</th>";
+//         echo "<th>" . __('Linked element', 'cmdb') . "</th>";
+//         echo "</tr>";
+//         foreach ($iterator as $data) {
+//            $ci_type = new PluginCmdbCIType();
+//            if ($ci_type->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id'],
+//                                           'is_imported' => 1])) {
+//               $item = new $ci_type->fields['name'];
+//               if ($item->getFromDB($data['plugin_cmdb_id'])) {
+//                  echo "<tr class='tab_bg_1'>";
+//                  echo "<td width='10'>";
+//                  Html::showMassiveActionCheckBox(get_class($link_item), $data['id']);
+//                  echo "</td>";
+//                  echo "<td>" . $item->getTypeName() . "</td>";
+//                  echo "<td>";
+//                  echo $item->getLink();
+//                  echo "</td>";
+//                  echo "<td>";
+//                  echo Dropdown::getDropdownName($dbu->getTableForItemType('PluginCmdbTypelink'), $data['plugin_cmdb_typelinks_id']);
+//                  echo "</td>";
+//                  echo "<td>";
+//                  if ($data['plugin_cmdb_citypes_id_1'] == $idType && $data['items_id_1'] == $id) {
+//                     $ci_type_2 = new PluginCmdbCIType();
+//                     if ($ci_type_2->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id_2'],
+//                                                      'is_imported' => 1])) {
+//                        if ($item = $dbu->getItemForItemtype($ci_type_2->fields['name'])) {
+//                           $cmdb_item = new $ci_type_2->fields['name'];
+//                           if ($cmdb_item->getFromDB($data['items_id_2'])) {
+//                              echo $cmdb_item->getTypeName() . " - " . $cmdb_item->getLink();
+//                           }
+//                        } else {
+//                           echo __('item not found or disabled', 'cmdb');
+//                        }
+//                     }
+//
+//                  } else if ($data['plugin_cmdb_citypes_id_2'] == $idType && $data['items_id_2'] == $id) {
+//                     $ci_type_1 = new PluginCmdbCIType();
+//                     if ($ci_type_1->getFromDBByCrit(['id'          => $data['plugin_cmdb_citypes_id_1'],
+//                                                      'is_imported' => 1])) {
+//
+//                        if ($item = $dbu->getItemForItemtype($ci_type_1->fields['name'])) {
+//                           $cmdb_item = new $ci_type_1->fields['name'];
+//                           if ($cmdb_item->getFromDB($data['items_id_1'])) {
+//                              echo $cmdb_item->getTypeName() . " - " . $cmdb_item->getLink();
+//                           }
+//                        } else {
+//                           echo __('item not found or disabled', 'cmdb');
+//                        }
+//
+//                     }
+//                  }
+//                  echo "</td>";
+//                  echo "</tr>";
+//               }
+//            }
+//
+//         }
+//         echo "</table>";
+//         $massiveactionparams['ontop'] = false;
+//         Html::showMassiveActions($massiveactionparams);
+//         Html::closeForm();
+//
+//         echo "</div>";
+//         echo "</div>";
+//         echo "</td>";
+//         echo "</tr>";
+//         echo "</table>";
+//      }
+//
+//      $rand      = mt_rand();
+//      $idAddLink = "addLink" . $rand;
+//      echo "<div id='$idAddLink' style='display:none'>";
+//      echo "<iframe id='Iframe$idAddLink' width='100%' height='100%' marginWidth='0'
+//                   marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
+//      $rand         = mt_rand();
+//      $idUpdateLink = "updateLink" . $rand;
+//      echo "<div id='$idUpdateLink' style='display:none'>";
+//      echo "<iframe id='Iframe$idUpdateLink' width='100%' height='100%' marginWidth='0'
+//                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
+//      $rand         = mt_rand();
+//      $idDeleteLink = "deleteLink" . $rand;
+//      echo "<div id='$idDeleteLink' style='display:none'>";
+//      echo "<iframe id='Iframe$idDeleteLink' width='100%' height='100%' marginWidth='0'
+//                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
+//      $rand               = mt_rand();
+//      $idAssociatedTicket = "seeAssociatedTicket" . $rand;
+//      echo "<div id='$idAssociatedTicket' style='display:none'>";
+//      echo "<iframe id='Iframe$idAssociatedTicket' width='100%' height='100%' marginWidth='0'
+//                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
+//      $rand        = mt_rand();
+//      $idPurgeCMDB = "purgeCMDB" . $rand;
+//      echo "<div id='$idPurgeCMDB' style='display:none'>";
+//      echo "<iframe id='Iframe$idPurgeCMDB' width='100%' height='100%' marginWidth='0'
+//                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
+//      $rand             = mt_rand();
+//      $idCreateBaseline = "createBaseline" . $rand;
+//      echo "<div id='$idCreateBaseline' style='display:none'>";
+//      echo "<iframe id='Iframe$idCreateBaseline' width='100%' height='100%' marginWidth='0'
+//                    marginHeight='0'frameBorder='0' scrolling='auto'></iframe></div>";
+//      $ci     = new PluginCmdbCI();
+//      $citype = new PluginCmdbCIType();
+//      $citype->getFromDB($idType);
+//      $url = $ci->getLinkUrlReload($citype, $id);
+//
+//      $options = [
+//         'nameObject'          => 'plugin_cmdb',
+//         'type'                => 'plugin_cmdb',
+//         'root_doc'            => $CFG_GLPI["root_doc"],
+//         'id'                  => $id,
+//         'idType'              => $idType,
+//         'idDiv'               => $idDiv,
+//         'idAccordionListlink' => $idAccordionListlink,
+//         'idAddLink'           => $idAddLink,
+//         'idUpdateLink'        => $idUpdateLink,
+//         'idDeleteLink'        => $idDeleteLink,
+//         'idAssociatedTicket'  => $idAssociatedTicket,
+//         'idPurgeCMDB'         => $idPurgeCMDB,
+//         'idCreateBaseline'    => $idCreateBaseline,
+//         'idListlink'          => $idListLink,
+//         'depth'               => ['id' => $idDepth, 'text' => __('CMDB depth', 'cmdb')],
+//         'url'                 => $url,
+//         'actionsName'         => self::getNameActionOnOrientedGraph(),
+//         'typeAction'          => $typeAction,
+//         'ispopup'             => $ispopup
+//      ];
+//
+//      if ($typeAction == 1 && $ispopup == 0) {
+//         $options['idAccordionAction'] = $idAccordionAction;
+//      }
+//
+//      self::initCMDBJS($options, $ispopup);
+//   }
 
    /**
     * Set item links recursively

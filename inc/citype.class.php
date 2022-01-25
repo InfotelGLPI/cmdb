@@ -944,7 +944,7 @@ class PluginCmdbCIType extends CommonDropdown {
    function showNewFields($ID) {
       global $CFG_GLPI;
       echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-      echo "<td colspan='2' class='center'><a class='btn btn-primary' 
+      echo "<td colspan='2' class='center'><a class='submit btn btn-primary' 
             onclick='addField(" . json_encode(self::$typeField) . ")'>" . __('Add New Field', 'cmdb') . "</a></td>";
       echo "</tr>";
 
@@ -998,7 +998,7 @@ class PluginCmdbCIType extends CommonDropdown {
             echo "<td class='center' colspan='2'>" . __('Existing fields for this type of CI', 'cmdb') . "</td>";
             echo "</tr>";
             echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-            echo "<td colspan='2' class='center'><a class='btn btn-primary' 
+            echo "<td colspan='2' class='center'><a class='submit btn btn-primary' 
                     onclick='resetFields($id," . json_encode(self::$typeField) . ")'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
             echo "</tr>";
             echo "<tr class='newItem tab_bg_1' style='display:none;'>";
