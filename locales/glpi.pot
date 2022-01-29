@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-19 17:43+0000\n"
+"POT-Creation-Date: 2022-01-25 07:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:330 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
+#: hook.php:330
 msgid "item not found or disabled"
 msgstr ""
 
@@ -83,50 +83,6 @@ msgstr ""
 
 #: inc/ci_cmdb.class.php:84
 msgid "Create baseline"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:204
-msgid "Preferences"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:210
-msgid "View links"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:222
-msgid "Refresh"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:225
-msgid "Save positions"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:250
-msgid "Add new type of CI to the CMDB"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:255
-msgid "Add new type of link to the CMDB"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:261
-msgid "Manage type of CI to the CMDB"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:266
-msgid "Manage type of links to the CMDB"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:283 inc/ci_cmdb.class.php:290
-msgid "Existing links"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:307
-msgid "Linked element"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:425
-msgid "CMDB depth"
 msgstr ""
 
 #: inc/citype.class.php:53
