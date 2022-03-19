@@ -1,0 +1,307 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR CMDB Development Team
+# This file is distributed under the same license as the GLPI - CMDB plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# David Stepan <stepand@tiscali.cz>, 2022
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - CMDB plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-03 17:14+0000\n"
+"PO-Revision-Date: 2020-11-02 15:46+0000\n"
+"Last-Translator: David Stepan <stepand@tiscali.cz>, 2022\n"
+"Language-Team: Czech (Czech Republic) (https://www.transifex.com/infotelGLPI/teams/124557/cs_CZ/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+
+#: hook.php:330
+msgid "item not found or disabled"
+msgstr "položka nenalezena nebo je zakázána"
+
+#: setup.php:142 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: inc/menu.class.php:47 inc/profile.class.php:50
+msgid "CMDB"
+msgstr "CMDB"
+
+#: front/ci.form.php:66
+msgid "You can't delete this item, because this item is used on CMDB !"
+msgstr "Tuto položku nemůžete smazat, protože je používána v CMDB!"
+
+#: inc/ci.class.php:49
+msgid "Configuration Item"
+msgid_plural "Configuration Items"
+msgstr[0] "Konfigurační položka"
+msgstr[1] "Konfiguračních položek"
+msgstr[2] "Konfiguračních položek"
+msgstr[3] "Konfigurační položky"
+
+#: inc/ci.class.php:199
+msgid "Invalid name !"
+msgstr "Neplatný název!"
+
+#: inc/ci_cmdb.class.php:74
+msgid "See CI"
+msgstr "Vidět CI"
+
+#: inc/ci_cmdb.class.php:75
+msgid "Create Link"
+msgstr "Vytvořit odkaz"
+
+#: inc/ci_cmdb.class.php:76
+msgid "Update Link"
+msgstr "Aktualizovat odkaz"
+
+#: inc/ci_cmdb.class.php:77
+msgid "Delete Link"
+msgstr "Smazat odkaz"
+
+#: inc/ci_cmdb.class.php:78
+msgid "Zoom in"
+msgstr "Zvětšit"
+
+#: inc/ci_cmdb.class.php:79
+msgid "Zoom out"
+msgstr "Zmenšit"
+
+#: inc/ci_cmdb.class.php:80
+msgid "Reset Zoom"
+msgstr "Smazat zvětšení/zmenšení"
+
+#: inc/ci_cmdb.class.php:81
+msgid "Export PNG"
+msgstr "Exportovat PNG"
+
+#: inc/ci_cmdb.class.php:82
+msgid "See associated tickets"
+msgstr "Zobrazit přiřazené požadavky"
+
+#: inc/ci_cmdb.class.php:83
+msgid "Purge CMDB"
+msgstr "Vyčistit CMDB"
+
+#: inc/ci_cmdb.class.php:84
+msgid "Create baseline"
+msgstr "Vytvořte základní linii"
+
+#: inc/citype.class.php:53
+msgid "String"
+msgstr "Řetězec"
+
+#: inc/citype.class.php:54
+msgid "Area Text"
+msgstr "Textové pole"
+
+#: inc/citype.class.php:57
+msgid "Yes/No"
+msgstr "Ano/Ne"
+
+#: inc/citype.class.php:66
+msgid "Type CI"
+msgid_plural "Types CIs"
+msgstr[0] "Typ CI"
+msgstr[1] "Typů CI"
+msgstr[2] "Typů CI"
+msgstr[3] "Typy CI"
+
+#: inc/citype.class.php:176
+msgid "is already present in GLPI"
+msgstr "je již přítomno v GLPI"
+
+#: inc/citype.class.php:303
+msgid "Is this item presents in glpi ?"
+msgstr "Je tato položka přítomna v glpi?"
+
+#: inc/citype.class.php:320
+msgid "Be careful the name cannot be changed after creation"
+msgstr "Buďte opatrní, název nelze po vytvoření změnit"
+
+#: inc/citype.class.php:322
+msgid "Do not use a plural classname (like 'myobjects')"
+msgstr "Nepoužívejte název třídy v množném čísle (např. 'myobjects')"
+
+#: inc/citype.class.php:324
+msgid "Do not use a classname with spaces (like 'my objects')"
+msgstr "Nepoužívejte název třídy s mezerami (jako 'moje objekty')"
+
+#: inc/citype.class.php:390
+msgid "Please, choose an imported CI !"
+msgstr "Vyberte prosím importovanou CI!"
+
+#: inc/citype.class.php:395
+msgid "There is already an existing name or the name is invalid"
+msgstr "Název již existuje nebo je neplatný"
+
+#: inc/citype.class.php:583
+msgid "Import CI"
+msgstr "Importovat CI"
+
+#: inc/citype.class.php:623
+msgid "Icon"
+msgstr "Ikona"
+
+#: inc/citype.class.php:662
+msgid "Default icon"
+msgstr "Výchozí ikona"
+
+#: inc/citype.class.php:948
+msgid "Add New Field"
+msgstr "Přidat nové pole"
+
+#: inc/citype.class.php:972
+msgid "Upload icon"
+msgstr "Vložit ikonu"
+
+#: inc/citype.class.php:998
+msgid "Existing fields for this type of CI"
+msgstr "Existující pole pro tento typ CI"
+
+#: inc/citype.class.php:1002
+msgid "Reset Existing fields"
+msgstr "Smazání existujících polí"
+
+#. TRANS: Default document to files attached to tickets : %d is the ticket id
+#: inc/citype.class.php:1085
+#, php-format
+msgid "Icon CIType %d"
+msgstr "Ikona typu CI %d"
+
+#: inc/citype.class.php:1329 inc/citype.class.php:1344
+msgctxt "button"
+msgid "Transfer"
+msgstr "Přesun"
+
+#: inc/cmdb.class.php:84
+msgid "Display Item Configuration"
+msgstr "Zobrazit položku konfigurace"
+
+#: inc/cmdb.class.php:169 inc/cmdb.class.php:172
+msgid "No Types of CI found. Please create Types of CI before display CIs"
+msgstr "Nebyly nalezeny žádné typy CI. Před zobrazením CI vytvořte typy CI"
+
+#: inc/cmdb_ticket.class.php:94
+msgid "Elements linked to the ticket aren't imported in CMDB"
+msgstr "Prvky propojené s požadavkem se neimportují do CMDB"
+
+#: inc/cmdb_ticket.class.php:99
+msgid "No elements of CMDB linked to the ticket"
+msgstr "Žádné prvky CMDB nejsou připojeny"
+
+#: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
+msgid "Impacted items"
+msgstr "Ovlivněné položky"
+
+#: inc/cmdb_ticket.class.php:152
+msgid "Proximity"
+msgstr "Blízkost"
+
+#: inc/cmdb_ticket.class.php:194
+msgid "Direct impact"
+msgstr "Přímý dopad"
+
+#: inc/criticity.class.php:51 inc/criticity.class.php:118
+#: inc/criticity_item.class.php:49
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] "Kritičnost"
+msgstr[1] "Kritičností"
+msgstr[2] "Kritičností"
+msgstr[3] "Kritičnosti"
+
+#: inc/criticity.class.php:137
+msgid "All levels have already been added"
+msgstr "Všechny úrovně byly přidány"
+
+#: inc/criticity.class.php:187
+msgid "Please choose a level for criticality"
+msgstr "Prosím zvolte úroveň kritičnosti"
+
+#: inc/menu.class.php:67
+msgid "Configure Type of Item Configuration"
+msgstr "Nastavit typ konfigurační položky"
+
+#: inc/menu.class.php:69 inc/profile.class.php:109
+msgid "Item Configuration"
+msgstr "Konfigurační položka"
+
+#: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
+#: inc/profile.class.php:117 inc/profile.class.php:149
+#: inc/profile.class.php:187
+msgid "Service"
+msgid_plural "Services"
+msgstr[0] "Služba"
+msgstr[1] "Služeb"
+msgstr[2] "Služeb"
+msgstr[3] "Služby"
+
+#: inc/operationprocess_item.class.php:87
+#: inc/operationprocess_item.class.php:89
+msgid "Attached service"
+msgid_plural "Attached services"
+msgstr[0] "Přiřazená služba"
+msgstr[1] "Přiřazených služeb"
+msgstr[2] "Přiřazených služeb"
+msgstr[3] "Přiřazené služby"
+
+#: inc/operationprocess_item.class.php:485
+msgctxt "button"
+msgid "Associate a service"
+msgstr "Přiřadit službu"
+
+#: inc/operationprocessstate.class.php:50
+msgid "State of service"
+msgid_plural "States of service"
+msgstr[0] "Stav služby"
+msgstr[1] "Stavů služeb"
+msgstr[2] "Stavů služeb"
+msgstr[3] "Stavy služby"
+
+#: inc/profile.class.php:113 inc/profile.class.php:172
+msgid "Type of item configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Typ konfigurační položky"
+msgstr[1] "Typů konfigurační položky"
+msgstr[2] "Typů konfigurační položky"
+msgstr[3] "Typy konfigurační položky"
+
+#: inc/profile.class.php:160 inc/profile.class.php:191
+msgid "Item configuration"
+msgid_plural "Items configuration"
+msgstr[0] "Konfigurační položka"
+msgstr[1] "Konfiguračních položek"
+msgstr[2] "Konfiguračních položek"
+msgstr[3] "Konfigurační položky"
+
+#: inc/profile.class.php:195
+msgid "Type of Item Configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Typ konfigurační položky"
+msgstr[1] "Typů konfiguračních položek"
+msgstr[2] "Typů konfiguračních položek"
+msgstr[3] "Typy konfiguračních položek"
+
+#: install/update_110_111.php:86
+msgid "very low"
+msgstr "velmi nízká"
+
+#: install/update_110_111.php:87
+msgid "low"
+msgstr "nízká"
+
+#: install/update_110_111.php:88
+msgid "medium"
+msgstr "střední"
+
+#: install/update_110_111.php:89
+msgid "high"
+msgstr "vysoká"
+
+#: install/update_110_111.php:90
+msgid "very high"
+msgstr "velmi vysoká"
