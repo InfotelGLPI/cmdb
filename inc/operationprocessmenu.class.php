@@ -49,9 +49,9 @@ class PluginCmdbOperationprocessMenu extends CommonGLPI {
       return _n('Service', 'Services', 2, 'cmdb');
    }
 
-   static function getIcon() {
-      return PluginCmdbOperationprocess::getIcon();
-   }
+//   static function getIcon() {
+//      return PluginCmdbOperationprocess::getIcon();
+//   }
 
 
    /**

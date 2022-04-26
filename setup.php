@@ -27,13 +27,13 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CMDB_VERSION', '3.0.0');
+define('PLUGIN_CMDB_VERSION', '3.0.1');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
    define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
    define("PLUGIN_CMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
    define("PLUGIN_CMDB_WEBDIR", Plugin::getWebDir("cmdb"));
-   define("PLUGIN_CMDB_NOTFULL_WEBDIR", Plugin::getPhpDir("cmdb",false));
+   define("PLUGIN_CMDB_NOTFULL_WEBDIR", Plugin::getWebDir("cmdb",false));
 }
 
 if (!defined("PLUGINCMDB_DOC_DIR")) {

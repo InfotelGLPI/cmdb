@@ -47,9 +47,9 @@ class PluginCmdbMenu extends CommonGLPI {
       return __('CMDB', 'cmdb');
    }
 
-   static function getIcon() {
-      return PluginCmdbOperationprocess::getIcon();
-   }
+//   static function getIcon() {
+//      return PluginCmdbOperationprocess::getIcon();
+//   }
 
    /**
     * get menu content
