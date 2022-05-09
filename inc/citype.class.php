@@ -364,7 +364,7 @@ class PluginCmdbCIType extends CommonDropdown {
     */
    function prepareInputForAdd($input) {
 
-      if (isset($input["is_imported"])) {
+      if (isset($input["is_imported"]) && $input["is_imported"] == 1) {
 
          $input['is_imported'] = 1;
          $input['name']        = $input['selectCI'];

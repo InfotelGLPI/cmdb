@@ -25,13 +25,13 @@ class %%CLASSNAME%% extends CommonDropdown {
       // create Table
       if (!$DB->tableExists($table)) {
          $query = "CREATE TABLE IF NOT EXISTS `$table` (
-            `id`                           INT(11)      NOT NULL auto_increment,
-            `name`                         VARCHAR(255)     NOT NULL,
-            `entities_id`                  int(11) NOT NULL default '0',
-            `is_recursive`                 tinyint(1) NOT NULL default '0',
-            `comment`                      TEXT           DEFAULT NULL,
+            `id`                           int unsigned      NOT NULL auto_increment,
+            `name`                         varchar(255) collate utf8mb4_unicode_ci default '',
+            `entities_id`                  int unsigned NOT NULL default '0',
+            `is_recursive`                 tinyint NOT NULL default '0',
+            `comment`                      text collate utf8mb4_unicode_ci,
             PRIMARY KEY                     (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;";
          $DB->query($query) or die ($DB->error());
       }
 
