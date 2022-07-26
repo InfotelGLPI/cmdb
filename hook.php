@@ -171,9 +171,8 @@ function plugin_cmdb_uninstall() {
  * @return array
  */
 function plugin_cmdb_getDatabaseRelations() {
-   $plugin = new Plugin();
 
-   if ($plugin->isActivated("cmdb")) {
+   if (Plugin::isPluginActive("cmdb")) {
       return ["glpi_entities"                           => ["glpi_plugin_cmdb_operationprocesses"
                                                             => "entities_id",
                                                             "glpi_plugin_cmdb_citypes"
@@ -198,9 +197,8 @@ function plugin_cmdb_getDatabaseRelations() {
  */
 function plugin_cmdb_getDropdown() {
 
-   $plugin = new Plugin();
    // Define Dropdown tables to be manage in GLPI :
-   if ($plugin->isActivated("cmdb")) {
+   if (Plugin::isPluginActive("cmdb")) {
       $dropdowns = [];
 
       $field_obj = new PluginCmdbCIType();

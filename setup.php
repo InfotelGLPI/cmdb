@@ -85,8 +85,7 @@ function plugin_init_cmdb() {
       //Define impact_asset_types for ci types
       include_once(PLUGIN_CMDB_DIR . "/inc/citype.class.php");
       $citype = new PluginCmdbCIType();
-      $plugin = new Plugin();
-      if($plugin->isActivated('cmdb')){
+      if(Plugin::isPluginActive('cmdb')){
          $citype->showInAssetTypes();
       }
 

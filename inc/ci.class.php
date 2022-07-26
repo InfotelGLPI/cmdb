@@ -309,7 +309,6 @@ class PluginCmdbCI extends CommonDBTM {
     */
    function isInstalledOrActivatedOrNotDeleted($idCIType, $id) {
 
-      $plugin = new Plugin();
       $citype = new PluginCmdbCIType();
       if ($citype->getFromDB($idCIType)) {
          $table = 'glpi_plugin_cmdb_cis';
@@ -320,7 +319,7 @@ class PluginCmdbCI extends CommonDBTM {
          $splitTable = explode('_', $table);
          if (in_array('plugin', $splitTable)) {
             $namePlugin = $splitTable[2];
-            if ($plugin->isActivated($namePlugin)) {
+            if (Plugin::isPluginActive($namePlugin)) {
                if ($item = $this->getItem($idCIType, $id)) {
                   if ($item->isDeleted()) {
                      return false;
@@ -329,7 +328,7 @@ class PluginCmdbCI extends CommonDBTM {
                   return false;
                }
             } else {
-               if (!$plugin->isInstalled($namePlugin)) {
+               if (!Plugin::isPluginActive($namePlugin)) {
 
                   $link_item = new PluginCmdbLink_Item();
                   $input     = ["plugin_cmdb_citypes_id_1" => $idCIType,

@@ -112,8 +112,7 @@ class PluginCmdbCIType extends CommonDropdown {
       foreach ($types as $type) {
          if (preg_match("/PluginCmdb/", $type['name'], $matches) == false
              && $tab = isPluginItemType($type['name'])) {
-            $plug = new plugin();
-            if (!$plug->isActivated($tab['plugin'])) {
+            if (!Plugin::isPluginActive($tab['plugin'])) {
                continue;
             }
          }
