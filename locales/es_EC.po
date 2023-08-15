@@ -1,0 +1,300 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR CMDB Development Team
+# This file is distributed under the same license as the GLPI - CMDB plugin package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Soporte Infraestructura Standby, 2023
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GLPI - CMDB plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-26 13:54+0000\n"
+"PO-Revision-Date: 2020-11-02 15:46+0000\n"
+"Last-Translator: Soporte Infraestructura Standby, 2023\n"
+"Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/teams/124557/es_EC/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_EC\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: hook.php:328
+msgid "item not found or disabled"
+msgstr "Artículo no encontrado o deshabilitado"
+
+#: setup.php:141 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: inc/menu.class.php:47 inc/profile.class.php:50
+msgid "CMDB"
+msgstr "CMDB"
+
+#: front/ci.form.php:66
+msgid "You can't delete this item, because this item is used on CMDB !"
+msgstr "No puede eliminar este elemento porque se utiliza en la CMDB."
+
+#: inc/ci.class.php:49
+msgid "Configuration Item"
+msgid_plural "Configuration Items"
+msgstr[0] "Elementos de configuración"
+msgstr[1] "Elementos de configuración"
+msgstr[2] "Elementos de configuración"
+
+#: inc/ci.class.php:199
+msgid "Invalid name !"
+msgstr "Nombre inválido !"
+
+#: inc/ci_cmdb.class.php:74
+msgid "See CI"
+msgstr "Ver CI"
+
+#: inc/ci_cmdb.class.php:75
+msgid "Create Link"
+msgstr "Crear enlace"
+
+#: inc/ci_cmdb.class.php:76
+msgid "Update Link"
+msgstr "Actualizar enlace"
+
+#: inc/ci_cmdb.class.php:77
+msgid "Delete Link"
+msgstr "Borrar enlace"
+
+#: inc/ci_cmdb.class.php:78
+msgid "Zoom in"
+msgstr "Ampliar"
+
+#: inc/ci_cmdb.class.php:79
+msgid "Zoom out"
+msgstr "Reducir"
+
+#: inc/ci_cmdb.class.php:80
+msgid "Reset Zoom"
+msgstr "Restaurar zoom"
+
+#: inc/ci_cmdb.class.php:81
+msgid "Export PNG"
+msgstr "Exportar PNG"
+
+#: inc/ci_cmdb.class.php:82
+msgid "See associated tickets"
+msgstr "Ver tickets asociados"
+
+#: inc/ci_cmdb.class.php:83
+msgid "Purge CMDB"
+msgstr "Depurar CMDB"
+
+#: inc/ci_cmdb.class.php:84
+msgid "Create baseline"
+msgstr "Crear una base de referencia"
+
+#: inc/citype.class.php:53
+msgid "String"
+msgstr "Cadena"
+
+#: inc/citype.class.php:54
+msgid "Area Text"
+msgstr "Texto del área"
+
+#: inc/citype.class.php:57
+msgid "Yes/No"
+msgstr "Sí/No"
+
+#: inc/citype.class.php:66
+msgid "Type CI"
+msgid_plural "Types CIs"
+msgstr[0] "Tipos CIs"
+msgstr[1] "Tipos CIs"
+msgstr[2] "Tipos CIs"
+
+#: inc/citype.class.php:175
+msgid "is already present in GLPI"
+msgstr "ya está presente en GLPI"
+
+#: inc/citype.class.php:302
+msgid "Is this item presents in glpi ?"
+msgstr "¿Este artículo está presente en glpi?"
+
+#: inc/citype.class.php:319
+msgid "Be careful the name cannot be changed after creation"
+msgstr "Ten cuidado, el nombre no se puede cambiar después de la creación"
+
+#: inc/citype.class.php:321
+msgid "Do not use a plural classname (like 'myobjects')"
+msgstr "No utilice un nombre de clase en plural (como \"misobjetos\")"
+
+#: inc/citype.class.php:323
+msgid "Do not use a classname with spaces (like 'my objects')"
+msgstr "No utilice un nombre de clase con espacios (como \"mis objetos\")"
+
+#: inc/citype.class.php:389
+msgid "Please, choose an imported CI !"
+msgstr "Por favor, elija un IC importado."
+
+#: inc/citype.class.php:394
+msgid "There is already an existing name or the name is invalid"
+msgstr "Ya existe un nombre o el nombre no es válido"
+
+#: inc/citype.class.php:582
+msgid "Import CI"
+msgstr "Importar CI"
+
+#: inc/citype.class.php:622
+msgid "Icon"
+msgstr "Icono "
+
+#: inc/citype.class.php:661
+msgid "Default icon"
+msgstr "Icono predeterminado"
+
+#: inc/citype.class.php:947
+msgid "Add New Field"
+msgstr "Agregar nuevo campo"
+
+#: inc/citype.class.php:971
+msgid "Upload icon"
+msgstr "Subir icono"
+
+#: inc/citype.class.php:997
+msgid "Existing fields for this type of CI"
+msgstr "Campos existentes para este tipo de IC"
+
+#: inc/citype.class.php:1001
+msgid "Reset Existing fields"
+msgstr "Restablecer campos existentes"
+
+#. TRANS: Default document to files attached to tickets : %d is the ticket id
+#: inc/citype.class.php:1084
+#, php-format
+msgid "Icon CIType %d"
+msgstr "Icono CIType 1%d"
+
+#: inc/citype.class.php:1328 inc/citype.class.php:1343
+msgctxt "button"
+msgid "Transfer"
+msgstr "Transferir"
+
+#: inc/cmdb.class.php:84
+msgid "Display Item Configuration"
+msgstr "Configuración del elemento de visualización"
+
+#: inc/cmdb.class.php:169 inc/cmdb.class.php:172
+msgid "No Types of CI found. Please create Types of CI before display CIs"
+msgstr ""
+"No se han encontrado Tipos de IC. Por favor, cree Tipos de CI antes de "
+"mostrar CIs"
+
+#: inc/cmdb_ticket.class.php:94
+msgid "Elements linked to the ticket aren't imported in CMDB"
+msgstr "Los elementos vinculados al ticket no se importan en la CMDB"
+
+#: inc/cmdb_ticket.class.php:99
+msgid "No elements of CMDB linked to the ticket"
+msgstr "No hay elementos de CMDB vinculados al ticket"
+
+#: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
+msgid "Impacted items"
+msgstr "Elementos afectados"
+
+#: inc/cmdb_ticket.class.php:152
+msgid "Proximity"
+msgstr "Proximidad"
+
+#: inc/cmdb_ticket.class.php:194
+msgid "Direct impact"
+msgstr "Impacto directo"
+
+#: inc/criticity.class.php:51 inc/criticity.class.php:118
+#: inc/criticity_item.class.php:49
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] "Críticas"
+msgstr[1] "Críticas"
+msgstr[2] "Críticas"
+
+#: inc/criticity.class.php:137
+msgid "All levels have already been added"
+msgstr "Ya se han añadido todos los niveles"
+
+#: inc/criticity.class.php:187
+msgid "Please choose a level for criticality"
+msgstr "Por favor, seleccione un nivel para la critica"
+
+#: inc/menu.class.php:67
+msgid "Configure Type of Item Configuration"
+msgstr "Configurar el tipo de configuración del elemento"
+
+#: inc/menu.class.php:69 inc/profile.class.php:109
+msgid "Item Configuration"
+msgstr "Configuración de elementos"
+
+#: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
+#: inc/profile.class.php:117 inc/profile.class.php:149
+#: inc/profile.class.php:187
+msgid "Service"
+msgid_plural "Services"
+msgstr[0] "Servicio"
+msgstr[1] "Servicio"
+msgstr[2] "Servicio"
+
+#: inc/operationprocess_item.class.php:87
+#: inc/operationprocess_item.class.php:89
+msgid "Attached service"
+msgid_plural "Attached services"
+msgstr[0] "Servicios adjuntos"
+msgstr[1] "Servicios adjuntos"
+msgstr[2] "Servicios adjuntos"
+
+#: inc/operationprocess_item.class.php:485
+msgctxt "button"
+msgid "Associate a service"
+msgstr "Asociar un servicio"
+
+#: inc/operationprocessstate.class.php:50
+msgid "State of service"
+msgid_plural "States of service"
+msgstr[0] "Estados de los servicios"
+msgstr[1] "Estados de los servicios"
+msgstr[2] "Estados de  los servicios"
+
+#: inc/profile.class.php:113 inc/profile.class.php:172
+msgid "Type of item configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Tipos de configuración de elementos"
+msgstr[1] "Tipos de configuración de elementos"
+msgstr[2] "Tipos de configuración de elementos"
+
+#: inc/profile.class.php:160 inc/profile.class.php:191
+msgid "Item configuration"
+msgid_plural "Items configuration"
+msgstr[0] "Configuración de elementos"
+msgstr[1] "Configuración de elementos"
+msgstr[2] "Configuración de elementos"
+
+#: inc/profile.class.php:195
+msgid "Type of Item Configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Tipos de configuración de elementos"
+msgstr[1] "Tipos de configuración de elementos"
+msgstr[2] "Tipos de configuración de elementos"
+
+#: install/update_110_111.php:86
+msgid "very low"
+msgstr "muy bajo"
+
+#: install/update_110_111.php:87
+msgid "low"
+msgstr "bajo"
+
+#: install/update_110_111.php:88
+msgid "medium"
+msgstr "medio"
+
+#: install/update_110_111.php:89
+msgid "high"
+msgstr "alta"
+
+#: install/update_110_111.php:90
+msgid "very high"
+msgstr "muy alto"
