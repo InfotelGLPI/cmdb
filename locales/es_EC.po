@@ -23,7 +23,7 @@ msgstr ""
 
 #: hook.php:328
 msgid "item not found or disabled"
-msgstr "Artículo no encontrado o deshabilitado"
+msgstr "elemento no encontrado o deshabilitado"
 
 #: setup.php:141 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
 #: inc/menu.class.php:47 inc/profile.class.php:50
@@ -32,7 +32,7 @@ msgstr "CMDB"
 
 #: front/ci.form.php:66
 msgid "You can't delete this item, because this item is used on CMDB !"
-msgstr "No puede eliminar este elemento porque se utiliza en la CMDB."
+msgstr "¡No puede eliminar este element, porque se utiliza en la CMDB!"
 
 #: inc/ci.class.php:49
 msgid "Configuration Item"
@@ -43,7 +43,7 @@ msgstr[2] "Elementos de configuración"
 
 #: inc/ci.class.php:199
 msgid "Invalid name !"
-msgstr "Nombre inválido !"
+msgstr "¡Nombre inválido!"
 
 #: inc/ci_cmdb.class.php:74
 msgid "See CI"
@@ -71,7 +71,7 @@ msgstr "Reducir"
 
 #: inc/ci_cmdb.class.php:80
 msgid "Reset Zoom"
-msgstr "Restaurar zoom"
+msgstr "Restablecer zoom"
 
 #: inc/ci_cmdb.class.php:81
 msgid "Export PNG"
@@ -79,7 +79,7 @@ msgstr "Exportar PNG"
 
 #: inc/ci_cmdb.class.php:82
 msgid "See associated tickets"
-msgstr "Ver tickets asociados"
+msgstr "Ver casos asociados"
 
 #: inc/ci_cmdb.class.php:83
 msgid "Purge CMDB"
@@ -95,7 +95,7 @@ msgstr "Cadena"
 
 #: inc/citype.class.php:54
 msgid "Area Text"
-msgstr "Texto del área"
+msgstr "Área del texto"
 
 #: inc/citype.class.php:57
 msgid "Yes/No"
@@ -104,9 +104,9 @@ msgstr "Sí/No"
 #: inc/citype.class.php:66
 msgid "Type CI"
 msgid_plural "Types CIs"
-msgstr[0] "Tipos CIs"
-msgstr[1] "Tipos CIs"
-msgstr[2] "Tipos CIs"
+msgstr[0] "Tipo de CI"
+msgstr[1] "Tipos de CIs"
+msgstr[2] "Tipos de CIs"
 
 #: inc/citype.class.php:175
 msgid "is already present in GLPI"
@@ -114,11 +114,11 @@ msgstr "ya está presente en GLPI"
 
 #: inc/citype.class.php:302
 msgid "Is this item presents in glpi ?"
-msgstr "¿Este artículo está presente en glpi?"
+msgstr "¿Este elemento está presente en glpi?"
 
 #: inc/citype.class.php:319
 msgid "Be careful the name cannot be changed after creation"
-msgstr "Ten cuidado, el nombre no se puede cambiar después de la creación"
+msgstr "Tenga cuidado, el nombre no se puede cambiar después de la creación"
 
 #: inc/citype.class.php:321
 msgid "Do not use a plural classname (like 'myobjects')"
@@ -130,7 +130,7 @@ msgstr "No utilice un nombre de clase con espacios (como \"mis objetos\")"
 
 #: inc/citype.class.php:389
 msgid "Please, choose an imported CI !"
-msgstr "Por favor, elija un IC importado."
+msgstr "¡Por favor, elija un CI importado!"
 
 #: inc/citype.class.php:394
 msgid "There is already an existing name or the name is invalid"
@@ -142,7 +142,7 @@ msgstr "Importar CI"
 
 #: inc/citype.class.php:622
 msgid "Icon"
-msgstr "Icono "
+msgstr "Icono"
 
 #: inc/citype.class.php:661
 msgid "Default icon"
@@ -150,7 +150,7 @@ msgstr "Icono predeterminado"
 
 #: inc/citype.class.php:947
 msgid "Add New Field"
-msgstr "Agregar nuevo campo"
+msgstr "Agregar Nuevo Campo"
 
 #: inc/citype.class.php:971
 msgid "Upload icon"
@@ -158,7 +158,7 @@ msgstr "Subir icono"
 
 #: inc/citype.class.php:997
 msgid "Existing fields for this type of CI"
-msgstr "Campos existentes para este tipo de IC"
+msgstr "Campos existentes para este tipo de CI"
 
 #: inc/citype.class.php:1001
 msgid "Reset Existing fields"
@@ -177,21 +177,21 @@ msgstr "Transferir"
 
 #: inc/cmdb.class.php:84
 msgid "Display Item Configuration"
-msgstr "Configuración del elemento de visualización"
+msgstr "Configuración de elementos de visualización"
 
 #: inc/cmdb.class.php:169 inc/cmdb.class.php:172
 msgid "No Types of CI found. Please create Types of CI before display CIs"
 msgstr ""
-"No se han encontrado Tipos de IC. Por favor, cree Tipos de CI antes de "
-"mostrar CIs"
+"No se han encontrado Tipos de CI. Por favor, cree Tipos de CI antes de "
+"mostrar los CIs"
 
 #: inc/cmdb_ticket.class.php:94
 msgid "Elements linked to the ticket aren't imported in CMDB"
-msgstr "Los elementos vinculados al ticket no se importan en la CMDB"
+msgstr "Los elementos vinculados al caso no se importan en la CMDB"
 
 #: inc/cmdb_ticket.class.php:99
 msgid "No elements of CMDB linked to the ticket"
-msgstr "No hay elementos de CMDB vinculados al ticket"
+msgstr "No hay elementos de CMDB vinculados al caso"
 
 #: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
 msgid "Impacted items"
@@ -209,9 +209,9 @@ msgstr "Impacto directo"
 #: inc/criticity_item.class.php:49
 msgid "Criticity"
 msgid_plural "Criticities"
-msgstr[0] "Críticas"
-msgstr[1] "Críticas"
-msgstr[2] "Críticas"
+msgstr[0] "Criticidad"
+msgstr[1] "Criticidades"
+msgstr[2] "Criticidades"
 
 #: inc/criticity.class.php:137
 msgid "All levels have already been added"
@@ -219,11 +219,11 @@ msgstr "Ya se han añadido todos los niveles"
 
 #: inc/criticity.class.php:187
 msgid "Please choose a level for criticality"
-msgstr "Por favor, seleccione un nivel para la critica"
+msgstr "Por favor elija un nivel de criticidad"
 
 #: inc/menu.class.php:67
 msgid "Configure Type of Item Configuration"
-msgstr "Configurar el tipo de configuración del elemento"
+msgstr "Configurar el Tipo de Configuración del elemento"
 
 #: inc/menu.class.php:69 inc/profile.class.php:109
 msgid "Item Configuration"
@@ -235,14 +235,14 @@ msgstr "Configuración de elementos"
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Servicio"
-msgstr[1] "Servicio"
-msgstr[2] "Servicio"
+msgstr[1] "Servicios"
+msgstr[2] "Servicios"
 
 #: inc/operationprocess_item.class.php:87
 #: inc/operationprocess_item.class.php:89
 msgid "Attached service"
 msgid_plural "Attached services"
-msgstr[0] "Servicios adjuntos"
+msgstr[0] "Servicio adjunto"
 msgstr[1] "Servicios adjuntos"
 msgstr[2] "Servicios adjuntos"
 
@@ -254,21 +254,21 @@ msgstr "Asociar un servicio"
 #: inc/operationprocessstate.class.php:50
 msgid "State of service"
 msgid_plural "States of service"
-msgstr[0] "Estados de los servicios"
+msgstr[0] "Estado del servicio"
 msgstr[1] "Estados de los servicios"
-msgstr[2] "Estados de  los servicios"
+msgstr[2] "Estados de los servicios"
 
 #: inc/profile.class.php:113 inc/profile.class.php:172
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
-msgstr[0] "Tipos de configuración de elementos"
+msgstr[0] "Tipo de configuración del elemento"
 msgstr[1] "Tipos de configuración de elementos"
 msgstr[2] "Tipos de configuración de elementos"
 
 #: inc/profile.class.php:160 inc/profile.class.php:191
 msgid "Item configuration"
 msgid_plural "Items configuration"
-msgstr[0] "Configuración de elementos"
+msgstr[0] "Configuración del elemento"
 msgstr[1] "Configuración de elementos"
 msgstr[2] "Configuración de elementos"
 
