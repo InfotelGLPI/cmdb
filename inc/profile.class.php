@@ -68,7 +68,9 @@ class PluginCmdbProfile extends Profile {
          self::addDefaultProfileInfos($ID, ['plugin_cmdb_operationprocesses'             => 0,
                                             'plugin_cmdb_operationprocesses_open_ticket' => 0,
                                             'plugin_cmdb_cis'                            => 0,
-                                            'plugin_cmdb_citypes'                        => 0]);
+                                            'plugin_cmdb_citypes'                        => 0,
+                                            'plugin_cmdb_impacticons'                    => 0
+                                            ]);
 
          $prof->showForm($ID);
       }
@@ -82,7 +84,8 @@ class PluginCmdbProfile extends Profile {
       self::addDefaultProfileInfos($ID, ['plugin_cmdb_operationprocesses'             => 127,
                                          'plugin_cmdb_operationprocesses_open_ticket' => 1,
                                          'plugin_cmdb_cis'                            => 127,
-                                         'plugin_cmdb_citypes'                        => 127], true);
+                                         'plugin_cmdb_citypes'                        => 127,
+          'plugin_cmdb_impacticons'                => 127], true);
    }
 
    /**
@@ -115,6 +118,10 @@ class PluginCmdbProfile extends Profile {
             $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                                                           'default_class' => 'tab_bg_2',
                                                           'title'         => _n('Service','Services', 2, 'cmdb')]);
+             $rights = $this->getImpactIconRights();
+             $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+                 'default_class' => 'tab_bg_2',
+                 'title'         => PluginCmdbImpacticon::getTypeName(2)]);
          }
       }
 
@@ -150,6 +157,13 @@ class PluginCmdbProfile extends Profile {
                   'field'    => 'plugin_cmdb_operationprocesses']];
       return $rights;
    }
+
+    function getImpactIconRights() {
+        $rights = [['itemtype' => 'PluginCmdbImpacticon',
+            'label'    => PluginCmdbImpacticon::getTypeName(2),
+            'field'    => 'plugin_cmdb_impacticons']];
+        return $rights;
+    }
 
 
    /**
@@ -194,7 +208,11 @@ class PluginCmdbProfile extends Profile {
          ['itemtype' => 'PluginCmdbCIType',
           'label'    => _n('Type of Item Configuration', 'Types of item configuration', 2, 'cmdb'),
           'field'    => 'plugin_cmdb_citypes'
-         ]
+         ],
+          ['itemtype' => 'PluginCmdbImpacticon',
+              'label'    => PluginCmdbImpacticon::getTypeName(2),
+              'field'    => 'plugin_cmdb_impacticons'
+          ]
       ];
 
       if ($all) {

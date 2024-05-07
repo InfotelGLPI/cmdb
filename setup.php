@@ -28,6 +28,7 @@
  */
 
 define('PLUGIN_CMDB_VERSION', '3.1.0');
+global $CFG_GLPI;
 
 if (!defined("PLUGIN_CMDB_DIR")) {
    define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
@@ -55,6 +56,17 @@ if (!defined("PLUGINCMDB_FRONT_PATH")) {
 }
 if (!file_exists(PLUGINCMDB_FRONT_PATH)) {
    mkdir(PLUGINCMDB_FRONT_PATH);
+}
+
+if (!defined("PLUGINCMDB_ICON_PATH_FULL")) {
+    define("PLUGINCMDB_ICON_PATH_FULL", PLUGINCMDB_DOC_DIR . "/icons");
+}
+if (!file_exists(PLUGINCMDB_ICON_PATH_FULL)) {
+    mkdir(PLUGINCMDB_ICON_PATH_FULL);
+}
+
+if (!defined("PLUGINCMDB_ICON_PATH_NOFULL")) {
+    define("PLUGINCMDB_ICON_PATH_NOFULL", '/files/_plugins/cmdb/icons');
 }
 
 function plugin_init_cmdb() {
@@ -127,8 +139,11 @@ function plugin_init_cmdb() {
           && PluginCmdbCmdb::canView()) {
          $PLUGIN_HOOKS['menu_toadd']['cmdb']['plugins'] = ['PluginCmdbMenu'];
       }
-      $PLUGIN_HOOKS['set_impact_icon']['cmdb'] = 'plugin_cmdb_set_impact_icon';
+      $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'] = ['PluginCmdbImpacticon'];
 
+      $PLUGIN_HOOKS['set_impact_icon']['cmdb'] = 'plugin_cmdb_set_impact_icon';
+       $PLUGIN_HOOKS['item_update']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_update';
+       $PLUGIN_HOOKS['item_purge']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_purge';
       $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';
    }
 }

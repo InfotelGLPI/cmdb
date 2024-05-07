@@ -160,15 +160,15 @@ function plugin_cmdb_uninstall() {
    }
 
    //remove files
-   if (is_dir(PLUGINCMDB_DOC_DIR.'/front')) {
-      cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/front');
+   if (is_dir(PLUGINCMDB_FRONT_PATH)) {
+      cmdb_rmdir(PLUGINCMDB_FRONT_PATH);
    }
-   if (is_dir(PLUGINCMDB_DOC_DIR.'/inc')) {
-      cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/inc');
+   if (is_dir(PLUGINCMDB_CLASS_PATH)) {
+      cmdb_rmdir(PLUGINCMDB_CLASS_PATH);
    }
 
-    if (is_dir(PLUGINCMDB_DOC_DIR.'/icons')) {
-        cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/icons');
+    if (is_dir(PLUGINCMDB_ICON_PATH_FULL)) {
+        cmdb_rmdir(PLUGINCMDB_ICON_PATH_FULL);
     }
    //PluginCmdbMenu::removeRightsFromSession();
    PluginCmdbProfile::removeRightsFromSession();
@@ -364,12 +364,25 @@ function cmdb_rmdir($dir) {
 }
 
 function plugin_cmdb_set_impact_icon($itemtype) {
-    switch ($itemtype) {
-        case 'Computer':
-            $path = PLUGIN_CMDB_DIR_NOFULL.'/pics/iconCI.png';
-            $path = substr($path, 1);
-            Toolbox::logInfo($path);
-            return $path;
+    $impactIcon = new PluginCmdbImpacticon();
+    if ($impactIcon->getFromDBByCrit(['itemtype' => $itemtype])) {
+        return $impactIcon->fields['icon_path'];
     }
     return false;
+}
+
+function plugin_cmdb_item_update($item) {
+    global $CFG_GLPI;
+    if ($item::getType() === PluginCmdbImpacticon::class) {
+        if (in_array('icon_path', $item->updates)) {
+            unlink(GLPI_ROOT.'/'.$item->oldvalues['icon_path']);
+        }
+    }
+}
+
+function plugin_cmdb_item_purge($item) {
+    global $CFG_GLPI;
+    if ($item::getType() === PluginCmdbImpacticon::class) {
+        unlink(GLPI_ROOT.'/'.$item->fields['icon_path']);
+    }
 }
