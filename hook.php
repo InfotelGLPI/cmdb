@@ -36,7 +36,7 @@ function plugin_cmdb_install() {
    include_once(PLUGIN_CMDB_DIR . "/inc/profile.class.php");
 
    if (!$DB->tableExists("glpi_plugin_cmdb_operationprocesses")) {
-      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/empty-3.0.0.sql");
+      $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/empty-3.1.0.sql");
    }
 
    if (!$DB->tableExists("glpi_plugin_cmdb_criticities_items")) {
@@ -70,6 +70,10 @@ function plugin_cmdb_install() {
       $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-3.0.0.sql");
    }
 
+    if (!$DB->tableExists("glpi_plugin_cmdb_impacticons")) {
+        $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-3.1.0.sql");
+    }
+
    PluginCmdbProfile::initProfile();
    PluginCmdbProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 
@@ -100,6 +104,7 @@ function plugin_cmdb_uninstall() {
          $item::uninstall();
       }
    }
+
    $tables = ["glpi_plugin_cmdb_criticities_items",
               "glpi_plugin_cmdb_operationprocesses",
               "glpi_plugin_cmdb_operationprocesses_items",
@@ -121,7 +126,9 @@ function plugin_cmdb_uninstall() {
               "glpi_plugin_cmdb_cis_positions",
               "glpi_plugin_cmdb_baselines_positions",
               "glpi_plugin_cmdb_citypes_documents",
-              "glpi_plugin_cmdb_criticities"];
+              "glpi_plugin_cmdb_criticities",
+       "glpi_plugin_cmdb_impacticons"
+       ];
 
    $DB->query("DROP TABLE IF EXISTS " . implode(",", $tables));
 
@@ -159,6 +166,10 @@ function plugin_cmdb_uninstall() {
    if (is_dir(PLUGINCMDB_DOC_DIR.'/inc')) {
       cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/inc');
    }
+
+    if (is_dir(PLUGINCMDB_DOC_DIR.'/icons')) {
+        cmdb_rmdir(PLUGINCMDB_DOC_DIR.'/icons');
+    }
    //PluginCmdbMenu::removeRightsFromSession();
    PluginCmdbProfile::removeRightsFromSession();
 
