@@ -80,7 +80,6 @@ function plugin_init_cmdb() {
 
       $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = PLUGIN_CMDB_NOTFULL_WEBDIR."/pics/service.png";
 
-
       //      $CFG_GLPI['impact_asset_types']['PluginCmdbCI'] = "plugins/cmdb/client.png";
       //Define impact_asset_types for ci types
       include_once(PLUGIN_CMDB_DIR . "/inc/citype.class.php");
@@ -128,6 +127,7 @@ function plugin_init_cmdb() {
           && PluginCmdbCmdb::canView()) {
          $PLUGIN_HOOKS['menu_toadd']['cmdb']['plugins'] = ['PluginCmdbMenu'];
       }
+      $PLUGIN_HOOKS['set_impact_icon']['cmdb'] = 'plugin_cmdb_set_impact_icon';
 
       $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';
    }

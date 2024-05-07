@@ -351,3 +351,14 @@ function cmdb_rmdir($dir) {
       reset($objects);
    }
 }
+
+function plugin_cmdb_set_impact_icon($itemtype) {
+    switch ($itemtype) {
+        case 'Computer':
+            $path = PLUGIN_CMDB_DIR_NOFULL.'/pics/iconCI.png';
+            $path = substr($path, 1);
+            Toolbox::logInfo($path);
+            return $path;
+    }
+    return false;
+}
