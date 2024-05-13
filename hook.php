@@ -167,8 +167,12 @@ function plugin_cmdb_uninstall() {
       cmdb_rmdir(PLUGINCMDB_CLASS_PATH);
    }
 
-    if (is_dir(PLUGINCMDB_ICON_PATH_FULL)) {
-        cmdb_rmdir(PLUGINCMDB_ICON_PATH_FULL);
+    if (is_dir(PLUGINCMDB_ICONS_USAGE_DIR)) {
+        cmdb_rmdir(PLUGINCMDB_ICONS_USAGE_DIR);
+    }
+
+    if (is_dir(PLUGINCMDB_ICONS_PERMANENT_DIR)) {
+        cmdb_rmdir(PLUGINCMDB_ICONS_PERMANENT_DIR);
     }
    //PluginCmdbMenu::removeRightsFromSession();
    PluginCmdbProfile::removeRightsFromSession();
@@ -366,7 +370,7 @@ function cmdb_rmdir($dir) {
 function plugin_cmdb_set_impact_icon($itemtype) {
     $impactIcon = new PluginCmdbImpacticon();
     if ($impactIcon->getFromDBByCrit(['itemtype' => $itemtype])) {
-        return $impactIcon->fields['icon_path'];
+        return PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$impactIcon->fields['filename'];
     }
     return false;
 }
@@ -374,8 +378,10 @@ function plugin_cmdb_set_impact_icon($itemtype) {
 function plugin_cmdb_item_update($item) {
     global $CFG_GLPI;
     if ($item::getType() === PluginCmdbImpacticon::class) {
-        if (in_array('icon_path', $item->updates)) {
-            unlink(GLPI_ROOT.'/'.$item->oldvalues['icon_path']);
+        // on icon update, delete old files
+        if (in_array('filename', $item->updates)) {
+            unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->oldvalues['filename']);
+            unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->oldvalues['filename']);
         }
     }
 }
@@ -383,6 +389,8 @@ function plugin_cmdb_item_update($item) {
 function plugin_cmdb_item_purge($item) {
     global $CFG_GLPI;
     if ($item::getType() === PluginCmdbImpacticon::class) {
-        unlink(GLPI_ROOT.'/'.$item->fields['icon_path']);
+        // on icon purge, delete old files
+        unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->oldvalues['filename']);
+        unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->oldvalues['filename']);
     }
 }

@@ -36,20 +36,28 @@ $impactIcon = new PluginCmdbImpacticon();
 $input = [];
 
 // TODO check new file's type
-$usedPath = null;
+$filesDirPath = null;
+$pluginCmdbDirPath = null;
 if (isset($_POST["_icon_file"])) {
-    $file = $_POST['_icon_file'][0];
-    $tmpPath = GLPI_TMP_DIR .'/'.$file;
-    // full path where the file will be saved on the server
-    $file = str_replace(' ', '', $file); // remove blankspace because it won't load if there are some in the name
-    $newPath = PLUGINCMDB_ICON_PATH_FULL.'/'.$file;
-    // path relative to GLPI's root is the one saved in DB to be consistent with the paths used by the core
-    $iconPath = PLUGINCMDB_ICON_PATH_NOFULL.'/'.$file;
-    $input['icon_path'] = $tmpPath;
-    $usedPath = $tmpPath;
-    if (rename($tmpPath, $newPath)) {
-        $usedPath = $newPath;
-        $input['icon_path'] = $iconPath;
+    $filename = $_POST['_icon_file'][0];
+    $tmpPath = GLPI_TMP_DIR .'/'.$filename;
+    // remove blankspace because it won't load if there are some in the name
+    $newName = str_replace(' ', '', $filename);
+    // where a copy of the image will be saved to be update safe
+    $filesDirPath = PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$newName;
+    if (rename($tmpPath, $filesDirPath)) {
+        // 'permanent' image created, now the 'right safe' copy which will actually be used is created
+        $pluginCmdbDirPath = PLUGINCMDB_ICONS_USAGE_DIR.'/'.$newName;
+        if (copy($filesDirPath, $pluginCmdbDirPath)) {
+            $input['filename'] = $newName;
+        } else {
+            //unlink($filesDirPath);
+            Session::addMessageAfterRedirect(__('Error during file creation', 'cmdb'), true, ERROR);
+            Html::back();
+        }
+    } else {
+        Session::addMessageAfterRedirect(__('Error during file creation', 'cmdb'), true, ERROR);
+        Html::back();
     };
 }
 if (isset($_POST['itemtype'])) {
@@ -63,8 +71,13 @@ if (isset($_POST["add"])) {
             Html::redirect($impactIcon->getFormURL() . "?id=" . $newID);
         }
     } else {
-        if ($usedPath) {
-            unlink($usedPath);
+        Session::addMessageAfterRedirect(__('Creation failed', 'cmdb'), true, ERROR);
+        // delete new files if record creation failed
+        if ($filesDirPath) {
+            unlink($filesDirPath);
+        }
+        if ($pluginCmdbDirPath) {
+            unlink($pluginCmdbDirPath);
         }
     }
     Html::back();
@@ -84,8 +97,13 @@ if (isset($_POST["add"])) {
     $impactIcon->check($_POST['id'], UPDATE);
     $input['id'] = $_POST['id'];
     if (!$impactIcon->update($input)) {
-        if ($usedPath) {
-            unlink($usedPath);
+        Session::addMessageAfterRedirect(__('Update failed', 'cmdb'), true, ERROR);
+        // delete new files if record update failed
+        if ($filesDirPath) {
+            unlink($filesDirPath);
+        }
+        if ($pluginCmdbDirPath) {
+            unlink($pluginCmdbDirPath);
         }
     }
     Html::back();

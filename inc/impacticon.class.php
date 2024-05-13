@@ -54,7 +54,7 @@ class PluginCmdbImpacticon extends CommonDBTM
         $tab[] = [
             'id' => '3',
             'table' => self::getTable(),
-            'field' => 'icon_path',
+            'field' => 'filename',
             'name' => __('Icon'),
             'datatype' => 'text'
         ];
@@ -108,7 +108,7 @@ class PluginCmdbImpacticon extends CommonDBTM
             echo "<tr class='tab_bg_1'>";
             echo "<td>" . __('Current icon', 'cmdb') . "</td>";
             echo "<td>";
-            $iconPath = $CFG_GLPI['root_doc'].'/'.$this->fields['icon_path'];
+            $iconPath = $CFG_GLPI['root_doc'].'/'.PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$this->fields['filename'];
             echo "<img src='$iconPath' style='height: 50px; width: 50px'>";
             echo "</td>";
             echo "</tr>";

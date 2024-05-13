@@ -58,15 +58,20 @@ if (!file_exists(PLUGINCMDB_FRONT_PATH)) {
    mkdir(PLUGINCMDB_FRONT_PATH);
 }
 
-if (!defined("PLUGINCMDB_ICON_PATH_FULL")) {
-    define("PLUGINCMDB_ICON_PATH_FULL", PLUGINCMDB_DOC_DIR . "/icons");
+// dir without any access rights problems, but will be emptied on update
+if (!defined("PLUGINCMDB_ICONS_USAGE_DIR")) {
+    define("PLUGINCMDB_ICONS_USAGE_DIR", GLPI_ROOT.'/'.PLUGIN_CMDB_NOTFULL_WEBDIR . "/pics/icons");
 }
-if (!file_exists(PLUGINCMDB_ICON_PATH_FULL)) {
-    mkdir(PLUGINCMDB_ICON_PATH_FULL);
+if (!file_exists(PLUGINCMDB_ICONS_USAGE_DIR)) {
+    mkdir(PLUGINCMDB_ICONS_USAGE_DIR);
 }
 
-if (!defined("PLUGINCMDB_ICON_PATH_NOFULL")) {
-    define("PLUGINCMDB_ICON_PATH_NOFULL", '/files/_plugins/cmdb/icons');
+// dir with access rights problems, but content isn't affected by plugin update : will be used to repopulate the other dir on plugin updates
+if (!defined("PLUGINCMDB_ICONS_PERMANENT_DIR")) {
+    define("PLUGINCMDB_ICONS_PERMANENT_DIR", PLUGINCMDB_DOC_DIR . "/icons");
+}
+if (!file_exists(PLUGINCMDB_ICONS_PERMANENT_DIR)) {
+    mkdir(PLUGINCMDB_ICONS_PERMANENT_DIR);
 }
 
 function plugin_init_cmdb() {
