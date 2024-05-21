@@ -35,6 +35,18 @@ Session::checkLoginUser();
 $impactIcon = new PluginCmdbImpacticon();
 $input = [];
 
+if (isset($_POST['itemtype'])) {
+    $input['itemtype'] = $_POST['itemtype'];
+}
+
+$input['criteria'] = null;
+$criterias = $impactIcon->getCriterias();
+foreach($criterias as $criteria) {
+    if (isset($_POST[$criteria])) {
+        $input['criteria'] = $_POST[$criteria];
+    }
+}
+
 // TODO check new file's type
 $filesDirPath = null;
 $pluginCmdbDirPath = null;
@@ -51,7 +63,6 @@ if (isset($_POST["_icon_file"])) {
         if (copy($filesDirPath, $pluginCmdbDirPath)) {
             $input['filename'] = $newName;
         } else {
-            //unlink($filesDirPath);
             Session::addMessageAfterRedirect(__('Error during file creation', 'cmdb'), true, ERROR);
             Html::back();
         }
@@ -60,12 +71,24 @@ if (isset($_POST["_icon_file"])) {
         Html::back();
     };
 }
-if (isset($_POST['itemtype'])) {
-    $input['itemtype'] = $_POST['itemtype'];
-}
 
 if (isset($_POST["add"])) {
     $impactIcon->check(-1, CREATE, $_POST);
+
+    if ($impactIcon->getFromDBByCrit([
+        'itemtype' => $input['itemtype'],
+        'criteria' => $input['criteria']
+    ])) {
+        Session::addMessageAfterRedirect(__('An icon already exist for this type', 'cmdb'), true, ERROR);
+        if ($filesDirPath) {
+            unlink($filesDirPath);
+        }
+        if ($pluginCmdbDirPath) {
+            unlink($pluginCmdbDirPath);
+        }
+        Html::back();
+    }
+
     if ($newID = $impactIcon->add($input)) {
         if ($_SESSION['glpibackcreated']) {
             Html::redirect($impactIcon->getFormURL() . "?id=" . $newID);
@@ -95,6 +118,22 @@ if (isset($_POST["add"])) {
     $impactIcon->redirectToList();
 } elseif (isset($_POST["update"])) {
     $impactIcon->check($_POST['id'], UPDATE);
+
+    if ($impactIcon->getFromDBByCrit([
+        'itemtype' => $input['itemtype'],
+        'criteria' => $input['criteria'],
+        'id' => ['!=', $_POST['id']]
+    ])) {
+        Session::addMessageAfterRedirect(__('An icon already exist for this type', 'cmdb'), true, ERROR);
+        if ($filesDirPath) {
+            unlink($filesDirPath);
+        }
+        if ($pluginCmdbDirPath) {
+            unlink($pluginCmdbDirPath);
+        }
+        Html::back();
+    }
+
     $input['id'] = $_POST['id'];
     if (!$impactIcon->update($input)) {
         Session::addMessageAfterRedirect(__('Update failed', 'cmdb'), true, ERROR);

@@ -48,11 +48,19 @@ class PluginCmdbImpacticon extends CommonDBTM
             'table' => self::getTable(),
             'field' => 'itemtype',
             'name' => __('Item type'),
-            'datatype' => 'text'
+            'datatype' => 'specific'
         ];
 
         $tab[] = [
             'id' => '3',
+            'table' => self::getTable(),
+            'field' => 'criteria',
+            'name' => __('Criteria', 'cmdb'),
+            'datatype' => 'text'
+        ];
+
+        $tab[] = [
+            'id' => '4',
             'table' => self::getTable(),
             'field' => 'filename',
             'name' => __('Icon'),
@@ -62,10 +70,67 @@ class PluginCmdbImpacticon extends CommonDBTM
         return $tab;
     }
 
+    /**
+     * display a value according to a field
+     *
+     * @param $field     String         name of the field
+     * @param $values    String / Array with the value to display
+     * @param $options   Array          of option
+     *
+     * @return string
+     *
+     */
+    static function getSpecificValueToDisplay($field, $values, array $options = []) {
+        global $CFG_GLPI;
+        switch ($field) {
+            case "itemtype":
+                $types = $CFG_GLPI['impact_asset_types'];
+                foreach (array_keys($types) as $type) {
+                    $types[$type] = $type::getTypeName();
+                }
+                if (isset($types[$values['itemtype']])) {
+                    return $types[$values['itemtype']];
+                }
+                return "";
+        }
+        return parent::getSpecificValueToDisplay($field, $values, $options);
+    }
+
+    /**
+     * @since version 2.3.0
+     *
+     * @param $field
+     * @param $name               (default '')
+     * @param $values             (defaut '')
+     * @param $options   array
+     **/
+    public static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = [])
+    {
+
+        if (!is_array($values)) {
+            $values = [$field => $values];
+        }
+        $options['display'] = false;
+        switch ($field) {
+            case 'itemtype':
+                global $CFG_GLPI;
+                $types = $CFG_GLPI['impact_asset_types'];
+                foreach (array_keys($types) as $type) {
+                    $types[$type] = $type::getTypeName();
+                }
+                $options['value'] = $values[$field];
+                return Dropdown::showFromArray(
+                    $name,
+                    $types,
+                    $options
+                );
+        }
+        return parent::getSpecificValueToSelect($field, $name, $values, $options);
+    }
+
     function showForm($ID, $options = [])
     {
         global $CFG_GLPI;
-        global $DB;
 
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
@@ -75,18 +140,6 @@ class PluginCmdbImpacticon extends CommonDBTM
         echo "<td>";
         // all types available for impact analysis
         $types = $CFG_GLPI['impact_asset_types'];
-        // types already redefined in the plugin
-        $unavailableTypes = $DB->request([
-            'FROM' => $this->getTable(),
-            'SELECT' => 'itemtype',
-            'WHERE' => [
-                'id' => ['!=', $ID]
-            ]
-        ]);
-        foreach ($unavailableTypes as $unavailableType) {
-            unset($types[$unavailableType['itemtype']]);
-        }
-        // types that can still be redefined
         $availableTypes = [];
         foreach (array_keys($types) as $type) {
             $availableTypes[$type] = $type::getTypeName();
@@ -101,7 +154,26 @@ class PluginCmdbImpacticon extends CommonDBTM
                 'required' => true
             ]
         );
+        $url = Plugin::getWebDir('cmdb') . "/ajax/impact_icon_criterias.php";
+        echo "
+            <script>
+                $(document).ready(function() {
+                    const selectType = $('#dropdown_itemtype$rand');
+                    const criteriaRow = $('#criteria_row');
+                    selectType.change(e => {
+                        criteriaRow.load('$url', {
+                            'id' : $ID,
+                            'itemtype' : e.target.options[e.target.selectedIndex].value
+                        });
+                    })
+                    selectType.trigger('change');
+                });
+            </script>
+        ";
         echo "</td>";
+        echo "</tr>";
+
+        echo "<tr class='tab_bg_1' id='criteria_row'>";
         echo "</tr>";
 
         if (!$this->isNewID($ID)) {
@@ -130,5 +202,56 @@ class PluginCmdbImpacticon extends CommonDBTM
         $this->showFormButtons($options);
 
         return true;
+    }
+
+    public static function getItemIcon(CommonDBTM $item) {
+        $impactIcon = new self();
+        $criterias = self::getCriterias();
+        // use criteria
+        if (in_array($item->getType(), array_keys($criterias))) {
+            if ($item->fields[$criterias[$item->getType()]]) {
+                if ($impactIcon->getFromDBByCrit([
+                    'itemtype' => $item->getType(),
+                    'criteria' => $item->fields[$criterias[$item->getType()]]
+                ])) {
+                    return PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$impactIcon->fields['filename'];
+                } else {
+                    if ($impactIcon->getFromDBByCrit([
+                        'itemtype' => $item->getType(),
+                        'criteria' => 'null'
+                    ])) {
+                        return PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$impactIcon->fields['filename'];
+                    }
+                }
+            } else {
+                $where = ['itemtype' => $item->getType()];
+                switch($item->getType()) {
+                    case NetworkEquipment::getType() :
+                        $where['criteria'] = ['<', '1'];
+
+                        break;
+                    default :
+                        $where['criteria'] = null;
+                }
+                if ($impactIcon->getFromDBByCrit($where)) {
+                    return PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$impactIcon->fields['filename'];
+                }
+            }
+        } else {
+            if ($impactIcon->getFromDBByCrit(['itemtype' => $item->getType()])) {
+                return PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$impactIcon->fields['filename'];
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Itemtype which can have an additional criteria to determine the icon, and the property used for the criteria
+     * @return string[] itemtype => property
+     */
+    public static function getCriterias() {
+        return [
+            NetworkEquipment::getType() => 'networkequipmenttypes_id'
+        ];
     }
 }

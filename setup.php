@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CMDB_VERSION', '3.1.0');
+define('PLUGIN_CMDB_VERSION', '3.1.1');
 global $CFG_GLPI;
 
 if (!defined("PLUGIN_CMDB_DIR")) {
@@ -146,9 +146,12 @@ function plugin_init_cmdb() {
       }
       $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'] = ['PluginCmdbImpacticon'];
 
-      $PLUGIN_HOOKS['set_impact_icon']['cmdb'] = 'plugin_cmdb_set_impact_icon';
-       $PLUGIN_HOOKS['item_update']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_update';
-       $PLUGIN_HOOKS['item_purge']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_purge';
+      // TODO : sans passé par le hook
+      $PLUGIN_HOOKS['set_item_impact_icon']['cmdb'] = [
+          'PluginCmdbImpacticon',
+          'getItemIcon'
+      ];
+
       $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';
    }
 }

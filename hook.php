@@ -77,6 +77,19 @@ function plugin_cmdb_install() {
    PluginCmdbProfile::initProfile();
    PluginCmdbProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 
+   $impactIcon = new PluginCmdbImpacticon();
+   $icons = $impactIcon->find();
+    // in case of plugin update, recreate icons display copies
+   foreach($icons as $icon) {
+       if (file_exists(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$icon['filename'])) {
+           if (!file_exists(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$icon['filename'])) {
+               copy(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$icon['filename'], PLUGINCMDB_ICONS_USAGE_DIR.'/'.$icon['filename']);
+           }
+       } else {
+           $DB->delete(PluginCmdbImpacticon::getTable(), ['id' => $icon['id']]);
+       }
+   }
+
    return true;
 }
 
@@ -367,14 +380,6 @@ function cmdb_rmdir($dir) {
    }
 }
 
-function plugin_cmdb_set_impact_icon($itemtype) {
-    $impactIcon = new PluginCmdbImpacticon();
-    if ($impactIcon->getFromDBByCrit(['itemtype' => $itemtype])) {
-        return PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/icons/'.$impactIcon->fields['filename'];
-    }
-    return false;
-}
-
 function plugin_cmdb_item_update($item) {
     global $CFG_GLPI;
     if ($item::getType() === PluginCmdbImpacticon::class) {
@@ -390,7 +395,7 @@ function plugin_cmdb_item_purge($item) {
     global $CFG_GLPI;
     if ($item::getType() === PluginCmdbImpacticon::class) {
         // on icon purge, delete old files
-        unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->oldvalues['filename']);
-        unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->oldvalues['filename']);
+        unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->fields['filename']);
+        unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->fields['filename']);
     }
 }
