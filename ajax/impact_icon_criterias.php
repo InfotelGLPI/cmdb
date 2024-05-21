@@ -60,7 +60,7 @@ if (in_array($itemtype, array_keys(PluginCmdbImpacticon::getCriterias()))) {
 
     // value
     echo "<td>";
-    $value = null;
+    $value = 0; // default value for new NetworkEquipment's networkequipmenttypes_id
     if ($id > 0) {
         // only set value if the saved itemtype correspond
         if ($impactIcon->fields['itemtype'] == $itemtype) {

@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-define('PLUGIN_CMDB_VERSION', '3.1.1');
+define('PLUGIN_CMDB_VERSION', '3.1.0');
 global $CFG_GLPI;
 
 if (!defined("PLUGIN_CMDB_DIR")) {
