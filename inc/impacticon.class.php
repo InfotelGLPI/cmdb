@@ -204,10 +204,16 @@ class PluginCmdbImpacticon extends CommonDBTM
         return true;
     }
 
-    public static function getItemIcon(CommonDBTM $item)
+    public static function getItemIcon(array $data)
     {
         $impactIcon = new self();
         $criterias = self::getCriterias();
+        $item = new $data['itemtype']();
+        if ($data['items_id'] > 0) {
+            $item->getFromDB($data['items_id']);
+        } else {
+            $item->getEmpty();
+        }
         // use criteria
         if (in_array($item->getType(), array_keys($criterias))) {
             // $item as the value used for the itemtype's criteria
