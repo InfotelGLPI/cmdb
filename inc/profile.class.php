@@ -69,7 +69,8 @@ class PluginCmdbProfile extends Profile {
                                             'plugin_cmdb_operationprocesses_open_ticket' => 0,
                                             'plugin_cmdb_cis'                            => 0,
                                             'plugin_cmdb_citypes'                        => 0,
-                                            'plugin_cmdb_impacticons'                    => 0
+                                            'plugin_cmdb_impacticons'                    => 0,
+                                            'plugin_cmdb_impactinfos'                    => 0
                                             ]);
 
          $prof->showForm($ID);
@@ -81,11 +82,14 @@ class PluginCmdbProfile extends Profile {
     * @param $ID
     */
    static function createFirstAccess($ID) {
-      self::addDefaultProfileInfos($ID, ['plugin_cmdb_operationprocesses'             => 127,
-                                         'plugin_cmdb_operationprocesses_open_ticket' => 1,
-                                         'plugin_cmdb_cis'                            => 127,
-                                         'plugin_cmdb_citypes'                        => 127,
-          'plugin_cmdb_impacticons'                => 127], true);
+      self::addDefaultProfileInfos($ID, [
+          'plugin_cmdb_operationprocesses'             => 127,
+          'plugin_cmdb_operationprocesses_open_ticket' => 1,
+          'plugin_cmdb_cis'                            => 127,
+          'plugin_cmdb_citypes'                        => 127,
+          'plugin_cmdb_impacticons'                => 127,
+          'plugin_cmdb_impactinfos'                => 127,
+      ], true);
    }
 
    /**
@@ -122,6 +126,11 @@ class PluginCmdbProfile extends Profile {
              $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                  'default_class' => 'tab_bg_2',
                  'title'         => PluginCmdbImpacticon::getTypeName(2)]);
+
+             $rights = $this->getImpactInfosRights();
+             $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+                 'default_class' => 'tab_bg_2',
+                 'title'         => PluginCmdbImpactinfo::getTypeName(2)]);
          }
       }
 
@@ -165,6 +174,12 @@ class PluginCmdbProfile extends Profile {
         return $rights;
     }
 
+    function getImpactInfoRights() {
+        $rights = [['itemtype' => 'PluginCmdbImpactinfo',
+            'label'    => PluginCmdbImpactinfo::getTypeName(2),
+            'field'    => 'plugin_cmdb_impactinfos']];
+        return $rights;
+    }
 
    /**
     * @return array
@@ -212,6 +227,10 @@ class PluginCmdbProfile extends Profile {
           ['itemtype' => 'PluginCmdbImpacticon',
               'label'    => PluginCmdbImpacticon::getTypeName(2),
               'field'    => 'plugin_cmdb_impacticons'
+          ],
+          ['itemtype' => 'PluginCmdbImpactinfo',
+              'label'    => PluginCmdbImpactinfo::getTypeName(2),
+              'field'    => 'plugin_cmdb_impactinfos'
           ]
       ];
 

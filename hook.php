@@ -140,7 +140,8 @@ function plugin_cmdb_uninstall() {
               "glpi_plugin_cmdb_baselines_positions",
               "glpi_plugin_cmdb_citypes_documents",
               "glpi_plugin_cmdb_criticities",
-       "glpi_plugin_cmdb_impacticons"
+       "glpi_plugin_cmdb_impacticons",
+       "glpi_plugin_cmdb_impactinfos",
        ];
 
    $DB->query("DROP TABLE IF EXISTS " . implode(",", $tables));

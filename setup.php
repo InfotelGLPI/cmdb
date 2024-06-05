@@ -144,14 +144,18 @@ function plugin_init_cmdb() {
           && PluginCmdbCmdb::canView()) {
          $PLUGIN_HOOKS['menu_toadd']['cmdb']['plugins'] = ['PluginCmdbMenu'];
       }
-      $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'] = ['PluginCmdbImpacticon'];
 
       $PLUGIN_HOOKS['set_item_impact_icon']['cmdb'] = [
           'PluginCmdbImpacticon',
           'getItemIcon'
       ];
 
-      $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/cmdb_impact.js';
+       $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'] = [
+           'PluginCmdbImpacticon',
+           'PluginCmdbImpactinfo'
+       ];
+
+      $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/cmdb_impact.js.php';
 
       $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';
    }

@@ -8,3 +8,13 @@ CREATE TABLE `glpi_plugin_cmdb_impacticons`
     PRIMARY KEY (`id`),
     UNIQUE(`itemtype`, `criteria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+DROP TABLE IF EXISTS `glpi_plugin_cmdb_impactinfos`;
+CREATE TABLE `glpi_plugin_cmdb_impactinfos`
+(
+    `id`        int unsigned NOT NULL auto_increment,
+    `itemtype`  varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `fields`  text COLLATE utf8mb4_unicode_ci,
+    PRIMARY KEY (`id`),
+    UNIQUE(`itemtype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
