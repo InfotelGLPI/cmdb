@@ -119,6 +119,10 @@ class PluginCmdbImpactinfo extends CommonDBTM
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
+        // used by part which will be added through ajax
+        echo '<script src="../lib/multiselect2/dist/js/multiselect.js" type="text/javascript"></script>';
+        echo Html::css(PLUGIN_CMDB_DIR_NOFULL . "/css/doubleform.css");
+
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Item type') . "</td>";
         echo "<td>";
@@ -233,5 +237,119 @@ class PluginCmdbImpactinfo extends CommonDBTM
             }
         }
         return $pluginFields;
+    }
+
+    /**
+     * @param string $key key from decoded value of this->fields['fields']
+     * @param array $data value of self::getFieldsForItemtype()[$key]
+     * @param array $selected value of this->fields['fields'][$key] decoded
+     * @return void
+     */
+    public static function createMultiSelect($key, $data, $selected)
+    {
+        $name = "fields[$key]";
+        $field = "<div class=\"row\">";
+        $field .= "<div class=\"zone\"><select name=\"from\" id=\"multiselectfields" . $key . "\" class=\"formCol\" size=\"8\" multiple=\"multiple\">";
+
+        $values = $data;
+        if ($key === 'cmdb') {
+            foreach ($data as $d) {
+                $values[$d] = $d;
+            }
+        }
+        foreach ($values as $k => $val) {
+            if (!in_array($k, $selected)) {
+                $field .= "<option value=\"$k\" >$val</option>";
+            }
+        }
+
+        $field .= "</select></div>";
+        $field .= " <div class=\"centralCol\" style='width: 3%;'>
+                        <button type=\"button\" id=\"multiselect$key"."_rightAll\" class=\"btn buttonColTop buttonCol\"><i class=\"fas fa-angle-double-right\"></i></button>
+                        <button type=\"button\" id=\"multiselect$key"."_rightSelected\" class=\"btn  buttonCol\"><i class=\"fas fa-angle-right\"></i></button>
+                        <button type=\"button\" id=\"multiselect$key"."_leftSelected\" class=\"btn buttonCol\"><i class=\"fas fa-angle-left\"></i></button>
+                        <button type=\"button\" id=\"multiselect$key"."_leftAll\" class=\"btn buttonCol\"><i class=\"fas fa-angle-double-left\"></i></button>
+                    </div>";
+
+        $field .= "<div class=\"zone\">
+                       <select class='form-select' name=\"$name\" id=\"multiselectmultiselect$key"."_to\" class=\"formCol\" size=\"8\" multiple=\"multiple\">";
+        if (count($selected)) {
+            foreach ($selected as $k => $val) {
+                $field .= "<option selected value=\"$k\" >$val</option>";
+            }
+        }
+        $field .= "</select></div>";
+
+        $field .= "</div>";
+
+        $field .= '<script type="text/javascript">
+                        jQuery(document).ready(function($) {
+                             $("#multiselect'.$key.').multiselect({
+                                  search: {
+                                       left: "<input type=\"text\" name=\"q\" autocomplete=\"off\" class=\"searchCol\" placeholder=\"' . __("Search") . '...\" />",
+                                       right: "<input type=\"text\" name=\"q\" autocomplete=\"off\" class=\"searchCol\" placeholder=\"' . __("Search") . '...\" />",
+                                  },
+                                  keepRenderingSort: true,
+                                  fireSearch: function(value) {
+                                       return value.length > 2;
+                                  },
+                                  moveFromAtoB: function(Multiselect, $source, $destination, $options, event, silent, skipStack ) {
+                                       let self = Multiselect;
+                                       $options.each(function(index, option) {
+                                           let $option = $(option);
+                        
+                                           if (self.options.ignoreDisabled && $option.is(":disabled")) {
+                                               return true;
+                                           }
+                        
+                                           if ($option.is("optgroup") || $option.parent().is("optgroup")) {
+                                                let $sourceGroup = $option.is("optgroup") ? $option : $option.parent();
+                                                let optgroupSelector = "optgroup[" + self.options.matchOptgroupBy + "=\'" + $sourceGroup.prop(self.options.matchOptgroupBy) + "\']";
+                                                let $destinationGroup = $destination.find(optgroupSelector);
+                        
+                                                if (!$destinationGroup.length) {
+                                                    $destinationGroup = $sourceGroup.clone(true);
+                                                    $destinationGroup.empty();
+                        
+                                                    $destination.move($destinationGroup);
+                                                }
+                        
+                                                if ($option.is("optgroup")) {
+                                                    let disabledSelector = "";
+                        
+                                                    if (self.options.ignoreDisabled) {
+                                                        disabledSelector = ":not(:disabled)";
+                                                    }
+                        
+                                                    $destinationGroup.move($option.find("option" + disabledSelector));
+                                                } else {
+                                                    $destinationGroup.move($option);
+                                                }
+                        
+                                                $sourceGroup.removeIfEmpty();
+                                            } else {
+                                                $destination.move($option);
+                                                //Color change when multiselect value is switch
+                                                $destination[0].value = $options[index].value;
+                                                let selected = $destination[0].selectedIndex;
+                                                let destOption = $destination[0].options[selected];
+                                                if(destOption.style.color!="red" && destOption.style.color!="green") {
+                                                    if($destination[0].name=="from"){
+                                                        destOption.style.color = "red";
+                                                    } else{
+                                                        destOption.style.color = "green";
+                                                    }
+                                                } else{
+                                                    destOption.style.color="#555555";
+                                                }
+                                            }
+                                        });                        
+                                        return self;
+                                          
+                                      }
+                                  });
+                              });
+                           </script>';
+        echo $field;
     }
 }

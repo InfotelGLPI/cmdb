@@ -54,51 +54,73 @@ if ($id > 0) {
 }
 
 echo "<td colspan='2'>
-    <table style='width: 100%'>
-    <tbody>";
+    <div class='container'>
+    <div class='row'>
+";
 
-echo "<tr>";
-echo "<td id='base-fields'>";
-echo __('Base fields', 'cmdb');
-$usedFields = [];
-$key = array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi';
-$fields = $availableFields[$key];
-if ($decodedFields) {
-    $usedFields = $decodedFields[$key];
-}
-$unusedFields = array_diff_key($fields, $usedFields);
-$rand = mt_rand();
-Dropdown::showFromArray(
-    $key,
-    $unusedFields,
-    [
-        'display_emptychoice' => true,
-        'rand' => $rand
-    ]
-);
-echo "</td>";
+//// base fields
+//echo "<div class='col' id='base-fields'>";
+//echo "<div>";
+//echo __('Base fields', 'cmdb');
+//$usedFields = [];
+//$key = array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi';
+//$fields = $availableFields[$key];
+//if ($decodedFields) {
+//    $usedFields = $decodedFields[$key];
+//}
+//$unusedFields = array_diff_key($fields, $usedFields);
+//$rand = mt_rand();
+//Dropdown::showFromArray(
+//    $key,
+//    $unusedFields,
+//    [
+//        'display_emptychoice' => true,
+//        'rand' => $rand
+//    ]
+//);
+//echo "
+//            <script>
+//                $(document).ready(function() {
+//                    const selectBase = $('#dropdown_$key$rand');
+//                    const colBase = $('#base-fields');
+//                    selectBase.change(e => {
+//                        fieldsForm.load('$url', {
+//                            'id' : $ID,
+//                            'itemtype' : e.target.options[e.target.selectedIndex].value
+//                        });
+//                    })
+//                    selectType.trigger('change');
+//                });
+//            </script>";
+//echo "</div>";
+//echo "</div>";
+//
+//
+//// plugin fields
+//echo "<div class='col' id='fields-fields'>";
+//echo "<div>";
+//if (array_key_exists('fields', $availableFields)) {
+//    echo __('Plugin additional fields fields', 'cmdb');
+//    $fields = $availableFields['fields'];
+//    if ($decodedFields) {
+//        $usedFields = $decodedFields['fields'];
+//    }
+//    $unusedFields = array_diff_key($fields, $usedFields);
+//    $rand = mt_rand();
+//    Dropdown::showFromArray(
+//        'fields',
+//        $unusedFields,
+//        [
+//            'display_emptychoice' => true,
+//            'rand' => $rand
+//        ]
+//    );
+//}
+//echo "</div>";
+//echo "</div>";
 
-echo "<td id='fields-fields'>";
-if (array_key_exists('fields', $availableFields)) {
-    echo __('Plugin additional fields fields', 'cmdb');
-    $fields = $availableFields['fields'];
-    if ($decodedFields) {
-        $usedFields = $decodedFields['fields'];
-    }
-    $unusedFields = array_diff_key($fields, $usedFields);
-    $rand = mt_rand();
-    Dropdown::showFromArray(
-        'fields',
-        $unusedFields,
-        [
-            'display_emptychoice' => true,
-            'rand' => $rand
-        ]
-    );
-}
-echo "</td>";
-echo "</tr>";
 
-"</tbody>
-</table>
+
+"</div>
+</div>
 </td>";
