@@ -146,11 +146,12 @@ function plugin_init_cmdb() {
       }
       $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'] = ['PluginCmdbImpacticon'];
 
-      // TODO : sans passé par le hook
       $PLUGIN_HOOKS['set_item_impact_icon']['cmdb'] = [
           'PluginCmdbImpacticon',
           'getItemIcon'
       ];
+
+      $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/cmdb_impact.js';
 
       $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';
    }
