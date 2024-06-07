@@ -86,7 +86,7 @@ function plugin_cmdb_install() {
                copy(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$icon['filename'], PLUGINCMDB_ICONS_USAGE_DIR.'/'.$icon['filename']);
            }
        } else {
-           $DB->delete(PluginCmdbImpacticon::getTable(), ['id' => $icon['id']]);
+           echo __('An icon file is missing, check the content of the "files/_plugins/cmdb/icons" folder.', 'cmdb');
        }
    }
 
@@ -382,13 +382,14 @@ function cmdb_rmdir($dir) {
 }
 
 function plugin_cmdb_item_update($item) {
-    global $CFG_GLPI;
     if ($item::getType() === PluginCmdbImpacticon::class) {
         // on icon update, delete old files
         if (in_array('filename', $item->updates)) {
             unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->oldvalues['filename']);
             unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->oldvalues['filename']);
         }
+        // update the cache
+        PluginCmdbImpacticon::setCache();
     }
 }
 
@@ -398,5 +399,14 @@ function plugin_cmdb_item_purge($item) {
         // on icon purge, delete old files
         unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->fields['filename']);
         unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->fields['filename']);
+        // update the cache
+        PluginCmdbImpacticon::setCache();
+    }
+}
+
+function plugin_cmdb_item_add($item) {
+    if ($item::getType() === PluginCmdbImpacticon::class) {
+        // update the cache
+        PluginCmdbImpacticon::setCache();
     }
 }

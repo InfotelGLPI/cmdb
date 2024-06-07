@@ -155,6 +155,10 @@ function plugin_init_cmdb() {
            'PluginCmdbImpactinfo'
        ];
 
+       $PLUGIN_HOOKS['item_add']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_add';
+       $PLUGIN_HOOKS['item_update']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_update';
+       $PLUGIN_HOOKS['item_purge']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_purge';
+
       $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/cmdb_impact.js.php';
 
       $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';

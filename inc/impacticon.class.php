@@ -105,7 +105,7 @@ class PluginCmdbImpacticon extends CommonDBTM
                 return "<img src='$iconPath' style='height: 25px; width: 25px'>";
             case 'criteria':
                 $itemtype = $options['raw_data']['raw']['ITEM_PluginCmdbImpacticon_2'];
-                switch($itemtype) {
+                switch ($itemtype) {
                     case NetworkEquipment::getType():
                         return Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']);
                 }
@@ -223,42 +223,40 @@ class PluginCmdbImpacticon extends CommonDBTM
 
     public static function getItemIcon(array $data)
     {
-        $impactIcon = new self();
-        $criterias = self::getCriterias();
-        $item = new $data['itemtype']();
-        if ($data['items_id'] > 0) {
-            $item->getFromDB($data['items_id']);
-        } else {
-            $item->getEmpty();
-        }
-        // use criteria
-        if (in_array($item->getType(), array_keys($criterias))) {
-            // $item as the value used for the itemtype's criteria
-            if (isset($item->fields[$criterias[$item->getType()]]) &&
-                ($item->fields[$criterias[$item->getType()]] ||
-                    $item->fields[$criterias[$item->getType()]] === 0 || // criteria with 0 as default value
-                    $item->fields[$criterias[$item->getType()]] === '0')) {
-                // is there an icon for the specific criteria ?
-                if ($impactIcon->getFromDBByCrit([
-                    'itemtype' => $item->getType(),
-                    'criteria' => $item->fields[$criterias[$item->getType()]]
-                ])) {
-                    return PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $impactIcon->fields['filename'];
+        $cachedData = self::getCache();
+        if (count($cachedData)) {
+            // if no cache or nothing for the itemtype in the cache, no need to waste time calling the DB
+            if (array_key_exists($data['itemtype'], $cachedData)) {
+                $criterias = self::getCriterias();
+                $item = new $data['itemtype']();
+                if ($data['items_id'] > 0) {
+                    $item->getFromDB($data['items_id']);
+                } else {
+                    $item->getEmpty();
                 }
-            } else {
-                // no icon for the specific criteria or $item doesn't have the criteria set,
-                // is there an icon for null value ?
-
-                if ($impactIcon->getFromDBByCrit([
-                    'itemtype' => $item->getType(),
-                    'criteria' => null
-                ])) {
-                    return PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $impactIcon->fields['filename'];
+                // use criteria
+                if (in_array($item->getType(), array_keys($criterias))) {
+                    // $item has the value used for the itemtype's criteria
+                    if (isset($item->fields[$criterias[$item->getType()]]) &&
+                        ($item->fields[$criterias[$item->getType()]] ||
+                            $item->fields[$criterias[$item->getType()]] === 0 || // criteria with 0 as default value
+                            $item->fields[$criterias[$item->getType()]] === '0')) {
+                        // is there an icon for the specific criteria ?
+                        if (isset($cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]])) {
+                            return $cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]];
+                        }
+                    } else {
+                        // no icon for the specific criteria or $item doesn't have the criteria set,
+                        // is there an icon for null value ?
+                        if (isset($cachedData[$item->getType()]['default'])) {
+                            return $cachedData[$item->getType()]['default'];
+                        }
+                    }
+                } else {
+                    if (isset($cachedData[$item->getType()]['default'])) {
+                        return $cachedData[$item->getType()]['default'];
+                    }
                 }
-            }
-        } else {
-            if ($impactIcon->getFromDBByCrit(['itemtype' => $item->getType()])) {
-                return PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $impactIcon->fields['filename'];
             }
         }
         return false;
@@ -273,5 +271,42 @@ class PluginCmdbImpacticon extends CommonDBTM
         return [
             NetworkEquipment::getType() => 'networkequipmenttypes_id'
         ];
+    }
+
+    public static function getCache($recursive = false)
+    {
+        global $GLPI_CACHE;
+        $impactIcon = new self();
+        $ckey = 'cmdb_cache_' . md5($impactIcon->getTable());
+        $data = $GLPI_CACHE->get($ckey);
+        if (!is_array($data) || count($data) == 0) {
+            // no datas = cache might have been cleaned or expired, so reset it once
+            if (!$recursive) {
+                self::setCache();
+                return self::getCache(true);
+            }
+            return [];
+        }
+        return $data;
+    }
+
+    public static function setCache()
+    {
+        global $GLPI_CACHE;
+        $impactIcon = new self();
+        $ckey = 'cmdb_cache_' . md5($impactIcon->getTable());
+        $impactIcons = $impactIcon->find();
+        $data = [];
+        foreach ($impactIcons as $icon) {
+            if (!isset($data[$icon['itemtype']])) {
+                $data[$icon['itemtype']] = [];
+            }
+            if (isset($icon['criteria'])) {
+                $data[$icon['itemtype']][$icon['criteria']] = PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $icon['filename'];
+            } else {
+                $data[$icon['itemtype']]['default'] = PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $icon['filename'];
+            }
+        }
+        $GLPI_CACHE->set($ckey, $data);
     }
 }
