@@ -33,18 +33,36 @@ include('../../../inc/includes.php');
 Session::checkLoginUser();
 
 $impactInfo = new PluginCmdbImpactinfo();
-
+$impactInfoField = new PluginCmdbImpactinfofield();
+global $DB;
 if (isset($_POST["add"])) {
-    $impactInfo->check(-1, CREATE, $_POST);
+    $input = ['itemtype' => $_POST['itemtype']];
+    $impactInfo->check(-1, CREATE, $input);
 
-    if ($impactInfo->getFromDBByCrit([
-        'itemtype' => $_POST['itemtype'],
-    ])) {
+    if ($impactInfo->getFromDBByCrit($input)) {
         Session::addMessageAfterRedirect(__('Infos are already set for this type', 'cmdb'), true, ERROR);
         Html::back();
     }
 
-    if ($newID = $impactInfo->add($_POST)) {
+    if ($newID = $impactInfo->add($input)) {
+        if (isset($_POST['glpi-fields']) && is_array($_POST['glpi-fields'])) {
+            foreach ($_POST['glpi-fields'] as $field) {
+                $field['plugin_cmdb_impactinfos_id'] = $newID;
+                $impactInfoField->add($field);
+            }
+        }
+        if (isset($_POST['fields-fields']) && is_array($_POST['fields-fields'])) {
+            foreach ($_POST['fields-fields'] as $field) {
+                $field['plugin_cmdb_impactinfos_id'] = $newID;
+                $impactInfoField->add($field);
+            }
+        }
+        if (isset($_POST['cmdb-fields']) && is_array($_POST['cmdb-fields'])) {
+            foreach ($_POST['cmdb-fields'] as $field) {
+                $field['plugin_cmdb_impactinfos_id'] = $newID;
+                $impactInfoField->add($field);
+            }
+        }
         if ($_SESSION['glpibackcreated']) {
             Html::redirect($impactInfo->getFormURL() . "?id=" . $newID);
         }
@@ -52,32 +70,43 @@ if (isset($_POST["add"])) {
         Session::addMessageAfterRedirect(__('Creation failed', 'cmdb'), true, ERROR);
     }
     Html::back();
-} elseif (isset($_POST["delete"])) {
-    $impactInfo->check($_POST['id'], DELETE);
-    $impactInfo->delete($_POST);
-    $impactInfo->redirectToList();
-} elseif (isset($_POST["restore"])) {
-    $impactInfo->check($_POST['id'], PURGE);
-    $impactInfo->restore($_POST);
-    $impactInfo->redirectToList();
 } elseif (isset($_POST["purge"])) {
     $impactInfo->check($_POST['id'], PURGE);
+
+    $DB->delete(
+        $impactInfoField->getTable(),
+        ['plugin_cmdb_impactinfos_id' => $_POST['id']]
+    );
+
     $impactInfo->delete($_POST, 1);
     $impactInfo->redirectToList();
 } elseif (isset($_POST["update"])) {
     $impactInfo->check($_POST['id'], UPDATE);
 
-    if ($impactInfo->getFromDBByCrit([
-        'itemtype' => $_POST['itemtype'],
-        'id' => ['!=', $_POST['id']]
-    ])) {
-        Session::addMessageAfterRedirect(__('Infos are already set for this type', 'cmdb'), true, ERROR);
-        Html::back();
+    $DB->delete(
+        $impactInfoField->getTable(),
+        ['plugin_cmdb_impactinfos_id' => $_POST['id']]
+    );
+
+    if (isset($_POST['glpi-fields']) && is_array($_POST['glpi-fields'])) {
+        foreach ($_POST['glpi-fields'] as $field) {
+            $field['plugin_cmdb_impactinfos_id'] = $_POST['id'];
+            $impactInfoField->add($field);
+        }
+    }
+    if (isset($_POST['fields-fields']) && is_array($_POST['fields-fields'])) {
+        foreach ($_POST['fields-fields'] as $field) {
+            $field['plugin_cmdb_impactinfos_id'] = $_POST['id'];
+            $impactInfoField->add($field);
+        }
+    }
+    if (isset($_POST['cmdb-fields']) && is_array($_POST['cmdb-fields'])) {
+        foreach ($_POST['cmdb-fields'] as $field) {
+            $field['plugin_cmdb_impactinfos_id'] = $_POST['id'];
+            $impactInfoField->add($field);
+        }
     }
 
-    if (!$impactInfo->update($_POST)) {
-        Session::addMessageAfterRedirect(__('Update failed', 'cmdb'), true, ERROR);
-    }
     Html::back();
 } else {
     $impactInfo->checkGlobal(READ);

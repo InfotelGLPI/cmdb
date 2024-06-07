@@ -44,83 +44,83 @@ if (isset($_POST['id']) && $_POST['id']) {
     $id = $_POST['id'];
 }
 $impactInfo = new PluginCmdbImpactinfo();
+$impactInfoField = new PluginCmdbImpactinfofield();
 if ($id > 0) {
     $impactInfo->getFromDB($id);
 }
 $availableFields = PluginCmdbImpactinfo::getFieldsForItemtype($itemtype);
-$decodedFields = [];
-if ($id > 0) {
-    $decodedFields = json_decode($impactInfo->fields['fields']);
-}
+$usedFields = $impactInfoField->find(
+    ['plugin_cmdb_impactinfos_id' => $id],
+    'glpi_plugin_cmdb_impactinfofields.order ASC'
+);
 
 echo "<td colspan='2'>
     <div class='container'>
     <div class='row'>
 ";
+// base fields
+createSelectionColumn(
+    $availableFields,
+    $usedFields,
+    array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi',
+    $itemtype
+);
 
-//// base fields
-//echo "<div class='col' id='base-fields'>";
-//echo "<div>";
-//echo __('Base fields', 'cmdb');
-//$usedFields = [];
-//$key = array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi';
-//$fields = $availableFields[$key];
-//if ($decodedFields) {
-//    $usedFields = $decodedFields[$key];
-//}
-//$unusedFields = array_diff_key($fields, $usedFields);
-//$rand = mt_rand();
-//Dropdown::showFromArray(
-//    $key,
-//    $unusedFields,
-//    [
-//        'display_emptychoice' => true,
-//        'rand' => $rand
-//    ]
-//);
-//echo "
-//            <script>
-//                $(document).ready(function() {
-//                    const selectBase = $('#dropdown_$key$rand');
-//                    const colBase = $('#base-fields');
-//                    selectBase.change(e => {
-//                        fieldsForm.load('$url', {
-//                            'id' : $ID,
-//                            'itemtype' : e.target.options[e.target.selectedIndex].value
-//                        });
-//                    })
-//                    selectType.trigger('change');
-//                });
-//            </script>";
-//echo "</div>";
-//echo "</div>";
-//
-//
-//// plugin fields
-//echo "<div class='col' id='fields-fields'>";
-//echo "<div>";
-//if (array_key_exists('fields', $availableFields)) {
-//    echo __('Plugin additional fields fields', 'cmdb');
-//    $fields = $availableFields['fields'];
-//    if ($decodedFields) {
-//        $usedFields = $decodedFields['fields'];
-//    }
-//    $unusedFields = array_diff_key($fields, $usedFields);
-//    $rand = mt_rand();
-//    Dropdown::showFromArray(
-//        'fields',
-//        $unusedFields,
-//        [
-//            'display_emptychoice' => true,
-//            'rand' => $rand
-//        ]
-//    );
-//}
-//echo "</div>";
-//echo "</div>";
-
-
-
+// plugin fields
+if (array_key_exists('fields', $availableFields)) {
+    createSelectionColumn(
+        $availableFields,
+        $usedFields,
+        'fields',
+        $itemtype
+    );
+}
 "</div>
 </div>
 </td>";
+
+function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
+    echo "<div class='col'>";
+    echo "<div class='d-flex align-items-center'>";
+    echo $key !== 'fields' ? '<label>'.__('Base fields', 'cmdb').'</label>' : '<label>'.__('Plugin additional fields fields', 'cmdb').'</label>';
+    echo "<div id='$key-select' class='ml-2'>";
+    $fields = $availableFields[$key];
+    $comparaisonArray = [];
+    if ($usedFields) {
+        $usedFields = array_filter($usedFields, fn($e) => $e['type'] === $key);
+        foreach ($usedFields as $field) {
+            $comparaisonArray[$field['field_id']] = $field;
+        }
+    }
+    $unusedFields = array_diff_key($fields, $comparaisonArray);
+    PluginCmdbImpactinfo::makeDropdown($key, $unusedFields, $itemtype);
+    echo "</div>"; // select
+    echo "</div>"; // flex label+select
+    echo "<div id='$key-fields'>";
+    $index = 0;
+    foreach ($usedFields as $field) {
+        $fieldId = $field['field_id'];
+        $label = $fields[$fieldId];
+        $order = $field['order'];
+        echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
+        echo "<i class=\"fa fa-trash mx-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
+        echo "<strong>".$label."</strong>";
+        echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
+        echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
+        echo "<span>";
+        echo "<label>".__('Order', 'cmdb')."</label>";
+        echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem'>";
+        echo "</span>";
+        echo "</div>";
+        echo "
+    <script>
+        document.getElementById('deletefield$key$fieldId').addEventListener('click', e => {
+               e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+        })
+    </script>
+    ";
+        $index++;
+    }
+    echo "</div>";
+    echo '</div>'; // col
+}

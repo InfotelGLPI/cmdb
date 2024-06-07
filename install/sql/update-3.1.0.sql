@@ -14,7 +14,18 @@ CREATE TABLE `glpi_plugin_cmdb_impactinfos`
 (
     `id`        int unsigned NOT NULL auto_increment,
     `itemtype`  varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `fields`  text COLLATE utf8mb4_unicode_ci,
     PRIMARY KEY (`id`),
     UNIQUE(`itemtype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+DROP TABLE IF EXISTS `glpi_plugin_cmdb_impactinfofields`;
+CREATE TABLE `glpi_plugin_cmdb_impactinfofields`
+(
+    `id`                     int unsigned NOT NULL auto_increment,
+    `type`                  varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `field_id`                  varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `plugin_cmdb_impactinfos_id` int unsigned NOT NULL default '0',
+    `order` int unsigned NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY                      `plugin_cmdb_impactinfos_id` (`plugin_cmdb_impactinfos_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;

@@ -119,10 +119,6 @@ class PluginCmdbImpactinfo extends CommonDBTM
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
-        // used by part which will be added through ajax
-        echo '<script src="../lib/multiselect2/dist/js/multiselect.js" type="text/javascript"></script>';
-        echo Html::css(PLUGIN_CMDB_DIR_NOFULL . "/css/doubleform.css");
-
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Item type') . "</td>";
         echo "<td>";
@@ -156,7 +152,6 @@ class PluginCmdbImpactinfo extends CommonDBTM
                             'itemtype' : e.target.options[e.target.selectedIndex].value
                         });
                     })
-                    selectType.trigger('change');
                 });
             </script>
         ";
@@ -169,7 +164,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
                     const fieldsForm = $('#fieldsForm');
                     fieldsForm.load('$url', {
                         'id' : $ID,
-                        'itemtype' : $itemtype
+                        'itemtype' : '$itemtype'
                     });
                 });
             </script>
@@ -188,10 +183,11 @@ class PluginCmdbImpactinfo extends CommonDBTM
 
     /**
      * @param string $itemtype
-     * @return array keys : glpi (rawSearchOptions), fields (plugin fields), cmdb (citype). Except for cmdb, all values are array of : keys = id, value = label
+     * @return array keys : glpi (rawSearchOptions), fields (plugin fields), cmdb (citype). All values are arrays of : keys = id, value = label
      */
     public static function getFieldsForItemtype($itemtype)
     {
+        $dbu = new DbUtils();
         $plugin = new Plugin();
         $item = new $itemtype();
         $searchOptions = $item->rawSearchOptions();
@@ -199,7 +195,9 @@ class PluginCmdbImpactinfo extends CommonDBTM
             $fields = [];
             $fields['glpi'] = [];
             foreach ($searchOptions as $option) {
-                $fields['glpi'][$option['id']] = $option['name'];
+                if (isset($option['table'])) {
+                    $fields['glpi'][$option['id']] = $dbu->getItemTypeForTable($option['table'])::getTypeName().' - '.$option['name'];
+                }
             }
             if ($plugin->isActivated('fields')) {
                 $fields['fields'] = self::getPluginFieldsFields($itemtype);
@@ -212,6 +210,12 @@ class PluginCmdbImpactinfo extends CommonDBTM
             $fields = $field->find(['plugin_cmdb_citypes_id' => $ciType->getID()]);
             $value = [];
             $value['cmdb'] = array_map(fn($e) => $e['name'], $fields);
+            $tmp = [];
+            // standardised the format of the array for easier comparaison later
+            foreach($value['cmdb'] as $v) {
+                $tmp[$v] = $v;
+            }
+            $value['cmdb'] = $tmp;
             if ($plugin->isActivated('fields')) {
                 $fields['fields'] = self::getPluginFieldsFields($itemtype);
             }
@@ -240,116 +244,102 @@ class PluginCmdbImpactinfo extends CommonDBTM
     }
 
     /**
-     * @param string $key key from decoded value of this->fields['fields']
-     * @param array $data value of self::getFieldsForItemtype()[$key]
-     * @param array $selected value of this->fields['fields'][$key] decoded
+     * @param string $key cmdb, glpi, or fields
+     * @param array $availableFields options for the dropdown
+     * @param string $itemtype
      * @return void
      */
-    public static function createMultiSelect($key, $data, $selected)
-    {
-        $name = "fields[$key]";
-        $field = "<div class=\"row\">";
-        $field .= "<div class=\"zone\"><select name=\"from\" id=\"multiselectfields" . $key . "\" class=\"formCol\" size=\"8\" multiple=\"multiple\">";
+    public static function makeDropdown($key, $availableFields, $itemtype) {
 
-        $values = $data;
-        if ($key === 'cmdb') {
-            foreach ($data as $d) {
-                $values[$d] = $d;
-            }
-        }
-        foreach ($values as $k => $val) {
-            if (!in_array($k, $selected)) {
-                $field .= "<option value=\"$k\" >$val</option>";
-            }
-        }
+        $rand = mt_rand();
+        Dropdown::showFromArray(
+            $key,
+            $availableFields,
+            [
+                'display_emptychoice' => true,
+                'rand' => $rand
+            ]
+        );
+        $url = Plugin::getWebDir('cmdb') . "/ajax/impact_infos_fields_dropdown.php";
 
-        $field .= "</select></div>";
-        $field .= " <div class=\"centralCol\" style='width: 3%;'>
-                        <button type=\"button\" id=\"multiselect$key"."_rightAll\" class=\"btn buttonColTop buttonCol\"><i class=\"fas fa-angle-double-right\"></i></button>
-                        <button type=\"button\" id=\"multiselect$key"."_rightSelected\" class=\"btn  buttonCol\"><i class=\"fas fa-angle-right\"></i></button>
-                        <button type=\"button\" id=\"multiselect$key"."_leftSelected\" class=\"btn buttonCol\"><i class=\"fas fa-angle-left\"></i></button>
-                        <button type=\"button\" id=\"multiselect$key"."_leftAll\" class=\"btn buttonCol\"><i class=\"fas fa-angle-double-left\"></i></button>
-                    </div>";
-
-        $field .= "<div class=\"zone\">
-                       <select class='form-select' name=\"$name\" id=\"multiselectmultiselect$key"."_to\" class=\"formCol\" size=\"8\" multiple=\"multiple\">";
-        if (count($selected)) {
-            foreach ($selected as $k => $val) {
-                $field .= "<option selected value=\"$k\" >$val</option>";
-            }
-        }
-        $field .= "</select></div>";
-
-        $field .= "</div>";
-
-        $field .= '<script type="text/javascript">
-                        jQuery(document).ready(function($) {
-                             $("#multiselect'.$key.').multiselect({
-                                  search: {
-                                       left: "<input type=\"text\" name=\"q\" autocomplete=\"off\" class=\"searchCol\" placeholder=\"' . __("Search") . '...\" />",
-                                       right: "<input type=\"text\" name=\"q\" autocomplete=\"off\" class=\"searchCol\" placeholder=\"' . __("Search") . '...\" />",
-                                  },
-                                  keepRenderingSort: true,
-                                  fireSearch: function(value) {
-                                       return value.length > 2;
-                                  },
-                                  moveFromAtoB: function(Multiselect, $source, $destination, $options, event, silent, skipStack ) {
-                                       let self = Multiselect;
-                                       $options.each(function(index, option) {
-                                           let $option = $(option);
+        echo "
+            <script>
+                $(document).ready(function() {
+                    const select$key = $('#dropdown_$key$rand');
+                    const col$key = document.getElementById('$key-fields');
+                    const container$key = $('#$key-select');
+                    select$key.change(e => {
+                        let usedFields = col$key.querySelectorAll('div[id^=\"field$key\"]');
+                        const fieldId = e.target.options[e.target.selectedIndex].value
+                        // create an element corresponding to the new field in the displayed list
+                        const newDiv = document.createElement('div');
+                        newDiv.id = 'field$key'+fieldId;
+                        newDiv.className = 'd-flex align-items-center justify-content-between border rounded m-1 p-2';
+                        col$key.append(newDiv);
+                        // add an icon to delete the element
+                        const deleteButton = document.createElement('span');
+                        deleteButton.title = __('Delete');
+                        deleteButton.style.cursor = 'pointer';
+                        deleteButton.classList = 'mx-2';
+                        deleteButton.innerHTML = '<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>';
+                        deleteButton.addEventListener('click', e => {
+                            col$key.removeChild(newDiv);
+                            // get all selected fields
+                            const usedFields2 = col$key.querySelectorAll('div[id^=\"field$key\"]');
+                            let values = [];
+                            usedFields2.forEach(e => {
+                                const inputValue = e.getElementsByTagName('input')[1];
+                                values.push(inputValue.value);
+                            })
+                            // regenerate the select with the updated options
+                            container$key.load('$url', {
+                                'key' : '$key',
+                                'itemtype' : '$itemtype',
+                                'used' : values
+                            });
+                        })
+                        newDiv.append(deleteButton);
+                        const fieldLabel = document.createElement('strong');
+                        fieldLabel.innerText = e.target.options[e.target.selectedIndex].innerText;
+                        newDiv.append(fieldLabel);
+                        const hiddenInputType = document.createElement('input');
+                        hiddenInputType.type = 'hidden';
+                        hiddenInputType.name = '$key-fields['+fieldId+'][type]';
+                        hiddenInputType.value = '$key';
+                        newDiv.append(hiddenInputType);
+                        const hiddenInputField = document.createElement('input');
+                        hiddenInputField.type = 'hidden';
+                        hiddenInputField.name = '$key-fields['+fieldId+'][field_id]';
+                        hiddenInputField.value = fieldId;
+                        newDiv.append(hiddenInputField);
+                        const orderSpan = document.createElement('span');
+                        const orderLabel = document.createElement('label');
+                        orderLabel.innerText = __('Order', 'cmdb');
+                        orderSpan.append(orderLabel);
+                        const orderInput = document.createElement('input');
+                        orderInput.type = 'number';
+                        orderInput.name = '$key-fields['+fieldId+'][order]';
+                        orderInput.value = usedFields.length + 1;
+                        orderInput.style.maxWidth = '5rem'
+                        orderSpan.append(orderInput);
+                        newDiv.append(orderSpan);
                         
-                                           if (self.options.ignoreDisabled && $option.is(":disabled")) {
-                                               return true;
-                                           }
                         
-                                           if ($option.is("optgroup") || $option.parent().is("optgroup")) {
-                                                let $sourceGroup = $option.is("optgroup") ? $option : $option.parent();
-                                                let optgroupSelector = "optgroup[" + self.options.matchOptgroupBy + "=\'" + $sourceGroup.prop(self.options.matchOptgroupBy) + "\']";
-                                                let $destinationGroup = $destination.find(optgroupSelector);
-                        
-                                                if (!$destinationGroup.length) {
-                                                    $destinationGroup = $sourceGroup.clone(true);
-                                                    $destinationGroup.empty();
-                        
-                                                    $destination.move($destinationGroup);
-                                                }
-                        
-                                                if ($option.is("optgroup")) {
-                                                    let disabledSelector = "";
-                        
-                                                    if (self.options.ignoreDisabled) {
-                                                        disabledSelector = ":not(:disabled)";
-                                                    }
-                        
-                                                    $destinationGroup.move($option.find("option" + disabledSelector));
-                                                } else {
-                                                    $destinationGroup.move($option);
-                                                }
-                        
-                                                $sourceGroup.removeIfEmpty();
-                                            } else {
-                                                $destination.move($option);
-                                                //Color change when multiselect value is switch
-                                                $destination[0].value = $options[index].value;
-                                                let selected = $destination[0].selectedIndex;
-                                                let destOption = $destination[0].options[selected];
-                                                if(destOption.style.color!="red" && destOption.style.color!="green") {
-                                                    if($destination[0].name=="from"){
-                                                        destOption.style.color = "red";
-                                                    } else{
-                                                        destOption.style.color = "green";
-                                                    }
-                                                } else{
-                                                    destOption.style.color="#555555";
-                                                }
-                                            }
-                                        });                        
-                                        return self;
-                                          
-                                      }
-                                  });
-                              });
-                           </script>';
-        echo $field;
+                        // get all selected fields
+                        usedFields = col$key.querySelectorAll('div[id^=\"field$key\"]');
+                        let values = [];
+                        usedFields.forEach(e => {
+                            const inputValue = e.getElementsByTagName('input')[1];
+                            values.push(inputValue.value);
+                        })
+                        // regenerate the select with the updated options
+                        container$key.load('$url', {
+                            'key' : '$key',
+                            'itemtype' : '$itemtype',
+                            'used' : values
+                        });
+                    })
+                });
+            </script>";
     }
 }
