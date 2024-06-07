@@ -48,7 +48,8 @@ class PluginCmdbImpacticon extends CommonDBTM
             'table' => self::getTable(),
             'field' => 'itemtype',
             'name' => __('Item type'),
-            'datatype' => 'specific'
+            'datatype' => 'specific',
+            'massiveaction' => 'false'
         ];
 
         $tab[] = [
@@ -56,7 +57,10 @@ class PluginCmdbImpacticon extends CommonDBTM
             'table' => self::getTable(),
             'field' => 'criteria',
             'name' => __('Criteria', 'cmdb'),
-            'datatype' => 'text'
+            'datatype' => 'specific',
+            'massiveaction' => 'false',
+            'nosort' => true,
+            'nosearch' => true
         ];
 
         $tab[] = [
@@ -64,7 +68,10 @@ class PluginCmdbImpacticon extends CommonDBTM
             'table' => self::getTable(),
             'field' => 'filename',
             'name' => __('Icon'),
-            'datatype' => 'text'
+            'datatype' => 'specific',
+            'massiveaction' => 'false',
+            'nosort' => true,
+            'nosearch' => true
         ];
 
         return $tab;
@@ -93,6 +100,16 @@ class PluginCmdbImpacticon extends CommonDBTM
                     return $types[$values['itemtype']];
                 }
                 return "";
+            case 'filename':
+                $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $values['filename'];
+                return "<img src='$iconPath' style='height: 25px; width: 25px'>";
+            case 'criteria':
+                $itemtype = $options['raw_data']['raw']['ITEM_PluginCmdbImpacticon_2'];
+                switch($itemtype) {
+                    case NetworkEquipment::getType():
+                        return Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']);
+                }
+                return $values['criteria'];
         }
         return parent::getSpecificValueToDisplay($field, $values, $options);
     }

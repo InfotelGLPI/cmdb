@@ -158,7 +158,7 @@ function plugin_cmdb_uninstall() {
       $DB->query("DELETE
                   FROM `$table`
                   WHERE `itemtype` IN ('PluginCmdbOperationprocess',
-                  'PluginCmdbCIType','PluginCmdbCI','PluginCmdbCIType_Document') ");
+                  'PluginCmdbCIType','PluginCmdbCI','PluginCmdbCIType_Document', 'PluginCmdbImpactinfo', 'PluginCmdbImpacticon') ");
    }
 
    $DB->query("DELETE

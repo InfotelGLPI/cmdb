@@ -48,7 +48,8 @@ class PluginCmdbImpactinfo extends CommonDBTM
             'table' => self::getTable(),
             'field' => 'itemtype',
             'name' => __('Item type'),
-            'datatype' => 'specific'
+            'datatype' => 'specific',
+            'massiveaction' => 'false'
         ];
 
         return $tab;

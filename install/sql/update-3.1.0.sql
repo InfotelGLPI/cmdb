@@ -29,3 +29,11 @@ CREATE TABLE `glpi_plugin_cmdb_impactinfofields`
     PRIMARY KEY (`id`),
     KEY                      `plugin_cmdb_impactinfos_id` (`plugin_cmdb_impactinfos_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+INSERT INTO `glpi_displaypreferences` (`itemtype`, `num`, `rank`, `users_id`)
+VALUES
+    ('PluginCmdbImpactinfo', '2', '1', '0'),
+    ('PluginCmdbImpacticon', '2', '1', '0'),
+    ('PluginCmdbImpacticon', '3', '2', '0'),
+    ('PluginCmdbImpacticon', '4', '3', '0')
+;
