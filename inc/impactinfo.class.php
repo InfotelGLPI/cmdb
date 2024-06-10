@@ -148,6 +148,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
                     const selectType = $('#dropdown_itemtype$rand');
                     const fieldsForm = $('#fieldsForm');
                     selectType.change(e => {
+                        fieldsForm[0].innerHTML = '<div class=\"d-flex justify-content-center\"><i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i></div>';
                         fieldsForm.load('$url', {
                             'id' : $ID,
                             'itemtype' : e.target.options[e.target.selectedIndex].value
@@ -163,6 +164,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
             <script>
                 $(document).ready(function() {
                     const fieldsForm = $('#fieldsForm');
+                    fieldsForm[0].innerHTML = '<div class=\"d-flex justify-content-center\"><i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i></div>';
                     fieldsForm.load('$url', {
                         'id' : $ID,
                         'itemtype' : '$itemtype'

@@ -86,7 +86,8 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             foreach ($baseFields as $field) {
                 $filtered = array_filter($searchOptions, fn($e) => $e['id'] == $field['field_id']);
                 $option = reset($filtered);
-                echo "<div class='col-6 d-flex py-1 position-relative'>";
+                $col = count($baseFields) > 1 ? '6' : '12';
+                echo "<div class='col-$col d-flex py-1 position-relative'>";
                 echo $option['name']. ' : '.$data['ITEM_'.$item->getType().'_'.$option['id']];
                 echo "</div>";
             }
@@ -152,7 +153,8 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                                     $value = $values[$fieldData['name']];
                                 }
                             }
-                            echo "<div class='col-6 d-flex py-1 position-relative'>";
+                            $col = count($pluginFields) > 1 ? '6' : '12';
+                            echo "<div class='col-$col d-flex py-1 position-relative'>";
                             echo $pluginFieldsField->fields['label']. ' : '.$value;
                             echo "</div>";
                         }
@@ -162,9 +164,22 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             }
 
         } else {
+            // tooltip header
+            echo "<div class='d-flex justify-content-end pt-1'> 
+            <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
+        </div>";
             echo "<div class='text-center'>";
             echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $item->getTypeName());
             echo '</div>';
         }
+    } else {
+        $item = new $_GET['itemtype']();
+        // tooltip header
+        echo "<div class='d-flex justify-content-end pt-1'> 
+            <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
+        </div>";
+        echo "<div class='text-center'>";
+        echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $item->getTypeName());
+        echo '</div>';
     }
 }

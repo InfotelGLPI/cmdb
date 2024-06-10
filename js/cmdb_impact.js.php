@@ -24,7 +24,7 @@ function cmdbLoadInfos(event) {
         tooltipContainer.classList = 'border rounded px-1';
         document.querySelector("td[class='network-parent']").append(tooltipContainer);
     }
-    tooltipContainer.innerHTML = "<div class='spinner-border m-3' role='status'><span class='visually-hidden'>Loading...</span></div>";
+    tooltipContainer.innerHTML = "<i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i>";
     $.ajax({
         type: "GET",
         url: cmdbRootUrl+'/ajax/impact_item_infos.php',
@@ -48,7 +48,6 @@ $(document).ajaxComplete(function(event, xhr, settings) {
     if (settings.url.includes('common.tabs.php')) {
         if (settings.url.includes('_glpi_tab=Impact')) {
             // let GLPIImpact the time to initiate cy before doing any modifications to it
-            // TODO mettre un loader ?
             setTimeout(() => {
                 let contextMenu = {
                     menuItems: GLPIImpact.getContextMenuItems(),
@@ -58,13 +57,12 @@ $(document).ajaxComplete(function(event, xhr, settings) {
 
                 contextMenu.menuItems.push({
                     id: 'Test',
-                    content: '<i class="fas fa-link me-2"></i>' + __("Information"),
+                    content: '<i class="fa fa-question me-2"></i>' + __("Informations", 'cmdb'),
                     selector: 'node[link]',
                     onClickFunction: cmdbLoadInfos
                 });
 
                 GLPIImpact.cy.contextMenus(contextMenu);
-                console.log('fait');
             }, 1000)
         }
     }
