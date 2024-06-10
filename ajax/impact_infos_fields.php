@@ -103,7 +103,7 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
         $label = $fields[$fieldId];
         $order = $field['order'];
         echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
-        echo "<i class=\"fa fa-trash mx-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
+        echo "<i class=\"fa fa-times mx-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
         echo "<strong>".$label."</strong>";
         echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
         echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";

@@ -11,6 +11,20 @@ function cmdbLoadInfos(event) {
     let itemId = event.target.data('id')
         .split(GLPIImpact.NODE_ID_SEPERATOR)[1];
 
+    let tooltipContainer = document.getElementById('cmdb-tooltip');
+    if (!tooltipContainer) {
+        tooltipContainer = document.createElement('div');
+        tooltipContainer.id = 'cmdb-tooltip';
+        tooltipContainer.style.position = 'absolute';
+        tooltipContainer.style.maxWidth = '100%';
+        tooltipContainer.style.backgroundColor = '#FFF';
+        tooltipContainer.style.bottom = 0;
+        tooltipContainer.style.left = 0;
+        tooltipContainer.style.zIndex = 2;
+        tooltipContainer.classList = 'border rounded px-1';
+        document.querySelector("td[class='network-parent']").append(tooltipContainer);
+    }
+    tooltipContainer.innerHTML = "<div class='spinner-border m-3' role='status'><span class='visually-hidden'>Loading...</span></div>";
     $.ajax({
         type: "GET",
         url: cmdbRootUrl+'/ajax/impact_item_infos.php',
@@ -19,20 +33,9 @@ function cmdbLoadInfos(event) {
             'itemId': itemId
         },
         success: function(data){
-            const encodedSVG = encodeURIComponent(data);
-            const dataUrl = `data:image/svg+xml;charset=UTF-8,${encodedSVG}`;
-            // plutôt renvoyer un json et afficher le contenu du JSON dans une popup ?
-            GLPIImpact.cy.add({
-                group: 'nodes',
-                data: {
-                    id: 'tooltip'+itemtype+itemId,
-                    label: __('Information')+' : '+event.target.data('label'),
-                    image: dataUrl
-                },
-                position: {
-                    x: event.position.x+5,
-                    y: event.position.y+5
-                }
+            tooltipContainer.innerHTML = data;
+            document.getElementById('close-cmdb-tooltip').addEventListener('click', e => {
+                tooltipContainer.parentNode.removeChild(tooltipContainer);
             })
         },
         error: function(){
@@ -44,10 +47,8 @@ function cmdbLoadInfos(event) {
 $(document).ajaxComplete(function(event, xhr, settings) {
     if (settings.url.includes('common.tabs.php')) {
         if (settings.url.includes('_glpi_tab=Impact')) {
-
-
-
             // let GLPIImpact the time to initiate cy before doing any modifications to it
+            // TODO mettre un loader ?
             setTimeout(() => {
                 let contextMenu = {
                     menuItems: GLPIImpact.getContextMenuItems(),
@@ -63,8 +64,6 @@ $(document).ajaxComplete(function(event, xhr, settings) {
                 });
 
                 GLPIImpact.cy.contextMenus(contextMenu);
-
-                // TODO mettre un loader ?
                 console.log('fait');
             }, 1000)
         }
