@@ -45,7 +45,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
         // tooltip header
         echo "<div class='d-flex justify-content-between pt-1'>
             <strong>".$item->getTypeName().' : '.$item->getFriendlyName()."</strong>    
-            <i class=\"fa fa-times\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
+            <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
         if (count($fieldsToShow)) {
             global $DB;
@@ -93,8 +93,72 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             echo "</div>";
 
             $plugin = new Plugin();
-            if ($plugin->isActivated('field')) {
-                echo 'traitement à faire';
+            if ($plugin->isActivated('fields')) {
+                $pluginFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'fields');
+                if (count($pluginFields)) {
+                    echo "<div class='pt-2'><i>".__('Additional fields', 'fields')." :</i></div>";
+                    $pluginFieldsField = new PluginFieldsField();
+                    $pluginFieldsContainer = new PluginFieldsContainer();
+                    $containers = [];
+                    echo "<div class='row'>";
+                    foreach($pluginFields as $field) {
+                        if ($pluginFieldsField->getFromDB($field['field_id'])) {
+                            $container = array_filter($containers, fn($e) => $e['id'] === $pluginFieldsField->fields['plugin_fields_containers_id']);
+                            $container = reset($container);
+                            if (!$container) {
+                                $pluginFieldsContainer->getFromDB($pluginFieldsField->fields['plugin_fields_containers_id']);
+                                $container = $pluginFieldsContainer->fields;
+                                $table = 'glpi_plugin_fields_'.strtolower($item->getType()).$container['name'].'s';
+                                $values = $DB->request([
+                                    'FROM' => $table,
+                                    'WHERE' => [
+                                        'items_id' => $_GET['itemId'],
+                                        'itemtype' => $_GET['itemtype'],
+                                        'plugin_fields_containers_id' => $container['id']
+                                    ]
+                                ]);
+                                $container['values'] = $values->current();
+                                $containers[] = $container;
+                            }
+                            $value = '';
+                            if ($container['values']) {
+                                $values = $container['values'];
+                                $fieldData = $pluginFieldsField->fields;
+                                $fieldType = $fieldData['type'];
+                                if (str_starts_with($fieldType, 'dropdown-')) {
+                                    if ($fieldData['multiple'] == 1) {
+                                        $ids = json_decode($values[$fieldData['name']]);
+                                        $values = [];
+                                        foreach ($ids as $id) {
+                                            $values[] = Dropdown::getDropdownName(
+                                                explode('-', $fieldType)[1]::getTable(),
+                                                $id
+                                            );
+                                        }
+                                        $value = implode(' - ', $values);
+                                    } else {
+                                        $value = Dropdown::getDropdownName(
+                                            explode('-', $fieldType)[1]::getTable(),
+                                            $container['values'][$fieldData['name']]
+                                        );
+                                    }
+                                } else if ($fieldType === 'glpi_item') {
+                                    $itemtype = $values['itemtype_'.$fieldData['name']];
+                                    $items_id = $values['items_id_'.$fieldData['name']];
+                                    $obj = new $itemtype();
+                                    $obj->getFromDB($items_id);
+                                    $value = $obj->getFriendlyName();
+                                } else {
+                                    $value = $values[$fieldData['name']];
+                                }
+                            }
+                            echo "<div class='col-6 d-flex py-1 position-relative'>";
+                            echo $pluginFieldsField->fields['label']. ' : '.$value;
+                            echo "</div>";
+                        }
+                    }
+                    echo "</div>";
+                }
             }
 
         } else {

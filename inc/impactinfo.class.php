@@ -282,7 +282,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
                         deleteButton.title = __('Delete');
                         deleteButton.style.cursor = 'pointer';
                         deleteButton.classList = 'mx-2';
-                        deleteButton.innerHTML = '<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>';
+                        deleteButton.innerHTML = '<i class=\"fa fa-times\" aria-hidden=\"true\"></i>';
                         deleteButton.addEventListener('click', e => {
                             col$key.removeChild(newDiv);
                             // get all selected fields

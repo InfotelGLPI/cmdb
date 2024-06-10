@@ -81,9 +81,9 @@ if (array_key_exists('fields', $availableFields)) {
 
 function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
     echo "<div class='col'>";
-    echo "<div class='d-flex align-items-center'>";
+    echo "<div class='d-flex align-items-center m-1'>";
     echo $key !== 'fields' ? '<label>'.__('Base fields', 'cmdb').'</label>' : '<label>'.__('Plugin additional fields fields', 'cmdb').'</label>';
-    echo "<div id='$key-select' class='ml-2'>";
+    echo "<div id='$key-select' class='ms-2'>";
     $fields = $availableFields[$key];
     $comparaisonArray = [];
     if ($usedFields) {
@@ -109,7 +109,7 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
         echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
         echo "<span>";
         echo "<label>".__('Order', 'cmdb')."</label>";
-        echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem'>";
+        echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
         echo "</span>";
         echo "</div>";
         echo "
