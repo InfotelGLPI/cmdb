@@ -221,7 +221,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
                 $value['cmdb'][$field['id']] = $field['name'];
             }
             if ($plugin->isActivated('fields')) {
-                $fields['fields'] = self::getPluginFieldsFields($itemtype);
+                $value['fields'] = self::getPluginFieldsFields($itemtype);
             }
             return $value;
         }

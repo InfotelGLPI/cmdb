@@ -5,7 +5,6 @@
 ?>
 
 function cmdbLoadInfos(event) {
-    console.log('event',event);
     let itemtype = event.target.data('id')
         .split(GLPIImpact.NODE_ID_SEPERATOR)[0];
     let itemId = event.target.data('id')
@@ -20,7 +19,7 @@ function cmdbLoadInfos(event) {
         tooltipContainer.style.backgroundColor = '#FFF';
         tooltipContainer.style.bottom = 0;
         tooltipContainer.style.left = 0;
-        tooltipContainer.style.zIndex = 2;
+        tooltipContainer.style.zIndex = 1052; // 1051 = value from the impact analysis sidebar when fullscreened
         tooltipContainer.classList = 'border rounded px-1';
         document.querySelector("td[class='network-parent']").append(tooltipContainer);
     }
