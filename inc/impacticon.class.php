@@ -106,7 +106,7 @@ class PluginCmdbImpacticon extends CommonDBTM
                 }
                 return "";
             case 'documents_id':
-                $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $values['documents_id'];
+                $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/impacticon.send.php?idDoc=" . $values['documents_id'];
                 return "<img src='$iconPath' style='height: 25px; width: 25px'>";
             case 'criteria':
                 $itemtype = $options['raw_data']['raw']['ITEM_PluginCmdbImpacticon_2'];
@@ -202,7 +202,7 @@ class PluginCmdbImpacticon extends CommonDBTM
             echo "<tr class='tab_bg_1'>";
             echo "<td>" . __('Current icon', 'cmdb') . "</td>";
             echo "<td>";
-            $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $this->fields['documents_id'];
+            $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/impacticon.send.php?idDoc=" . $this->fields['documents_id'];
             echo "<img src='$iconPath' style='height: 50px; width: 50px'>";
             echo "</td>";
             echo "</tr>";
@@ -344,9 +344,9 @@ class PluginCmdbImpacticon extends CommonDBTM
                 $data[$icon['itemtype']] = [];
             }
             if (isset($icon['criteria'])) {
-                $data[$icon['itemtype']][$icon['criteria']] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $icon['documents_id'];
+                $data[$icon['itemtype']][$icon['criteria']] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/impacticon.send.php?idDoc=" . $icon['documents_id'];
             } else {
-                $data[$icon['itemtype']]['default'] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $icon['documents_id'];
+                $data[$icon['itemtype']]['default'] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/impacticon.send.php?idDoc=" . $icon['documents_id'];
             }
         }
         $GLPI_CACHE->set($ckey, $data);
