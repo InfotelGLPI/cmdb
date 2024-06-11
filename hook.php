@@ -77,19 +77,6 @@ function plugin_cmdb_install() {
    PluginCmdbProfile::initProfile();
    PluginCmdbProfile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 
-   $impactIcon = new PluginCmdbImpacticon();
-   $icons = $impactIcon->find();
-    // in case of plugin update, recreate icons display copies
-   foreach($icons as $icon) {
-       if (file_exists(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$icon['filename'])) {
-           if (!file_exists(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$icon['filename'])) {
-               copy(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$icon['filename'], PLUGINCMDB_ICONS_USAGE_DIR.'/'.$icon['filename']);
-           }
-       } else {
-           echo __('An icon file is missing, check the content of the "files/_plugins/cmdb/icons" folder.', 'cmdb');
-       }
-   }
-
    return true;
 }
 
@@ -146,13 +133,15 @@ function plugin_cmdb_uninstall() {
 
    $DB->query("DROP TABLE IF EXISTS " . implode(",", $tables));
 
-   $tables = ["glpi_displaypreferences",
-              "glpi_documents_items",
-              "glpi_savedsearches",
-              "glpi_logs",
-              "glpi_items_tickets",
-              "glpi_notepads",
-              "glpi_impactitems"];
+   $tables = [
+       "glpi_displaypreferences",
+       "glpi_documents_items",
+       "glpi_savedsearches",
+       "glpi_logs",
+       "glpi_items_tickets",
+       "glpi_notepads",
+       "glpi_impactitems"
+   ];
 
    foreach ($tables as $table) {
       $DB->query("DELETE
@@ -383,11 +372,6 @@ function cmdb_rmdir($dir) {
 
 function plugin_cmdb_item_update($item) {
     if ($item::getType() === PluginCmdbImpacticon::class) {
-        // on icon update, delete old files
-        if (in_array('filename', $item->updates)) {
-            unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->oldvalues['filename']);
-            unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->oldvalues['filename']);
-        }
         // update the cache
         PluginCmdbImpacticon::setCache();
     }
@@ -396,9 +380,13 @@ function plugin_cmdb_item_update($item) {
 function plugin_cmdb_item_purge($item) {
     global $DB;
     if ($item::getType() === PluginCmdbImpacticon::getType()) {
-        // on icon purge, delete old files
-        unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->fields['filename']);
-        unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->fields['filename']);
+        $DB->delete(
+            Document_Item::getTable(),
+            [
+                'items_id' => $item->getID(),
+                'itemtype' => $item::getType()
+            ]
+        );
         // update the cache
         PluginCmdbImpacticon::setCache();
     }

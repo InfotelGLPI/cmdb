@@ -26,7 +26,8 @@ class PluginCmdbImpacticon extends CommonDBTM
         return "ti ti-tags";
     }
 
-    public function getName($options = []) {
+    public function getName($options = [])
+    {
         return $this->fields['itemtype']::getTypeName();
     }
 
@@ -70,7 +71,7 @@ class PluginCmdbImpacticon extends CommonDBTM
         $tab[] = [
             'id' => '4',
             'table' => self::getTable(),
-            'field' => 'filename',
+            'field' => 'documents_id',
             'name' => __('Icon'),
             'datatype' => 'specific',
             'massiveaction' => 'false',
@@ -104,8 +105,8 @@ class PluginCmdbImpacticon extends CommonDBTM
                     return $types[$values['itemtype']];
                 }
                 return "";
-            case 'filename':
-                $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $values['filename'];
+            case 'documents_id':
+                $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $values['documents_id'];
                 return "<img src='$iconPath' style='height: 25px; width: 25px'>";
             case 'criteria':
                 $itemtype = $options['raw_data']['raw']['ITEM_PluginCmdbImpacticon_2'];
@@ -201,7 +202,7 @@ class PluginCmdbImpacticon extends CommonDBTM
             echo "<tr class='tab_bg_1'>";
             echo "<td>" . __('Current icon', 'cmdb') . "</td>";
             echo "<td>";
-            $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $this->fields['filename'];
+            $iconPath = $CFG_GLPI['root_doc'] . '/' . PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $this->fields['documents_id'];
             echo "<img src='$iconPath' style='height: 50px; width: 50px'>";
             echo "</td>";
             echo "</tr>";
@@ -212,7 +213,7 @@ class PluginCmdbImpacticon extends CommonDBTM
         echo "<td>";
         echo Html::file(
             [
-                'name' => 'icon_file',
+                'name' => 'filename',
                 'required' => $this->isNewID($ID),
             ]
         );
@@ -223,6 +224,43 @@ class PluginCmdbImpacticon extends CommonDBTM
         $this->showFormButtons($options);
 
         return true;
+    }
+
+    function post_addItem($history = 1)
+    {
+        $this->addFiles($this->input);
+        $document_item = new Document_Item();
+        $document_item->getFromDBByCrit([
+            'itemtype' => $this->getType(),
+            'items_id' => $this->getID()
+        ]);
+        $this->update([
+            'documents_id' => $document_item->fields['documents_id'],
+            'id' => $this->getID()
+        ]);
+    }
+
+    function post_updateItem($history = 1)
+    {
+        if (array_key_exists('_filename', $this->input) && $this->input['_filename']) {
+            $document_item = new Document_Item();
+            // delete link to previous icon
+            $document_item->getFromDBByCrit([
+                'itemtype' => $this->getType(),
+                'items_id' => $this->getID()
+            ]);
+            $document_item->delete(['id' => $document_item->getID()]);
+            $this->addFiles($this->input);
+            // add link to new icon
+            $document_item->getFromDBByCrit([
+                'itemtype' => $this->getType(),
+                'items_id' => $this->getID()
+            ]);
+            $this->update([
+                'documents_id' => $document_item->fields['documents_id'],
+                'id' => $this->getID()
+            ]);
+        }
     }
 
     public static function getItemIcon(array $data)
@@ -306,9 +344,9 @@ class PluginCmdbImpacticon extends CommonDBTM
                 $data[$icon['itemtype']] = [];
             }
             if (isset($icon['criteria'])) {
-                $data[$icon['itemtype']][$icon['criteria']] = PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $icon['filename'];
+                $data[$icon['itemtype']][$icon['criteria']] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $icon['documents_id'];
             } else {
-                $data[$icon['itemtype']]['default'] = PLUGIN_CMDB_NOTFULL_WEBDIR . '/pics/icons/' . $icon['filename'];
+                $data[$icon['itemtype']]['default'] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/icon.send.php?idDoc=" . $icon['documents_id'];
             }
         }
         $GLPI_CACHE->set($ckey, $data);

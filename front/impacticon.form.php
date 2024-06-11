@@ -33,75 +33,34 @@ include('../../../inc/includes.php');
 Session::checkLoginUser();
 
 $impactIcon = new PluginCmdbImpacticon();
-$input = [];
 
-if (isset($_POST['itemtype'])) {
-    $input['itemtype'] = $_POST['itemtype'];
-}
-
-$input['criteria'] = null;
 $criterias = $impactIcon->getCriterias();
 foreach($criterias as $criteria) {
     if (isset($_POST[$criteria])) {
-        $input['criteria'] = $_POST[$criteria];
+        $_POST['criteria'] = $_POST[$criteria];
     }
 }
 
 // TODO check new file's type
-$filesDirPath = null;
-$pluginCmdbDirPath = null;
-if (isset($_POST["_icon_file"])) {
-    $filename = $_POST['_icon_file'][0];
-    $tmpPath = GLPI_TMP_DIR .'/'.$filename;
-    // remove blankspace because it won't load if there are some in the name
-    $newName = str_replace(' ', '', $filename);
-    // where a copy of the image will be saved to be update safe
-    $filesDirPath = PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$newName;
-    if (rename($tmpPath, $filesDirPath)) {
-        // 'permanent' image created, now the 'right safe' copy which will actually be used is created
-        $pluginCmdbDirPath = PLUGINCMDB_ICONS_USAGE_DIR.'/'.$newName;
-        if (copy($filesDirPath, $pluginCmdbDirPath)) {
-            $input['filename'] = $newName;
-        } else {
-            Session::addMessageAfterRedirect(__('Error during file creation', 'cmdb'), true, ERROR);
-            Html::back();
-        }
-    } else {
-        Session::addMessageAfterRedirect(__('Error during file creation', 'cmdb'), true, ERROR);
-        Html::back();
-    };
-}
 
 if (isset($_POST["add"])) {
+    $_POST['name'] =  sprintf(__('Icon for itemtype %s', 'cmdb'), $_POST['itemtype']::getTypeName());
     $impactIcon->check(-1, CREATE, $_POST);
 
     if ($impactIcon->getFromDBByCrit([
-        'itemtype' => $input['itemtype'],
-        'criteria' => $input['criteria']
+        'itemtype' => $_POST['itemtype'],
+        'criteria' => $_POST['criteria']
     ])) {
         Session::addMessageAfterRedirect(__('An icon already exist for this type', 'cmdb'), true, ERROR);
-        if ($filesDirPath) {
-            unlink($filesDirPath);
-        }
-        if ($pluginCmdbDirPath) {
-            unlink($pluginCmdbDirPath);
-        }
         Html::back();
     }
 
-    if ($newID = $impactIcon->add($input)) {
+    if ($newID = $impactIcon->add($_POST)) {
         if ($_SESSION['glpibackcreated']) {
             Html::redirect($impactIcon->getFormURL() . "?id=" . $newID);
         }
     } else {
         Session::addMessageAfterRedirect(__('Creation failed', 'cmdb'), true, ERROR);
-        // delete new files if record creation failed
-        if ($filesDirPath) {
-            unlink($filesDirPath);
-        }
-        if ($pluginCmdbDirPath) {
-            unlink($pluginCmdbDirPath);
-        }
     }
     Html::back();
 } elseif (isset($_POST["delete"])) {
@@ -120,30 +79,16 @@ if (isset($_POST["add"])) {
     $impactIcon->check($_POST['id'], UPDATE);
 
     if ($impactIcon->getFromDBByCrit([
-        'itemtype' => $input['itemtype'],
-        'criteria' => $input['criteria'],
+        'itemtype' => $_POST['itemtype'],
+        'criteria' => $_POST['criteria'],
         'id' => ['!=', $_POST['id']]
     ])) {
         Session::addMessageAfterRedirect(__('An icon already exist for this type', 'cmdb'), true, ERROR);
-        if ($filesDirPath) {
-            unlink($filesDirPath);
-        }
-        if ($pluginCmdbDirPath) {
-            unlink($pluginCmdbDirPath);
-        }
         Html::back();
     }
 
-    $input['id'] = $_POST['id'];
-    if (!$impactIcon->update($input)) {
+    if (!$impactIcon->update($_POST)) {
         Session::addMessageAfterRedirect(__('Update failed', 'cmdb'), true, ERROR);
-        // delete new files if record update failed
-        if ($filesDirPath) {
-            unlink($filesDirPath);
-        }
-        if ($pluginCmdbDirPath) {
-            unlink($pluginCmdbDirPath);
-        }
     }
     Html::back();
 } else {

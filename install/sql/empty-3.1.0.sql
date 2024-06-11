@@ -15,7 +15,7 @@ CREATE TABLE `glpi_plugin_cmdb_operationprocesses`
     `id`                                    int unsigned NOT NULL auto_increment,
     `name`                                  varchar(255) collate utf8mb4_unicode_ci default '',
     `entities_id`                           int unsigned NOT NULL default '0',
-    `is_recursive`                          tinyint NOT NULL default '0',
+    `is_recursive`                          tinyint NOT NULL                        default '0',
     `plugin_cmdb_operationprocessstates_id` int unsigned NOT NULL default '0',
     `users_id`                              int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
     `users_id_tech`                         int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_users (id)',
@@ -23,7 +23,7 @@ CREATE TABLE `glpi_plugin_cmdb_operationprocesses`
     `locations_id`                          int unsigned NOT NULL default '0' COMMENT 'RELATION to glpi_locations (id)',
     `date_creation`                         timestamp NULL DEFAULT NULL,
     `date_mod`                              timestamp NULL DEFAULT NULL,
-    `is_deleted`                            tinyint NOT NULL default '0',
+    `is_deleted`                            tinyint NOT NULL                        default '0',
     `is_helpdesk_visible`                   int unsigned NOT NULL default '1',
     `comment`                               text collate utf8mb4_unicode_ci,
     PRIMARY KEY (`id`),
@@ -61,10 +61,10 @@ DROP TABLE IF EXISTS `glpi_plugin_cmdb_citypes`;
 CREATE TABLE `glpi_plugin_cmdb_citypes`
 (
     `id`           int unsigned NOT NULL auto_increment,
-    `name`         varchar(255) collate utf8mb4_unicode_ci default '',
+    `name`         varchar(255) collate utf8mb4_unicode_ci  default '',
     `entities_id`  int unsigned NOT NULL default '0',
-    `is_recursive` tinyint NOT NULL default '0',
-    `is_imported`  tinyint NOT NULL default '0',
+    `is_recursive` tinyint                         NOT NULL default '0',
+    `is_imported`  tinyint                         NOT NULL default '0',
     `fields`       text collate utf8mb4_unicode_ci NOT NULL,
     PRIMARY KEY (`id`),
     KEY            `entities_id` (`entities_id`),
@@ -78,7 +78,7 @@ CREATE TABLE `glpi_plugin_cmdb_cis`
     `id`                     int unsigned NOT NULL auto_increment,
     `name`                   varchar(255) collate utf8mb4_unicode_ci default '',
     `entities_id`            int unsigned NOT NULL default '0',
-    `is_recursive`           tinyint NOT NULL default '0',
+    `is_recursive`           tinyint NOT NULL                        default '0',
     `plugin_cmdb_citypes_id` int unsigned NOT NULL,
     PRIMARY KEY (`id`),
     KEY                      `entities_id` (`entities_id`),
@@ -129,7 +129,7 @@ CREATE TABLE `glpi_plugin_cmdb_criticities`
     `id`                     int unsigned NOT NULL auto_increment,
     `businesscriticities_id` int unsigned NOT NULL default '0',
     `color`                  varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-    `level`                  tinyint NOT NULL DEFAULT '0',
+    `level`                  tinyint NOT NULL                        DEFAULT '0',
     PRIMARY KEY (`id`),
     KEY                      `businesscriticities_id` (`businesscriticities_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
@@ -144,39 +144,39 @@ VALUES (NULL, 'PluginCmdbOperationprocess', 2, 4, 0),
 DROP TABLE IF EXISTS `glpi_plugin_cmdb_impacticons`;
 CREATE TABLE `glpi_plugin_cmdb_impacticons`
 (
-    `id`                     int unsigned NOT NULL auto_increment,
-    `itemtype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `criteria`  varchar(255) COLLATE utf8mb4_unicode_ci,
-    `filename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `id`           int unsigned NOT NULL auto_increment,
+    `itemtype`     varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `criteria`     varchar(255) COLLATE utf8mb4_unicode_ci,
+    `documents_id` int unsigned NOT NULL default '0',
+    `name`         varchar(255) collate utf8mb4_unicode_ci default '',
     PRIMARY KEY (`id`),
-    UNIQUE(`itemtype`, `criteria`)
+    UNIQUE (`itemtype`, `criteria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 DROP TABLE IF EXISTS `glpi_plugin_cmdb_impactinfos`;
 CREATE TABLE `glpi_plugin_cmdb_impactinfos`
 (
-    `id`        int unsigned NOT NULL auto_increment,
-    `itemtype`  varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `id`       int unsigned NOT NULL auto_increment,
+    `itemtype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE(`itemtype`)
+    UNIQUE (`itemtype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 DROP TABLE IF EXISTS `glpi_plugin_cmdb_impactinfofields`;
 CREATE TABLE `glpi_plugin_cmdb_impactinfofields`
 (
-    `id`                     int unsigned NOT NULL auto_increment,
-    `type`                  varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'indicate if the field is from plugin fields or core',
-    `field_id`                  varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `id`                         int unsigned NOT NULL auto_increment,
+    `type`                       varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'indicate if the field is from plugin fields or core',
+    `field_id`                   varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `plugin_cmdb_impactinfos_id` int unsigned NOT NULL default '0',
-    `order` int unsigned NOT NULL,
+    `order`                      int unsigned NOT NULL,
     PRIMARY KEY (`id`),
-    KEY                      `plugin_cmdb_impactinfos_id` (`plugin_cmdb_impactinfos_id`)
+    KEY                          `plugin_cmdb_impactinfos_id` (`plugin_cmdb_impactinfos_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 INSERT INTO `glpi_displaypreferences` (`itemtype`, `num`, `rank`, `users_id`)
-VALUES
-    ('PluginCmdbImpactinfo', '2', '1', '0'),
-    ('PluginCmdbImpacticon', '2', '1', '0'),
-    ('PluginCmdbImpacticon', '3', '2', '0'),
-    ('PluginCmdbImpacticon', '4', '3', '0')
+VALUES ('PluginCmdbImpactinfo', '2', '1', '0'),
+       ('PluginCmdbImpacticon', '2', '1', '0'),
+       ('PluginCmdbImpacticon', '3', '2', '0'),
+       ('PluginCmdbImpacticon', '4', '3', '0')
 ;
