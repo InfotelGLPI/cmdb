@@ -21,6 +21,10 @@ class PluginCmdbImpactinfo extends CommonDBTM
         return $menu;
     }
 
+    public function getName($options = []) {
+        return $this->fields['itemtype']::getTypeName();
+    }
+
     static function getIcon()
     {
         return "ti ti-tags";
@@ -194,7 +198,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
         $plugin = new Plugin();
         $item = new $itemtype();
         $searchOptions = $item->rawSearchOptions();
-        if (count($searchOptions)) { // glpi core itemtype
+        if (count($searchOptions) && (!$item instanceof CommonDropdown || !str_starts_with($itemtype, 'PluginCmdb'))) { // glpi core itemtype
             $fields = [];
             $fields['glpi'] = [];
             foreach ($searchOptions as $option) {
@@ -212,13 +216,10 @@ class PluginCmdbImpactinfo extends CommonDBTM
             $field = new PluginCmdbCifields();
             $fields = $field->find(['plugin_cmdb_citypes_id' => $ciType->getID()]);
             $value = [];
-            $value['cmdb'] = array_map(fn($e) => $e['name'], $fields);
-            $tmp = [];
-            // standardised the format of the array for easier comparaison later
-            foreach($value['cmdb'] as $v) {
-                $tmp[$v] = $v;
+            $value['cmdb'] = [];
+            foreach($fields as $field) {
+                $value['cmdb'][$field['id']] = $field['name'];
             }
-            $value['cmdb'] = $tmp;
             if ($plugin->isActivated('fields')) {
                 $fields['fields'] = self::getPluginFieldsFields($itemtype);
             }
@@ -279,6 +280,31 @@ class PluginCmdbImpactinfo extends CommonDBTM
                         newDiv.id = 'field$key'+fieldId;
                         newDiv.className = 'd-flex align-items-center justify-content-between border rounded m-1 p-2';
                         col$key.append(newDiv);
+                        const orderSpan = document.createElement('span');
+                        const orderLabel = document.createElement('label');
+                        orderLabel.innerText = __('Order', 'cmdb');
+                        orderSpan.append(orderLabel);
+                        const orderInput = document.createElement('input');
+                        orderInput.type = 'number';
+                        orderInput.name = '$key-fields['+fieldId+'][order]';
+                        orderInput.value = usedFields.length + 1;
+                        orderInput.classList = 'ms-2';
+                        orderInput.style.maxWidth = '5rem'
+                        orderSpan.append(orderInput);
+                        newDiv.append(orderSpan);
+                        const fieldLabel = document.createElement('strong');
+                        fieldLabel.innerText = e.target.options[e.target.selectedIndex].innerText;
+                        newDiv.append(fieldLabel);
+                        const hiddenInputType = document.createElement('input');
+                        hiddenInputType.type = 'hidden';
+                        hiddenInputType.name = '$key-fields['+fieldId+'][type]';
+                        hiddenInputType.value = '$key';
+                        newDiv.append(hiddenInputType);
+                        const hiddenInputField = document.createElement('input');
+                        hiddenInputField.type = 'hidden';
+                        hiddenInputField.name = '$key-fields['+fieldId+'][field_id]';
+                        hiddenInputField.value = fieldId;
+                        newDiv.append(hiddenInputField);
                         // add an icon to delete the element
                         const deleteButton = document.createElement('span');
                         deleteButton.title = __('Delete');
@@ -302,37 +328,13 @@ class PluginCmdbImpactinfo extends CommonDBTM
                             });
                         })
                         newDiv.append(deleteButton);
-                        const fieldLabel = document.createElement('strong');
-                        fieldLabel.innerText = e.target.options[e.target.selectedIndex].innerText;
-                        newDiv.append(fieldLabel);
-                        const hiddenInputType = document.createElement('input');
-                        hiddenInputType.type = 'hidden';
-                        hiddenInputType.name = '$key-fields['+fieldId+'][type]';
-                        hiddenInputType.value = '$key';
-                        newDiv.append(hiddenInputType);
-                        const hiddenInputField = document.createElement('input');
-                        hiddenInputField.type = 'hidden';
-                        hiddenInputField.name = '$key-fields['+fieldId+'][field_id]';
-                        hiddenInputField.value = fieldId;
-                        newDiv.append(hiddenInputField);
-                        const orderSpan = document.createElement('span');
-                        const orderLabel = document.createElement('label');
-                        orderLabel.innerText = __('Order', 'cmdb');
-                        orderSpan.append(orderLabel);
-                        const orderInput = document.createElement('input');
-                        orderInput.type = 'number';
-                        orderInput.name = '$key-fields['+fieldId+'][order]';
-                        orderInput.value = usedFields.length + 1;
-                        orderInput.style.maxWidth = '5rem'
-                        orderSpan.append(orderInput);
-                        newDiv.append(orderSpan);
                         
                         
                         // get all selected fields
                         usedFields = col$key.querySelectorAll('div[id^=\"field$key\"]');
                         let values = [];
                         usedFields.forEach(e => {
-                            const inputValue = e.getElementsByTagName('input')[1];
+                            const inputValue = e.querySelector('input[name$=\"[field_id]\"]')
                             values.push(inputValue.value);
                         })
                         // regenerate the select with the updated options

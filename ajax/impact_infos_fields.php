@@ -102,15 +102,16 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
         $fieldId = $field['field_id'];
         $label = $fields[$fieldId];
         $order = $field['order'];
+        // if display is modified here, also modify JS in PluginCmdbImpactinfo::makeDropdown
         echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
-        echo "<i class=\"fa fa-times mx-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
-        echo "<strong>".$label."</strong>";
-        echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
-        echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
         echo "<span>";
         echo "<label>".__('Order', 'cmdb')."</label>";
         echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
         echo "</span>";
+        echo "<strong>".$label."</strong>";
+        echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
+        echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
+        echo "<i class=\"fa fa-times mx-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
         echo "</div>";
         echo "
     <script>

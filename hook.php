@@ -395,12 +395,19 @@ function plugin_cmdb_item_update($item) {
 
 function plugin_cmdb_item_purge($item) {
     global $CFG_GLPI;
-    if ($item::getType() === PluginCmdbImpacticon::class) {
+    if ($item::getType() === PluginCmdbImpacticon::getType()) {
         // on icon purge, delete old files
         unlink(PLUGINCMDB_ICONS_USAGE_DIR.'/'.$item->fields['filename']);
         unlink(PLUGINCMDB_ICONS_PERMANENT_DIR.'/'.$item->fields['filename']);
         // update the cache
         PluginCmdbImpacticon::setCache();
+    }
+    if ($item::getType() === PluginCmdbImpactinfo::getType()) {
+        global $DB;
+        $DB->delete(
+            PluginCmdbImpactinfofield::getTable(),
+            ['plugin_cmdb_impactinfos_id' => $item->getID()]
+        );
     }
 }
 

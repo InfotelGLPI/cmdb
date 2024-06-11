@@ -26,6 +26,10 @@ class PluginCmdbImpacticon extends CommonDBTM
         return "ti ti-tags";
     }
 
+    public function getName($options = []) {
+        return $this->fields['itemtype']::getTypeName();
+    }
+
     function rawSearchOptions()
     {
         $tab = [];
