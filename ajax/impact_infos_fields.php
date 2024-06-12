@@ -105,19 +105,71 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
         // if display is modified here, also modify JS in PluginCmdbImpactinfo::makeDropdown
         echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
         echo "<span>";
-        echo "<label>".__('Order', 'cmdb')."</label>";
-        echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
+        echo "<i class='fa fa-long-arrow-up me-2' aria-hidden='true' id='$key-$fieldId-up' style='cursor: pointer' title='".__('Up', 'cmdb')."'></i>";
+        echo "<i class='fa fa-long-arrow-down' aria-hidden='true' id='$key-$fieldId-down' style='cursor: pointer' title='".__('Down', 'cmdb')."'></i>";
+        echo "<input type='hidden' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
         echo "</span>";
         echo "<strong>".$label."</strong>";
         echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
         echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
-        echo "<i class=\"fa fa-times mx-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
+        echo "<i class=\"fa fa-times mx-2 fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
         echo "</div>";
+        $url = Plugin::getWebDir('cmdb') . "/ajax/impact_infos_fields_dropdown.php";
         echo "
     <script>
         document.getElementById('deletefield$key$fieldId').addEventListener('click', e => {
-               e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+            // get all next elements and adjust their order value
+            let nextElement = e.target.parentNode.nextElementSibling;
+            while(nextElement) {
+                if (nextElement.tagName.toLowerCase() == 'div') {
+                    const inputOrder = nextElement.querySelector('input[name$=\"[order]\"]');
+                    inputOrder.value = inputOrder.value - 1;
+                }
+                nextElement = nextElement.nextElementSibling;
+            }
+            const usedFields = e.target.parentNode.parentNode.querySelectorAll('div[id^=\"field$key\"]');
+                            let values = [];
+                            usedFields.forEach(e => {
+                                const inputValue = e.getElementsByTagName('input')[1];
+                                values.push(inputValue.value);
+                            })
+                            // regenerate the select with the updated options
+                            $('#$key-select').load('$url', {
+                                'key' : '$key',
+                                'itemtype' : '$itemtype',
+                                'used' : values
+                            });
+            e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+                            
         })
+        document.getElementById('$key-$fieldId-up').addEventListener('click', up => {
+            const container =  up.target.parentNode.parentNode;
+            const orderInput = container.querySelector('input[name$=\"[order]\"]');
+                            if (orderInput.value > 1) {
+                                orderInput.value = orderInput.value - 1;
+                                let previousEl = container.previousElementSibling;
+                                while (previousEl && previousEl.tagName.toLowerCase() != 'div') {
+                                    previousEl = previousEl.previousElementSibling;
+                                }
+                                const inputOrder = previousEl.querySelector('input[name$=\"[order]\"]');
+                                inputOrder.value = inputOrder.value + 1;
+                                previousEl.before(container);
+                            }
+                        })
+        document.getElementById('$key-$fieldId-down').addEventListener('click', down => {
+            const container =  down.target.parentNode.parentNode;
+            const orderInput = container.querySelector('input[name$=\"[order]\"]');
+            let nextEl = container.nextElementSibling;
+                                while (nextEl && nextEl.tagName.toLowerCase() != 'div') {
+                                    nextEl = nextEl.nextElementSibling;
+                                }
+                                if (nextEl) {
+                                    const inputOrder = nextEl.querySelector('input[name$=\"[order]\"]');
+                                    inputOrder.value = inputOrder.value - 1;
+                                    orderInput.value = orderInput.value + 1;
+                                    nextEl.after(container);
+                                }           
+                                })
     </script>
     ";
         $index++;
