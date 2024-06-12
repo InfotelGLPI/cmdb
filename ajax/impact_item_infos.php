@@ -49,6 +49,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
         </div>";
         if (count($fieldsToShow)) {
             global $DB;
+            // fields for items with searchoptions
             $baseFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'glpi');
             if (count($baseFields)) {
                 $searchOptions = $item->rawSearchOptions();
@@ -94,6 +95,8 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                 }
                 echo "</div>";
             }
+
+            // fields for items created by plugin cmdb
             $cmdbFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'cmdb');
             if (count($cmdbFields)) {
                 $ciValue = new PluginCmdbCivalues();
@@ -116,6 +119,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                 }
             }
 
+            // values from plugin fields
             $plugin = new Plugin();
             if ($plugin->isActivated('fields')) {
                 $pluginFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'fields');
@@ -192,7 +196,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
             echo "<div class='text-center'>";
-            echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $item->getTypeName());
+            echo sprintf(__('No tooltip content set for itemtype %s', 'cmdb'), $item->getTypeName());
             echo '</div>';
         }
     } else {

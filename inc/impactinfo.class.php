@@ -6,7 +6,12 @@ class PluginCmdbImpactinfo extends CommonDBTM
 
     public static function getTypeName($nb = 0)
     {
-        return _n('Impact information', 'Impact informations', $nb);
+        return _n('Information', 'Informations', $nb);
+    }
+
+    public static function getMenuName()
+    {
+        return 'CMDB - '.static::getTypeName(Session::getPluralNumber());
     }
 
     static function getMenuContent()
@@ -16,7 +21,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
         $menu['links']['search'] = self::getSearchURL(false);
 
         $menu['icon'] = static::getIcon();
-        $menu['links']['add'] = PLUGIN_CMDB_DIR_NOFULL . "/front/impactinfo.form.php";
+        $menu['links']['add'] = self::getFormUrl(false);
 
         return $menu;
     }
@@ -27,7 +32,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
 
     static function getIcon()
     {
-        return "ti ti-tags";
+        return "fa fa-question";
     }
 
     function rawSearchOptions()

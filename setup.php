@@ -58,22 +58,6 @@ if (!file_exists(PLUGINCMDB_FRONT_PATH)) {
    mkdir(PLUGINCMDB_FRONT_PATH);
 }
 
-// dir without any access rights problems, but will be emptied on update
-if (!defined("PLUGINCMDB_ICONS_USAGE_DIR")) {
-    define("PLUGINCMDB_ICONS_USAGE_DIR", GLPI_ROOT.'/'.PLUGIN_CMDB_NOTFULL_WEBDIR . "/pics/icons");
-}
-if (!file_exists(PLUGINCMDB_ICONS_USAGE_DIR)) {
-    mkdir(PLUGINCMDB_ICONS_USAGE_DIR);
-}
-
-// dir with access rights problems, but content isn't affected by plugin update : will be used to repopulate the other dir on plugin updates
-if (!defined("PLUGINCMDB_ICONS_PERMANENT_DIR")) {
-    define("PLUGINCMDB_ICONS_PERMANENT_DIR", PLUGINCMDB_DOC_DIR . "/icons");
-}
-if (!file_exists(PLUGINCMDB_ICONS_PERMANENT_DIR)) {
-    mkdir(PLUGINCMDB_ICONS_PERMANENT_DIR);
-}
-
 function plugin_init_cmdb() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
 
@@ -150,10 +134,12 @@ function plugin_init_cmdb() {
           'getItemIcon'
       ];
 
-       $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'] = [
-           'PluginCmdbImpacticon',
-           'PluginCmdbImpactinfo'
-       ];
+      if (PluginCmdbImpacticon::canView()) {
+          $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = 'PluginCmdbImpacticon';
+      }
+       if (PluginCmdbImpactinfo::canView()) {
+           $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = 'PluginCmdbImpactinfo';
+       }
 
        $PLUGIN_HOOKS['item_add']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_add';
        $PLUGIN_HOOKS['item_update']['cmdb'][PluginCmdbImpacticon::class] = 'plugin_cmdb_item_update';

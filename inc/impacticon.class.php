@@ -6,7 +6,12 @@ class PluginCmdbImpacticon extends CommonDBTM
 
     public static function getTypeName($nb = 0)
     {
-        return _n('Impact icon', 'Impact icons', $nb);
+        return _n('Icon', 'Icons', $nb, 'cmdb');
+    }
+
+    public static function getMenuName()
+    {
+        return 'CMDB - '.static::getTypeName(Session::getPluralNumber());
     }
 
     static function getMenuContent()
@@ -16,7 +21,7 @@ class PluginCmdbImpacticon extends CommonDBTM
         $menu['links']['search'] = self::getSearchURL(false);
 
         $menu['icon'] = static::getIcon();
-        $menu['links']['add'] = PLUGIN_CMDB_DIR_NOFULL . "/front/impacticon.form.php";
+        $menu['links']['add'] = self::getFormUrl(false);
 
         return $menu;
     }
@@ -28,7 +33,7 @@ class PluginCmdbImpacticon extends CommonDBTM
 
     public function getName($options = [])
     {
-        return $this->fields['itemtype']::getTypeName();
+        return $this->fields['itemtype']::getTypeName().' '.$this->getID();
     }
 
     function rawSearchOptions()
@@ -215,6 +220,7 @@ class PluginCmdbImpacticon extends CommonDBTM
             [
                 'name' => 'filename',
                 'required' => $this->isNewID($ID),
+                'onlyimages' => true
             ]
         );
         echo "</td>";

@@ -170,13 +170,6 @@ function plugin_cmdb_uninstall() {
       cmdb_rmdir(PLUGINCMDB_CLASS_PATH);
    }
 
-    if (is_dir(PLUGINCMDB_ICONS_USAGE_DIR)) {
-        cmdb_rmdir(PLUGINCMDB_ICONS_USAGE_DIR);
-    }
-
-    if (is_dir(PLUGINCMDB_ICONS_PERMANENT_DIR)) {
-        cmdb_rmdir(PLUGINCMDB_ICONS_PERMANENT_DIR);
-    }
    //PluginCmdbMenu::removeRightsFromSession();
    PluginCmdbProfile::removeRightsFromSession();
 

@@ -127,7 +127,7 @@ class PluginCmdbProfile extends Profile {
                  'default_class' => 'tab_bg_2',
                  'title'         => PluginCmdbImpacticon::getTypeName(2)]);
 
-             $rights = $this->getImpactInfosRights();
+             $rights = $this->getImpactInfoRights();
              $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                  'default_class' => 'tab_bg_2',
                  'title'         => PluginCmdbImpactinfo::getTypeName(2)]);
