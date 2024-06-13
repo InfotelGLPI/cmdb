@@ -118,6 +118,8 @@ class PluginCmdbImpacticon extends CommonDBTM
                 switch ($itemtype) {
                     case NetworkEquipment::getType():
                         return Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']);
+                    case Computer::getType():
+                        return Dropdown::getDropdownName(ComputerType::getTable(), $values['criteria']);
                 }
                 return $values['criteria'];
         }
@@ -317,7 +319,8 @@ class PluginCmdbImpacticon extends CommonDBTM
     public static function getCriterias()
     {
         return [
-            NetworkEquipment::getType() => 'networkequipmenttypes_id'
+            NetworkEquipment::getType() => 'networkequipmenttypes_id',
+            Computer::getType() => 'computertypes_id'
         ];
     }
 

@@ -53,7 +53,10 @@ if (in_array($itemtype, array_keys(PluginCmdbImpacticon::getCriterias()))) {
     echo "<td>";
     switch($itemtype) {
         case NetworkEquipment::getType() :
-            echo __('Networking equipment type');
+            echo NetworkEquipmentType::getTypeName();
+            break;
+        case Computer::getType() :
+            echo ComputerType::getTypeName();
             break;
     }
     echo "</td>";
@@ -70,6 +73,11 @@ if (in_array($itemtype, array_keys(PluginCmdbImpacticon::getCriterias()))) {
     switch($itemtype) {
         case NetworkEquipment::getType() :
             NetworkEquipmentType::dropdown([
+                'value' => $value
+            ]);
+            break;
+        case Computer::getType() :
+            ComputerType::dropdown([
                 'value' => $value
             ]);
             break;
