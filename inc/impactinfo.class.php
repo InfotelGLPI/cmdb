@@ -285,53 +285,24 @@ class PluginCmdbImpactinfo extends CommonDBTM
                         newDiv.id = 'field$key'+fieldId;
                         newDiv.className = 'd-flex align-items-center justify-content-between border rounded m-1 p-2';
                         col$key.append(newDiv);
-                        const orderSpan = document.createElement('span');
-                        const orderInput = document.createElement('input');
-                        orderInput.type = 'hidden';
-                        orderInput.name = '$key-fields['+fieldId+'][order]';
+                        
                         let orderValue = 1;
                         usedFields.forEach(u => {
                             const inputOrder = u.querySelector('input[name$=\"[order]\"]');
                             if (inputOrder.value >= orderValue) orderValue = parseInt(inputOrder.value) + 1;
                         })
+                        const orderSpan = document.createElement('span');
+                        const orderLabel = document.createElement('label');
+                        orderLabel.innerText = __('Order', 'cmdb');
+                        orderSpan.append(orderLabel);
+                        const orderInput = document.createElement('input');
+                        orderInput.type = 'number';
+                        orderInput.name = '$key-fields['+fieldId+'][order]';
                         orderInput.value = orderValue;
                         orderInput.classList = 'ms-2';
                         orderInput.style.maxWidth = '5rem'
                         orderSpan.append(orderInput);
-                        const arrowUp = document.createElement('i');
-                        arrowUp.classList = 'fa fa-long-arrow-up me-2';
-                        arrowUp.style.cursor = 'pointer';
-                        arrowUp.title = __('Up', 'cmdb');
-                        arrowUp.addEventListener('click', up => {
-                            if (orderInput.value > 1) {
-                                orderInput.value = orderInput.value - 1;
-                                let previousEl = newDiv.previousElementSibling;
-                                while (previousEl && previousEl.tagName.toLowerCase() != 'div') {
-                                    previousEl = previousEl.previousElementSibling;
-                                }
-                                const inputOrder = previousEl.querySelector('input[name$=\"[order]\"]');
-                                inputOrder.value = inputOrder.value + 1;
-                                previousEl.before(newDiv);
-                            }
-                        })
-                        orderSpan.append(arrowUp);
-                        const arrowDown = document.createElement('i');
-                        arrowDown.classList = 'fa fa-long-arrow-down';
-                        arrowDown.style.cursor = 'pointer';
-                        arrowDown.title = __('Down', 'cmdb');
-                        arrowDown.addEventListener('click', down => {
-                                let nextEl = newDiv.nextElementSibling;
-                                while (nextEl && nextEl.tagName.toLowerCase() != 'div') {
-                                    nextEl = nextEl.nextElementSibling;
-                                }
-                                if (nextEl) {
-                                    const inputOrder = nextEl.querySelector('input[name$=\"[order]\"]');
-                                    inputOrder.value = inputOrder.value - 1;
-                                    orderInput.value = orderInput.value + 1;
-                                    nextEl.after(newDiv);
-                                }
-                        })
-                        orderSpan.append(arrowDown);
+                        
                         newDiv.append(orderSpan);
                         const fieldLabel = document.createElement('strong');
                         fieldLabel.innerText = e.target.options[e.target.selectedIndex].innerText;

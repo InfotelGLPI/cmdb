@@ -119,14 +119,7 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
     <script>
         document.getElementById('deletefield$key$fieldId').addEventListener('click', e => {
             // get all next elements and adjust their order value
-            let nextElement = e.target.parentNode.nextElementSibling;
-            while(nextElement) {
-                if (nextElement.tagName.toLowerCase() == 'div') {
-                    const inputOrder = nextElement.querySelector('input[name$=\"[order]\"]');
-                    inputOrder.value = inputOrder.value - 1;
-                }
-                nextElement = nextElement.nextElementSibling;
-            }
+          
             const usedFields = e.target.parentNode.parentNode.querySelectorAll('div[id^=\"field$key\"]');
                             let values = [];
                             usedFields.forEach(e => {
@@ -142,34 +135,7 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
             e.target.parentNode.parentNode.removeChild(e.target.parentNode);
                             
         })
-        document.getElementById('$key-$fieldId-up').addEventListener('click', up => {
-            const container =  up.target.parentNode.parentNode;
-            const orderInput = container.querySelector('input[name$=\"[order]\"]');
-                            if (orderInput.value > 1) {
-                                orderInput.value = orderInput.value - 1;
-                                let previousEl = container.previousElementSibling;
-                                while (previousEl && previousEl.tagName.toLowerCase() != 'div') {
-                                    previousEl = previousEl.previousElementSibling;
-                                }
-                                const inputOrder = previousEl.querySelector('input[name$=\"[order]\"]');
-                                inputOrder.value = inputOrder.value + 1;
-                                previousEl.before(container);
-                            }
-                        })
-        document.getElementById('$key-$fieldId-down').addEventListener('click', down => {
-            const container =  down.target.parentNode.parentNode;
-            const orderInput = container.querySelector('input[name$=\"[order]\"]');
-            let nextEl = container.nextElementSibling;
-                                while (nextEl && nextEl.tagName.toLowerCase() != 'div') {
-                                    nextEl = nextEl.nextElementSibling;
-                                }
-                                if (nextEl) {
-                                    const inputOrder = nextEl.querySelector('input[name$=\"[order]\"]');
-                                    inputOrder.value = inputOrder.value - 1;
-                                    orderInput.value = orderInput.value + 1;
-                                    nextEl.after(container);
-                                }           
-                                })
+        
     </script>
     ";
         $index++;
