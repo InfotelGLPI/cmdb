@@ -105,6 +105,7 @@ function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
         // if display is modified here, also modify JS in PluginCmdbImpactinfo::makeDropdown
         echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
         echo "<span>";
+        echo "<label>".__('Order', 'cmdb')."</label>";
         echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
         echo "</span>";
         echo "<strong>".$label."</strong>";
