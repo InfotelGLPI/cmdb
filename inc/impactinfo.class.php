@@ -202,13 +202,13 @@ class PluginCmdbImpactinfo extends CommonDBTM
         $dbu = new DbUtils();
         $plugin = new Plugin();
         $item = new $itemtype();
-        $searchOptions = $item->rawSearchOptions();
+        $searchOptions = Search::getCleanedOptions($itemtype, READ, false);
         if (count($searchOptions) && (!$item instanceof CommonDropdown || !str_starts_with($itemtype, 'PluginCmdb'))) { // glpi core itemtype
             $fields = [];
             $fields['glpi'] = [];
-            foreach ($searchOptions as $option) {
+            foreach ($searchOptions as $id => $option) {
                 if (isset($option['table'])) {
-                    $fields['glpi'][$option['id']] = $dbu->getItemTypeForTable($option['table'])::getTypeName().' - '.$option['name'];
+                    $fields['glpi'][$id] = $dbu->getItemTypeForTable($option['table'])::getTypeName().' - '.$option['name'];
                 }
             }
             if ($plugin->isActivated('fields')) {
