@@ -198,6 +198,12 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                                     $obj = new $itemtype();
                                     $obj->getFromDB($items_id);
                                     $value = $obj->getFriendlyName();
+                                } else if ($fieldType == 'dropdown') { // Dropdown created by plugin fields
+                                    $itemtype = 'PluginFields'.ucfirst($fieldData['name']).'Dropdown';
+                                    $value = Dropdown::getDropdownName(
+                                        $itemtype::getTable(),
+                                        $values['plugin_fields_'.$fieldData['name'].'dropdowns_id']
+                                    );
                                 } else {
                                     $value = $values[$fieldData['name']];
                                 }
