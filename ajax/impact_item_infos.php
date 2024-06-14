@@ -54,9 +54,12 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                 $searchOptions = Search::getCleanedOptions($_GET['itemtype'], READ, false);
                 // look for the field corresponding to ID for the where parameter
                 $primaryKey = null;
+                $table = $item->getTable();
                 foreach($searchOptions as $key => $option) {
-                    if ($option['name'] == __('ID')) {
-                        $primaryKey = $key;
+                    if (array_key_exists('table', $option) && $option['table'] == $item->getTable()) {
+                        if ($option['name'] == __('ID')) {
+                            $primaryKey = $key;
+                        }
                     }
                 }
                 $fieldsIds = array_map(fn($e) => $e['field_id'], $baseFields);
@@ -82,17 +85,15 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                     'itemtype' => $item->getType(), // FROM
                     'item' => $item, // itemtype specific WHERE (template, entity, etc.)
                     'toview' => $fieldsIds, // SELECT
-                    'tocompute' => $fieldsIds // JOIN
+                    'tocompute' => $fieldsIds, // JOIN,
+                    'display_type' => Search::HTML_OUTPUT // formatting result during call to constructData
                 ];
-                Search::constructSQL($queryData);
-                $queryData['display_type'] = Search::HTML_OUTPUT;
-                Search::constructData($queryData);
+                Search::constructSQL($queryData); // create SQL datas and add them in key 'sql'
+                Search::constructData($queryData); // use the SQL datas to get the values and format it in key 'data'
                 $values = $queryData['data']['rows'][0];
                 echo "<div class='row'>";
                 $dbu = new DbUtils();
-
                 foreach ($baseFields as $field) {
-
                     $option = $searchOptions[$field['field_id']];
                     if ($field['field_id'] == 1) {
                         continue;
@@ -173,7 +174,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                                 $values = $container['values'];
                                 $fieldData = $pluginFieldsField->fields;
                                 $fieldType = $fieldData['type'];
-                                if (str_starts_with($fieldType, 'dropdown-')) {
+                                if (str_starts_with($fieldType, 'dropdown-')) { // Dropdown using an existing object
                                     if ($fieldData['multiple'] == 1) {
                                         $ids = json_decode($values[$fieldData['name']]);
                                         $values = [];
@@ -192,7 +193,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                                             $values[$fieldData['name']]
                                         );
                                     }
-                                } elseif ($fieldType === 'glpi_item') {
+                                } elseif ($fieldType === 'glpi_item') { // Dropdown where item's type can be one of several
                                     $itemtype = $values['itemtype_' . $fieldData['name']];
                                     $items_id = $values['items_id_' . $fieldData['name']];
                                     $obj = new $itemtype();
