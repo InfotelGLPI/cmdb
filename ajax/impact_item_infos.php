@@ -85,9 +85,9 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                     'tocompute' => $fieldsIds // JOIN
                 ];
                 Search::constructSQL($queryData);
-
-                $result = $DB->doQuery($queryData['sql']['search']);
-                $data = $result->fetch_assoc();
+                $queryData['display_type'] = Search::HTML_OUTPUT;
+                Search::constructData($queryData);
+                $values = $queryData['data']['rows'][0];
                 echo "<div class='row'>";
                 $dbu = new DbUtils();
 
@@ -103,7 +103,8 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                     if ($label == __('Name') && $field['field_id'] != 1) {
                         $label = $dbu->getItemTypeForTable($option['table'])::getTypeName();
                     }
-                    echo $label . ' : ' . $data['ITEM_' . $item->getType() . '_' . $field['field_id']];
+                    $display = $values[$item->getType() . '_' . $field['field_id']]['displayname'];
+                    echo $label . ' : ' . $display;
                     echo "</div>";
                 }
                 echo "</div>";
