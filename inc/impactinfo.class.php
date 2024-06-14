@@ -208,7 +208,7 @@ class PluginCmdbImpactinfo extends CommonDBTM
             $fields['glpi'] = [];
             foreach ($searchOptions as $id => $option) {
                 if (isset($option['table'])) {
-                    $fields['glpi'][$id] = $dbu->getItemTypeForTable($option['table'])::getTypeName().' - '.$option['name'];
+                    $fields['glpi'][$id] = $dbu->getItemTypeForTable($option['table'])::getTypeName(1).' - '.$option['name'];
                 }
             }
             if ($plugin->isActivated('fields')) {

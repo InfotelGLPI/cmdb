@@ -59,7 +59,6 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                         $primaryKey = $key;
                     }
                 }
-                Toolbox::logInfo($searchOptions[$primaryKey]);
                 $fieldsIds = array_map(fn($e) => $e['field_id'], $baseFields);
                 $queryData = [
                     'search' => [
@@ -86,13 +85,18 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                     'tocompute' => $fieldsIds // JOIN
                 ];
                 Search::constructSQL($queryData);
-                Toolbox::logInfo($queryData['sql']['search']);
+
                 $result = $DB->doQuery($queryData['sql']['search']);
                 $data = $result->fetch_assoc();
                 echo "<div class='row'>";
                 $dbu = new DbUtils();
+
                 foreach ($baseFields as $field) {
+
                     $option = $searchOptions[$field['field_id']];
+                    if ($field['field_id'] == 1) {
+                        continue;
+                    }
                     $col = count($baseFields) > 1 ? '6' : '12';
                     echo "<div class='col-$col d-flex py-1 position-relative'>";
                     $label = $option['name'];
