@@ -118,6 +118,18 @@ class %%CLASSNAME%% extends CommonDropdown {
       return $search;
    }
 
+
+    function defineTabs($options = []) {
+
+        $ong = [];
+        $this->addDefaultFormTab($ong);
+        $this->addImpactTab($ong, $options);
+        $this->addStandardTab('Notepad', $ong, $options);
+        $this->addStandardTab('Log', $ong, $options);
+
+        return $ong;
+    }
+
    /**
     * @param       $ID
     * @param array $options

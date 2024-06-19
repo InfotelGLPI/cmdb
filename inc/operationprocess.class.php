@@ -177,7 +177,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
          'table'     => 'glpi_users',
          'field'     => 'name',
          'linkfield' => 'users_id_tech',
-         'name'      => __('Technician in charge of the hardware'),
+         'name'      => __('Technician in charge'),
          'datatype'  => 'dropdown',
          'right'     => 'interface'
       ];
@@ -187,7 +187,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
          'table'     => 'glpi_groups',
          'field'     => 'name',
          'linkfield' => 'groups_id_tech',
-         'name'      => __('Group in charge of the hardware'),
+         'name'      => __('Group in charge'),
          'condition' => '`is_assign`',
          'datatype'  => 'dropdown'
       ];
@@ -253,7 +253,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
                           'entity' => $this->fields["entities_id"]]);
       echo "</td>";
 
-      echo "<td>" . __('Technician in charge of the hardware') . "</td><td>";
+      echo "<td>" . __('Technician in charge') . "</td><td>";
       User::dropdown(['name'   => "users_id_tech",
                       'value'  => $this->fields["users_id_tech"],
                       'entity' => $this->fields["entities_id"],
@@ -264,7 +264,7 @@ class PluginCmdbOperationprocess extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
 
-      echo "<td>" . __('Group in charge of the hardware') . "</td><td>";
+      echo "<td>" . __('Group in charge') . "</td><td>";
       Group::dropdown(['name'      => 'groups_id_tech',
                        'value'     => $this->fields['groups_id_tech'],
                        'entity'    => $this->fields['entities_id'],

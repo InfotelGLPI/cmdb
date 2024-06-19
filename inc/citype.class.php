@@ -141,6 +141,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
       $ong = [];
       $this->addDefaultFormTab($ong);
+       $this->addImpactTab($ong, $options);
       $this->addStandardTab('Notepad', $ong, $options);
       $this->addStandardTab('Log', $ong, $options);
 
