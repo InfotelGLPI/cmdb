@@ -47,7 +47,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
         if (count($fieldsToShow)) {
-            global $DB;
+            global $DB, $CFG_GLPI;
             // fields for items with searchoptions
             $baseFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'glpi');
             if (count($baseFields)) {
@@ -90,7 +90,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                 ];
                 Search::constructSQL($queryData); // create SQL datas and add them in key 'sql'
                 Search::constructData($queryData); // use the SQL datas to get the values and format it in key 'data'
-                $values = $queryData['data']['rows'][0];
+                $data = $queryData['data']['rows'][0];
                 echo "<div class='row'>";
                 $dbu = new DbUtils();
                 foreach ($baseFields as $field) {
@@ -104,7 +104,44 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                     if ($label == __('Name') && $field['field_id'] != 1) {
                         $label = $dbu->getItemTypeForTable($option['table'])::getTypeName();
                     }
-                    $display = $values[$item->getType() . '_' . $field['field_id']]['displayname'];
+
+                    $display = '';
+                    $value = $data[$item->getType() . '_' . $field['field_id']]['displayname'];
+                    // see Search::showItem
+                    if (!preg_match('/' . Search::LBHR . '/', $value)) {
+                        $values = preg_split('/' . Search::LBBR . '/i', $value);
+                        $line_delimiter = '<br>';
+                    } else {
+                        $values = preg_split('/' . Search::LBHR . '/i', $value);
+                        $line_delimiter = '<hr>';
+                    }
+
+                    if (
+                        count($values) > 1
+                        && Toolbox::strlen($value) > $CFG_GLPI['cut']
+                    ) {
+                        $value = '';
+                        foreach ($values as $v) {
+                            $value .= $v . $line_delimiter;
+                        }
+                        $value = preg_replace('/' . Search::LBBR . '/', '<br>', $value);
+                        $value = preg_replace('/' . Search::LBHR . '/', '<hr>', $value);
+                        $value = '<div class="fup-popup">' . $value . '</div>';
+                        $valTip = ' ' . Html::showToolTip(
+                                $value,
+                                [
+                                    'awesome-class'   => 'fa-comments',
+                                    'display'         => false,
+                                    'autoclose'       => false,
+                                    'onclick'         => true
+                                ]
+                            );
+                        $display .= $values[0] . $valTip;
+                    } else {
+                        $value = preg_replace('/' . Search::LBBR . '/', '<br>', $value);
+                        $value = preg_replace('/' . Search::LBHR . '/', '<hr>', $value);
+                        $display .= $value;
+                    }
                     echo $label . ' : ' . $display;
                     echo "</div>";
                 }
