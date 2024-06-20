@@ -1,7 +1,7 @@
 <?php
-    include('../../../inc/includes.php');
-    header('Content-Type: text/javascript');
-    echo 'let cmdbRootUrl = "'.PLUGIN_CMDB_WEBDIR.'"';
+include('../../../inc/includes.php');
+header('Content-Type: text/javascript');
+echo 'let cmdbRootUrl = "' . PLUGIN_CMDB_WEBDIR . '"';
 ?>
 
 function cmdbLoadInfos(event) {
@@ -26,24 +26,41 @@ function cmdbLoadInfos(event) {
     tooltipContainer.innerHTML = "<i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i>";
     $.ajax({
         type: "GET",
-        url: cmdbRootUrl+'/ajax/impact_item_infos.php',
+        url: cmdbRootUrl + '/ajax/impact_item_infos.php',
         data: {
             'itemtype': itemtype,
             'itemId': itemId
         },
-        success: function(data){
+        success: function (data) {
             tooltipContainer.innerHTML = data;
             document.getElementById('close-cmdb-tooltip').addEventListener('click', e => {
                 tooltipContainer.parentNode.removeChild(tooltipContainer);
             })
+            // activate tooltips created for long lists (see Html::showToolTip)
+            const tooltips = tooltipContainer.querySelectorAll("span[id^='tooltip']");
+            tooltips.forEach(tooltip => {
+                $('#' + tooltip.id).qtip({
+                    position: {viewport: $(window)},
+                    content: {
+                        text: $('#content' + tooltip.id),
+                        title: {
+                            text: ' ',
+                            button: true
+                        }
+                    },
+                    style: {classes: 'qtip-shadow qtip-bootstrap'},
+                    show: 'click',
+                    hide: false
+                })
+            })
         },
-        error: function(){
+        error: function () {
             alert("error");
-        },
+        }
     });
 }
 
-$(document).ajaxComplete(function(event, xhr, settings) {
+$(document).ajaxComplete(function (event, xhr, settings) {
     if (settings.url.includes('common.tabs.php')) {
         if (settings.url.includes('_glpi_tab=Impact')) {
             // let GLPIImpact the time to initiate cy before doing any modifications to it

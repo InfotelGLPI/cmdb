@@ -43,11 +43,16 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
 
         // tooltip header
         echo "<div class='d-flex justify-content-between pt-1'>
-            <strong>" . $item->getTypeName() . " : <a href='".$item->getFormUrlWithID($item->getID())."&forcetab=main' target='blank'>" . $item->getFriendlyName() . "</a></strong>    
+            <strong>" . $item->getTypeName() . " : <a href='" . $item->getFormUrlWithID(
+                $item->getID()
+            ) . "&forcetab=main' target='blank'>" . $item->getFriendlyName() . "</a></strong>    
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
         if (count($fieldsToShow)) {
             global $DB, $CFG_GLPI;
+
+            echo "<table><tbody>";
+
             // fields for items with searchoptions
             $baseFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'glpi');
             if (count($baseFields)) {
@@ -55,7 +60,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                 // look for the field corresponding to ID for the where parameter
                 $primaryKey = null;
                 $table = $item->getTable();
-                foreach($searchOptions as $key => $option) {
+                foreach ($searchOptions as $key => $option) {
                     if (array_key_exists('table', $option) && $option['table'] == $item->getTable()) {
                         if ($option['name'] == __('ID')) {
                             $primaryKey = $key;
@@ -91,15 +96,17 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                 Search::constructSQL($queryData); // create SQL datas and add them in key 'sql'
                 Search::constructData($queryData); // use the SQL datas to get the values and format it in key 'data'
                 $data = $queryData['data']['rows'][0];
-                echo "<div class='row'>";
                 $dbu = new DbUtils();
-                foreach ($baseFields as $field) {
+                $baseFields = array_values($baseFields);
+                foreach ($baseFields as $index => $field) {
+                    if ($index % 2 === 0) {
+                        echo "<tr>";
+                    }
                     $option = $searchOptions[$field['field_id']];
                     if ($field['field_id'] == 1) {
                         continue;
                     }
-                    $col = count($baseFields) > 1 ? '6' : '12';
-                    echo "<div class='col-$col d-flex py-1 position-relative'>";
+
                     $label = $option['name'];
                     if ($label == __('Name') && $field['field_id'] != 1) {
                         $label = $dbu->getItemTypeForTable($option['table'])::getTypeName();
@@ -118,7 +125,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
 
                     if (
                         count($values) > 1
-                        && Toolbox::strlen($value) > $CFG_GLPI['cut']
+                        && Toolbox::strlen($value) > 20
                     ) {
                         $value = '';
                         foreach ($values as $v) {
@@ -130,10 +137,10 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                         $valTip = ' ' . Html::showToolTip(
                                 $value,
                                 [
-                                    'awesome-class'   => 'fa-comments',
-                                    'display'         => false,
-                                    'autoclose'       => false,
-                                    'onclick'         => true
+                                    'awesome-class' => 'fa-plus',
+                                    'display' => false,
+                                    'autoclose' => false,
+                                    'onclick' => true
                                 ]
                             );
                         $display .= $values[0] . $valTip;
@@ -142,10 +149,16 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                         $value = preg_replace('/' . Search::LBHR . '/', '<hr>', $value);
                         $display .= $value;
                     }
+                    $colspan = count($baseFields) > 1 ? 1 : 2;
+                    $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
+                    echo "<td colspan='$colspan' class='$classes'>";
                     echo $label . ' : ' . $display;
-                    echo "</div>";
+                    echo "</td>";
+                    // every other infos, or if only one
+                    if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
+                        echo "</tr>";
+                    }
                 }
-                echo "</div>";
             }
 
             // fields for items created by plugin cmdb
@@ -153,8 +166,14 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             if (count($cmdbFields)) {
                 $ciValue = new PluginCmdbCivalues();
                 $ciField = new PluginCmdbCifields();
-                foreach ($cmdbFields as $field) {
+                $cmdbFields = array_values($cmdbFields);
+                foreach ($cmdbFields as $index => $field) {
+                    if ($index % 2 === 0) {
+                        echo "<tr>";
+                    }
                     $value = '';
+                    $colspan = count($cmdbFields) > 1 ? 1 : 2;
+                    $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
                     if ($ciField->getFromDB($field['field_id'])) {
                         if ($ciValue->getFromDBByCrit([
                             'itemtype' => $item->getType(),
@@ -163,10 +182,12 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                         ])) {
                             $value = $ciValue->fields['value'];
                         }
-                        $col = count($cmdbFields) > 1 ? '6' : '12';
-                        echo "<div class='col-$col d-flex py-1 position-relative'>";
+                        echo "<td colspan='$colspan' class='$classes'>";
                         echo $ciField->fields['name'] . ' : ' . $value;
-                        echo "</div>";
+                        echo "</td>";
+                    }
+                    if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
+                        echo "</tr>";
                     }
                 }
             }
@@ -179,8 +200,8 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                     $pluginFieldsField = new PluginFieldsField();
                     $pluginFieldsContainer = new PluginFieldsContainer();
                     $containers = [];
-                    echo "<div class='row'>";
-                    foreach ($pluginFields as $field) {
+                    $pluginFields = array_values($pluginFields);
+                    foreach ($pluginFields as $index => $field) {
                         if ($pluginFieldsField->getFromDB($field['field_id'])) {
                             $container = array_filter(
                                 $containers,
@@ -236,25 +257,34 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                                     $obj = new $itemtype();
                                     $obj->getFromDB($items_id);
                                     $value = $obj->getFriendlyName();
-                                } else if ($fieldType == 'dropdown') { // Dropdown created by plugin fields
-                                    $itemtype = 'PluginFields'.ucfirst($fieldData['name']).'Dropdown';
+                                } elseif ($fieldType == 'dropdown') { // Dropdown created by plugin fields
+                                    $itemtype = 'PluginFields' . ucfirst($fieldData['name']) . 'Dropdown';
                                     $value = Dropdown::getDropdownName(
                                         $itemtype::getTable(),
-                                        $values['plugin_fields_'.$fieldData['name'].'dropdowns_id']
+                                        $values['plugin_fields_' . $fieldData['name'] . 'dropdowns_id']
                                     );
                                 } else {
                                     $value = $values[$fieldData['name']];
                                 }
                             }
-                            $col = count($pluginFields) > 1 ? '6' : '12';
-                            echo "<div class='col-$col d-flex py-1 position-relative'>";
+                            if ($index % 2 === 0) {
+                                echo "<tr>";
+                            }
+                            $colspan = count($pluginFields) > 1 ? 1 : 2;
+                            $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
+                            echo "<td colspan='$colspan' class='$classes'>";
                             echo $pluginFieldsField->fields['label'] . ' : ' . $value;
-                            echo "</div>";
+                            echo "</td>";
+                            if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
+                                echo "</tr>";
+                            }
                         }
                     }
                     echo "</div>";
                 }
             }
+
+            echo "</table></tbody>";
         } else {
             // tooltip header
             echo "<div class='d-flex justify-content-end pt-1'> 
