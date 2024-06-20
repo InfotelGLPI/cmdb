@@ -37,22 +37,10 @@ function cmdbLoadInfos(event) {
                 tooltipContainer.parentNode.removeChild(tooltipContainer);
             })
             // activate tooltips created for long lists (see Html::showToolTip)
-            const tooltips = tooltipContainer.querySelectorAll("span[id^='tooltip']");
-            tooltips.forEach(tooltip => {
-                $('#' + tooltip.id).qtip({
-                    position: {viewport: $(window)},
-                    content: {
-                        text: $('#content' + tooltip.id),
-                        title: {
-                            text: ' ',
-                            button: true
-                        }
-                    },
-                    style: {classes: 'qtip-shadow qtip-bootstrap'},
-                    show: 'click',
-                    hide: false
-                })
-            })
+            const scripts = tooltipContainer.getElementsByTagName('script');
+            for (let i = 0; i < scripts.length; i++) {
+                eval(scripts[i].text);
+            }
         },
         error: function () {
             alert("error");
