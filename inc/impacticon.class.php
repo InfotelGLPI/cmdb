@@ -287,25 +287,18 @@ class PluginCmdbImpacticon extends CommonDBTM
                 // use criteria
                 if (in_array($item->getType(), array_keys($criterias))) {
                     // $item has the value used for the itemtype's criteria
-                    if (isset($item->fields[$criterias[$item->getType()]]) &&
-                        ($item->fields[$criterias[$item->getType()]] ||
-                            $item->fields[$criterias[$item->getType()]] === 0 || // criteria with 0 as default value
-                            $item->fields[$criterias[$item->getType()]] === '0')) {
+                    if (isset($item->fields[$criterias[$item->getType()]]) && $item->fields[$criterias[$item->getType()]]  != '0') // criteria have 0 as default value, so 0 = no criteria
+                    {
                         // is there an icon for the specific criteria ?
                         if (isset($cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]])) {
                             return $cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]];
                         }
-                    } else {
-                        // no icon for the specific criteria or $item doesn't have the criteria set,
-                        // is there an icon for null value ?
-                        if (isset($cachedData[$item->getType()]['default'])) {
-                            return $cachedData[$item->getType()]['default'];
-                        }
                     }
-                } else {
-                    if (isset($cachedData[$item->getType()]['default'])) {
-                        return $cachedData[$item->getType()]['default'];
-                    }
+                }
+                // no icon for the specific criteria or $item doesn't have the criteria set,
+                // is there an icon for null value ?
+                if (isset($cachedData[$item->getType()]['default'])) {
+                    return $cachedData[$item->getType()]['default'];
                 }
             }
         }
@@ -352,7 +345,7 @@ class PluginCmdbImpacticon extends CommonDBTM
             if (!isset($data[$icon['itemtype']])) {
                 $data[$icon['itemtype']] = [];
             }
-            if (isset($icon['criteria'])) {
+            if (isset($icon['criteria']) && ($icon['criteria'] != '0')) {
                 $data[$icon['itemtype']][$icon['criteria']] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/impacticon.send.php?idDoc=" . $icon['documents_id'];
             } else {
                 $data[$icon['itemtype']]['default'] = PLUGIN_CMDB_NOTFULL_WEBDIR . "/front/impacticon.send.php?idDoc=" . $icon['documents_id'];
