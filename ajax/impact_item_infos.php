@@ -54,7 +54,7 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
             echo "<table><tbody>";
 
             // fields for items with searchoptions
-            $baseFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'glpi');
+            $baseFields = array_filter($fieldsToShow, fn($e) => ($e['type'] == 'glpi' || $e['type'] == 'cmdb'));
             if (count($baseFields)) {
                 $searchOptions = Search::getCleanedOptions($_GET['itemtype'], READ, false);
                 // look for the field corresponding to ID for the where parameter
@@ -246,10 +246,13 @@ if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
                                         $value = implode(' - ', $values);
                                     } else {
                                         $itemtype = explode('-', $fieldType)[1];
-                                        $value = Dropdown::getDropdownName(
-                                            $itemtype::getTable(),
-                                            $values[$fieldData['name']]
-                                        );
+                                        if (getItemForItemtype($itemtype)) {
+                                            $value = Dropdown::getDropdownName(
+                                                $itemtype::getTable(),
+                                                $values[$fieldData['name']]
+                                            );
+                                        }
+
                                     }
                                 } elseif ($fieldType === 'glpi_item') { // Dropdown where item's type can be one of several
                                     $itemtype = $values['itemtype_' . $fieldData['name']];

@@ -225,7 +225,6 @@ class PluginCmdbImpactinfo extends CommonDBTM
             foreach($fields as $field) {
                 $value['cmdb'][$field['id']] = $field['name'];
             }
-
             foreach ($searchOptions as $id => $option) {
                 if (isset($option['table'])) {
                     $value['cmdb'][$id] = $option['name'];
