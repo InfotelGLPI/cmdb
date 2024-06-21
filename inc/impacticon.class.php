@@ -292,10 +292,34 @@ class PluginCmdbImpacticon extends CommonDBTM
                             }
                         }
                     }
+                    if (class_exists($obj->getType()."Model")) {
+                        $tablemodel = getTableForItemType($itemtype . "Model");
+                        $modelfield = getForeignKeyFieldForTable($tablemodel);
+
+                        if (isset($obj->fields[$modelfield]) && $obj->fields[$modelfield] > 0) {
+
+                            if ($itemModel = getItemForItemtype($itemtype . 'Model')) {
+                                $Modelclass = new $itemModel();
+                                if ($Modelclass->getFromDB($obj->fields[$modelfield])) {
+                                    if ($Modelclass->fields['pictures'] != null) {
+                                        $pictures = json_decode($Modelclass->fields['pictures'], true);
+
+                                        if (isset($pictures) && is_array($pictures)) {
+                                            foreach ($pictures as $picture) {
+                                                $picture_url = Toolbox::getPictureUrl($picture, false);
+                                                return $picture_url;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
         }
-        
+
         $cachedData = self::getCache();
         if (count($cachedData)) {
             // if no cache or nothing for the itemtype in the cache, no need to waste time calling the DB
