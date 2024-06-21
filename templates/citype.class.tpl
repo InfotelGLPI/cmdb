@@ -143,10 +143,16 @@ class %%CLASSNAME%% extends CommonDropdown {
       $this->showFormHeader($options);
 
       echo "<tr class='tab_bg_1'>";
-
       echo "<td>" . __('Name') . "</td>";
       echo "<td>";
       echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1'>";
+      echo "<td>" . __('Comments') . "</td>";
+      echo "<td class='center' colspan='3'><textarea cols='115' rows='5' name='comment' >" .
+      $this->fields["comment"] . "</textarea>";
       echo "</td>";
       echo "</tr>";
 
@@ -155,6 +161,63 @@ class %%CLASSNAME%% extends CommonDropdown {
       $this->showFormButtons($options);
 
       return true;
+    }
+
+    /**
+    * @return array
+    */
+    function rawSearchOptions() {
+
+        $tab = [];
+
+        $tab[] = [
+        'id'   => 'common',
+        'name' => self::getTypeName(2)
+        ];
+
+        $tab[] = [
+        'id'            => '1',
+        'table'         => $this->getTable(),
+        'field'         => 'name',
+        'name'          => __('Name'),
+        'datatype'      => 'itemlink',
+        'itemlink_type' => $this->getType(),
+        ];
+
+        $tab[] = [
+        'id'       => '8',
+        'table'    => $this->getTable(),
+        'field'    => 'comment',
+        'name'     => __('Comments'),
+        'datatype' => 'text',
+        ];
+
+        $tab[] = [
+        'id'       => '30',
+        'table'    => $this->getTable(),
+        'field'    => 'id',
+        'name'     => __('ID'),
+        'datatype' => 'number',
+        ];
+
+        $tab[] = [
+        'id'       => '80',
+        'table'    => 'glpi_entities',
+        'field'    => 'completename',
+        'name'     => __('Entity'),
+        'datatype' => 'dropdown',
+        ];
+
+
+        $tab[] = [
+        'id'       => '86',
+        'table'    => $this->getTable(),
+        'field'    => 'is_recursive',
+        'name'     => __('Child entities'),
+        'datatype' => 'bool'
+        ];
+
+    return $tab;
     }
 
    /**

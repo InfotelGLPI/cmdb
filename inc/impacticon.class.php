@@ -31,10 +31,10 @@ class PluginCmdbImpacticon extends CommonDBTM
         return "ti ti-tags";
     }
 
-    public function getName($options = [])
-    {
-        return $this->fields['itemtype']::getTypeName().' '.$this->getID();
-    }
+//    public function getName($options = [])
+//    {
+//        return $this->fields['itemtype']::getTypeName().' '.$this->getID();
+//    }
 
     function rawSearchOptions()
     {
@@ -120,6 +120,8 @@ class PluginCmdbImpacticon extends CommonDBTM
                         return Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']);
                     case Computer::getType():
                         return Dropdown::getDropdownName(ComputerType::getTable(), $values['criteria']);
+                    case Appliance::getType():
+                        return Dropdown::getDropdownName(ApplianceType::getTable(), $values['criteria']);
                 }
                 return $values['criteria'];
         }
@@ -313,7 +315,8 @@ class PluginCmdbImpacticon extends CommonDBTM
     {
         return [
             NetworkEquipment::getType() => 'networkequipmenttypes_id',
-            Computer::getType() => 'computertypes_id'
+            Computer::getType() => 'computertypes_id',
+            Appliance::getType() => 'appliancetypes_id'
         ];
     }
 

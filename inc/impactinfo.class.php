@@ -26,9 +26,9 @@ class PluginCmdbImpactinfo extends CommonDBTM
         return $menu;
     }
 
-    public function getName($options = []) {
-        return $this->fields['itemtype']::getTypeName();
-    }
+//    public function getName($options = []) {
+//        return $this->fields['itemtype']::getTypeName();
+//    }
 
     static function getIcon()
     {
@@ -224,6 +224,12 @@ class PluginCmdbImpactinfo extends CommonDBTM
             $value['cmdb'] = [];
             foreach($fields as $field) {
                 $value['cmdb'][$field['id']] = $field['name'];
+            }
+
+            foreach ($searchOptions as $id => $option) {
+                if (isset($option['table'])) {
+                    $value['cmdb'][$id] = $option['name'];
+                }
             }
             if ($plugin->isActivated('fields')) {
                 $value['fields'] = self::getPluginFieldsFields($itemtype);

@@ -58,6 +58,9 @@ if (in_array($itemtype, array_keys(PluginCmdbImpacticon::getCriterias()))) {
         case Computer::getType() :
             echo ComputerType::getTypeName();
             break;
+        case Appliance::getType() :
+            echo ApplianceType::getTypeName();
+            break;
     }
     echo "</td>";
 
@@ -78,6 +81,11 @@ if (in_array($itemtype, array_keys(PluginCmdbImpacticon::getCriterias()))) {
             break;
         case Computer::getType() :
             ComputerType::dropdown([
+                'value' => $value
+            ]);
+            break;
+        case Appliance::getType() :
+            ApplianceType::dropdown([
                 'value' => $value
             ]);
             break;
