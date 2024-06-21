@@ -275,6 +275,27 @@ class PluginCmdbImpacticon extends CommonDBTM
 
     public static function getItemIcon(array $data)
     {
+        if (is_array($data)) {
+            $itemtype = $data['itemtype'];
+
+            if (getItemForItemtype($itemtype)) {
+                $obj = new $itemtype();
+
+                if ($obj->getFromDB($data['items_id'])) {
+                    if (isset($obj->fields['pictures'])
+                        && !empty($obj->fields['pictures'])) {
+                        $pictures = json_decode($obj->fields['pictures'], true);
+                        if (is_array($pictures)) {
+                            foreach ($pictures as $picture) {
+                                $picture_url = Toolbox::getPictureUrl($picture, false);
+                                return $picture_url;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         $cachedData = self::getCache();
         if (count($cachedData)) {
             // if no cache or nothing for the itemtype in the cache, no need to waste time calling the DB
