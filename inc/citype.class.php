@@ -1014,7 +1014,7 @@ class PluginCmdbCIType extends CommonDropdown {
                $i = $d['id'];
                echo "<tr class='tab_bg_2 center field' id='$i'>";
                echo "<td>";
-               $name = "nameField[' . $i . ']";
+               $name = "nameField[$i]";
                echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
                echo "<td>";
                Dropdown::showFromArray("typeField[$i]", self::$typeField, ["value" => $d['typefield'], "width" => 125]);

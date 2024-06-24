@@ -139,7 +139,7 @@ class PluginCmdbCifields extends CommonDBTM {
       echo "<td>";
       $value = "";
       $id    = $field["id"];
-      $name  = "newfield[" . $id . "]";
+      $name  = "newfield[$id]";
       if ($idCi != -1 && $idCi != "") {
          $civalues = new PluginCmdbCivalues();
          if ($civalues->getFromDBByCrit(['items_id'      => $idCi,
@@ -147,7 +147,7 @@ class PluginCmdbCifields extends CommonDBTM {
                                          'plugin_cmdb_cifields_id' => $field['id']])) {
             $value = $civalues->fields["value"];
             $id    = $civalues->fields["id"];
-            $name  = "field[" . $id . "]";
+            $name  = "field[$id]";
          }
       }
       switch ($field['typefield']) {

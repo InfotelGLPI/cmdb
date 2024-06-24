@@ -32,7 +32,6 @@ include('../../../inc/includes.php');
 $tabType = explode(",", $_POST['tabType']);
 
 if ($_POST["action"] == "reset") {
-
    $results      = null;
    $tabType      = explode(",", $_POST['tabType']);
    $tabFieldsTmp = [];
@@ -48,7 +47,7 @@ if ($_POST["action"] == "reset") {
             $i = $d['id'];
             echo "<tr class='tab_bg_2 center field' id='$i'>";
             echo "<td>";
-            $name = "nameField['. $i . ']";
+            $name = "nameField[$i]";
             echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
             echo "</td>";
             echo "<td>";

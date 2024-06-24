@@ -295,6 +295,7 @@ class PluginCmdbImpacticon extends CommonDBTM
                             if (is_array($pictures)) {
                                 foreach ($pictures as $picture) {
                                     $picture_url = Toolbox::getPictureUrl($picture, false);
+                                    $picture_url = substr($picture_url, 1);
                                     return $picture_url;
                                 }
                             }
@@ -318,6 +319,7 @@ class PluginCmdbImpacticon extends CommonDBTM
                                             if (isset($pictures) && is_array($pictures)) {
                                                 foreach ($pictures as $picture) {
                                                     $picture_url = Toolbox::getPictureUrl($picture, false);
+                                                    $picture_url = substr($picture_url, 1);
                                                     return $picture_url;
                                                 }
                                             }
