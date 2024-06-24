@@ -11,7 +11,7 @@ class PluginCmdbImpacticon extends CommonDBTM
 
     public static function getMenuName()
     {
-        return 'CMDB - '.static::getTypeName(Session::getPluralNumber());
+        return 'CMDB - ' . static::getTypeName(Session::getPluralNumber());
     }
 
     static function getMenuContent()
@@ -273,46 +273,57 @@ class PluginCmdbImpacticon extends CommonDBTM
         }
     }
 
+    /**
+     * Get an item's corresponding icon
+     * @param array $data keys : itemtype, items_id
+     * @return false|string
+     */
     public static function getItemIcon(array $data)
     {
         if (is_array($data)) {
             $itemtype = $data['itemtype'];
-
+            // TODO : could make this an option
             if (getItemForItemtype($itemtype)) {
                 $obj = new $itemtype();
 
-                if ($obj->getFromDB($data['items_id'])) {
-                    if (isset($obj->fields['pictures'])
-                        && !empty($obj->fields['pictures'])) {
-                        $pictures = json_decode($obj->fields['pictures'], true);
-                        if (is_array($pictures)) {
-                            foreach ($pictures as $picture) {
-                                $picture_url = Toolbox::getPictureUrl($picture, false);
-                                return $picture_url;
+                // itemtype that can have a picture
+                if (in_array($obj->getType(), self::itemtypeWithPicture())) {
+                    if ($obj->getFromDB($data['items_id'])) {
+                        if (isset($obj->fields['pictures'])
+                            && !empty($obj->fields['pictures'])) {
+                            $pictures = json_decode($obj->fields['pictures'], true);
+                            if (is_array($pictures)) {
+                                foreach ($pictures as $picture) {
+                                    $picture_url = Toolbox::getPictureUrl($picture, false);
+                                    return $picture_url;
+                                }
                             }
                         }
                     }
-                    if (class_exists($obj->getType()."Model")) {
+                }
+
+                // itemtype with model that con have a picture
+                if (in_array($obj->getType(), self::itemtypeModelWithPicture())) {
+                    if (class_exists($obj->getType() . "Model")) {
                         $tablemodel = getTableForItemType($itemtype . "Model");
                         $modelfield = getForeignKeyFieldForTable($tablemodel);
+                        if ($obj->getFromDB($data['items_id'])) {
+                            if (isset($obj->fields[$modelfield]) && $obj->fields[$modelfield] > 0) {
+                                if ($itemModel = getItemForItemtype($itemtype . 'Model')) {
+                                    $Modelclass = new $itemModel();
+                                    if ($Modelclass->getFromDB($obj->fields[$modelfield])) {
+                                        if ($Modelclass->fields['pictures'] != null) {
+                                            $pictures = json_decode($Modelclass->fields['pictures'], true);
 
-                        if (isset($obj->fields[$modelfield]) && $obj->fields[$modelfield] > 0) {
-
-                            if ($itemModel = getItemForItemtype($itemtype . 'Model')) {
-                                $Modelclass = new $itemModel();
-                                if ($Modelclass->getFromDB($obj->fields[$modelfield])) {
-                                    if ($Modelclass->fields['pictures'] != null) {
-                                        $pictures = json_decode($Modelclass->fields['pictures'], true);
-
-                                        if (isset($pictures) && is_array($pictures)) {
-                                            foreach ($pictures as $picture) {
-                                                $picture_url = Toolbox::getPictureUrl($picture, false);
-                                                return $picture_url;
+                                            if (isset($pictures) && is_array($pictures)) {
+                                                foreach ($pictures as $picture) {
+                                                    $picture_url = Toolbox::getPictureUrl($picture, false);
+                                                    return $picture_url;
+                                                }
                                             }
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -320,25 +331,24 @@ class PluginCmdbImpacticon extends CommonDBTM
             }
         }
 
+        // no pictures in the core : use values set in the plugin
         $cachedData = self::getCache();
         if (count($cachedData)) {
             // if no cache or nothing for the itemtype in the cache, no need to waste time calling the DB
             if (array_key_exists($data['itemtype'], $cachedData)) {
                 $criterias = self::getCriterias();
                 $item = new $data['itemtype']();
-                if ($data['items_id'] > 0) {
-                    $item->getFromDB($data['items_id']);
-                } else {
-                    $item->getEmpty();
-                }
                 // use criteria
-                if (in_array($item->getType(), array_keys($criterias))) {
-                    // $item has the value used for the itemtype's criteria
-                    if (isset($item->fields[$criterias[$item->getType()]]) && $item->fields[$criterias[$item->getType()]]  != '0') // criteria have 0 as default value, so 0 = no criteria
-                    {
-                        // is there an icon for the specific criteria ?
-                        if (isset($cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]])) {
-                            return $cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]];
+                if (in_array($item->getType(), array_keys($criterias)) && $data['items_id'] > 0) {
+                    if ($item->getFromDB($data['items_id'])) {
+                        // $item has the value used for the itemtype's criteria
+                        if (isset($item->fields[$criterias[$item->getType()]])
+                            && $item->fields[$criterias[$item->getType()]] != '0') // criteria have 0 as default value, so 0 = no criteria
+                        {
+                            // is there an icon for the specific criteria ?
+                            if (isset($cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]])) {
+                                return $cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]];
+                            }
                         }
                     }
                 }
@@ -400,5 +410,43 @@ class PluginCmdbImpacticon extends CommonDBTM
             }
         }
         $GLPI_CACHE->set($ckey, $data);
+    }
+
+    /**
+     * From impact_asset_types,
+     * itemtypes with a picture property
+     * @return array
+     */
+    public static function itemtypeWithPicture() {
+        // TODO : could add hook
+        return [
+            Appliance::getType(),
+            Datacenter::getType(),
+            Software::getType(),
+            CartridgeItem::getType(),
+            SoftwareLicense::getType(),
+            Supplier::getType(),
+            User::getType()
+        ];
+    }
+
+    /**
+     * From impact_asset_types,
+     * itemtypes with a model who has a picture property
+     * @return array
+     */
+    public static function itemtypeModelWithPicture() {
+        // TODO : could add hook
+        return [
+            Computer::getType(),
+            Enclosure::getType(),
+            Monitor::getType(),
+            NetworkEquipment::getType(),
+            PDU::getType(),
+            Peripheral::getType(),
+            Phone::getType(),
+            Printer::getType(),
+            Rack::getType()
+        ];
     }
 }
