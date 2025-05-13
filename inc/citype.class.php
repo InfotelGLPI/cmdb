@@ -1126,9 +1126,13 @@ class PluginCmdbCIType extends CommonDropdown {
    function deleteIcons($key, $id) {
       global $DB;
 
-      $iterator = $DB->request('glpi_plugin_cmdb_citypes_documents',
-                               ['WHERE' => ['plugin_cmdb_citypes_id' => $id,
-                                            'types_id'               => $key]]);
+       $iterator = $DB->request([
+           'FROM'   => 'glpi_plugin_cmdb_citypes_documents',
+           'WHERE'  => [
+               'plugin_cmdb_citypes_id' => $id,
+               'types_id'               => $key
+           ]
+       ]);
 
       if (count($iterator)) {
          foreach ($iterator as $data) {
@@ -1266,7 +1270,9 @@ class PluginCmdbCIType extends CommonDropdown {
    static function getCiTypes() {
       global $DB;
 
-      $iterator = $DB->request('glpi_plugin_cmdb_citypes');
+       $iterator = $DB->request([
+           'FROM' => 'glpi_plugin_cmdb_citypes'
+       ]);
       $types    = [];
       foreach ($iterator as $data) {
          $types[] = $data;
@@ -1287,9 +1293,13 @@ class PluginCmdbCIType extends CommonDropdown {
       $dbu      = new DbUtils();
       $entities = $dbu->getSonsOf('glpi_entities', $entities_id);
 
-      $iterator = $DB->request('glpi_plugin_cmdb_citypes',
-                               $dbu->getEntitiesRestrictCriteria('glpi_plugin_cmdb_citypes',
-                                                                 'entities_id', $entities, true));
+       $criteria = $dbu->getEntitiesRestrictCriteria('glpi_plugin_cmdb_citypes', 'entities_id', $entities, true);
+
+
+       $iterator = $DB->request([
+           'FROM'  => 'glpi_plugin_cmdb_citypes',
+           'WHERE' => $criteria
+       ]);
       $types    = [];
       foreach ($iterator as $data) {
          $types[] = $data['id'];

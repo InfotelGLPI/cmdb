@@ -27,6 +27,7 @@
  --------------------------------------------------------------------------
  */
 
+global $DB;
 if (strpos($_SERVER['PHP_SELF'], "dropdownStateOperationprocesses.php")) {
    include('../../../inc/includes.php');
    header("Content-Type: text/html; charset=UTF-8");
@@ -43,14 +44,17 @@ if (isset($_POST["operationprocessstate"])) {
    if (isset($_POST['used'])
        && is_array($_POST['used'])
        && (count($_POST['used']) > 0)) {
-      $query = "SELECT `id`
-                FROM `glpi_plugin_cmdb_operationprocesses`
-                WHERE `id` IN (" . implode(',', $_POST['used']) . ")
-                      AND `plugin_cmdb_operationprocessstates_id` = '" . $_POST["operationprocessstate"] . "'";
+       $criteria = [
+           'FROM' => 'glpi_plugin_cmdb_operationprocesses',
+           'WHERE' => [
+               'id' => $_POST['used'],
+               'plugin_cmdb_operationprocessstates_id' => $_POST["operationprocessstate"]
+           ]
+       ];
 
-      foreach ($DB->request($query) AS $data) {
-         $used[$data['id']] = $data['id'];
-      }
+       foreach ($DB->request($criteria) AS $data) {
+           $used[$data['id']] = $data['id'];
+       }
    }
 
    Dropdown::show('PluginCmdbOperationprocess',
