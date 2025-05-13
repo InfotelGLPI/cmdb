@@ -27,7 +27,6 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
 
 $class    = ($_REQUEST['itemtype'] == 'ticket') ? "tab_bg_1" : '';
 $itemtype = $_REQUEST['itemtype'];

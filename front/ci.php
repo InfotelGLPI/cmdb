@@ -28,7 +28,6 @@
  */
 
 
-include('../../../inc/includes.php');
 
 Html::header(PluginCmdbCmdb::getTypeName(2), '', "plugins", "plugincmdbmenu", 'ci');
 

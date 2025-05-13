@@ -27,7 +27,6 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
 
 $fields = new PluginCmdbCifields();
 $fields->setFieldByType($_POST["idCIType"], $_POST["id"]);

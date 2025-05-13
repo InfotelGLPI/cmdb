@@ -32,7 +32,6 @@
  * @since version 0.85
  */
 
-include('../../../inc/includes.php');
 
 $dropdown = new PluginCmdbCriticity();
 include(GLPI_ROOT . "/front/dropdown.common.php");

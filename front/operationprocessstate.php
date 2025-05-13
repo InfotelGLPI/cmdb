@@ -26,7 +26,6 @@
  along with CMDB. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-include('../../../inc/includes.php');
 
 $dropdown = new PluginCmdbOperationprocessState();
 include(GLPI_ROOT . "/front/dropdown.common.php");
