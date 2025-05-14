@@ -1383,7 +1383,6 @@ class PluginCmdbCIType extends CommonDropdown {
                      // Change entity
                      $input2['entities_id']  = $_SESSION['glpiactive_entity'];
                      $input2['is_recursive'] = 1;
-                     $input2                 = Toolbox::addslashes_deep($input2);
                      if ($item->update($input2)) {
                         $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                      } else {
