@@ -27,13 +27,18 @@
  --------------------------------------------------------------------------
  */
 
+global $CFG_GLPI;
+
+use Glpi\Plugin\Hooks;
+
 define('PLUGIN_CMDB_VERSION', '3.0.3');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
    define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
    define("PLUGIN_CMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
-   define("PLUGIN_CMDB_WEBDIR", Plugin::getWebDir("cmdb"));
-   define("PLUGIN_CMDB_NOTFULL_WEBDIR", Plugin::getWebDir("cmdb",false));
+   define("PLUGIN_CMDB_WEBDIR", $CFG_GLPI['root_doc'] . '/plugins/cmdb');
+   define("PLUGIN_CMDB_NOTFULL_WEBDIR", '/plugins/cmdb');
+
 }
 
 if (!defined("PLUGINCMDB_DOC_DIR")) {
@@ -104,18 +109,18 @@ function plugin_init_cmdb() {
 
             $itemtype = $matches[1][0];
             if ($itemtype == "ticket" && $_SESSION["glpiactiveprofile"]["interface"] != "helpdesk") {
-               $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/accordion.js';
+               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/accordion.js';
             }
 
             if ($itemtype == "citype") {
                //actions for additional fields
-               $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/accordion.js';
-               $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/function_form_CIType.js';
+               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/accordion.js';
+               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/function_form_CIType.js';
             }
 
             if ($itemtype == "ci") {
                //Show additional fields if type of CI is changed
-               $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/show_fields.js';
+               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/show_fields.js';
             }
          }
       }
@@ -145,8 +150,8 @@ function plugin_version_cmdb() {
       'homepage'     => 'https://github.com/InfotelGLPI/cmdb',
       'requirements' => [
          'glpi' => [
-            'min' => '10.0',
-            'max' => '11.0',
+            'min' => '11.0',
+            'max' => '12.0',
             'dev' => false
          ]
       ]];
