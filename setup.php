@@ -36,8 +36,8 @@ define('PLUGIN_CMDB_VERSION', '3.0.3');
 if (!defined("PLUGIN_CMDB_DIR")) {
    define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
    define("PLUGIN_CMDB_DIR_NOFULL", Plugin::getPhpDir("cmdb",false));
-   define("PLUGIN_CMDB_WEBDIR", $CFG_GLPI['root_doc'] . '/plugins/cmdb');
-   define("PLUGIN_CMDB_NOTFULL_WEBDIR", '/plugins/cmdb');
+//   define("PLUGIN_CMDB_WEBDIR", $CFG_GLPI['root_doc'] . '/plugins/cmdb');
+//   define("PLUGIN_CMDB_NOTFULL_WEBDIR", '/plugins/cmdb');
 
 }
 
@@ -83,7 +83,7 @@ function plugin_init_cmdb() {
 
       $PLUGIN_HOOKS['plugin_fields']['cmdb'] = 'PluginCmdbOperationprocess';
 
-      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = PLUGIN_CMDB_NOTFULL_WEBDIR."/pics/service.png";
+      $CFG_GLPI['impact_asset_types']['PluginCmdbOperationprocess'] = "/plugins/cmdb/pics/service.png";
 
 
       //      $CFG_GLPI['impact_asset_types']['PluginCmdbCI'] = "plugins/cmdb/client.png";
@@ -96,10 +96,10 @@ function plugin_init_cmdb() {
 
 
       //Change link from menu.php
-      $PLUGIN_HOOKS["javascript"]['cmdb'] = [PLUGIN_CMDB_NOTFULL_WEBDIR."/js/changeCIMenu.js",
-                                             PLUGIN_CMDB_NOTFULL_WEBDIR."/js/accordion.js",
-                                             PLUGIN_CMDB_NOTFULL_WEBDIR."/js/function_form_CIType.js",
-                                             PLUGIN_CMDB_NOTFULL_WEBDIR."/js/show_fields.js"];
+      $PLUGIN_HOOKS["javascript"]['cmdb'] = ["/plugins/cmdb/js/changeCIMenu.js",
+          "/plugins/cmdb/js/accordion.js",
+          "/plugins/cmdb/js/function_form_CIType.js",
+          "/plugins/cmdb/js/show_fields.js"];
 
       $PLUGIN_HOOKS['post_item_form']['cmdb'] = ['PluginCmdbCriticity', 'addFieldCriticity'];
 
