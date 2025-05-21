@@ -27,6 +27,8 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
+
 Session::checkRight("plugin_cmdb_operationprocesses", READ);
 
 Html::header(PluginCmdbOperationprocess::getTypeName(2), '', "assets", "plugincmdboperationprocessmenu");
@@ -38,6 +40,6 @@ if ($op->canView()) {
 
 } else {
 
-   Html::displayRightError();
+    throw new AccessDeniedHttpException();
 }
 Html::footer();

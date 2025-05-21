@@ -28,6 +28,8 @@
  */
 
 
+use Glpi\Exception\Http\AccessDeniedHttpException;
+
 Html::header(PluginCmdbCmdb::getTypeName(2), '', "plugins", "plugincmdbmenu");
 
 $cmdb = new PluginCmdbCmdb();
@@ -36,6 +38,6 @@ $cmdb->checkGlobal(READ);
 if ($cmdb->canView()) {
    $cmdb->displayMenu();
 } else {
-   Html::displayRightError();
+    throw new AccessDeniedHttpException();
 }
 Html::footer();
