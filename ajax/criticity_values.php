@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-
+Session::checkRight('plugin_cmdb_cis', UPDATE);
 $class    = ($_REQUEST['itemtype'] == 'ticket') ? "tab_bg_1" : '';
 $itemtype = $_REQUEST['itemtype'];
 
