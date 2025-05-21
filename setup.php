@@ -114,8 +114,8 @@ function plugin_init_cmdb() {
 
             if ($itemtype == "citype") {
                //actions for additional fields
-               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/accordion.js';
-               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/function_form_CIType.js';
+               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'public/js/accordion.js';
+               $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'public/js/function_form_CIType.js';
             }
 
             if ($itemtype == "ci") {
