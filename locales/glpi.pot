@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 09:01+0000\n"
+"POT-Creation-Date: 2025-06-24 13:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: hook.php:328
+#: hook.php:329
 msgid "item not found or disabled"
 msgstr ""
 
-#: setup.php:141 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
+#: setup.php:146 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
 #: inc/menu.class.php:47 inc/profile.class.php:50
 msgid "CMDB"
 msgstr ""
 
-#: front/ci.form.php:66
+#: front/ci.form.php:65
 msgid "You can't delete this item, because this item is used on CMDB !"
 msgstr ""
 
@@ -143,29 +143,29 @@ msgstr ""
 msgid "Default icon"
 msgstr ""
 
-#: inc/citype.class.php:947
+#: inc/citype.class.php:944
 msgid "Add New Field"
 msgstr ""
 
-#: inc/citype.class.php:971
+#: inc/citype.class.php:968
 msgid "Upload icon"
 msgstr ""
 
-#: inc/citype.class.php:997
+#: inc/citype.class.php:994
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: inc/citype.class.php:1001
+#: inc/citype.class.php:998
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: inc/citype.class.php:1084
+#: inc/citype.class.php:1081
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: inc/citype.class.php:1328 inc/citype.class.php:1343
+#: inc/citype.class.php:1335 inc/citype.class.php:1350
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
@@ -236,7 +236,7 @@ msgid_plural "Attached services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/operationprocess_item.class.php:485
+#: inc/operationprocess_item.class.php:487
 msgctxt "button"
 msgid "Associate a service"
 msgstr ""
