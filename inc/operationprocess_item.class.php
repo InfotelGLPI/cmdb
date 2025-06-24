@@ -192,11 +192,13 @@ class PluginCmdbOperationprocess_Item extends CommonDBRelation {
 
       $canedit = $operationprocess->can($instID, UPDATE);
 
-      $iterator = $DB->request('glpi_plugin_cmdb_operationprocesses_items',
-                   ['SELECT' => 'itemtype',
-                    'DISTINCT'        => true,
-                    'WHERE'           => ['plugin_cmdb_operationprocesses_id' => $instID],
-                    'ORDER'           => 'itemtype']);
+       $iterator = $DB->request([
+           'FROM'    => 'glpi_plugin_cmdb_operationprocesses_items',
+           'SELECT'  => 'itemtype',
+           'DISTINCT' => true,
+           'WHERE'   => ['plugin_cmdb_operationprocesses_id' => $instID],
+           'ORDER'   => 'itemtype'
+       ]);
 
       $number = count($iterator);
 

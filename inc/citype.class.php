@@ -117,13 +117,13 @@ class PluginCmdbCIType extends CommonDropdown {
             }
          }
          $citype_doc = new PluginCmdbCIType_Document();
-         $icon       = PLUGIN_CMDB_NOTFULL_WEBDIR.'/pics/iconCI.png';
+         $icon       = '/plugins/cmdb/pics/iconCI.png';
          if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $type['id'],
                                            'types_id'               => 0])) {
             $document = new Document();
             $document->getFromDB($citype_doc->fields['documents_id']);
             //            $icon =  'files/'.$document->getField("filepath");
-            $icon = PLUGIN_CMDB_NOTFULL_WEBDIR."/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
+            $icon = "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
          }
          if (class_exists($type['name'])) {
             $CFG_GLPI['impact_asset_types'][$type['name']] = $icon;
@@ -588,7 +588,7 @@ class PluginCmdbCIType extends CommonDropdown {
          $ci                  = $dbu->getItemForItemtype($CIType);
          $tabCIType2[$CIType] = $ci::getTypeName(1);
       }
-      $url_cmdb_ajax = PLUGIN_CMDB_WEBDIR . "/ajax";
+      $url_cmdb_ajax = $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax";
       if (isset($this->fields["name"])
           && $this->fields["name"] != "") {
 
@@ -715,8 +715,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
                   if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                     'types_id'               => $key])) {
-                     echo "<img width='32' height='32' src=\"" . PLUGIN_CMDB_WEBDIR .
-                          "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
+                     echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                   }
                }
                $nameFileupload = 'filename$$' . $key;
@@ -736,8 +735,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
                   if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                     'types_id'               => $key])) {
-                     echo "<img width='32' height='32' src=\"" . PLUGIN_CMDB_WEBDIR .
-                          "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
+                     echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                   }
 
                }
@@ -758,8 +756,7 @@ class PluginCmdbCIType extends CommonDropdown {
 
                if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
                                                  'types_id'               => $key])) {
-                  echo "<img width='32' height='32' src=\"" . PLUGIN_CMDB_WEBDIR .
-                       "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
+                  echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
                }
             }
 //            echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
@@ -1126,9 +1123,13 @@ class PluginCmdbCIType extends CommonDropdown {
    function deleteIcons($key, $id) {
       global $DB;
 
-      $iterator = $DB->request('glpi_plugin_cmdb_citypes_documents',
-                               ['WHERE' => ['plugin_cmdb_citypes_id' => $id,
-                                            'types_id'               => $key]]);
+       $iterator = $DB->request([
+           'FROM'   => 'glpi_plugin_cmdb_citypes_documents',
+           'WHERE'  => [
+               'plugin_cmdb_citypes_id' => $id,
+               'types_id'               => $key
+           ]
+       ]);
 
       if (count($iterator)) {
          foreach ($iterator as $data) {
@@ -1266,7 +1267,9 @@ class PluginCmdbCIType extends CommonDropdown {
    static function getCiTypes() {
       global $DB;
 
-      $iterator = $DB->request('glpi_plugin_cmdb_citypes');
+       $iterator = $DB->request([
+           'FROM' => 'glpi_plugin_cmdb_citypes'
+       ]);
       $types    = [];
       foreach ($iterator as $data) {
          $types[] = $data;
@@ -1287,9 +1290,13 @@ class PluginCmdbCIType extends CommonDropdown {
       $dbu      = new DbUtils();
       $entities = $dbu->getSonsOf('glpi_entities', $entities_id);
 
-      $iterator = $DB->request('glpi_plugin_cmdb_citypes',
-                               $dbu->getEntitiesRestrictCriteria('glpi_plugin_cmdb_citypes',
-                                                                 'entities_id', $entities, true));
+       $criteria = $dbu->getEntitiesRestrictCriteria('glpi_plugin_cmdb_citypes', 'entities_id', $entities, true);
+
+
+       $iterator = $DB->request([
+           'FROM'  => 'glpi_plugin_cmdb_citypes',
+           'WHERE' => $criteria
+       ]);
       $types    = [];
       foreach ($iterator as $data) {
          $types[] = $data['id'];
@@ -1373,7 +1380,6 @@ class PluginCmdbCIType extends CommonDropdown {
                      // Change entity
                      $input2['entities_id']  = $_SESSION['glpiactive_entity'];
                      $input2['is_recursive'] = 1;
-                     $input2                 = Toolbox::addslashes_deep($input2);
                      if ($item->update($input2)) {
                         $ma->itemDone($item->getType(), $key, MassiveAction::ACTION_OK);
                      } else {

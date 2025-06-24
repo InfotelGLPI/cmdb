@@ -63,13 +63,13 @@ class PluginCmdbMenu extends CommonGLPI {
       $menu          = [];
       $menu['title'] = self::getTypeName();
 
-      $menu['page']  = PLUGIN_CMDB_NOTFULL_WEBDIR."/front/menu.php";
-      $menu['links']["<i class='ti ti-tool' title=\"" . __('Configure Type of Item Configuration', 'cmdb') . "\"></i>".__('Configure Type of Item Configuration', 'cmdb')] = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/citype.php';
+      $menu['page']  = "/plugins/cmdb/front/menu.php";
+      $menu['links']["<i class='ti ti-tool' title=\"" . __('Configure Type of Item Configuration', 'cmdb') . "\"></i>".__('Configure Type of Item Configuration', 'cmdb')] = '/plugins/cmdb/front/citype.php';
       //ItemConfiguration
       $menu['options']['ci']['title']           = __s("Item Configuration", 'cmdb');
-      $menu['options']['ci']['page']            = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/ci.php';
-      $menu['options']['ci']['links']['add']    = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/ci.form.php';
-      $menu['options']['ci']['links']['search'] = PLUGIN_CMDB_NOTFULL_WEBDIR.'/front/ci.php';
+      $menu['options']['ci']['page']            = '/plugins/cmdb/front/ci.php';
+      $menu['options']['ci']['links']['add']    = '/plugins/cmdb/front/ci.form.php';
+      $menu['options']['ci']['links']['search'] = '/plugins/cmdb/front/ci.php';
 
       $menu['icon']    = PluginCmdbOperationprocess::getIcon();
       //baseline

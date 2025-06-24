@@ -28,7 +28,7 @@
  */
 
 
-include('../../../inc/includes.php');
+use Glpi\Exception\Http\AccessDeniedHttpException;
 
 Html::header(PluginCmdbCmdb::getTypeName(2), '', "plugins", "plugincmdbmenu", 'ci');
 
@@ -40,6 +40,6 @@ if ($op->canView()) {
 
 } else {
 
-   Html::displayRightError();
+    throw new AccessDeniedHttpException();
 }
 Html::footer();

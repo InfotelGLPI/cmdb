@@ -27,7 +27,8 @@
  --------------------------------------------------------------------------
  */
 
-include('../../../inc/includes.php');
+
+use Glpi\Exception\Http\BadRequestHttpException;
 
 Session::checkLoginUser();
 
@@ -35,18 +36,18 @@ $doc = new Document();
 
 if (isset($_GET['idDoc'])) { // docid for document
    if (!$doc->getFromDB($_GET['idDoc'])) {
-      Html::displayErrorAndDie(__('Unknown file'), true);
+       throw new BadRequestHttpException(__('Unknown file'), true);
    }
 
    if (!file_exists(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
-      Html::displayErrorAndDie(__('File not found'), true); // Not found
+       throw new BadRequestHttpException(__('File not found'), true);
    } else if ($doc->canViewFile($_GET)) {
       if ($doc->fields['sha1sum'] && $doc->fields['sha1sum'] != sha1_file(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
-         Html::displayErrorAndDie(__('File is altered (bad checksum)'), true); // Doc alterated
+          throw new BadRequestHttpException(__('File is altered (bad checksum)'), true);
       } else {
          $doc->send();
       }
    } else {
-      Html::displayErrorAndDie(__('Unauthorized access to this file'), true); // No right
+       throw new BadRequestHttpException(__('Unauthorized access to this file'), true);
    }
 }

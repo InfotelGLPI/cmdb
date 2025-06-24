@@ -417,36 +417,36 @@ class PluginCmdbCI extends CommonDBTM {
 
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                               'types_id'               => $idType])) {
-               return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+               return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                       $citype_doc->fields['documents_id'] . "&type=pics";
             } else {
                if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                                  'types_id'               => 0])) {
-                  return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+                  return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                          $citype_doc->fields['documents_id'] . "&type=pics";
                } else {
-                  return PLUGIN_CMDB_WEBDIR . "/pics/nothing.png";
+                  return $CFG_GLPI['root_doc'] . "/plugins/cmdb/pics/nothing.png";
                }
             }
          } else {
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                               'types_id'               => 0])) {
 
-               return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+               return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                       $citype_doc->fields['documents_id'] . "&type=pics";
 
             } else {
-               return PLUGIN_CMDB_WEBDIR . "/pics/nothing.png";
+               return $CFG_GLPI['root_doc'] . "/plugins/cmdb/pics/nothing.png";
             }
          }
       } else {
 
          if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
                                            'types_id'               => 0])) {
-            return PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" .
+            return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                    $citype_doc->fields['documents_id'] . "&type=pics";
          } else {
-            return PLUGIN_CMDB_WEBDIR . "/pics/nothing.png";
+            return $CFG_GLPI['root_doc'] . "/plugins/cmdb/pics/nothing.png";
          }
       }
       return '';

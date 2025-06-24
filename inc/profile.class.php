@@ -221,12 +221,19 @@ class PluginCmdbProfile extends Profile {
          }
       }
 
-      foreach ($DB->request("SELECT *
-                           FROM `glpi_profilerights` 
-                           WHERE `profiles_id`='" . $_SESSION['glpiactiveprofile']['id'] . "' 
-                              AND `name` LIKE '%plugin_cmdb%'") as $prof) {
-         $_SESSION['glpiactiveprofile'][$prof['name']] = $prof['rights'];
-      }
+       $profileId = $_SESSION['glpiactiveprofile']['id'];
+
+       $criteria = [
+           'FROM'  => 'glpi_profilerights',
+           'WHERE' => [
+               'profiles_id' => $profileId,
+               'name'        => ['LIKE', '%plugin_cmdb%']
+           ]
+       ];
+
+       foreach ($DB->request($criteria) as $prof) {
+           $_SESSION['glpiactiveprofile'][$prof['name']] = $prof['rights'];
+       }
    }
 
    static function removeRightsFromSession() {

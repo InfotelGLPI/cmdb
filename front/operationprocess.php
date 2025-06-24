@@ -26,7 +26,8 @@
  along with CMDB. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-include('../../../inc/includes.php');
+
+use Glpi\Exception\Http\AccessDeniedHttpException;
 
 Session::checkRight("plugin_cmdb_operationprocesses", READ);
 
@@ -39,6 +40,6 @@ if ($op->canView()) {
 
 } else {
 
-   Html::displayRightError();
+    throw new AccessDeniedHttpException();
 }
 Html::footer();

@@ -26,8 +26,7 @@
  along with CMDB. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-
-include('../../../inc/includes.php');
+Session::checkRight('plugin_cmdb_citypes', UPDATE);
 
 $data   = [];
 $citype = new PluginCmdbCIType();

@@ -26,7 +26,21 @@
  along with CMDB. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
-include('../../../inc/includes.php');
+
+use Glpi\Controller\LegacyFileLoadController;
+use Glpi\Exception\Http\AccessDeniedHttpException;
+use Glpi\Application\View\TemplateRenderer;
+
 
 $dropdown = new PluginCmdbOperationprocessState();
-include(GLPI_ROOT . "/front/dropdown.common.php");
+if (!($this instanceof LegacyFileLoadController) || !($dropdown instanceof CommonDropdown)) {
+    throw new LogicException();
+}
+if (!$dropdown::canView()) {
+    throw new AccessDeniedHttpException();
+}
+$params = [
+    'class' => $dropdown::class,
+];
+
+TemplateRenderer::getInstance()->display('pages/generic_list.html.twig', $params);
