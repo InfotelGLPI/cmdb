@@ -14,6 +14,22 @@ class %%CLASSNAME%% extends CommonDropdown {
    }
 
    /**
+     * Drop immediately a table if it exists
+     *
+     * @param string $table Table name
+     *
+     * @return void
+     **/
+    public function dropTable($table)
+    {
+        global $DB;
+
+        if ($DB->tableExists($table)) {
+        $DB->dropTable($table);
+        }
+    }
+
+   /**
     * @throws \GlpitestSQLError
     */
    static function install() {
@@ -22,6 +38,7 @@ class %%CLASSNAME%% extends CommonDropdown {
       $obj   = new self();
       $table = $obj->getTable();
 
+    $migration = new Migration('1.0.0');
       // create Table
       if (!$DB->tableExists($table)) {
          $query = "CREATE TABLE IF NOT EXISTS `$table` (
@@ -32,8 +49,9 @@ class %%CLASSNAME%% extends CommonDropdown {
             `comment`                      text collate utf8mb4_unicode_ci,
             PRIMARY KEY                     (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;";
-         $DB->query($query) or die ($DB->error());
+    $migration->addPostQuery($query, "Create table $table");
       }
+    $migration->executeMigration();
 
    }
 
@@ -44,9 +62,15 @@ class %%CLASSNAME%% extends CommonDropdown {
    static function uninstall() {
       global $DB;
 
-      $obj = new self();
-      return $DB->query("DROP TABLE IF EXISTS `" . $obj->getTable() . "`");
+    $obj = new self();
+    $table = $obj->getTable();
+
+    $obj->dropTable($table);
+
+    return true;
    }
+
+
 
    /**
     * Get the search page URL for the current classe
