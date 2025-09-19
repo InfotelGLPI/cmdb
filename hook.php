@@ -179,8 +179,8 @@ function plugin_cmdb_getDatabaseRelations() {
                                                             => "entities_id",
                                                             "glpi_plugin_cmdb_cis"
                                                             => "entities_id"],
-              "glpi_plugin_cmdb_operationprocessstates" => ["glpi_plugin_cmdb_operationprocesses"
-                                                            => "plugin_cmdb_operationprocessstates_id"],
+//              "glpi_plugin_cmdb_operationprocessstates" => ["glpi_plugin_cmdb_operationprocesses"
+//                                                            => "plugin_cmdb_operationprocessstates_id"],
               "glpi_plugin_cmdb_criticities"            => ["glpi_plugin_cmdb_criticities_items"
                                                             => "plugin_cmdb_criticities_id"],
               "glpi_users"                              => ["glpi_plugin_cmdb_operationprocesses"
