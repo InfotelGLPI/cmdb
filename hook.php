@@ -123,7 +123,7 @@ function plugin_cmdb_uninstall() {
               "glpi_plugin_cmdb_citypes_documents",
               "glpi_plugin_cmdb_criticities"];
 
-   $DB->query("DROP TABLE IF EXISTS " . implode(",", $tables));
+   $DB->doQuery("DROP TABLE IF EXISTS " . implode(",", $tables));
 
    $tables = ["glpi_displaypreferences",
               "glpi_documents_items",
@@ -134,13 +134,13 @@ function plugin_cmdb_uninstall() {
               "glpi_impactitems"];
 
    foreach ($tables as $table) {
-      $DB->query("DELETE
+      $DB->doQuery("DELETE
                   FROM `$table`
                   WHERE `itemtype` IN ('PluginCmdbOperationprocess',
                   'PluginCmdbCIType','PluginCmdbCI','PluginCmdbCIType_Document') ");
    }
 
-   $DB->query("DELETE
+   $DB->doQuery("DELETE
                   FROM `glpi_impactrelations`
                   WHERE `itemtype_source` IN ('PluginCmdbOperationprocess',
                   'PluginCmdbCIType','PluginCmdbCI','PluginCmdbCIType_Document')
