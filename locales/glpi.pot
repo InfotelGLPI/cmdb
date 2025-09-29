@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CMDB - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 11:39+0000\n"
+"POT-Creation-Date: 2025-09-29 11:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:169 src/Profile.php:60 src/Menu.php:51 src/Ci_cmdb.php:56
+#: setup.php:174 src/Profile.php:60 src/Menu.php:51 src/Ci_cmdb.php:56
 #: src/Cmdb.php:56
 msgid "CMDB"
 msgstr ""
@@ -94,8 +94,7 @@ msgstr[1] ""
 msgid "Invalid name !"
 msgstr ""
 
-#: src/Operationprocessmenu.php:53 src/Profile.php:139 src/Profile.php:181
-#: src/Profile.php:237 src/Operationprocess.php:67
+#: src/Operationprocessmenu.php:53 src/Operationprocess.php:67
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] ""
@@ -309,27 +308,23 @@ msgstr ""
 msgid "Display Item Configuration"
 msgstr ""
 
-#: src/Cmdb.php:157 src/Cmdb.php:162
-msgid "No Types of CI found. Please create Types of CI before display CIs"
-msgstr ""
-
-#: src/Cmdb_ticket.php:101
+#: src/Cmdb_ticket.php:104
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr ""
 
-#: src/Cmdb_ticket.php:106
+#: src/Cmdb_ticket.php:109
 msgid "No elements of CMDB linked to the ticket"
 msgstr ""
 
-#: src/Cmdb_ticket.php:120 src/Cmdb_ticket.php:158
+#: src/Cmdb_ticket.php:124 src/Cmdb_ticket.php:162
 msgid "Impacted items"
 msgstr ""
 
-#: src/Cmdb_ticket.php:159
+#: src/Cmdb_ticket.php:163
 msgid "Proximity"
 msgstr ""
 
-#: src/Cmdb_ticket.php:201
+#: src/Cmdb_ticket.php:206
 msgid "Direct impact"
 msgstr ""
 
