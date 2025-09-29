@@ -28,6 +28,10 @@
  */
 
 
+use GlpiPlugin\Cmdb\Operationprocess;
+use GlpiPlugin\Cmdb\Operationprocess_Item;
+use GlpiPlugin\Cmdb\OperationprocessMenu;
+
 if (!isset($_GET["id"])) {
    $_GET["id"] = "";
 }
@@ -35,8 +39,8 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$operationprocess      = new PluginCmdbOperationprocess();
-$operationprocess_item = new PluginCmdbOperationprocess_Item();
+$operationprocess      = new Operationprocess();
+$operationprocess_item = new Operationprocess_Item();
 
 if (isset($_POST["add"])) {
 
@@ -101,8 +105,8 @@ if (isset($_POST["add"])) {
 
    $operationprocess->checkGlobal(READ);
 
-   Html::header(PluginCmdbOperationprocess::getTypeName(2), '', "assets",
-                "plugincmdboperationprocessmenu");
+   Html::header(Operationprocess::getTypeName(2), '', "assets",
+       OperationprocessMenu::class);
    $operationprocess->display($_GET);
 
    Html::footer();

@@ -28,6 +28,9 @@
  */
 
 
+use GlpiPlugin\Cmdb\CI;
+use GlpiPlugin\Cmdb\Cmdb;
+use GlpiPlugin\Cmdb\Menu;
 
 if (!isset($_GET["id"])) {
    $_GET["id"] = "";
@@ -36,7 +39,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$ci        = new PluginCmdbCI();
+$ci        = new CI();
 
 if (isset($_POST["add"])) {
 
@@ -81,7 +84,7 @@ if (isset($_POST["add"])) {
 
    $ci->checkGlobal(READ);
 
-   Html::header(PluginCmdbCmdb::getTypeName(2), '', "plugins", "plugincmdbmenu", 'ci');
+   Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class, 'ci');
 
    $ci->display($_GET);
 

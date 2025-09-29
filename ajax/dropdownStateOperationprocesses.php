@@ -28,6 +28,9 @@
  */
 
 global $DB;
+
+use GlpiPlugin\Cmdb\Operationprocess;
+
 if (strpos($_SERVER['PHP_SELF'], "dropdownStateOperationprocesses.php")) {
    header("Content-Type: text/html; charset=UTF-8");
    Html::header_nocache();
@@ -56,7 +59,7 @@ if (isset($_POST["operationprocessstate"])) {
        }
    }
 
-   Dropdown::show('PluginCmdbOperationprocess',
+   Dropdown::show(Operationprocess::class,
                   ['name'      => $_POST['myname'],
                         'used'      => $used,
                         'width'     => '50%',

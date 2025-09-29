@@ -27,26 +27,51 @@
  --------------------------------------------------------------------------
  */
 
-use Glpi\Exception\Http\BadRequestHttpException;
+namespace GlpiPlugin\Cmdb;
 
-Session::checkLoginUser();
+use CommonGLPI;
 
-$doc = new Document();
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access directly to this file");
+}
 
-if (isset($_GET['idDoc'])) { // docid for document
-   if (!$doc->getFromDB($_GET['idDoc'])) {
-       throw new BadRequestHttpException(__('Unknown file'), true);
+/**
+ * Class OperationprocessMenu
+ */
+class OperationprocessMenu extends CommonGLPI {
+
+   static $rightname = 'plugin_cmdb_operationprocesses';
+
+   /**
+    * Get menu name
+    *
+    * @since version 0.85
+    *
+    * @return string menu shortcut key
+    **/
+   static function getMenuName() {
+      return _n('Service', 'Services', 2, 'cmdb');
    }
 
-   if (!file_exists(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
-       throw new BadRequestHttpException(__('File not found'));
-   } else if ($doc->canViewFile($_GET)) {
-      if ($doc->fields['sha1sum'] && $doc->fields['sha1sum'] != sha1_file(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
-          throw new BadRequestHttpException(__('File is altered (bad checksum)'));
-      } else {
-         return $doc->getAsResponse();
+
+   /**
+    * get menu content
+    *
+    * @since version 0.85
+    *
+    * @return array for menu
+    **/
+   static function getMenuContent() {
+
+      $menu                    = [];
+      $menu['title']           = self::getMenuName();
+      $menu['page']            = Operationprocess::getSearchURL(false);
+      $menu['links']['search'] = Operationprocess::getSearchURL(false);
+      if (Operationprocess::canCreate()) {
+         $menu['links']['add'] = Operationprocess::getFormURL(false);
       }
-   } else {
-       throw new BadRequestHttpException(__('Unauthorized access to this file'));
+      $menu['icon']    = Operationprocess::getIcon();
+
+      return $menu;
    }
 }

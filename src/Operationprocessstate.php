@@ -27,9 +27,30 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+namespace GlpiPlugin\Cmdb;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+use CommonDropdown;
 
-$fields = new Cifields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access directly to this file");
+}
+
+/**
+ * Class OperationprocessState
+ */
+class OperationprocessState extends CommonDropdown {
+
+   static $rightname = "plugin_cmdb_operationprocesses";
+
+   /**
+    * @since version 0.85
+    *
+    * @param $nb
+    *
+    * @return string
+    */
+   static function getTypeName($nb = 0) {
+
+      return _n('State of service', 'States of service', $nb, 'cmdb');
+   }
+}

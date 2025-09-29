@@ -26,10 +26,13 @@
  along with CMDB. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+
+use GlpiPlugin\Cmdb\CIType;
+
 Session::checkRight('plugin_cmdb_citypes', UPDATE);
 
 $data   = [];
-$citype = new PluginCmdbCIType();
+$citype = new CIType();
 $citype->getFromDB($_POST['id']);
 if (isset($citype->fields["is_imported"])
     && $citype->fields["is_imported"]) {

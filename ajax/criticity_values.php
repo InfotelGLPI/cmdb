@@ -27,17 +27,21 @@
  --------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Cmdb\CI;
+use GlpiPlugin\Cmdb\Criticity;
+use GlpiPlugin\Cmdb\Criticity_Item;
+
 Session::checkRight('plugin_cmdb_cis', UPDATE);
 $class    = ($_REQUEST['itemtype'] == 'ticket') ? "tab_bg_1" : '';
 $itemtype = $_REQUEST['itemtype'];
 
 echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
-echo "<td>" . PluginCmdbCriticity_Item::getTypeName(1) . "</td>";
+echo "<td>" . Criticity_Item::getTypeName(1) . "</td>";
 echo "<td>";
-$crit = new PluginCmdbCriticity();
+$crit = new Criticity();
 $crit->criticityDropdown(["itemtype" => $itemtype]);
 echo "</td>";
-if ($itemtype != "PluginCmdbCI") {
+if ($itemtype != CI::class) {
    echo "<td colspan='2'></td>";
 }
 echo "</tr>";

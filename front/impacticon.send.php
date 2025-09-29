@@ -26,10 +26,24 @@
  along with CMDB. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
  */
+use Glpi\Exception\Http\BadRequestHttpException;
 
-use GlpiPlugin\Cmdb\Cifields;
+Session::checkLoginUser();
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+$doc = new Document();
 
-$fields = new Cifields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+if (isset($_GET['idDoc'])) { // docid for document
+    if (!$doc->getFromDB($_GET['idDoc'])) {
+        throw new BadRequestHttpException(__('Unknown file'));
+    }
+
+    if (!file_exists(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
+        throw new BadRequestHttpException(__('File not found')); // Not found
+    } else {
+        if ($doc->fields['sha1sum'] && $doc->fields['sha1sum'] != sha1_file(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
+            throw new BadRequestHttpException(__('File is altered (bad checksum)')); // Doc alterated
+        } else {
+            return $doc->getAsResponse();
+        }
+    }
+}

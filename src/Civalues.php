@@ -27,9 +27,19 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+namespace GlpiPlugin\Cmdb;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+use CommonDBTM;
 
-$fields = new Cifields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access directly to this file");
+}
+
+/**
+ * Class Civalues
+ */
+class Civalues extends CommonDBTM {
+
+   static $rightname = "plugin_cmdb_cis";
+
+}

@@ -27,47 +27,44 @@
  --------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Cmdb\Cifields;
 
 $tabType = explode(",", $_POST['tabType']);
 
 if ($_POST["action"] == "reset") {
+    $results      = null;
+    $tabType      = explode(",", $_POST['tabType']);
+    $tabFieldsTmp = [];
 
-   $results      = null;
-   $tabType      = explode(",", $_POST['tabType']);
-   $tabFieldsTmp = [];
+    if (isset($_POST['id'])) {
+        $cifields = new Cifields();
+        if ($cifields->getFromDBByCrit(['plugin_cmdb_citypes_id' => $_POST['id']])) {
+            $tabFieldsTmp[] = $cifields->fields;
 
-   if (isset($_POST['id'])) {
-
-      $cifields = new PluginCmdbCifields();
-      if ($cifields->getFromDBByCrit(['plugin_cmdb_citypes_id' => $_POST['id']])) {
-
-         $tabFieldsTmp[] = $cifields->fields;
-
-         foreach ($tabFieldsTmp as $k => $d) {
-            $i = $d['id'];
-            echo "<tr class='tab_bg_2 center field' id='$i'>";
-            echo "<td>";
-            $name = "nameField['. $i . ']";
-            echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
-            echo "</td>";
-            echo "<td>";
-            Dropdown::showFromArray("typeField[$i]", $tabType, ["value" => $d['typefield'], "width" => 125]);
-            echo "</td>";
-            echo "<i class='fa-2x ti ti-trash pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
-            echo "</tr>";
-         }
-      }
-   }
-
-} else if ($_POST["action"] == "add") {
-   echo "<tr class='tab_bg_2 center' id='" . $_POST['rows'] . "'>";
-   echo "<td>";
-   $name = "nameNewField[]";
-   echo Html::input($name, ['value' => '', 'size' => 40, 'required' => 'required']);
-   echo "</td>";
-   echo "<td>";
-   Dropdown::showFromArray("typeNewField[]", $tabType, ["width" => 125]);
-   echo "</td>";
-   echo "<td><i class='fa-2x ti ti-trash pointer'  onclick='deleteField(" . $_POST['rows'] . ");'></i></td>";
-   echo "</tr>";
+            foreach ($tabFieldsTmp as $k => $d) {
+                $i = $d['id'];
+                echo "<tr class='tab_bg_2 center field' id='$i'>";
+                echo "<td>";
+                $name = "nameField[$i]";
+                echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
+                echo "</td>";
+                echo "<td>";
+                Dropdown::showFromArray("typeField[$i]", $tabType, ["value" => $d['typefield'], "width" => 125]);
+                echo "</td>";
+                echo "<i class='fa-2x ti ti-trash pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
+                echo "</tr>";
+            }
+        }
+    }
+} elseif ($_POST["action"] == "add") {
+    echo "<tr class='tab_bg_2 center' id='" . $_POST['rows'] . "'>";
+    echo "<td>";
+    $name = "nameNewField[]";
+    echo Html::input($name, ['value' => '', 'size' => 40, 'required' => 'required']);
+    echo "</td>";
+    echo "<td>";
+    Dropdown::showFromArray("typeNewField[]", $tabType, ["width" => 125]);
+    echo "</td>";
+    echo "<td><i class='fa-2x ti ti-trash pointer'  onclick='deleteField(" . $_POST['rows'] . ");'></i></td>";
+    echo "</tr>";
 }

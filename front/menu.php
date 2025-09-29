@@ -1,4 +1,5 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
@@ -29,14 +30,19 @@
 
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
+use GlpiPlugin\Cmdb\Cmdb;
+use GlpiPlugin\Cmdb\Menu;
 
-Html::header(PluginCmdbCmdb::getTypeName(2), '', "plugins", "plugincmdbmenu");
+Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class);
 
-$cmdb = new PluginCmdbCmdb();
+$cmdb = new Cmdb();
 $cmdb->checkGlobal(READ);
 
 if ($cmdb->canView()) {
-   $cmdb->displayMenu();
+    echo "<div class='alert alert-warning'>";
+    echo "<i>" . __("With GLPI 11, you can create new custom assets, so migrate your existing objets to core", 'cmdb') . "</i>";
+    echo "</div>";
+    $cmdb->displayMenu();
 } else {
     throw new AccessDeniedHttpException();
 }

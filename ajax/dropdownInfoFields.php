@@ -27,9 +27,11 @@
  --------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Cmdb\CIType;
+
 if (strpos($_SERVER['PHP_SELF'], "dropdownInfoFields.php")) {
    header("Content-Type: text/html; charset=UTF-8");
    Html::header_nocache();
 }
 Session::checkRight('plugin_cmdb_citypes', UPDATE);
-PluginCmdbCIType::selectCriterias($_POST['itemtype']);
+CIType::selectCriterias($_POST['itemtype']);

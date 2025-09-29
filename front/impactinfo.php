@@ -1,9 +1,10 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  CMDB plugin for GLPI
- Copyright (C) 2015-2022 by the CMDB Development Team.
+ Copyright (C) 2015-2024 by the CMDB Development Team.
 
  https://github.com/InfotelGLPI/CMDB
  -------------------------------------------------------------------------
@@ -27,9 +28,17 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+use Glpi\Exception\Http\AccessDeniedHttpException;
+use GlpiPlugin\Cmdb\Impactinfo;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+Html::header(Impactinfo::getTypeName(2), '', "config", Impactinfo::class);
 
-$fields = new Cifields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+$impactInfo = new Impactinfo();
+$impactInfo->checkGlobal(READ);
+
+if ($impactInfo->canView()) {
+    Search::show(Impactinfo::getType());
+} else {
+    throw new AccessDeniedHttpException();
+}
+Html::footer();

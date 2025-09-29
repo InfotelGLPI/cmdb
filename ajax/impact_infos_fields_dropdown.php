@@ -1,9 +1,10 @@
 <?php
+
 /*
  * @version $Id: HEADER 15930 2011-10-30 15:47:55Z tsmr $
  -------------------------------------------------------------------------
  CMDB plugin for GLPI
- Copyright (C) 2015-2022 by the CMDB Development Team.
+ Copyright (C) 2015-2024 by the CMDB Development Team.
 
  https://github.com/InfotelGLPI/CMDB
  -------------------------------------------------------------------------
@@ -27,9 +28,37 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+use GlpiPlugin\Cmdb\Impactinfo;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+header("Content-Type: text/html; charset=UTF-8");
+Html::header_nocache();
 
-$fields = new Cifields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+Session::checkLoginUser();
+
+$itemtype = null;
+if (isset($_POST['itemtype']) && $_POST['itemtype']) {
+    $itemtype = $_POST['itemtype'];
+}
+
+$key = null;
+if (isset($_POST['key']) && $_POST['key']) {
+    $key = $_POST['key'];
+}
+
+$used = [];
+if (isset($_POST['used']) && $_POST['used']) {
+    $used = $_POST['used'];
+}
+
+$availableFields = Impactinfo::getFieldsForItemtype($itemtype);
+
+$fields = $availableFields[$key];
+if ($used) {
+    $tmp = [];
+    foreach ($used as $field) {
+        $tmp[$field] = $field;
+    }
+    $used = $tmp;
+}
+$unusedFields = count($used) ? array_diff_key($fields, $used) : $fields;
+Impactinfo::makeDropdown($key, $unusedFields, $itemtype);

@@ -27,9 +27,9 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+use GlpiPlugin\Cmdb\Impactinfo;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
-
-$fields = new Cifields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
+    $impactInfo = new Impactinfo();
+    $impactInfo->showInfos($_GET['itemtype'], $_GET['itemId']);
+}
