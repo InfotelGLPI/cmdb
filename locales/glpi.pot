@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR CMDB Development Team
-# This file is distributed under the same license as the GLPI - CMDB plugin package.
+# This file is distributed under the same license as the CMDB - Accounts plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GLPI - CMDB plugin\n"
+"Project-Id-Version: CMDB - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-21 14:51+0000\n"
+"POT-Creation-Date: 2025-09-23 12:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,100 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: setup.php:146 inc/profile.class.php:50 inc/cmdb.class.php:47
+#: inc/menu.class.php:47 inc/ci_cmdb.class.php:49
+msgid "CMDB"
+msgstr ""
+
+#: install/update_110_111.php:86
+msgid "very low"
+msgstr ""
+
+#: install/update_110_111.php:87
+msgid "low"
+msgstr ""
+
+#: install/update_110_111.php:88
+msgid "medium"
+msgstr ""
+
+#: install/update_110_111.php:89
+msgid "high"
+msgstr ""
+
+#: install/update_110_111.php:90
+msgid "very high"
+msgstr ""
+
 #: hook.php:329
 msgid "item not found or disabled"
 msgstr ""
 
-#: setup.php:146 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
-#: inc/menu.class.php:47 inc/profile.class.php:50
-msgid "CMDB"
-msgstr ""
-
 #: front/ci.form.php:65
 msgid "You can't delete this item, because this item is used on CMDB !"
+msgstr ""
+
+#: inc/criticity_item.class.php:49 inc/criticity.class.php:51
+#: inc/criticity.class.php:118
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/operationprocess_item.class.php:87
+#: inc/operationprocess_item.class.php:89
+msgid "Attached service"
+msgid_plural "Attached services"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/operationprocess_item.class.php:487
+msgctxt "button"
+msgid "Associate a service"
+msgstr ""
+
+#: inc/operationprocessstate.class.php:50
+msgid "State of service"
+msgid_plural "States of service"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/profile.class.php:109 inc/menu.class.php:69
+msgid "Item Configuration"
+msgstr ""
+
+#: inc/profile.class.php:113 inc/profile.class.php:172
+msgid "Type of item configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/profile.class.php:117 inc/profile.class.php:149
+#: inc/profile.class.php:187 inc/operationprocessmenu.class.php:49
+#: inc/operationprocess.class.php:51
+msgid "Service"
+msgid_plural "Services"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/profile.class.php:160 inc/profile.class.php:191
+msgid "Item configuration"
+msgid_plural "Items configuration"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/profile.class.php:195
+msgid "Type of Item Configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/cmdb.class.php:84
+msgid "Display Item Configuration"
+msgstr ""
+
+#: inc/cmdb.class.php:169 inc/cmdb.class.php:172
+msgid "No Types of CI found. Please create Types of CI before display CIs"
 msgstr ""
 
 #: inc/ci.class.php:49
@@ -41,48 +124,16 @@ msgstr[1] ""
 msgid "Invalid name !"
 msgstr ""
 
-#: inc/ci_cmdb.class.php:74
-msgid "See CI"
+#: inc/criticity.class.php:137
+msgid "All levels have already been added"
 msgstr ""
 
-#: inc/ci_cmdb.class.php:75
-msgid "Create Link"
+#: inc/criticity.class.php:187
+msgid "Please choose a level for criticality"
 msgstr ""
 
-#: inc/ci_cmdb.class.php:76
-msgid "Update Link"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:77
-msgid "Delete Link"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:78
-msgid "Zoom in"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:79
-msgid "Zoom out"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:80
-msgid "Reset Zoom"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:81
-msgid "Export PNG"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:82
-msgid "See associated tickets"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:83
-msgid "Purge CMDB"
-msgstr ""
-
-#: inc/ci_cmdb.class.php:84
-msgid "Create baseline"
+#: inc/menu.class.php:67
+msgid "Configure Type of Item Configuration"
 msgstr ""
 
 #: inc/citype.class.php:53
@@ -170,14 +221,6 @@ msgctxt "button"
 msgid "Transfer"
 msgstr ""
 
-#: inc/cmdb.class.php:84
-msgid "Display Item Configuration"
-msgstr ""
-
-#: inc/cmdb.class.php:169 inc/cmdb.class.php:172
-msgid "No Types of CI found. Please create Types of CI before display CIs"
-msgstr ""
-
 #: inc/cmdb_ticket.class.php:94
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr ""
@@ -198,89 +241,46 @@ msgstr ""
 msgid "Direct impact"
 msgstr ""
 
-#: inc/criticity.class.php:51 inc/criticity.class.php:118
-#: inc/criticity_item.class.php:49
-msgid "Criticity"
-msgid_plural "Criticities"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/criticity.class.php:137
-msgid "All levels have already been added"
+#: inc/ci_cmdb.class.php:74
+msgid "See CI"
 msgstr ""
 
-#: inc/criticity.class.php:187
-msgid "Please choose a level for criticality"
+#: inc/ci_cmdb.class.php:75
+msgid "Create Link"
 msgstr ""
 
-#: inc/menu.class.php:67
-msgid "Configure Type of Item Configuration"
+#: inc/ci_cmdb.class.php:76
+msgid "Update Link"
 msgstr ""
 
-#: inc/menu.class.php:69 inc/profile.class.php:109
-msgid "Item Configuration"
+#: inc/ci_cmdb.class.php:77
+msgid "Delete Link"
 msgstr ""
 
-#: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
-#: inc/profile.class.php:117 inc/profile.class.php:149
-#: inc/profile.class.php:187
-msgid "Service"
-msgid_plural "Services"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/operationprocess_item.class.php:87
-#: inc/operationprocess_item.class.php:89
-msgid "Attached service"
-msgid_plural "Attached services"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/operationprocess_item.class.php:487
-msgctxt "button"
-msgid "Associate a service"
+#: inc/ci_cmdb.class.php:78
+msgid "Zoom in"
 msgstr ""
 
-#: inc/operationprocessstate.class.php:50
-msgid "State of service"
-msgid_plural "States of service"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/profile.class.php:113 inc/profile.class.php:172
-msgid "Type of item configuration"
-msgid_plural "Types of item configuration"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/profile.class.php:160 inc/profile.class.php:191
-msgid "Item configuration"
-msgid_plural "Items configuration"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/profile.class.php:195
-msgid "Type of Item Configuration"
-msgid_plural "Types of item configuration"
-msgstr[0] ""
-msgstr[1] ""
-
-#: install/update_110_111.php:86
-msgid "very low"
+#: inc/ci_cmdb.class.php:79
+msgid "Zoom out"
 msgstr ""
 
-#: install/update_110_111.php:87
-msgid "low"
+#: inc/ci_cmdb.class.php:80
+msgid "Reset Zoom"
 msgstr ""
 
-#: install/update_110_111.php:88
-msgid "medium"
+#: inc/ci_cmdb.class.php:81
+msgid "Export PNG"
 msgstr ""
 
-#: install/update_110_111.php:89
-msgid "high"
+#: inc/ci_cmdb.class.php:82
+msgid "See associated tickets"
 msgstr ""
 
-#: install/update_110_111.php:90
-msgid "very high"
+#: inc/ci_cmdb.class.php:83
+msgid "Purge CMDB"
+msgstr ""
+
+#: inc/ci_cmdb.class.php:84
+msgid "Create baseline"
 msgstr ""
