@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CMDB - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 11:17+0000\n"
+"POT-Creation-Date: 2025-09-29 11:39+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/124557/fr_FR/)\n"
@@ -214,7 +214,7 @@ msgstr "Est déjà présent dans GLPI ?"
 
 #: src/Citype.php:309
 msgid "With GLPI 11, you can create now custom assets"
-msgstr "Avec GLPI 11, vous pouvez désormais créer des actifs personnalisées"
+msgstr "Avec GLPI 11, vous pouvez désormais créer des actifs personnalisés"
 
 #: src/Citype.php:311
 msgid "Go to custom assets"
