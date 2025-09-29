@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CMDB - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 11:39+0000\n"
+"POT-Creation-Date: 2025-09-29 11:49+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/124557/fr_FR/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: setup.php:169 src/Profile.php:60 src/Menu.php:51 src/Ci_cmdb.php:56
+#: setup.php:174 src/Profile.php:60 src/Menu.php:51 src/Ci_cmdb.php:56
 #: src/Cmdb.php:56
 msgid "CMDB"
 msgstr "CMDB"
@@ -103,8 +103,7 @@ msgstr[2] "Eléments de configuration"
 msgid "Invalid name !"
 msgstr "Nom invalide !"
 
-#: src/Operationprocessmenu.php:53 src/Profile.php:139 src/Profile.php:181
-#: src/Profile.php:237 src/Operationprocess.php:67
+#: src/Operationprocessmenu.php:53 src/Operationprocess.php:67
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Service"
@@ -326,29 +325,23 @@ msgstr "Créer un référentiel"
 msgid "Display Item Configuration"
 msgstr "Afficher les éléments de configuration"
 
-#: src/Cmdb.php:157 src/Cmdb.php:162
-msgid "No Types of CI found. Please create Types of CI before display CIs"
-msgstr ""
-"Pas d'élément de configuration trouvé. Veuillez créer un type d'élément de "
-"configuration avant d'afficher les éléments de configuration"
-
-#: src/Cmdb_ticket.php:101
+#: src/Cmdb_ticket.php:104
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Les éléments liés au ticket ne sont pas importés dans la CMDB"
 
-#: src/Cmdb_ticket.php:106
+#: src/Cmdb_ticket.php:109
 msgid "No elements of CMDB linked to the ticket"
 msgstr "Pas d'élément de la CMDB lié au ticket"
 
-#: src/Cmdb_ticket.php:120 src/Cmdb_ticket.php:158
+#: src/Cmdb_ticket.php:124 src/Cmdb_ticket.php:162
 msgid "Impacted items"
 msgstr "Eléments impactés"
 
-#: src/Cmdb_ticket.php:159
+#: src/Cmdb_ticket.php:163
 msgid "Proximity"
 msgstr "Proximité"
 
-#: src/Cmdb_ticket.php:201
+#: src/Cmdb_ticket.php:206
 msgid "Direct impact"
 msgstr "Impact direct"
 
