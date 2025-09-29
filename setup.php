@@ -125,10 +125,10 @@ function plugin_init_cmdb()
             }
         }
 
-        if (class_exists(Operationprocess::class)
-          && Operationprocess::canView()) {
-            $PLUGIN_HOOKS['menu_toadd']['cmdb']['assets'] = [OperationprocessMenu::class];
-        }
+//        if (class_exists(Operationprocess::class)
+//          && Operationprocess::canView()) {
+//            $PLUGIN_HOOKS['menu_toadd']['cmdb']['assets'] = [OperationprocessMenu::class];
+//        }
         if (class_exists(Cmdb::class)
           && Cmdb::canView()) {
             $PLUGIN_HOOKS['menu_toadd']['cmdb']['plugins'] = [Menu::class];
