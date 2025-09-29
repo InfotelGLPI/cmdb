@@ -79,16 +79,21 @@ function plugin_init_cmdb()
     $plugincmdb_autoloader = new Autoloader([PLUGINCMDB_CLASS_PATH]);
     $plugincmdb_autoloader->register();
 
-    Plugin::registerClass(CIType_Document::class);
-    Plugin::registerClass(Operationprocess::class, ['ticket_types'           => true,
-        'helpdesk_visible_types' => true]);
-    Plugin::registerClass(Cmdb_Ticket::class, ['addtabon' => 'Ticket']);
-    Plugin::registerClass(Criticity::class, ['addtabon' => ['BusinessCriticity']]);
+//    Plugin::registerClass(CIType_Document::class);
+//    Plugin::registerClass(Operationprocess::class, ['ticket_types'           => true,
+//        'helpdesk_visible_types' => true]);
+//    Plugin::registerClass(Cmdb_Ticket::class, ['addtabon' => 'Ticket']);
+//    Plugin::registerClass(Criticity::class, ['addtabon' => ['BusinessCriticity']]);
 
     if (Session::getLoginUserID()) {
-        $PLUGIN_HOOKS['plugin_fields']['cmdb'] = Operationprocess::class;
 
-        $CFG_GLPI['impact_asset_types'][Operationprocess::class] = PLUGIN_CMDB_WEBDIR."/pics/service.png";
+        Plugin::registerClass(
+            Profile::class,
+            array('addtabon' => 'Profile')
+        );
+//        $PLUGIN_HOOKS['plugin_fields']['cmdb'] = Operationprocess::class;
+
+//        $CFG_GLPI['impact_asset_types'][Operationprocess::class] = PLUGIN_CMDB_WEBDIR."/pics/service.png";
 
         //Define impact_asset_types for ci types
         include_once(PLUGIN_CMDB_DIR . "/src/Citype.php");

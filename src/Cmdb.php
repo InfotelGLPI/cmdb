@@ -152,15 +152,7 @@ class Cmdb extends CommonDBTM
 //                    }
                     echo "</tr>";
                 }
-            } else {
-                echo "<div class='alert alert-warning'>";
-                echo "<i>" . __("No Types of CI found. Please create Types of CI before display CIs", 'cmdb') . "</i>";
-                echo "</div>";
             }
-        } else {
-            echo "<div class='alert alert-warning'>";
-            echo "<i>" . __("No Types of CI found. Please create Types of CI before display CIs", 'cmdb') . "</i>";
-            echo "</div>";
         }
 
         echo "</td>";

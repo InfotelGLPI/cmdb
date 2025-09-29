@@ -35,15 +35,16 @@ use CommonGLPI;
 use Item_Ticket;
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
  * Class Cmdb_Ticket
  */
-class Cmdb_Ticket extends CommonDBRelation {
+class Cmdb_Ticket extends CommonDBRelation
+{
 
-   static $rightname = "plugin_cmdb_cis";
+    static $rightname = "plugin_cmdb_cis";
 
    /**
     * Get Tab Name used for itemtype
@@ -78,160 +79,171 @@ class Cmdb_Ticket extends CommonDBRelation {
     *
     * @return true
     * */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+    {
 
-      self::showImpactCMDB($item);
+        self::showImpactCMDB($item);
 
-      return true;
-   }
+        return true;
+    }
 
    /**
     * @param \CommonGLPI $item
     */
-   static function showImpactCMDB(CommonGLPI $item) {
+    static function showImpactCMDB(CommonGLPI $item)
+    {
 
-      $idTicket     = $item->fields['id'];
-      $items_ticket = new Item_Ticket();
-      if ($items = $items_ticket->find(['tickets_id' => $idTicket])) {
-         $impactedItems = self::getImpactedItems($items);
-         if (!empty($impactedItems['nodes'])) {
-            self::showImpactedItems($impactedItems);
-         } else {
+        $idTicket     = $item->fields['id'];
+        $items_ticket = new Item_Ticket();
+        if ($items = $items_ticket->find(['tickets_id' => $idTicket])) {
+            $impactedItems = self::getImpactedItems($items);
+            if (!empty($impactedItems['nodes'])) {
+                self::showImpactedItems($impactedItems);
+            } else {
+                echo "<p>";
+                echo __("Elements linked to the ticket aren't imported in CMDB", "cmdb");
+                echo "</p>";
+            }
+        } else {
             echo "<p>";
-            echo __("Elements linked to the ticket aren't imported in CMDB", "cmdb");
+            echo __("No elements of CMDB linked to the ticket", "cmdb");
             echo "</p>";
-         }
-      } else {
-         echo "<p>";
-         echo __("No elements of CMDB linked to the ticket", "cmdb");
-         echo "</p>";
-      }
-   }
+        }
+    }
 
    /**
     * @param $impactedItems
     */
-   static function showImpactedItems($impactedItems) {
+    static function showImpactedItems($impactedItems)
+    {
 
-      $ci = new CI();
+        $ci = new CI();
 
-      echo "<table class='tab_cadre_fixe'>";
-      echo "<tr class='headerRow'>";
-      echo "<th>" . __('Impacted items', 'cmdb') . "</th>";
-      echo "</tr>";
-      echo "<tr><td>";
-      $rand = mt_rand();
-      echo "<div id='accordion$rand'>";
+        echo "<table class='tab_cadre_fixe'>";
+        echo "<tr class='headerRow'>";
+        echo "<th>" . __('Impacted items', 'cmdb') . "</th>";
+        echo "</tr>";
+        echo "<tr><td>";
+        $rand = mt_rand();
+        echo "<div id='accordion$rand'>";
 
-      $criticities = Criticity::getAllCriticityWithColor();
+        $criticities = Criticity::getAllCriticityWithColor();
 
-      $itemsSortByCriticity = [1 => [],
+        $itemsSortByCriticity = [1 => [],
                                2 => [],
                                3 => [],
                                4 => [],
                                5 => []];
 
-      foreach ($impactedItems['nodes'] as $key => $node) {
-         $levelMin = -1;
-         if ($levelMin == -1 || $node['level'] < $levelMin) {
-            $items_id_ref = $node['items_id_ref'];
-            $itemtype_ref = $node['citypes_id_ref'];
-            $criticity_id = $node['criticity'];
-            $levelMin     = $node['level'];
-         }
+        foreach ($impactedItems['nodes'] as $key => $node) {
+            $levelMin = -1;
+            if ($levelMin == -1 || $node['level'] < $levelMin) {
+                $items_id_ref = $node['items_id_ref'];
+                $itemtype_ref = $node['citypes_id_ref'];
+                $criticity_id = $node['criticity'];
+                $levelMin     = $node['level'];
+            }
 
-         $itemsSortByCriticity[$criticity_id][] = ['idItem'       => $node['idItem'],
+            $itemsSortByCriticity[$criticity_id][] = ['idItem'       => $node['idItem'],
                                                    'idItemtype'   => $node['idItemtype'],
                                                    'items_id_ref' => $items_id_ref,
                                                    'itemtype_ref' => $itemtype_ref,
                                                    'level'        => $levelMin];
-      }
+        }
 
-      foreach ($criticities as $value => $data) {
-         if (!empty($itemsSortByCriticity[$value])) {
-            $color = $data['color'];
-            $name  = $data['name'];
-            echo "<h3 style='background:$color'><b>" . Criticity_Item::getTypeName(1) . " : $name</b></h3>";
-            echo "<div>";
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr class='headerRow'>";
-            echo "<th>" . __('Impacted items', 'cmdb') . "</th>";
-            echo "<th width='100'>" . __("Proximity", 'cmdb') . "</th>";
-            echo "</tr>";
-            usort($itemsSortByCriticity[$value], function ($a, $b) {
-               return $a['level'] - $b['level'];
-            });
-            foreach ($itemsSortByCriticity[$value] as $info) {
-               echo "<tr>";
-               echo "<td>";
+        foreach ($criticities as $value => $data) {
+            if (!empty($itemsSortByCriticity[$value])) {
+                $color = $data['color'];
+                $name  = $data['name'];
+                echo "<h3 style='background:$color'><b>" . Criticity_Item::getTypeName(1) . " : $name</b></h3>";
+                echo "<div>";
+                echo "<table class='tab_cadre_fixe'>";
+                echo "<tr class='headerRow'>";
+                echo "<th>" . __('Impacted items', 'cmdb') . "</th>";
+                echo "<th width='100'>" . __("Proximity", 'cmdb') . "</th>";
+                echo "</tr>";
+                usort($itemsSortByCriticity[$value], function ($a, $b) {
+                    return $a['level'] - $b['level'];
+                });
+                foreach ($itemsSortByCriticity[$value] as $info) {
+                     echo "<tr>";
+                     echo "<td>";
 
-               $citype = new CIType();
-               $citype->getFromDB($info['idItemtype']);
-               $citype_name = $ci->getTypeName2($citype);
-               $ci_name     = $ci->getNameCI($citype, $info['idItem']);
-               $url         = $ci->getLinkCI($citype, $info['idItem']);
-               echo "<a href='$url' target='_blank'>" . $citype_name . " : " . $ci_name . "</a>";
-               echo "</td>";
+                     $citype = new CIType();
+                     $citype->getFromDB($info['idItemtype']);
+                     $citype_name = $ci->getTypeName2($citype);
+                     $ci_name     = $ci->getNameCI($citype, $info['idItem']);
+                     $url         = $ci->getLinkCI($citype, $info['idItem']);
+                     echo "<a href='$url' target='_blank'>" . $citype_name . " : " . $ci_name . "</a>";
+                     echo "</td>";
 
-               echo "<td>";
-               echo self::getImpactName($info['level']);
-               echo "</td>";
-               echo "</tr>";
+                     echo "<td>";
+                     echo self::getImpactName($info['level']);
+                     echo "</td>";
+                     echo "</tr>";
+                }
+                echo "</table>";
+                echo "</div>";
             }
-            echo "</table>";
-            echo "</div>";
-         }
-      }
-      echo "</div>";
-      echo "</td></tr>";
-      echo "</table>";
-      echo "<script>";
-      echo "accordion('accordion$rand', 1)";
-      echo "</script>";
-   }
+        }
+        echo "</div>";
+        echo "</td></tr>";
+        echo "</table>";
+        echo "<script>";
+        echo "accordion('accordion$rand', 1)";
+        echo "</script>";
+    }
 
    /**
     * @param $level
     *
     * @return string
     */
-   static function getImpactName($level) {
+    static function getImpactName($level)
+    {
 
-      if ($level == 1) {
-         return __('Direct impact', 'cmdb');
-      }
-      return $level;
-   }
+        if ($level == 1) {
+            return __('Direct impact', 'cmdb');
+        }
+        return $level;
+    }
 
    /**
     * @param $items
     *
     * @return array
     */
-   static function getImpactedItems($items) {
+    static function getImpactedItems($items)
+    {
 
-      $impactedItems = ['nodes' => []];
-      $itemCiCmdb    = new CI_Cmdb();
+        $impactedItems = ['nodes' => []];
+        $itemCiCmdb    = new CI_Cmdb();
 
-      foreach ($items as $item) {
-         $id       = $item['items_id'];
-         $itemtype = $item['itemtype'];
-         $citypes  = new CIType();
+        foreach ($items as $item) {
+            $id       = $item['items_id'];
+            $itemtype = $item['itemtype'];
+            $citypes  = new CIType();
 
-         if ($citype = $citypes->find(['name' => $itemtype])) {
-            $citype = current($citype);
-            $citypes->getFromDB($citype['id']);
+            if ($citype = $citypes->find(['name' => $itemtype])) {
+                $citype = current($citype);
+                $citypes->getFromDB($citype['id']);
 
-            // Construct first item
-            $impactedItems['nodes'][] = $itemCiCmdb->constructItem($id, $citype['id'], $id, $citype['id']);
+                // Construct first item
+                $impactedItems['nodes'][] = $itemCiCmdb->constructItem($id, $citype['id'], $id, $citype['id']);
 
-            // Set item links recusively
-            $itemCiCmdb->setItem($id, $citype['id'], $id, $citype['id'], $impactedItems, 0,
-                                 ['firstItem' => true, 'setLinks' => false]);
-         }
-      }
+                // Set item links recusively
+                $itemCiCmdb->setItem(
+                    $id,
+                    $citype['id'],
+                    $id,
+                    $citype['id'],
+                    $impactedItems,
+                    0,
+                    ['firstItem' => true, 'setLinks' => false]
+                );
+            }
+        }
 
-      return $impactedItems;
-   }
-
+        return $impactedItems;
+    }
 }

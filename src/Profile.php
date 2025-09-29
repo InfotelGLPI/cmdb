@@ -133,10 +133,10 @@ class Profile extends \Profile
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
                     'title'         => __('Type of item configuration', 'cmdb')]);
-                $rights = $this->getOperationprocessRights();
-                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                    'default_class' => 'tab_bg_2',
-                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
+//                $rights = $this->getOperationprocessRights();
+//                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+//                    'default_class' => 'tab_bg_2',
+//                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
                 $rights = $this->getImpactIconRights();
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
@@ -175,13 +175,13 @@ class Profile extends \Profile
     /**
      * @return array
      */
-    public function getOperationprocessRights()
-    {
-        $rights = [['itemtype' => Operationprocess::class,
-            'label'    => _n('Service', 'Services', 2, 'cmdb'),
-            'field'    => 'plugin_cmdb_operationprocesses']];
-        return $rights;
-    }
+//    public function getOperationprocessRights()
+//    {
+//        $rights = [['itemtype' => Operationprocess::class,
+//            'label'    => _n('Service', 'Services', 2, 'cmdb'),
+//            'field'    => 'plugin_cmdb_operationprocesses']];
+//        return $rights;
+//    }
 
 
     function getImpactIconRights() {
@@ -233,10 +233,10 @@ class Profile extends \Profile
     public static function getAllRights($all = false)
     {
         $rights = [
-            ['itemtype' => Operationprocess::class,
-                'label'    => _n('Service', 'Services', 2, 'cmdb'),
-                'field'    => 'plugin_cmdb_operationprocesses',
-            ],
+//            ['itemtype' => Operationprocess::class,
+//                'label'    => _n('Service', 'Services', 2, 'cmdb'),
+//                'field'    => 'plugin_cmdb_operationprocesses',
+//            ],
             ['itemtype' => CI::class,
                 'label'    => _n('Item configuration', 'Items configuration', 2, 'cmdb'),
                 'field'    => 'plugin_cmdb_cis',
