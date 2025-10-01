@@ -3,7 +3,7 @@
     <name>Cmdb</name>
     <key>cmdb</key>
     <state>stable</state>
-    <logo>https://raw.githubusercontent.com/InfotelGLPI/cmdb/master/pics/service.png</logo>
+    <logo>https://raw.githubusercontent.com/InfotelGLPI/cmdb/master/public/pics/service.png</logo>
     <description>
         <short>
             <fr><![CDATA[Ce plugin permet d'ajouter un objet Service et d'autres objets divers pour l'analyse d'impact]]></fr>
