@@ -38,6 +38,7 @@ use DbUtils;
 use Document;
 use Document_Item;
 use Dropdown;
+use GlpiPlugin\Resources\Resource;
 use Html;
 use Impact;
 use ImpactItem;
@@ -945,7 +946,7 @@ class CIType extends CommonDropdown
                     'phonepowersupplies_id',
                     'is_global'];
                 break;
-            case "PluginResourcesResource":
+            case Resource::class :
                 return ['alert',
                     'comment',
                     'date_mod',
