@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CMDB - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 11:49+0000\n"
+"POT-Creation-Date: 2025-10-01 07:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,89 +173,89 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Citype.php:74
+#: src/Citype.php:75
 msgid "String"
 msgstr ""
 
-#: src/Citype.php:75
+#: src/Citype.php:76
 msgid "Area Text"
 msgstr ""
 
-#: src/Citype.php:78
+#: src/Citype.php:79
 msgid "Yes/No"
 msgstr ""
 
-#: src/Citype.php:88
+#: src/Citype.php:89
 msgid "Type CI"
 msgid_plural "Types CIs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Citype.php:202
+#: src/Citype.php:203
 msgid "is already present in GLPI"
 msgstr ""
 
-#: src/Citype.php:309
+#: src/Citype.php:310
 msgid "With GLPI 11, you can create now custom assets"
 msgstr ""
 
-#: src/Citype.php:311
+#: src/Citype.php:312
 msgid "Go to custom assets"
 msgstr ""
 
-#: src/Citype.php:345
+#: src/Citype.php:346
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: src/Citype.php:362
+#: src/Citype.php:363
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: src/Citype.php:364
+#: src/Citype.php:365
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr ""
 
-#: src/Citype.php:366
+#: src/Citype.php:367
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr ""
 
-#: src/Citype.php:619
+#: src/Citype.php:620
 msgid "Import CI"
 msgstr ""
 
-#: src/Citype.php:670 src/Impacticon.php:64
+#: src/Citype.php:671 src/Impacticon.php:64
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Citype.php:710
+#: src/Citype.php:711
 msgid "Default icon"
 msgstr ""
 
-#: src/Citype.php:990
+#: src/Citype.php:991
 msgid "Add New Field"
 msgstr ""
 
-#: src/Citype.php:1013
+#: src/Citype.php:1014
 msgid "Upload icon"
 msgstr ""
 
-#: src/Citype.php:1040
+#: src/Citype.php:1041
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: src/Citype.php:1044
+#: src/Citype.php:1045
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/Citype.php:1126
+#: src/Citype.php:1127
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: src/Citype.php:1387 src/Citype.php:1404
+#: src/Citype.php:1388 src/Citype.php:1405
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
