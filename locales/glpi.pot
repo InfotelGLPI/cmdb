@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CMDB - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 11:54+0000\n"
+"POT-Creation-Date: 2025-10-02 07:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: setup.php:174 src/Profile.php:60 src/Menu.php:51 src/Ci_cmdb.php:56
+#: setup.php:174 src/CI_Cmdb.php:56 src/Profile.php:60 src/Menu.php:51
 #: src/Cmdb.php:56
 msgid "CMDB"
 msgstr ""
@@ -78,12 +78,6 @@ msgstr ""
 msgid "very high"
 msgstr ""
 
-#: src/Operationprocessstate.php:54
-msgid "State of service"
-msgid_plural "States of service"
-msgstr[0] ""
-msgstr[1] ""
-
 #: src/Ci.php:62
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
@@ -94,11 +88,49 @@ msgstr[1] ""
 msgid "Invalid name !"
 msgstr ""
 
-#: src/Operationprocessmenu.php:53 src/Operationprocess.php:67
-msgid "Service"
-msgid_plural "Services"
-msgstr[0] ""
-msgstr[1] ""
+#: src/CI_Cmdb.php:83
+msgid "See CI"
+msgstr ""
+
+#: src/CI_Cmdb.php:84
+msgid "Create Link"
+msgstr ""
+
+#: src/CI_Cmdb.php:85
+msgid "Update Link"
+msgstr ""
+
+#: src/CI_Cmdb.php:86
+msgid "Delete Link"
+msgstr ""
+
+#: src/CI_Cmdb.php:87
+msgid "Zoom in"
+msgstr ""
+
+#: src/CI_Cmdb.php:88
+msgid "Zoom out"
+msgstr ""
+
+#: src/CI_Cmdb.php:89
+msgid "Reset Zoom"
+msgstr ""
+
+#: src/CI_Cmdb.php:90
+msgid "Export PNG"
+msgstr ""
+
+#: src/CI_Cmdb.php:91
+msgid "See associated tickets"
+msgstr ""
+
+#: src/CI_Cmdb.php:92
+msgid "Purge CMDB"
+msgstr ""
+
+#: src/CI_Cmdb.php:93
+msgid "Create baseline"
+msgstr ""
 
 #: src/Profile.php:131 src/Menu.php:70
 msgid "Item Configuration"
@@ -122,11 +154,25 @@ msgid_plural "Types of item configuration"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Criticity_item.php:57 src/Criticity.php:59 src/Criticity.php:128
-msgid "Criticity"
-msgid_plural "Criticities"
-msgstr[0] ""
-msgstr[1] ""
+#: src/Cmdb_Ticket.php:104
+msgid "Elements linked to the ticket aren't imported in CMDB"
+msgstr ""
+
+#: src/Cmdb_Ticket.php:109
+msgid "No elements of CMDB linked to the ticket"
+msgstr ""
+
+#: src/Cmdb_Ticket.php:124 src/Cmdb_Ticket.php:162
+msgid "Impacted items"
+msgstr ""
+
+#: src/Cmdb_Ticket.php:163
+msgid "Proximity"
+msgstr ""
+
+#: src/Cmdb_Ticket.php:206
+msgid "Direct impact"
+msgstr ""
 
 #: src/Impactinfo.php:568
 #, php-format
@@ -138,20 +184,26 @@ msgstr ""
 msgid "No tooltip set for itemtype %s"
 msgstr ""
 
-#: src/Operationprocess_item.php:102 src/Operationprocess_item.php:104
+#: src/Menu.php:68
+msgid "Configure Type of Item Configuration"
+msgstr ""
+
+#: src/Operationprocess_Item.php:102 src/Operationprocess_Item.php:104
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Operationprocess_item.php:502
+#: src/Operationprocess_Item.php:502
 msgctxt "button"
 msgid "Associate a service"
 msgstr ""
 
-#: src/Menu.php:68
-msgid "Configure Type of Item Configuration"
-msgstr ""
+#: src/Criticity.php:59 src/Criticity.php:128 src/Criticity_Item.php:57
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/Criticity.php:147
 msgid "All levels have already been added"
@@ -173,159 +225,107 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Citype.php:75
+#: src/OperationprocessState.php:54
+msgid "State of service"
+msgid_plural "States of service"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/CIType.php:75
 msgid "String"
 msgstr ""
 
-#: src/Citype.php:76
+#: src/CIType.php:76
 msgid "Area Text"
 msgstr ""
 
-#: src/Citype.php:79
+#: src/CIType.php:79
 msgid "Yes/No"
 msgstr ""
 
-#: src/Citype.php:89
+#: src/CIType.php:89
 msgid "Type CI"
 msgid_plural "Types CIs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Citype.php:203
+#: src/CIType.php:203
 msgid "is already present in GLPI"
 msgstr ""
 
-#: src/Citype.php:310
+#: src/CIType.php:310
 msgid "With GLPI 11, you can create now custom assets"
 msgstr ""
 
-#: src/Citype.php:312
+#: src/CIType.php:312
 msgid "Go to custom assets"
 msgstr ""
 
-#: src/Citype.php:346
+#: src/CIType.php:346
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: src/Citype.php:363
+#: src/CIType.php:363
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: src/Citype.php:365
+#: src/CIType.php:365
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr ""
 
-#: src/Citype.php:367
+#: src/CIType.php:367
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr ""
 
-#: src/Citype.php:620
+#: src/CIType.php:620
 msgid "Import CI"
 msgstr ""
 
-#: src/Citype.php:671 src/Impacticon.php:64
+#: src/CIType.php:671 src/Impacticon.php:64
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Citype.php:711
+#: src/CIType.php:711
 msgid "Default icon"
 msgstr ""
 
-#: src/Citype.php:991
+#: src/CIType.php:991
 msgid "Add New Field"
 msgstr ""
 
-#: src/Citype.php:1014
+#: src/CIType.php:1014
 msgid "Upload icon"
 msgstr ""
 
-#: src/Citype.php:1041
+#: src/CIType.php:1041
 msgid "Existing fields for this type of CI"
 msgstr ""
 
-#: src/Citype.php:1045
+#: src/CIType.php:1045
 msgid "Reset Existing fields"
 msgstr ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/Citype.php:1127
+#: src/CIType.php:1127
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
 
-#: src/Citype.php:1388 src/Citype.php:1405
+#: src/CIType.php:1388 src/CIType.php:1405
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
 
-#: src/Ci_cmdb.php:83
-msgid "See CI"
-msgstr ""
-
-#: src/Ci_cmdb.php:84
-msgid "Create Link"
-msgstr ""
-
-#: src/Ci_cmdb.php:85
-msgid "Update Link"
-msgstr ""
-
-#: src/Ci_cmdb.php:86
-msgid "Delete Link"
-msgstr ""
-
-#: src/Ci_cmdb.php:87
-msgid "Zoom in"
-msgstr ""
-
-#: src/Ci_cmdb.php:88
-msgid "Zoom out"
-msgstr ""
-
-#: src/Ci_cmdb.php:89
-msgid "Reset Zoom"
-msgstr ""
-
-#: src/Ci_cmdb.php:90
-msgid "Export PNG"
-msgstr ""
-
-#: src/Ci_cmdb.php:91
-msgid "See associated tickets"
-msgstr ""
-
-#: src/Ci_cmdb.php:92
-msgid "Purge CMDB"
-msgstr ""
-
-#: src/Ci_cmdb.php:93
-msgid "Create baseline"
-msgstr ""
+#: src/OperationprocessMenu.php:53 src/Operationprocess.php:67
+msgid "Service"
+msgid_plural "Services"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/Cmdb.php:93
 msgid "Display Item Configuration"
-msgstr ""
-
-#: src/Cmdb_ticket.php:104
-msgid "Elements linked to the ticket aren't imported in CMDB"
-msgstr ""
-
-#: src/Cmdb_ticket.php:109
-msgid "No elements of CMDB linked to the ticket"
-msgstr ""
-
-#: src/Cmdb_ticket.php:124 src/Cmdb_ticket.php:162
-msgid "Impacted items"
-msgstr ""
-
-#: src/Cmdb_ticket.php:163
-msgid "Proximity"
-msgstr ""
-
-#: src/Cmdb_ticket.php:206
-msgid "Direct impact"
 msgstr ""
 
 #: src/Impacticon.php:124
