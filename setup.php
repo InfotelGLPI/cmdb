@@ -45,7 +45,7 @@ use GlpiPlugin\Cmdb\Operationprocess;
 use GlpiPlugin\Cmdb\OperationprocessMenu;
 use GlpiPlugin\Cmdb\Profile;
 
-define('PLUGIN_CMDB_VERSION', '3.1.0');
+define('PLUGIN_CMDB_VERSION', '3.1.1');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
     define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
