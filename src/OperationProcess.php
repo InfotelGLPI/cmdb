@@ -47,9 +47,9 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class Operationprocess
+ * Class OperationProcess
  */
-class Operationprocess extends CommonDBTM
+class OperationProcess extends CommonDBTM
 {
     public $dohistory  = true;
     public static $rightname  = "plugin_cmdb_operationprocesses";
@@ -132,7 +132,7 @@ class Operationprocess extends CommonDBTM
         $ong = [];
         $this->addDefaultFormTab($ong);
         $this->addImpactTab($ong, $options);
-        $this->addStandardTab(Operationprocess_Item::class, $ong, $options);
+        $this->addStandardTab(OperationProcess_Item::class, $ong, $options);
         $this->addStandardTab('KnowbaseItem_Item', $ong, $options);
         $this->addStandardTab('Item_Ticket', $ong, $options);
         $this->addStandardTab('Item_Problem', $ong, $options);
@@ -180,7 +180,7 @@ class Operationprocess extends CommonDBTM
             'id'       => '2',
             'table'    => 'glpi_plugin_cmdb_operationprocessstates',
             'field'    => 'name',
-            'name'     => OperationprocessState::getTypeName(1),
+            'name'     => OperationProcessState::getTypeName(1),
             'datatype' => 'dropdown',
         ];
 
@@ -259,9 +259,9 @@ class Operationprocess extends CommonDBTM
         echo "<td>";
         echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
         echo "</td>";
-        echo "<td>" . OperationprocessState::getTypeName(1) . "</td>";
+        echo "<td>" . OperationProcessState::getTypeName(1) . "</td>";
         echo "<td>";
-        Dropdown::show(OperationprocessState::class, ['name'  => "plugin_cmdb_operationprocessstates_id",
+        Dropdown::show(OperationProcessState::class, ['name'  => "plugin_cmdb_operationprocessstates_id",
             'value' => $this->fields["plugin_cmdb_operationprocessstates_id"],
         ]);
         echo "</td>";
@@ -358,9 +358,10 @@ class Operationprocess extends CommonDBTM
         }
 
         $iterator = $DB->request(
-            ['glpi_plugin_cmdb_operationprocessstates', 'glpi_plugin_cmdb_operationprocesses'],
+
             ['SELECT'   => 'glpi_plugin_cmdb_operationprocessstates.*',
                 'DISTINCT' => true,
+                'FROM'     => ['glpi_plugin_cmdb_operationprocessstates', 'glpi_plugin_cmdb_operationprocesses'],
                 'WHERE'    => ['glpi_plugin_cmdb_operationprocesses.is_deleted' => 0,
                 ] + $where + $dbu->getEntitiesRestrictCriteria(
                     "glpi_plugin_cmdb_operationprocesses",
@@ -391,7 +392,7 @@ class Operationprocess extends CommonDBTM
         $out .= Ajax::updateItemOnSelectEvent(
             $field_id,
             "show_" . $p['name'] . $rand,
-            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationprocesses.php",
+            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationProcesses.php",
             $params,
             false
         );
@@ -401,7 +402,7 @@ class Operationprocess extends CommonDBTM
         $params['operationprocessstate'] = 0;
         $out                             .= Ajax::updateItem(
             "show_" . $p['name'] . $rand,
-            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationprocesses.php",
+            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationProcesses.php",
             $params,
             false
         );

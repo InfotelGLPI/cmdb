@@ -39,9 +39,9 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class Cifields
+ * Class CiFields
  */
-class Cifields extends CommonDBTM
+class CiFields extends CommonDBTM
 {
 
     static $rightname = "plugin_cmdb_cis";
@@ -90,7 +90,7 @@ class Cifields extends CommonDBTM
         if (isset($input["deletedField"])) {
             foreach ($input["deletedField"] as $key => $data) {
                 $this->deleteByCriteria(['id' => $data]);
-                $temp = new Civalues();
+                $temp = new CiValues();
                 $temp->deleteByCriteria(['plugin_cmdb_cifields_id' => $data]);
             }
         }
@@ -150,7 +150,7 @@ class Cifields extends CommonDBTM
         $id    = $field["id"];
         $name  = "newfield[$id]";
         if ($idCi != -1 && $idCi != "") {
-            $civalues = new Civalues();
+            $civalues = new CiValues();
             if ($civalues->getFromDBByCrit(['items_id'      => $idCi,
                                          'itemtype'      => $itemtype,
                                          'plugin_cmdb_cifields_id' => $field['id']])) {
@@ -263,7 +263,7 @@ class Cifields extends CommonDBTM
             );
 
             foreach ($iterator as $data) {
-                echo "<p>" . $data['name'] . " : " . Cifields::setValue(
+                echo "<p>" . $data['name'] . " : " . CiFields::setValue(
                     $data['typefield'],
                     $data['value']
                 ) . "</p>";

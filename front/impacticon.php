@@ -29,15 +29,15 @@
  */
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
-use GlpiPlugin\Cmdb\Impacticon;
+use GlpiPlugin\Cmdb\ImpactIcon;
 
-Html::header(Impacticon::getTypeName(2), '', "config", Impacticon::class);
+Html::header(ImpactIcon::getTypeName(2), '', "config", ImpactIcon::class);
 
-$impactIcon = new Impacticon();
+$impactIcon = new ImpactIcon();
 $impactIcon->checkGlobal(READ);
 
 if ($impactIcon->canView()) {
-    Search::show(Impacticon::getType());
+    Search::show(ImpactIcon::getType());
 } else {
     throw new AccessDeniedHttpException();
 }

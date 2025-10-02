@@ -43,12 +43,12 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class Operationprocess_Item
+ * Class OperationProcess_Item
  */
-class Operationprocess_Item extends CommonDBRelation {
+class OperationProcess_Item extends CommonDBRelation {
 
    // From CommonDBRelation
-   static public $itemtype_1    = Operationprocess::class;
+   static public $itemtype_1    = OperationProcess::class;
    static public $items_id_1    = 'plugin_cmdb_operationprocesses_id';
    static public $take_entity_1 = false;
 
@@ -96,19 +96,19 @@ class Operationprocess_Item extends CommonDBRelation {
 
       if (!$withtemplate
           && Session::getCurrentInterface() == "central") {
-         if ($item->getType() ==Operationprocess::class
-             && count(Operationprocess::getTypes(false))) {
+         if ($item->getType() ==OperationProcess::class
+             && count(OperationProcess::getTypes(false))) {
             if ($_SESSION['glpishow_count_on_tabs']) {
-               return self::createTabEntry(_n('Attached service', 'Attached services', 2, 'cmdb'), self::countForOperationprocess($item));
+               return self::createTabEntry(_n('Attached service', 'Attached services', 2, 'cmdb'), self::countForOperationProcess($item));
             }
             return self::createTabEntry(_n('Attached service', 'Attached services', 2, 'cmdb'));
 
-         } else if (in_array($item->getType(), Operationprocess::getTypes(true))
+         } else if (in_array($item->getType(), OperationProcess::getTypes(true))
                     && Session::haveRight('plugin_cmdb_operationprocesses', READ)) {
             if ($_SESSION['glpishow_count_on_tabs']) {
-               return self::createTabEntry(Operationprocess::getTypeName(2), self::countForItem($item));
+               return self::createTabEntry(OperationProcess::getTypeName(2), self::countForItem($item));
             }
-            return self::createTabEntry(Operationprocess::getTypeName(2));
+            return self::createTabEntry(OperationProcess::getTypeName(2));
          }
       }
       return '';
@@ -127,11 +127,11 @@ class Operationprocess_Item extends CommonDBRelation {
     **/
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
 
-      if ($item->getType() == Operationprocess::class) {
+      if ($item->getType() == OperationProcess::class) {
 
-         self::showForOperationprocess($item);
+         self::showForOperationProcess($item);
 
-      } else if (in_array($item->getType(), Operationprocess::getTypes(true))
+      } else if (in_array($item->getType(), OperationProcess::getTypes(true))
                  && Session::getCurrentInterface() == "central") {
 
          self::showForItem($item);
@@ -140,11 +140,11 @@ class Operationprocess_Item extends CommonDBRelation {
    }
 
    /**
-    * @param Operationprocess $item
+    * @param OperationProcess $item
     *
     * @return int
     */
-   static function countForOperationprocess(Operationprocess $item) {
+   static function countForOperationProcess(OperationProcess $item) {
 
       $dbu = new DbUtils();
       return $dbu->countElementsInTable('glpi_plugin_cmdb_operationprocesses_items',
@@ -191,11 +191,11 @@ class Operationprocess_Item extends CommonDBRelation {
     *
     * @since version 0.84
     *
-    * @param $operationprocess Operationprocess object
+    * @param $operationprocess OperationProcess object
     *
     * @return  (HTML display)
     **/
-   public static function showForOperationprocess(Operationprocess $operationprocess) {
+   public static function showForOperationProcess(OperationProcess $operationprocess) {
       global $DB;
 
       $instID = $operationprocess->fields['id'];
@@ -226,7 +226,7 @@ class Operationprocess_Item extends CommonDBRelation {
       if ($canedit) {
          echo "<div class='firstbloc'>";
          echo "<form method='post' name='operationprocesses_form$rand' id='operationprocesses_form$rand'
-         action='" . Toolbox::getItemTypeFormURL(Operationprocess::class) . "'>";
+         action='" . Toolbox::getItemTypeFormURL(OperationProcess::class) . "'>";
 
          echo "<table class='tab_cadre_fixe'>";
          echo "<tr class='tab_bg_2'><th colspan='" . ($canedit ? (5 + $colsup) : (4 + $colsup)) . "'>" .
@@ -236,7 +236,7 @@ class Operationprocess_Item extends CommonDBRelation {
          echo Html::hidden('id', ['plugin_cmdb_operationprocesses_id' => $instID]);
 
          Dropdown::showSelectItemFromItemtypes(['items_id_name'   => 'items_id',
-                                                'itemtypes'       => Operationprocess::getTypes(),
+                                                'itemtypes'       => OperationProcess::getTypes(),
                                                 'entity_restrict' => ($operationprocess->fields['is_recursive'] ? -1 : $operationprocess->fields['entities_id']),
                                                 'checkright'
                                                                   => true,
@@ -319,7 +319,7 @@ class Operationprocess_Item extends CommonDBRelation {
             if (count($iterator_item)) {
 
                Session::initNavigateListItems($itemType,
-                   Operationprocess::getTypeName(2) . " = " . $operationprocess->fields['name']);
+                   OperationProcess::getTypeName(2) . " = " . $operationprocess->fields['name']);
 
                foreach ($iterator_item as $data) {
 //               while ($data = $iterator_item->next()) {
@@ -404,7 +404,7 @@ class Operationprocess_Item extends CommonDBRelation {
          $withtemplate = 0;
       }
 
-      $canedit      = $item->canadditem(Operationprocess::class);
+      $canedit      = $item->canadditem(OperationProcess::class);
       $rand         = mt_rand();
       $is_recursive = $item->maybeRecursive();
 
@@ -443,7 +443,7 @@ class Operationprocess_Item extends CommonDBRelation {
       $number = count($iterator);
 
       $operationprocesses = [];
-      $operationprocess   = new Operationprocess();
+      $operationprocess   = new OperationProcess();
       $used               = [];
       if ($number) {
          foreach ($iterator as $data) {
@@ -482,7 +482,7 @@ class Operationprocess_Item extends CommonDBRelation {
          if (Session::haveRight('plugin_cmdb_operationprocesses', READ)
              && ($nb > count($used))) {
             echo "<form name='operationprocess_form$rand' id='operationprocess_form$rand' method='post'
-                   action='" . Toolbox::getItemTypeFormURL(Operationprocess::class) . "'>";
+                   action='" . Toolbox::getItemTypeFormURL(OperationProcess::class) . "'>";
             echo "<table class='tab_cadre_fixe'>";
             echo "<tr class='tab_bg_1'>";
             echo "<td colspan='4' class='center'>";
@@ -495,7 +495,7 @@ class Operationprocess_Item extends CommonDBRelation {
                echo Html::hidden('tickets_id', ['value' => $ID]);
             }
 
-             Operationprocess::dropdownOperationProcess(['entity' => $entities,
+             OperationProcess::dropdownOperationProcess(['entity' => $entities,
                                                                   'used'   => $used]);
 
             echo "</td><td class='center' width='20%'>";
@@ -525,13 +525,13 @@ class Operationprocess_Item extends CommonDBRelation {
       if (Session::isMultiEntitiesMode()) {
          echo "<th>" . __('Entity') . "</th>";
       }
-      echo "<th>" . OperationprocessState::getTypeName(1) . "</th>";
+      echo "<th>" . OperationProcessState::getTypeName(1) . "</th>";
       echo "</tr>";
       $used = [];
 
       if ($number) {
 
-         Session::initNavigateListItems(Operationprocess::class,
+         Session::initNavigateListItems(OperationProcess::class,
             //TRANS : %1$s is the itemtype name,
             //        %2$s is the name of the item (used for headings of a list)
                                         sprintf(__('%1$s = %2$s'),
@@ -545,7 +545,7 @@ class Operationprocess_Item extends CommonDBRelation {
                $link = $operationprocess->getLink();
             }
 
-            Session::addToNavigateListItems(Operationprocess::class, $operationprocessID);
+            Session::addToNavigateListItems(OperationProcess::class, $operationprocessID);
 
             $used[$operationprocessID] = $operationprocessID;
 

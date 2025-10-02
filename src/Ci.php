@@ -147,7 +147,7 @@ class CI extends CommonDBTM
         echo "</td>";
         echo "</tr>";
 
-        $cifields = new Cifields();
+        $cifields = new CiFields();
         if (!isset($this->fields["plugin_cmdb_citypes_id"])
           || $this->fields["plugin_cmdb_citypes_id"] == "") {
             $cifields->setFieldByType($idType, $ID);
@@ -223,7 +223,7 @@ class CI extends CommonDBTM
     function postAddCi($history, $item)
     {
 
-        $civalue                     = new Civalues();
+        $civalue                     = new CiValues();
         $input['plugin_cmdb_cis_id'] = $item->getID();
         foreach ($item->input["newfield"] as $key => $value) {
             $input['value']                   = $value;
@@ -256,14 +256,14 @@ class CI extends CommonDBTM
         if (isset($this->oldvalues["plugin_cmdb_citypes_id"])
           && $this->oldvalues["plugin_cmdb_citypes_id"] != $this->fields['plugin_cmdb_citypes_id']) {
             $id   = $this->fields['id'];
-            $temp = new Civalues();
+            $temp = new CiValues();
             $temp->deleteByCriteria(['plugin_cmdb_cis_id' => $id], 1);
 
             self::postAddCi($history, $this);
         } else {
             if (isset($this->input["field"])) {
                 foreach ($this->input["field"] as $key => $value) {
-                    $temp = new Civalues();
+                    $temp = new CiValues();
                     $temp->update(['value' => $value,
                               'id'    => $key]);
                 }
@@ -283,7 +283,7 @@ class CI extends CommonDBTM
     public function cleanDBonPurge()
     {
 
-        $temp = new Civalues();
+        $temp = new CiValues();
         $temp->deleteByCriteria(['items_id' => $this->fields['id'],
                                'itemtype' => $this->getType()], 1);
     }

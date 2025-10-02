@@ -304,7 +304,7 @@ class Criticity extends CommonDBTM {
       $colspan = 4;
 
       if (strpos($itemtype,"GlpiPlugin\Cmdb") !== false
-            && $itemtype != Operationprocess::class) {
+            && $itemtype != OperationProcess::class) {
          $colspan = 2;
       }
       echo "<th colspan='$colspan'>". Cmdb::getTypeName()."</th>";
@@ -319,7 +319,7 @@ class Criticity extends CommonDBTM {
                                 "items_id" => $item->getID()]);
       echo "</td>";
       if (strpos($itemtype,"GlpiPlugin\Cmdb") === false
-          || $itemtype == Operationprocess::class) {
+          || $itemtype == OperationProcess::class) {
          echo "<td colspan='2'></td>";
       }
       echo "</tr></table>";

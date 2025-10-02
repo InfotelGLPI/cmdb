@@ -32,20 +32,20 @@ global $CFG_GLPI;
 
 use Glpi\Plugin\Hooks;
 use GlpiPlugin\Cmdb\Autoloader;
-use GlpiPlugin\Cmdb\Cifields;
+use GlpiPlugin\Cmdb\CiFields;
 use GlpiPlugin\Cmdb\CIType;
 use GlpiPlugin\Cmdb\CIType_Document;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Cmdb_Ticket;
 use GlpiPlugin\Cmdb\Criticity;
-use GlpiPlugin\Cmdb\Impacticon;
-use GlpiPlugin\Cmdb\Impactinfo;
+use GlpiPlugin\Cmdb\ImpactIcon;
+use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\Menu;
-use GlpiPlugin\Cmdb\Operationprocess;
-use GlpiPlugin\Cmdb\OperationprocessMenu;
+use GlpiPlugin\Cmdb\OperationProcess;
+use GlpiPlugin\Cmdb\OperationProcessMenu;
 use GlpiPlugin\Cmdb\Profile;
 
-define('PLUGIN_CMDB_VERSION', '3.1.1');
+define('PLUGIN_CMDB_VERSION', '3.1.2');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
     define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
@@ -75,12 +75,12 @@ function plugin_init_cmdb()
     $PLUGIN_HOOKS['csrf_compliant']['cmdb']   = true;
     $PLUGIN_HOOKS['change_profile']['cmdb']   = [Profile::class, 'initProfile'];
     $PLUGIN_HOOKS['assign_to_ticket']['cmdb'] = true;
-    include_once(PLUGIN_CMDB_DIR . "/src/autoload.php");
+//    include_once(PLUGIN_CMDB_DIR . "/src/Autoloader.php");
     $plugincmdb_autoloader = new Autoloader([PLUGINCMDB_CLASS_PATH]);
     $plugincmdb_autoloader->register();
 
 //    Plugin::registerClass(CIType_Document::class);
-//    Plugin::registerClass(Operationprocess::class, ['ticket_types'           => true,
+//    Plugin::registerClass(OperationProcess::class, ['ticket_types'           => true,
 //        'helpdesk_visible_types' => true]);
 //    Plugin::registerClass(Cmdb_Ticket::class, ['addtabon' => 'Ticket']);
 //    Plugin::registerClass(Criticity::class, ['addtabon' => ['BusinessCriticity']]);
@@ -91,12 +91,12 @@ function plugin_init_cmdb()
             Profile::class,
             array('addtabon' => 'Profile')
         );
-//        $PLUGIN_HOOKS['plugin_fields']['cmdb'] = Operationprocess::class;
+//        $PLUGIN_HOOKS['plugin_fields']['cmdb'] = OperationProcess::class;
 
-//        $CFG_GLPI['impact_asset_types'][Operationprocess::class] = PLUGIN_CMDB_WEBDIR."/pics/service.png";
+//        $CFG_GLPI['impact_asset_types'][OperationProcess::class] = PLUGIN_CMDB_WEBDIR."/pics/service.png";
 
         //Define impact_asset_types for ci types
-        include_once(PLUGIN_CMDB_DIR . "/src/Citype.php");
+//        include_once(PLUGIN_CMDB_DIR . "/src/CiType.php");
         $citype = new CIType();
         if (Plugin::isPluginActive('cmdb')) {
             $citype->showInAssetTypes();
@@ -130,9 +130,9 @@ function plugin_init_cmdb()
             }
         }
 
-//        if (class_exists(Operationprocess::class)
-//          && Operationprocess::canView()) {
-//            $PLUGIN_HOOKS['menu_toadd']['cmdb']['assets'] = [OperationprocessMenu::class];
+//        if (class_exists(OperationProcess::class)
+//          && OperationProcess::canView()) {
+//            $PLUGIN_HOOKS['menu_toadd']['cmdb']['assets'] = [OperationProcessMenu::class];
 //        }
         if (class_exists(Cmdb::class)
           && Cmdb::canView()) {
@@ -140,22 +140,22 @@ function plugin_init_cmdb()
         }
 
         $PLUGIN_HOOKS['set_item_impact_icon']['cmdb'] = [
-            Impacticon::class,
+            ImpactIcon::class,
             'getItemIcon'
         ];
 
-        if (Impacticon::canView()) {
-            $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = Impacticon::class;
+        if (ImpactIcon::canView()) {
+            $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = ImpactIcon::class;
         }
-        if (Impactinfo::canView()) {
-            $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = Impactinfo::class;
+        if (ImpactInfo::canView()) {
+            $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = ImpactInfo::class;
         }
 
-        $PLUGIN_HOOKS['item_add']['cmdb'][Impacticon::class] = 'plugin_cmdb_item_add';
-        $PLUGIN_HOOKS['item_update']['cmdb'][Impacticon::class] = 'plugin_cmdb_item_update';
-        $PLUGIN_HOOKS['item_purge']['cmdb'][Impacticon::class] = 'plugin_cmdb_item_purge';
-        $PLUGIN_HOOKS['item_purge']['cmdb'][Impactinfo::class] = 'plugin_cmdb_item_purge';
-        $PLUGIN_HOOKS['item_purge']['cmdb'][Cifields::class] = 'plugin_cmdb_item_purge';
+        $PLUGIN_HOOKS['item_add']['cmdb'][ImpactIcon::class] = 'plugin_cmdb_item_add';
+        $PLUGIN_HOOKS['item_update']['cmdb'][ImpactIcon::class] = 'plugin_cmdb_item_update';
+        $PLUGIN_HOOKS['item_purge']['cmdb'][ImpactIcon::class] = 'plugin_cmdb_item_purge';
+        $PLUGIN_HOOKS['item_purge']['cmdb'][ImpactInfo::class] = 'plugin_cmdb_item_purge';
+        $PLUGIN_HOOKS['item_purge']['cmdb'][CiFields::class] = 'plugin_cmdb_item_purge';
         $PLUGIN_HOOKS['item_purge']['cmdb'][PluginFieldsField::class] = 'plugin_cmdb_item_purge';
 
         $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/cmdb_impact.js.php';

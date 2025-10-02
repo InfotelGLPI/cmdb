@@ -36,9 +36,9 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class OperationprocessMenu
+ * Class OperationProcessMenu
  */
-class OperationprocessMenu extends CommonGLPI {
+class OperationProcessMenu extends CommonGLPI {
 
    static $rightname = 'plugin_cmdb_operationprocesses';
 
@@ -65,12 +65,12 @@ class OperationprocessMenu extends CommonGLPI {
 
       $menu                    = [];
       $menu['title']           = self::getMenuName();
-      $menu['page']            = Operationprocess::getSearchURL(false);
-      $menu['links']['search'] = Operationprocess::getSearchURL(false);
-      if (Operationprocess::canCreate()) {
-         $menu['links']['add'] = Operationprocess::getFormURL(false);
+      $menu['page']            = OperationProcess::getSearchURL(false);
+      $menu['links']['search'] = OperationProcess::getSearchURL(false);
+      if (OperationProcess::canCreate()) {
+         $menu['links']['add'] = OperationProcess::getFormURL(false);
       }
-      $menu['icon']    = Operationprocess::getIcon();
+      $menu['icon']    = OperationProcess::getIcon();
 
       return $menu;
    }

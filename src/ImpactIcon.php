@@ -55,7 +55,7 @@ use Supplier;
 use Toolbox;
 use User;
 
-class Impacticon extends CommonDBTM
+class ImpactIcon extends CommonDBTM
 {
     static $rightname = 'plugin_cmdb_impacticons';
 
@@ -169,7 +169,7 @@ class Impacticon extends CommonDBTM
                 $iconPath = PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc=" . $values['documents_id'];
                 return "<img src='$iconPath' style='height: 25px; width: 25px'>";
             case 'criteria':
-                $itemtype = $options['raw_data']['raw']['ITEM_GlpiPlugin\Cmdb\Impacticon_2'];
+                $itemtype = $options['raw_data']['raw']['ITEM_GlpiPlugin\Cmdb\ImpactIcon_2'];
                 switch ($itemtype) {
                     case NetworkEquipment::getType():
                         return Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']);

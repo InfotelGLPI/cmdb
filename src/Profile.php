@@ -133,19 +133,19 @@ class Profile extends \Profile
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
                     'title'         => __('Type of item configuration', 'cmdb')]);
-//                $rights = $this->getOperationprocessRights();
+//                $rights = $this->getOperationProcessRights();
 //                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
 //                    'default_class' => 'tab_bg_2',
 //                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
                 $rights = $this->getImpactIconRights();
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
-                    'title'         => Impacticon::getTypeName(2)]);
+                    'title'         => ImpactIcon::getTypeName(2)]);
 
                 $rights = $this->getImpactInfoRights();
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
-                    'title'         => Impactinfo::getTypeName(2)]);
+                    'title'         => ImpactInfo::getTypeName(2)]);
             }
         }
 
@@ -175,9 +175,9 @@ class Profile extends \Profile
     /**
      * @return array
      */
-//    public function getOperationprocessRights()
+//    public function getOperationProcessRights()
 //    {
-//        $rights = [['itemtype' => Operationprocess::class,
+//        $rights = [['itemtype' => OperationProcess::class,
 //            'label'    => _n('Service', 'Services', 2, 'cmdb'),
 //            'field'    => 'plugin_cmdb_operationprocesses']];
 //        return $rights;
@@ -185,15 +185,15 @@ class Profile extends \Profile
 
 
     function getImpactIconRights() {
-        $rights = [['itemtype' => Impacticon::class,
-            'label'    => Impacticon::getTypeName(2),
+        $rights = [['itemtype' => ImpactIcon::class,
+            'label'    => ImpactIcon::getTypeName(2),
             'field'    => 'plugin_cmdb_impacticons']];
         return $rights;
     }
 
     function getImpactInfoRights() {
-        $rights = [['itemtype' => Impactinfo::class,
-            'label'    => Impactinfo::getTypeName(2),
+        $rights = [['itemtype' => ImpactInfo::class,
+            'label'    => ImpactInfo::getTypeName(2),
             'field'    => 'plugin_cmdb_impactinfos']];
         return $rights;
     }
@@ -233,7 +233,7 @@ class Profile extends \Profile
     public static function getAllRights($all = false)
     {
         $rights = [
-//            ['itemtype' => Operationprocess::class,
+//            ['itemtype' => OperationProcess::class,
 //                'label'    => _n('Service', 'Services', 2, 'cmdb'),
 //                'field'    => 'plugin_cmdb_operationprocesses',
 //            ],
@@ -245,19 +245,19 @@ class Profile extends \Profile
                 'label'    => _n('Type of Item Configuration', 'Types of item configuration', 2, 'cmdb'),
                 'field'    => 'plugin_cmdb_citypes',
             ],
-            ['itemtype' => Impacticon::class,
-                'label'    => Impacticon::getTypeName(2),
+            ['itemtype' => ImpactIcon::class,
+                'label'    => ImpactIcon::getTypeName(2),
                 'field'    => 'plugin_cmdb_impacticons'
             ],
-            ['itemtype' => Impactinfo::class,
-                'label'    => Impactinfo::getTypeName(2),
+            ['itemtype' => ImpactInfo::class,
+                'label'    => ImpactInfo::getTypeName(2),
                 'field'    => 'plugin_cmdb_impactinfos'
             ]
         ];
 
         if ($all) {
 
-            $rights[] = ['itemtype' => Operationprocess::class,
+            $rights[] = ['itemtype' => OperationProcess::class,
                 'label'    => __('Associable items to a ticket'),
                 'field'    => 'plugin_cmdb_operationprocesses_open_ticket'];
         }

@@ -85,7 +85,7 @@ class Criticity_Item extends CommonDBTM {
          }
          $where = $dbu->getEntitiesRestrictCriteria($table, '', $entities, $recursive);
       }
-      $tabCIType[] = Operationprocess::class;
+      $tabCIType[] = OperationProcess::class;
       $tabCIType[] = CI::class;
             $citype = new CIType();
             $citypes = $citype->find($where);

@@ -36,9 +36,9 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class OperationprocessState
+ * Class OperationProcessState
  */
-class OperationprocessState extends CommonDropdown {
+class OperationProcessState extends CommonDropdown {
 
    static $rightname = "plugin_cmdb_operationprocesses";
 

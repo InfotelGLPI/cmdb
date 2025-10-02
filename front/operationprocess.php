@@ -28,17 +28,17 @@
  */
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
-use GlpiPlugin\Cmdb\Operationprocess;
-use GlpiPlugin\Cmdb\OperationprocessMenu;
+use GlpiPlugin\Cmdb\OperationProcess;
+use GlpiPlugin\Cmdb\OperationProcessMenu;
 
 Session::checkRight("plugin_cmdb_operationprocesses", READ);
 
-Html::header(Operationprocess::getTypeName(2), '', "assets", OperationprocessMenu::class);
+Html::header(OperationProcess::getTypeName(2), '', "assets", OperationProcessMenu::class);
 
-$op = new Operationprocess();
+$op = new OperationProcess();
 
 if ($op->canView()) {
-   Search::show(Operationprocess::class);
+   Search::show(OperationProcess::class);
 
 } else {
 

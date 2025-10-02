@@ -28,7 +28,7 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Impactinfo;
+use GlpiPlugin\Cmdb\ImpactInfo;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -50,7 +50,7 @@ if (isset($_POST['used']) && $_POST['used']) {
     $used = $_POST['used'];
 }
 
-$availableFields = Impactinfo::getFieldsForItemtype($itemtype);
+$availableFields = ImpactInfo::getFieldsForItemtype($itemtype);
 
 $fields = $availableFields[$key];
 if ($used) {
@@ -61,4 +61,4 @@ if ($used) {
     $used = $tmp;
 }
 $unusedFields = count($used) ? array_diff_key($fields, $used) : $fields;
-Impactinfo::makeDropdown($key, $unusedFields, $itemtype);
+ImpactInfo::makeDropdown($key, $unusedFields, $itemtype);

@@ -29,15 +29,15 @@
  */
 
 use Glpi\Exception\Http\AccessDeniedHttpException;
-use GlpiPlugin\Cmdb\Impactinfo;
+use GlpiPlugin\Cmdb\ImpactInfo;
 
-Html::header(Impactinfo::getTypeName(2), '', "config", Impactinfo::class);
+Html::header(ImpactInfo::getTypeName(2), '', "config", ImpactInfo::class);
 
-$impactInfo = new Impactinfo();
+$impactInfo = new ImpactInfo();
 $impactInfo->checkGlobal(READ);
 
 if ($impactInfo->canView()) {
-    Search::show(Impactinfo::getType());
+    Search::show(ImpactInfo::getType());
 } else {
     throw new AccessDeniedHttpException();
 }

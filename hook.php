@@ -33,10 +33,10 @@ use GlpiPlugin\Cmdb\CI_Cmdb;
 use GlpiPlugin\Cmdb\CIType;
 use GlpiPlugin\Cmdb\CIType_Document;
 use GlpiPlugin\Cmdb\Criticity_Item;
-use GlpiPlugin\Cmdb\Impactinfo;
-use GlpiPlugin\Cmdb\Operationprocess;
-use GlpiPlugin\Cmdb\Operationprocess_Item;
-use GlpiPlugin\Cmdb\OperationprocessState;
+use GlpiPlugin\Cmdb\ImpactInfo;
+use GlpiPlugin\Cmdb\OperationProcess;
+use GlpiPlugin\Cmdb\OperationProcess_Item;
+use GlpiPlugin\Cmdb\OperationProcessState;
 use GlpiPlugin\Cmdb\Profile;
 
 /**
@@ -169,7 +169,7 @@ function plugin_cmdb_uninstall()
         'Notification'];
     foreach ($itemtypes as $itemtype) {
         $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => Operationprocess::class]);
+        $item->deleteByCriteria(['itemtype' => OperationProcess::class]);
         $item = new $itemtype;
         $item->deleteByCriteria(['itemtype' => CI::class]);
         $item = new $itemtype;
@@ -177,7 +177,7 @@ function plugin_cmdb_uninstall()
         $item = new $itemtype;
         $item->deleteByCriteria(['itemtype' => CIType_Document::class]);
         $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => Impactinfo::class]);
+        $item->deleteByCriteria(['itemtype' => ImpactInfo::class]);
     }
 
     $profileRight = new ProfileRight();
@@ -248,8 +248,8 @@ function plugin_cmdb_getDropdown()
 
         asort($dropdowns);
 
-        $array  = [OperationprocessState::class
-               => OperationprocessState::getTypeName(2),
+        $array  = [OperationProcessState::class
+               => OperationProcessState::getTypeName(2),
             CIType::class
             => CIType::getTypeName(2)];
         $result = array_merge($array, $dropdowns);
@@ -266,7 +266,7 @@ function plugin_cmdb_getDropdown()
 function plugin_cmdb_AssignToTicket($types)
 {
     if (Session::haveRight("plugin_cmdb_operationprocesses_open_ticket", "1")) {
-        $types[Operationprocess::class] = Operationprocess::getTypeName(2);
+        $types[OperationProcess::class] = OperationProcess::getTypeName(2);
     }
 
     return $types;
@@ -277,8 +277,8 @@ function plugin_cmdb_postinit()
 {
     global $PLUGIN_HOOKS;
 
-    foreach (Operationprocess::getTypes(true) as $type) {
-        CommonGLPI::registerStandardTab($type, Operationprocess_Item::class);
+    foreach (OperationProcess::getTypes(true) as $type) {
+        CommonGLPI::registerStandardTab($type, OperationProcess_Item::class);
     }
 
     foreach (Criticity_Item::getCIType() as $value) {

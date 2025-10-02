@@ -454,7 +454,7 @@ class CIType extends CommonDropdown
 //    {
 //
 //        if (!$this->input['is_imported']) {
-//            $cifield                               = new Cifields();
+//            $cifield                               = new CiFields();
 //            $this->input['plugin_cmdb_citypes_id'] = $this->getID();
 //            $cifield->addCIFields($this->input);
 //
@@ -575,7 +575,7 @@ class CIType extends CommonDropdown
         if ($this->fields['is_imported']) {
             $this->updateDisplayFields($this->input);
         } else {
-            $cified                                = new Cifields();
+            $cified                                = new CiFields();
             $this->input['plugin_cmdb_citypes_id'] = $this->getID();
             $cified->updateCIFields($this->input);
         }
@@ -1029,7 +1029,7 @@ class CIType extends CommonDropdown
 
         if (isset($this->fields['id'])) {
             $id       = $this->fields['id'];
-            $ci_field = new Cifields();
+            $ci_field = new CiFields();
             $ciFields = $ci_field->find(['plugin_cmdb_citypes_id' => $id]);
 
             if (count($ciFields) > 0) {
@@ -1274,10 +1274,10 @@ class CIType extends CommonDropdown
     {
         $id = $this->fields['id'];
 
-        $temp = new Cifields();
+        $temp = new CiFields();
         $temp->deleteByCriteria(['plugin_cmdb_citypes_id' => $id]);
 
-        $temp = new Civalues();
+        $temp = new CiValues();
         $temp->deleteByCriteria(['itemtype' =>  $this->fields['name']]);
     }
 

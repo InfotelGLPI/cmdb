@@ -72,7 +72,7 @@ class Menu extends CommonGLPI {
       $menu['options']['ci']['links']['add']    = '/plugins/cmdb/front/ci.form.php';
       $menu['options']['ci']['links']['search'] = '/plugins/cmdb/front/ci.php';
 
-      $menu['icon']    = Operationprocess::getIcon();
+      $menu['icon']    = OperationProcess::getIcon();
       //baseline
 //      $menu['options']['baseline']['title']           = __('Baseline', 'cmdb');
 //      $menu['options']['baseline']['page']            = PLUGIN_CMDB_NOTFULL_WEBDIR.'front/baseline.php';

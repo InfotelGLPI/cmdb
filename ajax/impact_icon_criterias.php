@@ -28,7 +28,7 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Impacticon;
+use GlpiPlugin\Cmdb\ImpactIcon;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -44,12 +44,12 @@ $id = 0;
 if (isset($_POST['id']) && $_POST['id']) {
     $id = $_POST['id'];
 }
-$impactIcon = new Impacticon();
+$impactIcon = new ImpactIcon();
 if ($id > 0) {
     $impactIcon->getFromDB($id);
 }
 
-if (in_array($itemtype, array_keys(Impacticon::getCriterias()))) {
+if (in_array($itemtype, array_keys(ImpactIcon::getCriterias()))) {
     // label
     echo "<td>";
     switch($itemtype) {

@@ -28,7 +28,7 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Impactinfofield;
+use GlpiPlugin\Cmdb\ImpactInfoField;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -44,6 +44,6 @@ $id = 0;
 if (isset($_POST['id']) && $_POST['id']) {
     $id = $_POST['id'];
 
-    $impactInfoField = new Impactinfofield();
+    $impactInfoField = new ImpactInfoField();
     $impactInfoField->showInfos($itemtype, $id);
 }

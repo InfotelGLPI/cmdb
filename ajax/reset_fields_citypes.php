@@ -27,7 +27,7 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+use GlpiPlugin\Cmdb\CiFields;
 
 $tabType = explode(",", $_POST['tabType']);
 
@@ -37,7 +37,7 @@ if ($_POST["action"] == "reset") {
     $tabFieldsTmp = [];
 
     if (isset($_POST['id'])) {
-        $cifields = new Cifields();
+        $cifields = new CiFields();
         if ($cifields->getFromDBByCrit(['plugin_cmdb_citypes_id' => $_POST['id']])) {
             $tabFieldsTmp[] = $cifields->fields;
 

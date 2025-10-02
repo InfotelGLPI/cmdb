@@ -27,9 +27,9 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Cifields;
+use GlpiPlugin\Cmdb\CiFields;
 
 Session::checkRight('plugin_cmdb_cis', UPDATE);
 
-$fields = new Cifields();
+$fields = new CiFields();
 $fields->setFieldByType($_POST["idCIType"], $_POST["id"]);

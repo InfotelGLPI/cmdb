@@ -28,13 +28,13 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Impactinfo;
-use GlpiPlugin\Cmdb\Impactinfofield;
+use GlpiPlugin\Cmdb\ImpactInfo;
+use GlpiPlugin\Cmdb\ImpactInfoField;
 
 Session::checkLoginUser();
 
-$impactInfo = new Impactinfo();
-$impactInfoField = new Impactinfofield();
+$impactInfo = new ImpactInfo();
+$impactInfoField = new ImpactInfoField();
 global $DB;
 if (isset($_POST["add"])) {
     $input = ['itemtype' => $_POST['itemtype']];
@@ -112,7 +112,7 @@ if (isset($_POST["add"])) {
 } else {
     $impactInfo->checkGlobal(READ);
 
-    Html::header(Impactinfo::getTypeName(2), '', "config", Impactinfo::class);
+    Html::header(ImpactInfo::getTypeName(2), '', "config", ImpactInfo::class);
 
     $impactInfo->display($_GET);
 

@@ -27,9 +27,9 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Impactinfo;
+use GlpiPlugin\Cmdb\ImpactInfo;
 
 if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
-    $impactInfo = new Impactinfo();
+    $impactInfo = new ImpactInfo();
     $impactInfo->showInfos($_GET['itemtype'], $_GET['itemId']);
 }

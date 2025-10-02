@@ -41,7 +41,7 @@ use Search;
 use Session;
 use Toolbox;
 
-class Impactinfo extends CommonDBTM
+class ImpactInfo extends CommonDBTM
 {
     static $rightname = 'plugin_cmdb_impactinfos';
 
@@ -259,7 +259,7 @@ class Impactinfo extends CommonDBTM
         } elseif (str_starts_with($itemtype, 'GlpiPlugin\\Cmdb')) { // itemtype created by the plugin
             $ciType = new CIType();
             $ciType->getFromDBByCrit(['name' => $itemtype]);
-            $field = new Cifields();
+            $field = new CiFields();
             $fields = $field->find(['plugin_cmdb_citypes_id' => $ciType->getID()]);
             $value = [];
             $value['cmdb'] = [];
@@ -300,12 +300,12 @@ class Impactinfo extends CommonDBTM
 
     function showInfos($itemtype, $items_id) {
 
-        $impactInfo = new Impactinfo();
+        $impactInfo = new ImpactInfo();
         if ($impactInfo->getFromDBByCrit(['itemtype' => $itemtype])) {
             $item = new $itemtype();
             $item->getFromDB($items_id);
 
-            $impactInfoField = new Impactinfofield();
+            $impactInfoField = new ImpactInfoField();
             $fieldsToShow = $impactInfoField->find(
                 ['plugin_cmdb_impactinfos_id' => $impactInfo->getID()],
                 'glpi_plugin_cmdb_impactinfofields.order ASC'
@@ -435,8 +435,8 @@ class Impactinfo extends CommonDBTM
                 // fields for items created by plugin cmdb
                 $cmdbFields = array_filter($fieldsToShow, fn($e) => $e['type'] == 'cmdb');
                 if (count($cmdbFields)) {
-                    $ciValue = new Civalues();
-                    $ciField = new Cifields();
+                    $ciValue = new CiValues();
+                    $ciField = new CiFields();
                     $cmdbFields = array_values($cmdbFields);
                     foreach ($cmdbFields as $index => $field) {
                         if ($index % 2 === 0) {

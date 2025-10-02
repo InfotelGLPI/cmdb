@@ -32,18 +32,18 @@ namespace GlpiPlugin\Cmdb;
 use CommonDBTM;
 use Toolbox;
 
-class Impactinfofield extends CommonDBTM
+class ImpactInfoField extends CommonDBTM
 {
     static $rightname = 'plugin_cmdb_impactinfos';
 
     function showInfos($itemtype, $id)
     {
-        $impactInfo = new Impactinfo();
-        $impactInfoField = new Impactinfofield();
+        $impactInfo = new ImpactInfo();
+        $impactInfoField = new ImpactInfoField();
         if ($id > 0) {
             $impactInfo->getFromDB($id);
         }
-        $availableFields = Impactinfo::getFieldsForItemtype($itemtype);
+        $availableFields = ImpactInfo::getFieldsForItemtype($itemtype);
         $usedFields = $impactInfoField->find(
             ['plugin_cmdb_impactinfos_id' => $id],
             'order ASC'
@@ -89,7 +89,7 @@ class Impactinfofield extends CommonDBTM
             }
         }
         $unusedFields = array_diff_key($fields, $comparaisonArray);
-        Impactinfo::makeDropdown($key, $unusedFields, $itemtype);
+        ImpactInfo::makeDropdown($key, $unusedFields, $itemtype);
         echo "</div>"; // select
         echo "</div>"; // flex label+select
         echo "<div id='$key-fields'>";
@@ -98,7 +98,7 @@ class Impactinfofield extends CommonDBTM
             $fieldId = $field['field_id'];
             $label = $fields[$fieldId];
             $order = $field['order'];
-            // if display is modified here, also modify JS in PluginCmdbImpactinfo::makeDropdown
+            // if display is modified here, also modify JS in ImpactInfo::makeDropdown
             echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
             echo "<span>";
             echo "<label>".__('Order', 'cmdb')."</label>";

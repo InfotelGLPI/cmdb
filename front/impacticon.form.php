@@ -28,11 +28,11 @@
  --------------------------------------------------------------------------
  */
 
-use GlpiPlugin\Cmdb\Impacticon;
+use GlpiPlugin\Cmdb\ImpactIcon;
 
 Session::checkLoginUser();
 
-$impactIcon = new Impacticon();
+$impactIcon = new ImpactIcon();
 
 $criterias = $impactIcon->getCriterias();
 foreach($criterias as $criteria) {
@@ -94,7 +94,7 @@ if (isset($_POST["add"])) {
 } else {
     $impactIcon->checkGlobal(READ);
 
-    Html::header(Impacticon::getTypeName(2), '', "config", Impacticon::class);
+    Html::header(ImpactIcon::getTypeName(2), '', "config", ImpactIcon::class);
 
     $impactIcon->display($_GET);
 

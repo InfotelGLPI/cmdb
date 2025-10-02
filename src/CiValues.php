@@ -36,9 +36,9 @@ if (!defined('GLPI_ROOT')) {
 }
 
 /**
- * Class Civalues
+ * Class CiValues
  */
-class Civalues extends CommonDBTM {
+class CiValues extends CommonDBTM {
 
    static $rightname = "plugin_cmdb_cis";
 
