@@ -34,16 +34,13 @@ use Glpi\Plugin\Hooks;
 use GlpiPlugin\Cmdb\Autoloader;
 use GlpiPlugin\Cmdb\CiFields;
 use GlpiPlugin\Cmdb\CIType;
-use GlpiPlugin\Cmdb\CIType_Document;
 use GlpiPlugin\Cmdb\Cmdb;
-use GlpiPlugin\Cmdb\Cmdb_Ticket;
 use GlpiPlugin\Cmdb\Criticity;
 use GlpiPlugin\Cmdb\ImpactIcon;
 use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\Menu;
-use GlpiPlugin\Cmdb\OperationProcess;
-use GlpiPlugin\Cmdb\OperationProcessMenu;
 use GlpiPlugin\Cmdb\Profile;
+use function Safe\mkdir;
 
 define('PLUGIN_CMDB_VERSION', '3.1.2');
 
