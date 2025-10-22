@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Behaviors - Accounts plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 13:52+0000\n"
+"POT-Creation-Date: 2025-10-22 12:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: setup.php:174 src/CI_Cmdb.php:56 src/Profile.php:60 src/Menu.php:51
+#: setup.php:171 src/CI_Cmdb.php:56 src/Profile.php:60 src/Menu.php:51
 #: src/Cmdb.php:56
 msgid "CMDB"
 msgstr ""
