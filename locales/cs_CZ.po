@@ -319,7 +319,7 @@ msgstr ""
 
 #: src/CIType.php:310
 msgid "With GLPI 11, you can create now custom assets"
-msgstr "S GLPI 11, si nyní můžete vytvářet vlastní datové zdroje (data)"
+msgstr "S GLPI 11, si nyní můžete vytvářet vlastní datové zdroje/data"
 
 #: src/CIType.php:79
 msgid "Yes/No"
