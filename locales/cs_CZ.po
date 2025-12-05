@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Behaviors Development Team
-# This file is distributed under the same license as the Behaviors - Accounts plugin package.
+# Copyright (C) YEAR Cmdb Development Team
+# This file is distributed under the same license as the Cmdb plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
@@ -9,9 +9,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Behaviors - Accounts plugin\n"
+"Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-22 12:17+0000\n"
+"POT-Creation-Date: 2025-12-05 11:25+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
 "Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/teams/124557/cs_CZ/)\n"
@@ -78,10 +78,6 @@ msgstr "Nastavit typ konfigurační položky"
 #: src/CI_Cmdb.php:84
 msgid "Create Link"
 msgstr "Vytvořit odkaz"
-
-#: src/CI_Cmdb.php:93
-msgid "Create baseline"
-msgstr "Vytvořte základní linii"
 
 #: front/impactinfo.form.php:71 front/impacticon.form.php:63
 msgid "Creation failed"
@@ -345,7 +341,7 @@ msgstr "vysoká"
 msgid "is already present in GLPI"
 msgstr "je již přítomno v GLPI"
 
-#: hook.php:365
+#: hook.php:440
 msgid "item not found or disabled"
 msgstr "položka nenalezena nebo je zakázána"
 
