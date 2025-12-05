@@ -33,6 +33,5 @@ CREATE TABLE `glpi_plugin_cmdb_impactinfofields`
 
 INSERT INTO `glpi_displaypreferences` (`itemtype`, `num`, `rank`, `users_id`, `interface`)
 VALUES ('GlpiPlugin\\Cmdb\\Impactinfo', '2', '1', '0', 'central'),
-       ('GlpiPlugin\\Cmdb\\Impactinfo', '2', '1', '0', 'central'),
        ('GlpiPlugin\\Cmdb\\Impactinfo', '3', '2', '0', 'central'),
        ('GlpiPlugin\\Cmdb\\Impactinfo', '4', '3', '0', 'central');

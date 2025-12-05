@@ -90,7 +90,7 @@ class CI_Cmdb extends CommonDBTM
         $tabAction['exportPNG']           = __('Export PNG', 'cmdb');
         $tabAction['seeAssociatedTicket'] = __('See associated tickets', 'cmdb');
         $tabAction['purgeCMDB']           = __('Purge CMDB', 'cmdb');
-        $tabAction['createBaseline']      = __('Create baseline', 'cmdb');
+//        $tabAction['createBaseline']      = __('Create baseline', 'cmdb');
         return $tabAction;
     }
 
