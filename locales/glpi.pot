@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-31 17:59+0000\n"
+"POT-Creation-Date: 2025-12-05 11:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,10 +70,6 @@ msgstr ""
 
 #: src/CI_Cmdb.php:84
 msgid "Create Link"
-msgstr ""
-
-#: src/CI_Cmdb.php:93
-msgid "Create baseline"
 msgstr ""
 
 #: front/impactinfo.form.php:71 front/impacticon.form.php:63
@@ -320,7 +316,7 @@ msgstr ""
 msgid "is already present in GLPI"
 msgstr ""
 
-#: hook.php:365
+#: hook.php:440
 msgid "item not found or disabled"
 msgstr ""
 
