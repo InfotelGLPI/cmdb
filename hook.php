@@ -172,6 +172,8 @@ function plugin_cmdb_install()
         }
     }
 
+    $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-3.1.4.sql");
+
     Profile::initProfile();
     Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 
