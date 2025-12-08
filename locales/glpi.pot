@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-05 11:25+0000\n"
+"POT-Creation-Date: 2025-12-08 11:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "is already present in GLPI"
 msgstr ""
 
-#: hook.php:440
+#: hook.php:442
 msgid "item not found or disabled"
 msgstr ""
 
