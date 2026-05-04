@@ -31,6 +31,8 @@
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\ImpactInfo;
 
+Session::checkLoginUser();
+
 Html::header(ImpactInfo::getTypeName(2), '', "config", ImpactInfo::class);
 
 $impactInfo = new ImpactInfo();

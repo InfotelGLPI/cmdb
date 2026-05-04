@@ -69,9 +69,8 @@ function plugin_init_cmdb()
 {
     global $PLUGIN_HOOKS, $CFG_GLPI;
 
-    $PLUGIN_HOOKS['csrf_compliant']['cmdb']   = true;
-    $PLUGIN_HOOKS['change_profile']['cmdb']   = [Profile::class, 'initProfile'];
-    $PLUGIN_HOOKS['assign_to_ticket']['cmdb'] = true;
+    $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['cmdb']   = [Profile::class, 'initProfile'];
+    $PLUGIN_HOOKS[Hooks::ASSIGN_TO_TICKET]['cmdb'] = true;
 //    include_once(PLUGIN_CMDB_DIR . "/src/Autoloader.php");
     $plugincmdb_autoloader = new Autoloader([PLUGINCMDB_CLASS_PATH]);
     $plugincmdb_autoloader->register();
@@ -100,7 +99,7 @@ function plugin_init_cmdb()
         }
 
         //Change link from menu.php
-        $PLUGIN_HOOKS["javascript"]['cmdb'] = ["/plugins/cmdb/js/changeCIMenu.js",
+        $PLUGIN_HOOKS[Hooks::JAVASCRIPT]['cmdb'] = ["/plugins/cmdb/js/changeCIMenu.js",
             "/plugins/cmdb/js/accordion.js",
             "/plugins/cmdb/js/function_form_CIType.js",
             "/plugins/cmdb/js/show_fields.js"];
@@ -155,10 +154,10 @@ function plugin_init_cmdb()
         $PLUGIN_HOOKS['item_purge']['cmdb'][CiFields::class] = 'plugin_cmdb_item_purge';
         $PLUGIN_HOOKS['item_purge']['cmdb'][PluginFieldsField::class] = 'plugin_cmdb_item_purge';
 
-        $PLUGIN_HOOKS['add_javascript']['cmdb'][] = 'js/cmdb_impact.js.php';
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/cmdb_impact.js.php';
 
 
-        $PLUGIN_HOOKS['post_init']['cmdb'] = 'plugin_cmdb_postinit';
+        $PLUGIN_HOOKS[Hooks::POST_INIT]['cmdb'] = 'plugin_cmdb_postinit';
     }
 }
 

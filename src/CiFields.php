@@ -59,7 +59,7 @@ class CiFields extends CommonDBTM
 
         if (isset($input["nameNewField"])) {
             for ($i = 0; $i < sizeof($input["nameNewField"]); $i++) {
-                $values['name']                   = addslashes($input['nameNewField'][$i]);
+                $values['name']                   = $input['nameNewField'][$i];
                 $values['typefield']              = $input['typeNewField'][$i];
                 $values['plugin_cmdb_citypes_id'] = $input['plugin_cmdb_citypes_id'];
                 $this->add($values);
@@ -81,7 +81,7 @@ class CiFields extends CommonDBTM
 
         if (isset($input["nameField"])) {
             foreach ($input["nameField"] as $key => $value) {
-                $values['name']      = addslashes($input['nameField'][$key]);
+                $values['name']      = $input['nameField'][$key];
                 $values['typefield'] = $input['typeField'][$key];
                 $values['id']        = $key;
                 $this->update($values);
@@ -144,7 +144,7 @@ class CiFields extends CommonDBTM
     {
 
         echo "<tr class='field tab_bg_1'>";
-        echo "<td>" . stripslashes($field['name']) . "</td>";
+        echo "<td>" . htmlescape($field['name']) . "</td>";
         echo "<td>";
         $value = "";
         $id    = $field["id"];

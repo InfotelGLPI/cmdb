@@ -32,6 +32,8 @@ use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Menu;
 
+Session::checkLoginUser();
+
 if (!isset($_GET["id"])) {
    $_GET["id"] = "";
 }

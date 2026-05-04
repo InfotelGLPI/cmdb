@@ -36,11 +36,10 @@ function cmdbLoadInfos(event) {
             document.getElementById('close-cmdb-tooltip').addEventListener('click', e => {
                 tooltipContainer.parentNode.removeChild(tooltipContainer);
             })
-            // activate tooltips created for long lists (see Html::showToolTip)
-            const scripts = tooltipContainer.getElementsByTagName('script');
-            for (let i = 0; i < scripts.length; i++) {
-                eval(scripts[i].text);
-            }
+            // Initialize Bootstrap tooltips inserted by the AJAX response
+            tooltipContainer.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+                new bootstrap.Tooltip(el);
+            });
         },
         error: function () {
             alert("error");

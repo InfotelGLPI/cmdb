@@ -345,9 +345,10 @@ class Criticity extends CommonDBTM {
 
       $itemtype = $options['itemtype'];
       $items_id = $options['items_id'];
-      $obj      = new $itemtype();
 
-      // Object must be an instance of CommonDBTM (or inherint of this)
+      if (!$obj = getItemForItemtype($itemtype)) {
+         return;
+      }
       if (!$obj instanceof CommonDBTM) {
          return;
       }

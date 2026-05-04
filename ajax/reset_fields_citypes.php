@@ -29,6 +29,8 @@
 
 use GlpiPlugin\Cmdb\CiFields;
 
+Session::checkLoginUser();
+
 $tabType = explode(",", $_POST['tabType']);
 
 if ($_POST["action"] == "reset") {

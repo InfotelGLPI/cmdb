@@ -33,6 +33,8 @@ use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Menu;
 
+Session::checkLoginUser();
+
 Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class);
 
 $cmdb = new Cmdb();

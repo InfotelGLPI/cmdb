@@ -146,25 +146,10 @@ function plugin_cmdb_install()
                         ]);
                         if (count($iterator2) > 0) {
                             foreach ($iterator2 as $dataid) {
-                                $query = $DB->buildDelete(
-                                    'glpi_displaypreferences',
-                                    [
-                                        'id' => $dataid['id'],
-                                    ]
-                                );
-                                $DB->doQuery($query);
+                                $DB->delete('glpi_displaypreferences', ['id' => $dataid['id']]);
                             }
                         } else {
-                            $query = $DB->buildUpdate(
-                                'glpi_displaypreferences',
-                                [
-                                    'itemtype' => $new,
-                                ],
-                                [
-                                    'id' => $data['id'],
-                                ]
-                            );
-                            $DB->doQuery($query);
+                            $DB->update('glpi_displaypreferences', ['itemtype' => $new], ['id' => $data['id']]);
                         }
                     }
                 }
@@ -245,16 +230,11 @@ function plugin_cmdb_uninstall()
         'NotificationTemplate',
         'Notification'];
     foreach ($itemtypes as $itemtype) {
-        $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => OperationProcess::class]);
-        $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => CI::class]);
-        $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => CIType::class]);
-        $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => CIType_Document::class]);
-        $item = new $itemtype;
-        $item->deleteByCriteria(['itemtype' => ImpactInfo::class]);
+        foreach ([OperationProcess::class, CI::class, CIType::class, CIType_Document::class, ImpactInfo::class] as $deletedType) {
+            if ($item = getItemForItemtype($itemtype)) {
+                $item->deleteByCriteria(['itemtype' => $deletedType]);
+            }
+        }
     }
 
     $profileRight = new ProfileRight();

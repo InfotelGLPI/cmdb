@@ -242,7 +242,9 @@ class ImpactInfo extends CommonDBTM
     {
         $dbu = new DbUtils();
         $plugin = new Plugin();
-        $item = new $itemtype();
+        if (!$item = getItemForItemtype($itemtype)) {
+            return [];
+        }
         $searchOptions = Search::getCleanedOptions($itemtype, READ, false);
         if (count($searchOptions) && (!$item instanceof CommonDropdown || !str_starts_with($itemtype, 'GlpiPlugin\\Cmdb'))) { // glpi core itemtype
             $fields = [];
@@ -302,7 +304,9 @@ class ImpactInfo extends CommonDBTM
 
         $impactInfo = new ImpactInfo();
         if ($impactInfo->getFromDBByCrit(['itemtype' => $itemtype])) {
-            $item = new $itemtype();
+            if (!$item = getItemForItemtype($itemtype)) {
+                return;
+            }
             $item->getFromDB($items_id);
 
             $impactInfoField = new ImpactInfoField();
@@ -423,7 +427,7 @@ class ImpactInfo extends CommonDBTM
                         $colspan = count($baseFields) > 1 ? 1 : 2;
                         $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
                         echo "<td colspan='$colspan' class='$classes'>";
-                        echo $label . ' : ' . $display;
+                        echo htmlescape($label) . ' : ' . $display;
                         echo "</td>";
                         // every other infos, or if only one
                         if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
@@ -454,7 +458,7 @@ class ImpactInfo extends CommonDBTM
                                 $value = $ciValue->fields['value'];
                             }
                             echo "<td colspan='$colspan' class='$classes'>";
-                            echo $ciField->fields['name'] . ' : ' . $value;
+                            echo htmlescape($ciField->fields['name']) . ' : ' . htmlescape($value);
                             echo "</td>";
                         }
                         if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
@@ -528,9 +532,10 @@ class ImpactInfo extends CommonDBTM
                                     } elseif ($fieldType === 'glpi_item') { // Dropdown where item's type can be one of several
                                         $itemtype = $values['itemtype_' . $fieldData['name']];
                                         $items_id = $values['items_id_' . $fieldData['name']];
-                                        $obj = new $itemtype();
-                                        $obj->getFromDB($items_id);
-                                        $value = $obj->getFriendlyName();
+                                        if ($obj = getItemForItemtype($itemtype)) {
+                                            $obj->getFromDB($items_id);
+                                            $value = $obj->getFriendlyName();
+                                        }
                                     } elseif ($fieldType == 'dropdown') { // Dropdown created by plugin fields
                                         $itemtype = 'PluginFields' . ucfirst($fieldData['name']) . 'Dropdown';
                                         $value = Dropdown::getDropdownName(
@@ -547,7 +552,7 @@ class ImpactInfo extends CommonDBTM
                                 $colspan = count($pluginFields) > 1 ? 1 : 2;
                                 $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
                                 echo "<td colspan='$colspan' class='$classes'>";
-                                echo $pluginFieldsField->fields['label'] . ' : ' . $value;
+                                echo htmlescape($pluginFieldsField->fields['label']) . ' : ' . htmlescape($value);
                                 echo "</td>";
                                 if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
                                     echo "</tr>";
@@ -569,13 +574,13 @@ class ImpactInfo extends CommonDBTM
                 echo '</div>';
             }
         } else {
-            $item = new $itemtype();
             // tooltip header
             echo "<div class='d-flex justify-content-end pt-1'>
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
             echo "<div class='text-center'>";
-            echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $item->getTypeName());
+            $typename = ($item = getItemForItemtype($itemtype)) ? $item->getTypeName() : htmlescape($itemtype);
+            echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $typename);
             echo '</div>';
         }
     }

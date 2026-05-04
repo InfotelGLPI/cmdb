@@ -32,6 +32,8 @@ use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Menu;
 
+Session::checkLoginUser();
+
 Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class, 'ci');
 
 $op = new CI();

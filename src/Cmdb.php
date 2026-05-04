@@ -134,7 +134,7 @@ class Cmdb extends CommonDBTM
                     }
 
                     echo "<br/>";
-                    echo $val;
+                    echo htmlescape($val);
                     echo "</a>";
                     echo "</td>";
 

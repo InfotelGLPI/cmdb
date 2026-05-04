@@ -37,76 +37,71 @@ function update120() {
 
    $migration = new Migration(120);
 
-   //add colum
-   $DB->->doQuery("ALTER TABLE `glpi_plugin_cmdb_criticities` ADD `businesscriticities_id` INT(11) NOT NULL DEFAULT '0';");
+   $migration->addField('glpi_plugin_cmdb_criticities', 'businesscriticities_id', 'int NOT NULL DEFAULT 0');
+   $migration->migrationOneTable('glpi_plugin_cmdb_criticities');
 
-   $query = "SELECT *
-                 FROM `glpi_plugin_cmdb_criticities`;";
-
-   $result = $DB->doQuery($query);
-   while ($data = $DB->fetchArray($result)) {
+   $iterator = $DB->request(['FROM' => 'glpi_plugin_cmdb_criticities']);
+   foreach ($iterator as $data) {
       $name = $data['name'];
 
-      $query_verif  = "SELECT `name`
-                      FROM `glpi_businesscriticities`
-                      WHERE `name` LIKE '$name' AND `businesscriticities_id` = 0";
-      $result_verif = $DB->doQuery($query_verif);
-      if ($DB->numrows($result_verif) > 0) {
+      $check = $DB->request([
+         'SELECT' => ['name'],
+         'FROM'   => 'glpi_businesscriticities',
+         'WHERE'  => ['name' => $name, 'businesscriticities_id' => 0],
+      ]);
+      if (count($check) > 0) {
          $name .= '_migration' . $data['id'];
       }
 
-      $DB->->doQuery("INSERT INTO `glpi_businesscriticities` (`id`, `name`, `entities_id`, `is_recursive`, `comment`, `businesscriticities_id`, `completename`, `level`)
-                         VALUES (NULL, '$name', " . $data['entities_id'] . ", " . $data['is_recursive'] . ", '" . $data['comment'] . "', 0, '$name', '1');");
+      $DB->insert('glpi_businesscriticities', [
+         'name'                   => $name,
+         'entities_id'            => $data['entities_id'],
+         'is_recursive'           => $data['is_recursive'],
+         'comment'                => $data['comment'],
+         'businesscriticities_id' => 0,
+         'completename'           => $name,
+         'level'                  => 1,
+      ]);
+      $id = $DB->insertId();
 
-      $query = "SELECT `id`
-                 FROM `glpi_businesscriticities`
-                 WHERE `name` LIKE '$name'
-                 AND `entities_id` = " . $data['entities_id'] . "
-                 AND `is_recursive` = " . $data['is_recursive'] . "
-                 AND `level` = 1;";
-
-      $result_id = $DB->doQuery($query);
-      $id        = $DB->result($result_id, 0, "id");
-
-      $DB->->doQuery("UPDATE `glpi_plugin_cmdb_criticities` SET `businesscriticities_id` = $id WHERE `id` = " . $data['id'] . ";");
-      $DB->->doQuery("UPDATE `glpi_plugin_cmdb_criticities_items` SET `value` = $id WHERE `value` = " . $data['id'] . ";");
-
+      $DB->update('glpi_plugin_cmdb_criticities', ['businesscriticities_id' => $id], ['id' => $data['id']]);
+      $DB->update('glpi_plugin_cmdb_criticities_items', ['value' => $id], ['value' => $data['id']]);
    }
 
-   $DB->->doQuery("ALTER TABLE `glpi_plugin_cmdb_criticities` DROP `name`;");
-   $DB->->doQuery("ALTER TABLE `glpi_plugin_cmdb_criticities` DROP `entities_id`;");
-   $DB->->doQuery("ALTER TABLE `glpi_plugin_cmdb_criticities` DROP `is_recursive`;");
-   $DB->->doQuery("ALTER TABLE `glpi_plugin_cmdb_criticities` DROP `comment`;");
+   $migration->dropField('glpi_plugin_cmdb_criticities', 'name');
+   $migration->dropField('glpi_plugin_cmdb_criticities', 'entities_id');
+   $migration->dropField('glpi_plugin_cmdb_criticities', 'is_recursive');
+   $migration->dropField('glpi_plugin_cmdb_criticities', 'comment');
+   $migration->migrationOneTable('glpi_plugin_cmdb_criticities');
 
-   $query = "SELECT *
-              FROM `glpi_plugin_cmdb_criticities_items`
-              WHERE `itemtype` IN ('" . implode('\',\'', $CFG_GLPI['infocom_types']) . "');";
-
-   $result = $DB->doQuery($query);
-   while ($data = $DB->fetchArray($result)) {
-      $items_id = $data['items_id'];
+   $infocom_types = $CFG_GLPI['infocom_types'];
+   $iterator = $DB->request([
+      'FROM'  => 'glpi_plugin_cmdb_criticities_items',
+      'WHERE' => ['itemtype' => $infocom_types],
+   ]);
+   foreach ($iterator as $data) {
+      $items_id = (int) $data['items_id'];
       $itemtype = $data['itemtype'];
-      $value    = $data['value'];
+      $value    = (int) $data['value'];
 
       if ($value != 0) {
-
-         $query_verif = "SELECT `id`
-                      FROM `glpi_infocoms`
-                      WHERE `items_id` = $items_id AND `itemtype` = '$itemtype'";
-
-         $result_verif = $DB->doQuery($query_verif);
-         if ($DB->numrows($result_verif) > 0) {
-            $id = $DB->result($result_verif, 0, "id");
-            //update
-            $DB->->doQuery("UPDATE `glpi_infocoms` SET `businesscriticities_id` = $value WHERE `id` = $id");
+         $check = $DB->request([
+            'SELECT' => ['id'],
+            'FROM'   => 'glpi_infocoms',
+            'WHERE'  => ['items_id' => $items_id, 'itemtype' => $itemtype],
+         ]);
+         if (count($check) > 0) {
+            $infocom = $check->current();
+            $DB->update('glpi_infocoms', ['businesscriticities_id' => $value], ['id' => $infocom['id']]);
          } else {
-            //add
-            $DB->->doQuery("INSERT INTO `glpi_infocoms` (`items_id`, `itemtype`, `businesscriticities_id`)
-                            VALUES ($items_id, '$itemtype', $value)");
+            $DB->insert('glpi_infocoms', [
+               'items_id'               => $items_id,
+               'itemtype'               => $itemtype,
+               'businesscriticities_id' => $value,
+            ]);
          }
       }
-      $DB->->doQuery("DELETE FROM `glpi_plugin_cmdb_criticities_items` WHERE `id` = " . $data['id'] . ";");
-
+      $DB->delete('glpi_plugin_cmdb_criticities_items', ['id' => $data['id']]);
    }
 
    $migration->executeMigration();

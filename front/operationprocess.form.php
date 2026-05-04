@@ -32,6 +32,8 @@ use GlpiPlugin\Cmdb\OperationProcess;
 use GlpiPlugin\Cmdb\OperationProcess_Item;
 use GlpiPlugin\Cmdb\OperationProcessMenu;
 
+Session::checkLoginUser();
+
 if (!isset($_GET["id"])) {
    $_GET["id"] = "";
 }

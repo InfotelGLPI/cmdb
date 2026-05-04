@@ -37,6 +37,9 @@ if (isset($_GET['idDoc'])) { // docid for document
         throw new BadRequestHttpException(__('Unknown file'));
     }
 
+    if (!$doc->canViewFile($_GET)) {
+        throw new BadRequestHttpException(__('Unauthorized access to this file'));
+    }
     if (!file_exists(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
         throw new BadRequestHttpException(__('File not found')); // Not found
     } else {

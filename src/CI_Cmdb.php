@@ -144,7 +144,7 @@ class CI_Cmdb extends CommonDBTM
     {
 
         Html::requireJs('cmdb');
-        $opt    = json_encode($options);
+        $opt    = json_encode($options, JSON_HEX_TAG);
         $script = "var plugin_cmdb = $(document).orientedGraph($opt);";
         if ($ispopup == 1) {
             echo Html::scriptBlock('$(document).ready(function() {

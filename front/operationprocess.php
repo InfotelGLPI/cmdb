@@ -31,6 +31,8 @@ use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\OperationProcess;
 use GlpiPlugin\Cmdb\OperationProcessMenu;
 
+Session::checkLoginUser();
+
 Session::checkRight("plugin_cmdb_operationprocesses", READ);
 
 Html::header(OperationProcess::getTypeName(2), '', "assets", OperationProcessMenu::class);

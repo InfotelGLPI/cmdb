@@ -49,7 +49,7 @@ function update110to111() {
                KEY `entities_id` (`entities_id`),
                KEY `is_recursive` (`is_recursive`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-   $DB->->doQuery($query, "add table criticities");
+   $DB->doQuery($query);
 
    $criticities = getAllCriticity();
    foreach ($criticities as $key => $value) {
@@ -64,12 +64,13 @@ function update110to111() {
 
    $migration->dropTable('glpi_plugin_cmdb_preferences');
 
-   $query = "SELECT *
-              FROM `glpi_plugin_cmdb_criticities_items`;";
-
-   $result = $DB->doQuery($query);
-   while ($data = $DB->fetchArray($result)) {
-      $DB->->doQuery("UPDATE `glpi_plugin_cmdb_criticities_items` SET `value` = '".($data['value']+1)."' WHERE `id` = ".$data['id'].";");
+   $iterator = $DB->request(['FROM' => 'glpi_plugin_cmdb_criticities_items']);
+   foreach ($iterator as $data) {
+      $DB->update(
+         'glpi_plugin_cmdb_criticities_items',
+         ['value' => $data['value'] + 1],
+         ['id'    => $data['id']]
+      );
    }
 
    $migration->executeMigration();

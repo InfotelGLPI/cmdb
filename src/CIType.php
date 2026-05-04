@@ -988,7 +988,7 @@ class CIType extends CommonDropdown
         global $CFG_GLPI;
         echo "<tr class='newItem tab_bg_1' style='display:none;'>";
         echo "<td colspan='2' class='center'><a class='submit btn btn-primary'
-            onclick='addField(" . json_encode(self::$typeField) . ")'>" . __('Add New Field', 'cmdb') . "</a></td>";
+            onclick='addField(" . json_encode(self::$typeField, JSON_HEX_TAG) . ")'>" . __('Add New Field', 'cmdb') . "</a></td>";
         echo "</tr>";
 
         echo "<tr class='newItem tab_bg_1' style='display:none;'>";
@@ -1042,7 +1042,7 @@ class CIType extends CommonDropdown
                 echo "</tr>";
                 echo "<tr class='newItem tab_bg_1' style='display:none;'>";
                 echo "<td colspan='2' class='center'><a class='submit btn btn-primary'
-                    onclick='resetFields($id," . json_encode(self::$typeField) . ")'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
+                    onclick='resetFields($id," . json_encode(self::$typeField, JSON_HEX_TAG) . ")'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
                 echo "</tr>";
                 echo "<tr class='newItem tab_bg_1' style='display:none;'>";
                 echo "<td colspan='2' class='center'>";
@@ -1141,8 +1141,8 @@ class CIType extends CommonDropdown
                     'items_id'      => $this->getID()])) {
                     $docadded[$docID]['data'] = sprintf(
                         __('%1$s - %2$s'),
-                        stripslashes($doc->fields["name"]),
-                        stripslashes($doc->fields["filename"])
+                        $doc->fields["name"],
+                        $doc->fields["filename"]
                     );
 
                     if (isset($input2["tag"])) {

@@ -31,6 +31,8 @@
 use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\ImpactIcon;
 
+Session::checkLoginUser();
+
 Html::header(ImpactIcon::getTypeName(2), '', "config", ImpactIcon::class);
 
 $impactIcon = new ImpactIcon();
