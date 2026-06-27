@@ -4,6 +4,13 @@
 [![Web](https://img.shields.io/badge/Web-Infotel-blue.svg?style=flat-square)](https://blogglpi.infotel.com)
 [![Translate](https://img.shields.io/badge/Translate-Transifex-cyan)](https://explore.transifex.com/infotelGLPI/GLPI_cmdb/)
 
+CMDB extends GLPI 11's native impact analysis with custom icons per object type and configurable information tooltips on each impact graph node. It also provides CI type management (custom configuration item types with user-defined fields) and an operation processes module.
+
+### Documentation
+
+- [English documentation](docs/en/index.md)
+- [Documentation française](docs/fr/index.md)
+
 ## FRENCH
 
 Ce plugin vous permet :
