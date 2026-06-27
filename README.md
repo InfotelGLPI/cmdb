@@ -1,8 +1,10 @@
-# cmdb
-Plugin CMDB pour GLPI
+## Cmdb plugin for GLPI
 
-Ce plugin est sur Transifex - Aidez-nous à le traduire :
-https://www.transifex.com/infotelGLPI/GLPI_cmdb/
+[![License](https://img.shields.io/badge/License-GNU%20GLPI%20v3-blue.svg?style=flat-square)](https://github.com/InfotelGLPI/cmdb/blob/master/LICENSE)
+[![Web](https://img.shields.io/badge/Web-Infotel-blue.svg?style=flat-square)](https://blogglpi.infotel.com)
+[![Translate](https://img.shields.io/badge/Translate-Transifex-cyan)](https://explore.transifex.com/infotelGLPI/GLPI_cmdb/)
+
+## FRENCH
 
 Ce plugin vous permet :
 
@@ -15,10 +17,7 @@ Déprécié - Anciennes fonctionnalités (Objets personnalisés disponibles avec
 > * D'ajouter des objets du coeur non géré par l'analyse d'impact
 > * D'ajouter des objets supplémentaires
 
-***********************
-
-This plugin is on Transifex - Help us to translate :
-https://www.transifex.com/infotelGLPI/GLPI_cmdb/
+## ENGLISH
 
 This plugin allows you to:
 
