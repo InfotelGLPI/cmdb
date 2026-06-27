@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 07:53+0000\n"
+"POT-Creation-Date: 2026-06-27 08:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: src/Profile.php:59 src/CI_Cmdb.php:55 src/Menu.php:51 src/Cmdb.php:56
+#: src/Profile.php:59 src/Cmdb.php:56 src/Menu.php:51 src/CI_Cmdb.php:55
 #: setup.php:169
 msgid "CMDB"
 msgstr ""
@@ -231,7 +231,7 @@ msgstr ""
 msgid "See associated tickets"
 msgstr ""
 
-#: src/OperationProcessMenu.php:53 src/OperationProcess.php:66
+#: src/OperationProcess.php:66 src/OperationProcessMenu.php:53
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] ""
