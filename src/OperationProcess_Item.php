@@ -339,8 +339,8 @@ class OperationProcess_Item extends CommonDBRelation {
                   if ($itemType == "User") {
                      $n = $dbu->getUserName($data["id"]);
                   }
-                  $name = "<a href=\"" . $link . "?id=" . $data["id"] . "\">"
-                          . $n . "$ID</a>";
+                  $name = "<a href=\"" . htmlescape($link) . "?id=" . (int) $data["id"] . "\">"
+                          . htmlescape($n) . htmlescape($ID) . "</a>";
 
                   echo "<tr class='tab_bg_1'>";
 

@@ -38,15 +38,15 @@ if (isset($_GET['idDoc'])) { // docid for document
        throw new BadRequestHttpException(__('Unknown file'), true);
    }
 
+   // Check authorization first to avoid disclosing file existence/state to unauthorized users
+   if (!$doc->canViewFile($_GET)) {
+       throw new BadRequestHttpException(__('Unauthorized access to this file'));
+   }
    if (!file_exists(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
        throw new BadRequestHttpException(__('File not found'));
-   } else if ($doc->canViewFile($_GET)) {
-      if ($doc->fields['sha1sum'] && $doc->fields['sha1sum'] != sha1_file(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
-          throw new BadRequestHttpException(__('File is altered (bad checksum)'));
-      } else {
-         return $doc->getAsResponse();
-      }
+   } else if ($doc->fields['sha1sum'] && $doc->fields['sha1sum'] != sha1_file(GLPI_DOC_DIR . "/" . $doc->fields['filepath'])) {
+       throw new BadRequestHttpException(__('File is altered (bad checksum)'));
    } else {
-       throw new BadRequestHttpException(__('Unauthorized access to this file'));
+       return $doc->getAsResponse();
    }
 }

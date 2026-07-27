@@ -27,16 +27,16 @@
  --------------------------------------------------------------------------
  */
 
-global $DB;
-
 use GlpiPlugin\Cmdb\OperationProcess;
 
-if (strpos($_SERVER['PHP_SELF'], "dropdownStateOperationProcesses.php")) {
+global $DB;
+
+if (strpos($_SERVER['PHP_SELF'], "dropdownStateOperationprocesses.php")) {
    header("Content-Type: text/html; charset=UTF-8");
    Html::header_nocache();
 }
 
-Session::checkCentralAccess();
+Session::checkRight('plugin_cmdb_operationprocesses', READ);
 
 // Make a select box
 if (isset($_POST["operationprocessstate"])) {
@@ -59,11 +59,11 @@ if (isset($_POST["operationprocessstate"])) {
        }
    }
 
+   // Do not trust a client-supplied entity: let GLPI apply the session entity restriction
    Dropdown::show(OperationProcess::class,
                   ['name'      => $_POST['myname'],
                         'used'      => $used,
                         'width'     => '50%',
-                        'entity'    => $_POST['entity'],
                         'rand'      => $_POST['rand'],
                         'condition' => ["plugin_cmdb_operationprocessstates_id" => $_POST["operationprocessstate"]]]);
 

@@ -29,7 +29,7 @@
 
 use GlpiPlugin\Cmdb\ImpactInfo;
 
-Session::checkLoginUser();
+Session::checkRight('plugin_cmdb_impactinfos', READ);
 
 if (isset($_GET['itemtype']) && isset($_GET['itemId'])) {
     $itemtype = $_GET['itemtype'];

@@ -125,7 +125,7 @@ class CiFields extends CommonDBTM
     * @param $id
     * @param $itemtype
     */
-    function setFieldByType($idType, $id, $itemtype)
+    function setFieldByType($idType, $id, $itemtype = CI::class)
     {
         if ($res = $this->find(['plugin_cmdb_citypes_id' => $idType])) {
             if (count($res) > 0) {
@@ -140,7 +140,7 @@ class CiFields extends CommonDBTM
     * @param $field
     * @param $idCi
     */
-    static function setFieldInput($field, $idCi, $itemtype)
+    static function setFieldInput($field, $idCi, $itemtype = CI::class)
     {
 
         echo "<tr class='field tab_bg_1'>";
@@ -214,21 +214,21 @@ class CiFields extends CommonDBTM
 
                             switch ($searchOption['datatype']) {
                                 case 'bool':
-                                    echo "<p><span>" . $searchOption['name'] . " : </span>" .
+                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
                                     Dropdown::getYesNo($itemclass->fields[$field]) . "</p>";
                                     break;
                                 case 'datetime':
-                                    echo "<p><span>" . $searchOption['name'] . " : </span>" .
+                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
                                     Html::convDateTime($itemclass->fields[$field]) . "</p>";
                                     break;
                                 case 'date':
-                                    echo "<p><span>" . $searchOption['name'] . " : </span>" .
+                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
                                     Html::convDate($itemclass->fields[$field]) . "</p>";
                                     break;
                                 case 'string':
                                 case 'itemlink':
-                                    echo "<p><span>" . $searchOption['name'] . " : </span>" .
-                                    $itemclass->fields[$field] . "</p>";
+                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
+                                    htmlescape($itemclass->fields[$field]) . "</p>";
                                     break;
                             }
                         }
@@ -247,7 +247,7 @@ class CiFields extends CommonDBTM
                             $itemtype_rel = $dbu->getItemTypeForTable($searchOption['table']);
                             $item_rel     = $dbu->getItemForItemtype($itemtype_rel);
                             $item_rel->getFromDB($itemclass->fields[$field]);
-                            echo "<p><span>" . $searchOption['name'] . " : </span>" . $item_rel->fields['name'] . "</p>";
+                            echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" . htmlescape($item_rel->fields['name']) . "</p>";
                         }
                     }
                 }
@@ -263,10 +263,10 @@ class CiFields extends CommonDBTM
             );
 
             foreach ($iterator as $data) {
-                echo "<p>" . $data['name'] . " : " . CiFields::setValue(
+                echo "<p>" . htmlescape($data['name']) . " : " . htmlescape(CiFields::setValue(
                     $data['typefield'],
                     $data['value']
-                ) . "</p>";
+                )) . "</p>";
             }
         }
     }

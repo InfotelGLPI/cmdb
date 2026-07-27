@@ -124,7 +124,7 @@ class Cmdb extends CommonDBTM
                     }
                     $citype_doc = new CIType_Document();
                     echo "<td class='center b'>";
-                    echo "<a href='$link'>";
+                    echo "<a href='" . htmlescape($link) . "'>";
                     if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $id,
                                                  'types_id'               => 0])) {
                         echo "<img width='64' height='64' src='" . $CFG_GLPI['root_doc'] .

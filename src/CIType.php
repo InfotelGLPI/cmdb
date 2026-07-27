@@ -757,7 +757,7 @@ class CIType extends CommonDropdown
                 $citypeItem->getFromDB($ID);
                 echo "<div id='accordion'>";
                 foreach ($tabCIType_type as $key => $value) {
-                    echo "<h3>$value</h3>";
+                    echo "<h3>" . htmlescape($value) . "</h3>";
                     echo "<div>";
                     if ($ID) {
                         if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
@@ -776,7 +776,7 @@ class CIType extends CommonDropdown
             } else {
                 echo "<div id='accordion'>";
                 foreach ($tabCIType_type as $key => $value) {
-                    echo "<h3>$value</h3>";
+                    echo "<h3>" . htmlescape($value) . "</h3>";
                     echo "<div>";
                     if ($ID) {
                         if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
@@ -795,7 +795,7 @@ class CIType extends CommonDropdown
         } else {
             echo "<div id='accordion'>";
             foreach ($tabCIType_type as $key => $value) {
-                echo "<h3>$value</h3>";
+                echo "<h3>" . htmlescape($value) . "</h3>";
                 echo "<div>";
                 if ($ID) {
                     if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,

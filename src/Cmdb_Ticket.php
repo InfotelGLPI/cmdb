@@ -155,7 +155,7 @@ class Cmdb_Ticket extends CommonDBRelation
             if (!empty($itemsSortByCriticity[$value])) {
                 $color = $data['color'];
                 $name  = $data['name'];
-                echo "<h3 style='background:$color'><b>" . Criticity_Item::getTypeName(1) . " : $name</b></h3>";
+                echo "<h3 style='background:" . htmlescape($color) . "'><b>" . Criticity_Item::getTypeName(1) . " : " . htmlescape($name) . "</b></h3>";
                 echo "<div>";
                 echo "<table class='tab_cadre_fixe'>";
                 echo "<tr class='headerRow'>";
@@ -174,7 +174,7 @@ class Cmdb_Ticket extends CommonDBRelation
                      $citype_name = $ci->getTypeName2($citype);
                      $ci_name     = $ci->getNameCI($citype, $info['idItem']);
                      $url         = $ci->getLinkCI($citype, $info['idItem']);
-                     echo "<a href='$url' target='_blank'>" . $citype_name . " : " . $ci_name . "</a>";
+                     echo "<a href='" . htmlescape($url) . "' target='_blank'>" . htmlescape($citype_name) . " : " . htmlescape($ci_name) . "</a>";
                      echo "</td>";
 
                      echo "<td>";

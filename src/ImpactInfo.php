@@ -320,9 +320,9 @@ class ImpactInfo extends CommonDBTM
 
             // tooltip header
             echo "<div class='d-flex justify-content-between pt-1'>
-            <strong>" . $item->getTypeName() . " : <a href='" . $item->getFormUrlWithID(
+            <strong>" . htmlescape($item->getTypeName()) . " : <a href='" . htmlescape($item->getFormUrlWithID(
                     $item->getID()
-                ) . "&forcetab=main' target='blank'>" . $item->getFriendlyName() . "</a></strong>
+                ) . "&forcetab=main") . "' target='blank'>" . htmlescape($item->getFriendlyName()) . "</a></strong>
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
             if (count($fieldsToShow)) {
