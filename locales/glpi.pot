@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-27 09:28+0000\n"
+"POT-Creation-Date: 2026-07-27 10:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "All levels have already been added"
 msgstr ""
 
-#: front/impacticon.form.php:53 front/impacticon.form.php:85
+#: front/impacticon.form.php:60 front/impacticon.form.php:92
 msgid "An icon already exist for this type"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: src/Profile.php:59 src/Cmdb.php:56 src/Menu.php:51 src/CI_Cmdb.php:55
+#: src/Profile.php:59 src/Menu.php:51 src/Cmdb.php:56 src/CI_Cmdb.php:55
 #: setup.php:169
 msgid "CMDB"
 msgstr ""
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Create Link"
 msgstr ""
 
-#: front/impactinfo.form.php:70 front/impacticon.form.php:62
+#: front/impacticon.form.php:69 front/impactinfo.form.php:70
 msgid "Creation failed"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity_Item.php:57 src/Criticity.php:59 src/Criticity.php:128
+#: src/Criticity.php:59 src/Criticity.php:128 src/Criticity_Item.php:57
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] ""
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Icon file"
 msgstr ""
 
-#: front/impacticon.form.php:46
+#: front/impacticon.form.php:53
 #, php-format
 msgid "Icon for itemtype %s"
 msgstr ""
@@ -185,12 +185,12 @@ msgstr[1] ""
 msgid "No elements of CMDB linked to the ticket"
 msgstr ""
 
-#: src/ImpactInfo.php:573
+#: src/ImpactInfo.php:576
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfo.php:583
+#: src/ImpactInfo.php:586
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr ""
@@ -274,7 +274,7 @@ msgstr[1] ""
 msgid "Update Link"
 msgstr ""
 
-#: front/impacticon.form.php:90
+#: front/impacticon.form.php:97
 msgid "Update failed"
 msgstr ""
 
@@ -316,7 +316,7 @@ msgstr ""
 msgid "is already present in GLPI"
 msgstr ""
 
-#: hook.php:421
+#: hook.php:427
 msgid "item not found or disabled"
 msgstr ""
 
