@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 10:10+0000\n"
+"POT-Creation-Date: 2026-07-27 11:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr ""
 msgid "CMDB"
 msgstr ""
 
-#: src/Ci.php:62
+#: src/CI.php:62
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
 msgstr[0] ""
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Ci.php:217
+#: src/CI.php:217
 msgid "Invalid name !"
 msgstr ""
 
