@@ -1,0 +1,697 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CiFields\:\:setFieldByType\(\) invoked with 2 parameters, 3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: ajax/change_field.php
+
+		-
+			message: '#^You should not use the `exit` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: ajax/impact_item_infos.php
+
+		-
+			message: '#^You should not use the `http_response_code` function to change the response code\. Due to a PHP bug, it may not provide the expected result \(see https\://bugs\.php\.net/bug\.php\?id\=81451\)\.$#'
+			identifier: glpi.forbidHttpResponseCode
+			count: 1
+			path: ajax/impact_item_infos.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/ci.form.php
+
+		-
+			message: '#^Parameter \#2 \$previous of class Glpi\\Exception\\Http\\BadRequestHttpException constructor expects Throwable\|null, true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/icon.send.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/impacticon.form.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/impactinfo.form.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: front/operationprocess.form.php
+
+		-
+			message: '#^Parameter \#2 \$right of static method Session\:\:haveRight\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Parameter \#1 \$ver of class Migration constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: install/update_110_111.php
+
+		-
+			message: '#^Parameter \#1 \$ver of class Migration constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: install/update_120.php
+
+		-
+			message: '#^Class PluginFieldsField not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: setup.php
+
+		-
+			message: '#^Access to offset ''_fields'' on an unknown class GlpiPlugin\\Cmdb\\type\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/CIType.php
+
+		-
+			message: '#^Class GlpiPlugin\\Resources\\Resource not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Default value of the parameter \#1 \$history \(int\) of method GlpiPlugin\\Cmdb\\CIType\:\:post_updateItem\(\) is incompatible with type bool\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
+			identifier: glpi.forbidDynamicInstantiation
+			count: 2
+			path: src/CIType.php
+
+		-
+			message: '#^Loose comparison using \!\= between non\-falsy\-string and null will always evaluate to true\.$#'
+			identifier: notEqual.alwaysTrue
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CIType\:\:cleanDBonPurge\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CIType\:\:cleanDBonPurge\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CIType\:\:isLinkedBaseline\(\) should return bool but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Offset ''tag'' on array\{\}\|array\{name\: string, entities_id\: mixed, documentcategories_id\: mixed, _only_if_upload_succeed\: 1, _filename\: array\{mixed\}\} in isset\(\) does not exist\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$itemtype$#'
+			identifier: parameter.notFound
+			count: 2
+			path: src/CIType.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 126 on line 7$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     \* ", expected type at offset 146 on line 6$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Parameter \#1 \$input of method GlpiPlugin\\Cmdb\\CIType\:\:updateDisplayFields\(\) expects GlpiPlugin\\Cmdb\\type, array\<string, mixed\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/CIType.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:deleteByCriteria\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/CIType.php
+
+		-
+			message: '#^Parameter \$input of method GlpiPlugin\\Cmdb\\CIType\:\:updateDisplayFields\(\) has invalid type GlpiPlugin\\Cmdb\\type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 7
+			path: src/CIType.php
+
+		-
+			message: '#^Variable \$config_fields in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^Variable \$name might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CIType.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CIType_Document.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 209 on line 10$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CI_Cmdb.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 259 on line 14$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CI_Cmdb.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CI_Cmdb.php
+
+		-
+			message: '#^Cannot call method isDeleted\(\) on object\|true\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Ci.php
+
+		-
+			message: '#^Default value of the parameter \#1 \$history \(int\) of method GlpiPlugin\\Cmdb\\CI\:\:post_updateItem\(\) is incompatible with type bool\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:cleanDBonPurge\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:cleanDBonPurge\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:prepareInputForAdd\(\) should return array but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) has invalid return type GlpiPlugin\\Cmdb\\an\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) should return GlpiPlugin\\Cmdb\\an but returns array\<int, array\<string, string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CiFields\:\:setFieldByType\(\) invoked with 2 parameters, 3 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: src/Ci.php
+
+		-
+			message: '#^Offset ''id'' does not exist on null\.$#'
+			identifier: offsetAccess.notFound
+			count: 4
+			path: src/Ci.php
+
+		-
+			message: '#^Offset ''plugin_cmdb_citypes_id'' does not exist on null\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:deleteByCriteria\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Ci.php
+
+		-
+			message: '#^Result of method DBmysqlIterator\:\:next\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 5
+			path: src/Ci.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Cmdb\\an\) of method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) should be compatible with return type \(array\<array\<string, mixed\>\>\) of method CommonDBTM\:\:rawSearchOptions\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Ci.php
+
+		-
+			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
+			identifier: glpi.forbidDynamicInstantiation
+			count: 2
+			path: src/CiFields.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: src/CiFields.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CiFields.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CiValues.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Cmdb.php
+
+		-
+			message: '#^Access to an undefined property CommonGLPI\:\:\$fields\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Cmdb_Ticket.php
+
+		-
+			message: '#^Loose comparison using \=\= between \-1 and \-1 will always evaluate to true\.$#'
+			identifier: equal.alwaysTrue
+			count: 1
+			path: src/Cmdb_Ticket.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Cmdb_Ticket.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Cmdb_Ticket.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getField\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Criticity.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Criticity.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\Criticity\:\:getTabNameForItem\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Criticity.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\Criticity\:\:showForm\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Criticity.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n    ", expected type at offset 135 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Criticity.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Criticity.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\Criticity_Item\:\:getSpecificValueToDisplay\(\) has invalid return type GlpiPlugin\\Cmdb\\a\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Criticity_Item.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\Criticity_Item\:\:getSpecificValueToDisplay\(\) should return GlpiPlugin\\Cmdb\\a but returns string\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Criticity_Item.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:delete\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Criticity_Item.php
+
+		-
+			message: '#^Parameter \#2 \$name of static method CommonDBTM\:\:getSpecificValueToSelect\(\) expects string, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Criticity_Item.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Criticity_Item.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/ImpactIcon.php
+
+		-
+			message: '#^Cannot call static method getTypeName\(\) on int\|string\.$#'
+			identifier: staticMethod.nonObject
+			count: 3
+			path: src/ImpactIcon.php
+
+		-
+			message: '#^Default value of the parameter \#1 \$history \(int\) of method GlpiPlugin\\Cmdb\\ImpactIcon\:\:post_updateItem\(\) is incompatible with type bool\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/ImpactIcon.php
+
+		-
+			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
+			identifier: glpi.forbidDynamicInstantiation
+			count: 3
+			path: src/ImpactIcon.php
+
+		-
+			message: '#^Static method GlpiPlugin\\Cmdb\\ImpactIcon\:\:getMenuName\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/ImpactIcon.php
+
+		-
+			message: '#^Access to property \$fields on an unknown class PluginFieldsContainer\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Access to property \$fields on an unknown class PluginFieldsField\.$#'
+			identifier: class.notFound
+			count: 4
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Call to method find\(\) on an unknown class PluginFieldsContainer\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Call to method find\(\) on an unknown class PluginFieldsField\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Call to method getFromDB\(\) on an unknown class PluginFieldsContainer\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Call to method getFromDB\(\) on an unknown class PluginFieldsField\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Cannot call static method getTypeName\(\) on int\|string\.$#'
+			identifier: staticMethod.nonObject
+			count: 3
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Instantiated class PluginFieldsContainer not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Instantiated class PluginFieldsField not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\ImpactInfo\:\:getFieldsForItemtype\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^Static method GlpiPlugin\\Cmdb\\ImpactInfo\:\:getMenuName\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/ImpactInfo.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Menu.php
+
+		-
+			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
+			identifier: glpi.forbidDynamicInstantiation
+			count: 1
+			path: src/OperationProcess.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess\:\:rawSearchOptions\(\) has invalid return type GlpiPlugin\\Cmdb\\an\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OperationProcess.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess\:\:rawSearchOptions\(\) should return GlpiPlugin\\Cmdb\\an but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: src/OperationProcess.php
+
+		-
+			message: '#^Parameter \#4 \$toobserve of static method Ajax\:\:updateItem\(\) expects string, false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OperationProcess.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Cmdb\\an\) of method GlpiPlugin\\Cmdb\\OperationProcess\:\:rawSearchOptions\(\) should be compatible with return type \(array\<array\<string, mixed\>\>\) of method CommonDBTM\:\:rawSearchOptions\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/OperationProcess.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/OperationProcess.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/OperationProcessMenu.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/OperationProcessState.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:cleanForItem\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:cleanForItem\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:showForItem\(\) should return bool but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(\(HTML display\)\)\: Unexpected token "display", expected ''\)'' at offset 168 on line 8$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Parameter \#1 \$item of static method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:countForItem\(\) expects CommonDBTM, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Parameter \#1 \$item of static method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:countForOperationProcess\(\) expects GlpiPlugin\\Cmdb\\OperationProcess, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Parameter \#1 \$item of static method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:showForItem\(\) expects CommonDBTM, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Parameter \#1 \$operationprocess of static method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:showForOperationProcess\(\) expects GlpiPlugin\\Cmdb\\OperationProcess, CommonGLPI given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/OperationProcess_Item.php
+
+		-
+			message: '#^Call to an undefined method CommonGLPI\:\:getID\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Default value of the parameter \#2 \$openform \(true\) of method GlpiPlugin\\Cmdb\\Profile\:\:showForm\(\) is incompatible with type array\<string, mixed\>\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\Profile\:\:showForm\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\Profile\:\:showForm\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Cmdb\\nothing\) of method GlpiPlugin\\Cmdb\\Profile\:\:showForm\(\) should be compatible with return type \(bool\) of method Profile\:\:showForm\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Profile.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/Profile.php

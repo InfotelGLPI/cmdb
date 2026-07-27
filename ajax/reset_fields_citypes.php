@@ -29,7 +29,7 @@
 
 use GlpiPlugin\Cmdb\CiFields;
 
-Session::checkLoginUser();
+Session::checkRight('plugin_cmdb_citypes', UPDATE);
 
 $tabType = explode(",", $_POST['tabType']);
 
@@ -59,7 +59,9 @@ if ($_POST["action"] == "reset") {
         }
     }
 } elseif ($_POST["action"] == "add") {
-    echo "<tr class='tab_bg_2 center' id='" . $_POST['rows'] . "'>";
+    // rows is a numeric row index: cast to int to prevent reflected XSS
+    $rows = (int) $_POST['rows'];
+    echo "<tr class='tab_bg_2 center' id='" . $rows . "'>";
     echo "<td>";
     $name = "nameNewField[]";
     echo Html::input($name, ['value' => '', 'size' => 40, 'required' => 'required']);
@@ -67,6 +69,6 @@ if ($_POST["action"] == "reset") {
     echo "<td>";
     Dropdown::showFromArray("typeNewField[]", $tabType, ["width" => 125]);
     echo "</td>";
-    echo "<td><i class='fa-2x ti ti-trash pointer'  onclick='deleteField(" . $_POST['rows'] . ");'></i></td>";
+    echo "<td><i class='fa-2x ti ti-trash pointer'  onclick='deleteField(" . $rows . ");'></i></td>";
     echo "</tr>";
 }

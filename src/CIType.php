@@ -1454,31 +1454,6 @@ class CIType extends CommonDropdown
         parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
     }
 
-    public static function generateTemplate($fields)
-    {
-
-        $sysname   = self::getSystemName($fields['name']);
-        $classname = self::getClassname(str_replace("GlpiPlugin\\Cmdb\\", "", $fields['name']));
-
-        $template_class = file_get_contents(PLUGIN_CMDB_DIR
-                                          . "/templates/Citype.tpl");
-        $template_class = str_replace("%%CLASSNAME%%", $classname, $template_class);
-        $template_class = str_replace("%%TYPE%%", $fields['id'], $template_class);
-        $template_class = str_replace("%%ITEMRIGHT%%", "plugin_cmdb_cis", $template_class);
-        $template_class = str_replace(
-            "%%NAME%%",
-            substr($fields['name'], strlen('GlpiPlugin\\Cmdb\\')),
-            $template_class
-        );
-        $class_filename = $sysname . ".php";
-        if (file_put_contents(PLUGINCMDB_CLASS_PATH . "/$class_filename", ucfirst($template_class)) === false) {
-            Toolbox::logDebug("Error : class file creation - $class_filename");
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * Retrieve the classname for a label (raw_name) & an itemtype
      *
@@ -1503,6 +1478,8 @@ class CIType extends CommonDropdown
      */
     public static function getSystemName($raw_name = "")
     {
-        return strtolower(substr($raw_name, strlen('GlpiPlugin\Cmdb')));
+        $name = strtolower(substr($raw_name, strlen('GlpiPlugin\Cmdb')));
+        // Whitelist safe characters only to prevent path traversal when building filenames
+        return preg_replace('/[^a-z0-9_]/', '', $name);
     }
 }

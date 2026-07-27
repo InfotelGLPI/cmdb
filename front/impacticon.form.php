@@ -27,11 +27,18 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\BadRequestHttpException;
 use GlpiPlugin\Cmdb\ImpactIcon;
 
 Session::checkLoginUser();
 
 $impactIcon = new ImpactIcon();
+
+// Restrict itemtype to the allowed criteria whitelist before any dynamic class usage
+if (isset($_POST['itemtype'])
+    && !in_array($_POST['itemtype'], array_keys(ImpactIcon::getCriterias()), true)) {
+    throw new BadRequestHttpException();
+}
 
 $criterias = $impactIcon->getCriterias();
 foreach($criterias as $criteria) {

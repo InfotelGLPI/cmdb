@@ -27,12 +27,13 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\BadRequestHttpException;
 use GlpiPlugin\Cmdb\ImpactInfo;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkLoginUser();
+Session::checkRight('plugin_cmdb_impactinfos', UPDATE);
 
 $itemtype = null;
 if (isset($_POST['itemtype']) && $_POST['itemtype']) {
@@ -42,6 +43,14 @@ if (isset($_POST['itemtype']) && $_POST['itemtype']) {
 $key = null;
 if (isset($_POST['key']) && $_POST['key']) {
     $key = $_POST['key'];
+}
+
+// Validate values reflected into inline JS/HTML to prevent reflected XSS
+if ($itemtype !== null && !getItemForItemtype($itemtype)) {
+    throw new BadRequestHttpException();
+}
+if ($key !== null && !in_array($key, ['glpi', 'cmdb', 'fields'], true)) {
+    throw new BadRequestHttpException();
 }
 
 $used = [];

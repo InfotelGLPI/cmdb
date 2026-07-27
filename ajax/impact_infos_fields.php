@@ -27,16 +27,22 @@
  --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\BadRequestHttpException;
 use GlpiPlugin\Cmdb\ImpactInfoField;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkLoginUser();
+Session::checkRight('plugin_cmdb_impactinfos', UPDATE);
 
 $itemtype = null;
 if (isset($_POST['itemtype']) && $_POST['itemtype']) {
     $itemtype = $_POST['itemtype'];
+}
+
+// Validate itemtype reflected into inline JS/HTML to prevent reflected XSS
+if ($itemtype !== null && !getItemForItemtype($itemtype)) {
+    throw new BadRequestHttpException();
 }
 
 $id = 0;

@@ -307,7 +307,10 @@ class ImpactInfo extends CommonDBTM
             if (!$item = getItemForItemtype($itemtype)) {
                 return;
             }
-            $item->getFromDB($items_id);
+            // Enforce real read right + entity restriction to prevent cross-entity IDOR
+            if (!$item->can($items_id, READ)) {
+                return;
+            }
 
             $impactInfoField = new ImpactInfoField();
             $fieldsToShow = $impactInfoField->find(

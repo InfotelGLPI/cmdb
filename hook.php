@@ -182,9 +182,15 @@ function plugin_cmdb_uninstall()
         $item    = $type["name"];
         $dir     = GLPI_ROOT . "/files/_plugins/cmdb/src/";
 
-        if (file_exists("$dir$item.php")) {
-            include_once("$dir$item.php");
-            $item::uninstall();
+        // Guard against path traversal / arbitrary file inclusion via a tampered CIType name
+        if (preg_match('/^[A-Za-z0-9_\\\\]+$/', (string) $item) && strpos($item, '..') === false) {
+            $class_file = $dir . basename(str_replace('\\', '/', $item)) . ".php";
+            if (file_exists($class_file)) {
+                include_once($class_file);
+                if (class_exists($item)) {
+                    $item::uninstall();
+                }
+            }
         }
     }
     $tables = ["glpi_plugin_cmdb_criticities_items",
