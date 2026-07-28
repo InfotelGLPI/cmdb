@@ -85,23 +85,25 @@ function plugin_cmdb_install()
         $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-3.1.0.sql");
     }
 
-    $olddir     = GLPI_ROOT . "/files/_plugins/cmdb/inc/";
-    $newdir     = GLPI_ROOT . "/files/_plugins/cmdb/src/";
+    $olddir = GLPI_ROOT . "/files/_plugins/cmdb/inc/";
+    $newdir = GLPI_ROOT . "/files/_plugins/cmdb/src/";
     if (is_dir($olddir)) {
         $objects = scandir($olddir);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                copy($olddir."/".$object, $newdir."/".str_replace(".class", "", $object));
+                copy($olddir . "/" . $object, $newdir . "/" . str_replace(".class", "", $object));
             }
         }
     }
     cmdb_rmdir($olddir);
 
     //DisplayPreferences Migration
-    $classes = ['PluginCmdbOperationprocess' => OperationProcess::class,
+    $classes = [
+        'PluginCmdbOperationprocess' => OperationProcess::class,
         'PluginCmdbBaseline' => 'GlpiPlugin\\Cmdb\\Baseline',
         'PluginCmdbCIType' => CIType::class,
-        'PluginCmdbCriticity' =>  Criticity::class];
+        'PluginCmdbCriticity' => Criticity::class
+    ];
 
     foreach ($classes as $old => $new) {
         $displayusers = $DB->request([
@@ -171,7 +173,7 @@ function plugin_cmdb_uninstall()
 {
     global $DB;
 
-    $citype  = new CIType();
+    $citype = new CIType();
     $citypes = $citype->find(["is_imported" => 0]);
     foreach ($citypes as $type) {
         $impactitem = new ImpactItem();
@@ -179,11 +181,11 @@ function plugin_cmdb_uninstall()
         $impactrelation = new ImpactRelation();
         $impactrelation->deleteByCriteria(["itemtype_source" => $type["name"]]);
         $impactrelation->deleteByCriteria(["itemtype_impacted" => $type["name"]]);
-        $item    = $type["name"];
-        $dir     = GLPI_ROOT . "/files/_plugins/cmdb/src/";
+        $item = $type["name"];
+        $dir = GLPI_ROOT . "/files/_plugins/cmdb/src/";
 
         // Guard against path traversal / arbitrary file inclusion via a tampered CIType name
-        if (preg_match('/^[A-Za-z0-9_\\\\]+$/', (string) $item) && strpos($item, '..') === false) {
+        if (preg_match('/^[A-Za-z0-9_\\\\]+$/', (string)$item) && strpos($item, '..') === false) {
             $class_file = $dir . basename(str_replace('\\', '/', $item)) . ".php";
             if (file_exists($class_file)) {
                 include_once($class_file);
@@ -193,7 +195,8 @@ function plugin_cmdb_uninstall()
             }
         }
     }
-    $tables = ["glpi_plugin_cmdb_criticities_items",
+    $tables = [
+        "glpi_plugin_cmdb_criticities_items",
         "glpi_plugin_cmdb_operationprocesses",
         "glpi_plugin_cmdb_operationprocesses_items",
         "glpi_plugin_cmdb_operationprocessstates",
@@ -216,14 +219,16 @@ function plugin_cmdb_uninstall()
         "glpi_plugin_cmdb_citypes_documents",
         "glpi_plugin_cmdb_criticities",
         "glpi_plugin_cmdb_impacticons",
-    "glpi_plugin_cmdb_impactinfos",
-    "glpi_plugin_cmdb_impactinfo_fields"];
+        "glpi_plugin_cmdb_impactinfos",
+        "glpi_plugin_cmdb_impactinfo_fields"
+    ];
 
     foreach ($tables as $table) {
         $DB->dropTable($table, true);
     }
 
-    $itemtypes = ['Alert',
+    $itemtypes = [
+        'Alert',
         'DisplayPreference',
         'Document_Item',
         'ImpactItem',
@@ -233,9 +238,18 @@ function plugin_cmdb_uninstall()
         'SavedSearch',
         'DropdownTranslation',
         'NotificationTemplate',
-        'Notification'];
+        'Notification'
+    ];
     foreach ($itemtypes as $itemtype) {
-        foreach ([OperationProcess::class, CI::class, CIType::class, CIType_Document::class, ImpactInfo::class] as $deletedType) {
+        foreach (
+            [
+                OperationProcess::class,
+                CI::class,
+                CIType::class,
+                CIType_Document::class,
+                ImpactInfo::class
+            ] as $deletedType
+        ) {
             if ($item = getItemForItemtype($itemtype)) {
                 $item->deleteByCriteria(['itemtype' => $deletedType]);
             }
@@ -267,22 +281,28 @@ function plugin_cmdb_uninstall()
  */
 function plugin_cmdb_getDatabaseRelations()
 {
-
     if (Plugin::isPluginActive("cmdb")) {
-        return ["glpi_entities"                           => ["glpi_plugin_cmdb_operationprocesses"
-                                                       => "entities_id",
-            "glpi_plugin_cmdb_citypes"
-            => "entities_id",
-            "glpi_plugin_cmdb_cis"
-            => "entities_id"],
+        return [
+            "glpi_entities" => [
+                "glpi_plugin_cmdb_operationprocesses" => "entities_id",
+                "glpi_plugin_cmdb_citypes" => "entities_id",
+//            "glpi_plugin_cmdb_cis"  => "entities_id"
+            ],
             //              "glpi_plugin_cmdb_operationprocessstates" => ["glpi_plugin_cmdb_operationprocesses"
             //                                                            => "plugin_cmdb_operationprocessstates_id"],
-            "glpi_plugin_cmdb_criticities"            => ["glpi_plugin_cmdb_criticities_items"
-                                                          => "plugin_cmdb_criticities_id"],
-            "glpi_users"                              => ["glpi_plugin_cmdb_operationprocesses"
-                                                          => "users_id_tech"],
-            "glpi_groups"                             => ["glpi_plugin_cmdb_operationprocesses"
-                                                          => "groups_id_tech"]];
+            "glpi_plugin_cmdb_criticities" => [
+                "glpi_plugin_cmdb_criticities_items"
+                => "plugin_cmdb_criticities_id"
+            ],
+            "glpi_users" => [
+                "glpi_plugin_cmdb_operationprocesses"
+                => "users_id_tech"
+            ],
+            "glpi_groups" => [
+                "glpi_plugin_cmdb_operationprocesses"
+                => "groups_id_tech"
+            ]
+        ];
     }
     return [];
 }
@@ -293,13 +313,12 @@ function plugin_cmdb_getDatabaseRelations()
  */
 function plugin_cmdb_getDropdown()
 {
-
     // Define Dropdown tables to be manage in GLPI :
     if (Plugin::isPluginActive("cmdb")) {
         $dropdowns = [];
 
         $field_obj = new CIType();
-        $fields    = $field_obj->find(['is_imported' => 0]);
+        $fields = $field_obj->find(['is_imported' => 0]);
         foreach ($fields as $field) {
             $classname = $field["name"];
             if (!getItemForItemtype($classname)) {
@@ -310,10 +329,12 @@ function plugin_cmdb_getDropdown()
 
         asort($dropdowns);
 
-        $array  = [OperationProcessState::class
-               => OperationProcessState::getTypeName(2),
+        $array = [
+            OperationProcessState::class
+            => OperationProcessState::getTypeName(2),
             CIType::class
-            => CIType::getTypeName(2)];
+            => CIType::getTypeName(2)
+        ];
         $result = array_merge($array, $dropdowns);
         return $result;
     }
@@ -344,9 +365,9 @@ function plugin_cmdb_postinit()
     }
 
     foreach (Criticity_Item::getCIType() as $value) {
-        $PLUGIN_HOOKS['item_add']['cmdb'][$value]        = [Criticity_Item::class, 'addItemCriticity'];
+        $PLUGIN_HOOKS['item_add']['cmdb'][$value] = [Criticity_Item::class, 'addItemCriticity'];
         $PLUGIN_HOOKS['pre_item_update']['cmdb'][$value] = [Criticity_Item::class, 'preUpdateItemCriticity'];
-        $PLUGIN_HOOKS['pre_item_purge']['cmdb'][$value]  = [Criticity_Item::class, 'purgeItemCriticity'];
+        $PLUGIN_HOOKS['pre_item_purge']['cmdb'][$value] = [Criticity_Item::class, 'purgeItemCriticity'];
         CommonGLPI::registerStandardTab($value, CI_Cmdb::class);
     }
 }
@@ -365,31 +386,31 @@ function plugin_cmdb_getAddSearchOptions($itemtype)
     if (in_array($itemtype, Criticity_Item::getCIType())) {
         if (!in_array($itemtype, $CFG_GLPI['infocom_types'])) {
             if (Session::haveRight("plugin_cmdb_cis", READ)) {
-                $sopt[8010]['table']         = 'glpi_plugin_cmdb_criticities_items';
-                $sopt[8010]['field']         = 'plugin_cmdb_criticities_id';
-                $sopt[8010]['name']          = Criticity_Item::getTypeName(1);
-                $sopt[8010]['datatype']      = 'specific';
+                $sopt[8010]['table'] = 'glpi_plugin_cmdb_criticities_items';
+                $sopt[8010]['field'] = 'plugin_cmdb_criticities_id';
+                $sopt[8010]['name'] = Criticity_Item::getTypeName(1);
+                $sopt[8010]['datatype'] = 'specific';
                 $sopt[8010]['massiveaction'] = true;
                 //$sopt[8010]['searchtype']     = 'equals';
-                $sopt[8010]['nosearch']   = true;
+                $sopt[8010]['nosearch'] = true;
                 $sopt[8010]['joinparams'] = ['jointype' => 'itemtype_item'];
             }
         }
     }
     if ($itemtype == BusinessCriticity::getType()) {
-        $sopt[200]['table']         = 'glpi_plugin_cmdb_criticities';
-        $sopt[200]['field']         = 'color';
-        $sopt[200]['name']          = __('Color');
-        $sopt[200]['datatype']      = 'color';
+        $sopt[200]['table'] = 'glpi_plugin_cmdb_criticities';
+        $sopt[200]['field'] = 'color';
+        $sopt[200]['name'] = __('Color');
+        $sopt[200]['datatype'] = 'color';
         $sopt[200]['massiveaction'] = false;
-        $sopt[200]['joinparams']    = ['jointype' => 'child'];
+        $sopt[200]['joinparams'] = ['jointype' => 'child'];
 
-        $sopt[201]['table']         = 'glpi_plugin_cmdb_criticities';
-        $sopt[201]['field']         = 'level';
-        $sopt[201]['name']          = __('Level');
+        $sopt[201]['table'] = 'glpi_plugin_cmdb_criticities';
+        $sopt[201]['field'] = 'level';
+        $sopt[201]['name'] = __('Level');
         $sopt[201]['massiveaction'] = false;
-        $sopt[201]['datatype']      = 'int';
-        $sopt[201]['joinparams']    = ['jointype' => 'child'];
+        $sopt[201]['datatype'] = 'int';
+        $sopt[201]['joinparams'] = ['jointype' => 'child'];
     }
     return $sopt;
 }
@@ -405,12 +426,11 @@ function plugin_cmdb_getAddSearchOptions($itemtype)
  */
 function plugin_cmdb_giveItem($type, $ID, $data, $num)
 {
-
     if ($type == CIType::class) {
         $options = Search::getOptions($type);
         $searchopt = &$options;
-        $table     = $searchopt[$ID]["table"];
-        $field     = $searchopt[$ID]["field"];
+        $table = $searchopt[$ID]["table"];
+        $field = $searchopt[$ID]["field"];
 
         switch ($table . '.' . $field) {
             //display associated items with webapplications
@@ -419,7 +439,7 @@ function plugin_cmdb_giveItem($type, $ID, $data, $num)
                 if ($type->getFromDB($data["id"])) {
                     if ($type->fields['is_imported']) {
                         $link = Toolbox::getItemTypeFormURL(CIType::class) . "?id=" . $data['id'];
-                        $dbu  = new DbUtils();
+                        $dbu = new DbUtils();
                         if ($item = $dbu->getItemForItemtype($type->fields['name'])) {
                             $display = $item::getTypeName(1);
                             return "<a href='$link'>$display</a>";
@@ -436,7 +456,6 @@ function plugin_cmdb_giveItem($type, $ID, $data, $num)
 
 function cmdb_rmdir($dir)
 {
-
     if (is_dir($dir)) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
