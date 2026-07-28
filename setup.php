@@ -41,7 +41,7 @@ use GlpiPlugin\Cmdb\Menu;
 use GlpiPlugin\Cmdb\Profile;
 use function Safe\mkdir;
 
-define('PLUGIN_CMDB_VERSION', '3.1.6');
+define('PLUGIN_CMDB_VERSION', '3.1.7');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
     define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
