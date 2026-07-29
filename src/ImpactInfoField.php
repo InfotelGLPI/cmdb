@@ -95,9 +95,14 @@ class ImpactInfoField extends CommonDBTM
         echo "<div id='$key-fields'>";
         $index = 0;
         foreach ($usedFields as $field) {
-            $fieldId = $field['field_id'];
+            // Cast at the source so every downstream interpolation (id/name attributes,
+            // value, inline <script> selectors) carries an int, not a raw DB string.
+            // These columns only ever hold integers today; the cast is the safety net
+            // against any future write path that could store a string and turn this
+            // echo-built markup into a stored XSS sink.
+            $fieldId = (int) $field['field_id'];
             $label = $fields[$fieldId];
-            $order = $field['order'];
+            $order = (int) $field['order'];
             // if display is modified here, also modify JS in ImpactInfo::makeDropdown
             echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
             echo "<span>";

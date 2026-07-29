@@ -38,7 +38,12 @@ if (isset($citype->fields["is_imported"])
     && $citype->fields["is_imported"]) {
    $data["link"] = Toolbox::getItemTypeSearchURL($citype->fields["name"]);
 } else {
-   $data["link"] = $citype->fields["name"]::getSearchURL();
+   // Validate the stored "name" resolves to a real itemtype before the dynamic
+   // static call. The value is admin-controlled but never checked against a class
+   // list; a name matching no loadable class would raise a fatal Error and break
+   // the ajax response. Mirror the getItemForItemtype() guard used in hook.php.
+   $item = getItemForItemtype($citype->fields["name"]);
+   $data["link"] = ($item !== false) ? $item::getSearchURL() : "";
 }
 
 echo json_encode($data);
