@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Xavier CAILLAUD <thetsmr@gmail.com>, 2025
+# Xavier CAILLAUD <thetsmr@gmail.com>, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-05 11:25+0000\n"
+"POT-Creation-Date: 2026-08-23 10:14+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
-"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2025\n"
+"Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/124557/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,63 +21,63 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: src/CIType.php:991
+#: src/CIType.php:992
 msgid "Add New Field"
 msgstr "Ajouter un nouveau champ"
 
-#: src/Criticity.php:147
+#: src/Criticity.php:154
 msgid "All levels have already been added"
 msgstr "Tous les niveaux ont déjà été ajoutés"
 
-#: front/impacticon.form.php:54 front/impacticon.form.php:86
+#: front/impacticon.form.php:64 front/impacticon.form.php:96
 msgid "An icon already exist for this type"
 msgstr "Une icône existe déjà pour ce type"
 
-#: src/CIType.php:76
+#: src/CIType.php:75
 msgid "Area Text"
 msgstr "Zone de texte"
 
-#: src/OperationProcess_Item.php:502
+#: src/OperationProcess_Item.php:528
 msgctxt "button"
 msgid "Associate a service"
 msgstr "Associer un service"
 
-#: src/OperationProcess_Item.php:102 src/OperationProcess_Item.php:104
+#: src/OperationProcess_Item.php:104 src/OperationProcess_Item.php:106
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] "Service rattaché"
 msgstr[1] "Services rattachés"
 msgstr[2] "Services rattachés"
 
-#: src/ImpactInfoField.php:81
+#: src/ImpactInfoField.php:82
 msgid "Base fields"
 msgstr "Champs de base"
 
-#: src/CIType.php:363
+#: src/CIType.php:364
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Attention : le nom de ne peut pas être modifié une fois créé"
 
-#: setup.php:171 src/CI_Cmdb.php:56 src/Profile.php:60 src/Menu.php:51
-#: src/Cmdb.php:56
+#: src/CI_Cmdb.php:55 src/Profile.php:59 src/Cmdb.php:55 src/Menu.php:52
+#: setup.php:170
 msgid "CMDB"
 msgstr "CMDB"
 
-#: src/Ci.php:62
+#: src/CI.php:61
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
 msgstr[0] "Elément de configuration"
 msgstr[1] "Eléments de configuration"
 msgstr[2] "Eléments de configuration"
 
-#: src/Menu.php:68
+#: src/Menu.php:70
 msgid "Configure Type of Item Configuration"
 msgstr "Configurer le type d'élément de configuration"
 
-#: src/CI_Cmdb.php:84
+#: src/CI_Cmdb.php:83
 msgid "Create Link"
 msgstr "Créer un lien"
 
-#: front/impactinfo.form.php:71 front/impacticon.form.php:63
+#: front/impactinfo.form.php:75 front/impacticon.form.php:73
 msgid "Creation failed"
 msgstr "Création échouée"
 
@@ -85,7 +85,7 @@ msgstr "Création échouée"
 msgid "Criteria"
 msgstr "Critère"
 
-#: src/Criticity.php:59 src/Criticity.php:128 src/Criticity_Item.php:57
+#: src/Criticity_Item.php:58 src/Criticity.php:60 src/Criticity.php:133
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Criticité"
@@ -96,47 +96,43 @@ msgstr[2] "Criticités"
 msgid "Current icon"
 msgstr "Icône actuel"
 
-#: src/CIType.php:711
+#: src/CIType.php:712
 msgid "Default icon"
 msgstr "Icône par défaut"
 
-#: src/CI_Cmdb.php:86
+#: src/CI_Cmdb.php:85
 msgid "Delete Link"
 msgstr "Supprimer un lien"
 
-#: src/Cmdb_Ticket.php:206
+#: src/Cmdb_Ticket.php:205
 msgid "Direct impact"
 msgstr "Impact direct"
 
-#: src/Cmdb.php:93
+#: src/Cmdb.php:92
 msgid "Display Item Configuration"
 msgstr "Afficher les éléments de configuration"
 
-#: src/CIType.php:367
+#: src/CIType.php:368
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr "Ne pas utiliser de nom de classe avec des espaces (comme 'mon objet')"
 
-#: src/CIType.php:365
+#: src/CIType.php:366
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr "Ne pas utiliser de nom de classe au pluriel (comme 'mesobjets')"
 
-#: src/Cmdb_Ticket.php:104
+#: src/Cmdb_Ticket.php:103
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Les éléments liés au ticket ne sont pas importés dans la CMDB"
 
-#: src/CIType.php:1041
+#: src/CIType.php:1042
 msgid "Existing fields for this type of CI"
 msgstr "Champs existants pour ce type d'élément de configuration"
 
-#: src/CI_Cmdb.php:90
+#: src/CI_Cmdb.php:89
 msgid "Export PNG"
 msgstr "Exporter en PNG"
 
-#: src/CIType.php:312
-msgid "Go to custom assets"
-msgstr "Aller aux actifs personnalisés"
-
-#: src/CIType.php:671 src/ImpactIcon.php:64
+#: src/ImpactIcon.php:64 src/CIType.php:672
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] "Icône"
@@ -144,7 +140,7 @@ msgstr[1] "Icônes"
 msgstr[2] "Icônes"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1127
+#: src/CIType.php:1128
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Icon CIType %d"
@@ -153,149 +149,161 @@ msgstr "Icon CIType %d"
 msgid "Icon file"
 msgstr "Fichier icône"
 
-#: front/impacticon.form.php:47
+#: front/impacticon.form.php:57
 #, php-format
 msgid "Icon for itemtype %s"
 msgstr "Icône pour le type %s"
 
-#: src/Cmdb_Ticket.php:124 src/Cmdb_Ticket.php:162
+#: src/Cmdb_Ticket.php:123 src/Cmdb_Ticket.php:161
 msgid "Impacted items"
 msgstr "Eléments impactés"
 
-#: src/CIType.php:620
+#: src/CIType.php:621
 msgid "Import CI"
 msgstr "Importer un élément de configuration"
 
-#: front/impactinfo.form.php:44
+#: front/impactinfo.form.php:56
 msgid "Infos are already set for this type"
 msgstr "Les informations sont déjà définies pour ce type"
 
-#: src/Ci.php:217
+#: src/ImpactIcon.php:337
+msgid "Invalid icon file."
+msgstr "Fichier icône invalide."
+
+#: src/ImpactInfo.php:61
+msgid "Invalid item type."
+msgstr "Type d'objet invalide."
+
+#: src/CI.php:216
 msgid "Invalid name !"
 msgstr "Nom invalide !"
 
-#: src/CIType.php:346
+#: src/CIType.php:347
 msgid "Is this item presents in glpi ?"
 msgstr "Est ce que cet élément est présent dans GLPI ? "
 
-#: src/Profile.php:131 src/Menu.php:70
+#: src/Profile.php:131 src/Menu.php:72
 msgid "Item Configuration"
 msgstr "Element de configuration"
 
-#: src/Profile.php:208 src/Profile.php:241
+#: src/Profile.php:210 src/Profile.php:243
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Elément de configuration"
 msgstr[1] "Elément de configuration"
 msgstr[2] "Elément de configuration"
 
-#: src/Cmdb_Ticket.php:109
+#: src/Cmdb_Ticket.php:108
 msgid "No elements of CMDB linked to the ticket"
 msgstr "Pas d'élément de la CMDB lié au ticket"
 
-#: src/ImpactInfo.php:568
+#: src/ImpactInfo.php:592
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr "Aucun contenu d'info-bulle défini pour le type d'élément%s"
 
-#: src/ImpactInfo.php:578
+#: src/ImpactInfo.php:602
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr "Aucune d'info-bulle défini pour le type d'élément %s"
 
-#: src/ImpactInfoField.php:104
+#: src/ImpactInfoField.php:110
 msgid "Order"
 msgstr "Ordre"
 
-#: src/Criticity.php:197
+#: src/Criticity.php:205
 msgid "Please choose a level for criticality"
 msgstr "Veuillez choisir un niveau pour la criticité"
 
-#: src/ImpactInfoField.php:81
+#: src/ImpactInfoField.php:82
 msgid "Plugin additional fields fields"
 msgstr "Champs du plugin fields"
 
-#: src/Cmdb_Ticket.php:163
+#: src/Cmdb_Ticket.php:162
 msgid "Proximity"
 msgstr "Proximité"
 
-#: src/CI_Cmdb.php:92
+#: src/CI_Cmdb.php:91
 msgid "Purge CMDB"
 msgstr "Purger la CMDB"
 
-#: src/CIType.php:1045
+#: src/CIType.php:1046
 msgid "Reset Existing fields"
 msgstr "Supprimer les modifications des champs"
 
-#: src/CI_Cmdb.php:89
+#: src/CI_Cmdb.php:88
 msgid "Reset Zoom"
 msgstr "Réinitialiser le zoom"
 
-#: src/CI_Cmdb.php:83
+#: src/CI_Cmdb.php:82
 msgid "See CI"
 msgstr "Voir l'élément de configuration"
 
-#: src/CI_Cmdb.php:91
+#: src/CI_Cmdb.php:90
 msgid "See associated tickets"
 msgstr "Voir les tickets associés"
 
-#: src/OperationProcess.php:67 src/OperationProcessMenu.php:53
+#: src/OperationProcess.php:66 src/OperationProcessMenu.php:54
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Service"
 msgstr[1] "Services"
 msgstr[2] "Services"
 
-#: src/OperationProcessState.php:54
+#: src/OperationProcessState.php:55
 msgid "State of service"
 msgid_plural "States of service"
 msgstr[0] "Statut du service"
 msgstr[1] "Statuts du service"
 msgstr[2] "Statuts du service"
 
-#: src/CIType.php:75
+#: src/CIType.php:74
 msgid "String"
 msgstr "Chaîne de texte"
 
-#: src/CIType.php:1388 src/CIType.php:1405
+#: src/ImpactIcon.php:345
+msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
+msgstr "L'icône doit être une image PNG, JPEG, GIF ou WEBP."
+
+#: src/CIType.php:1389 src/CIType.php:1406
 msgctxt "button"
 msgid "Transfer"
 msgstr "Transfert"
 
-#: src/CIType.php:89
+#: src/CIType.php:88
 msgid "Type CI"
 msgid_plural "Types CIs"
 msgstr[0] "Type d'élément de configuration"
 msgstr[1] "Types d'élément de configuration"
 msgstr[2] "Types d'élément de configuration"
 
-#: src/Profile.php:245
+#: src/Profile.php:247
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type d'élément de configuration"
 msgstr[1] "Types d'élement de configuration"
 msgstr[2] "Types d'élement de configuration"
 
-#: src/Profile.php:135 src/Profile.php:221
+#: src/Profile.php:135 src/Profile.php:223
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type d'élément de configuration"
 msgstr[1] "Types d'élément de configuration"
 msgstr[2] "Types d'élément de configuration"
 
-#: src/CI_Cmdb.php:85
+#: src/CI_Cmdb.php:84
 msgid "Update Link"
 msgstr "Mettre à jour un lien"
 
-#: front/impacticon.form.php:91
+#: front/impacticon.form.php:101
 msgid "Update failed"
 msgstr "Mise à jour échouée"
 
-#: src/CIType.php:1014
+#: src/CIType.php:1015
 msgid "Upload icon"
 msgstr "Charger une icône"
 
-#: front/menu.php:43
+#: front/menu.php:41
 msgid ""
 "With GLPI 11, you can create new custom assets, so migrate your existing "
 "objets to core"
@@ -303,11 +311,11 @@ msgstr ""
 "Avec GLPI 11, vous pouvez créer de nouveaux actifs personnalisés, donc "
 "migrer vos objets existants vers le noyau"
 
-#: src/CIType.php:310
+#: src/CIType.php:309
 msgid "With GLPI 11, you can create now custom assets"
 msgstr "Avec GLPI 11, vous pouvez désormais créer des actifs personnalisés"
 
-#: src/CIType.php:79
+#: src/CIType.php:78
 msgid "Yes/No"
 msgstr "Oui/Non"
 
@@ -317,38 +325,38 @@ msgstr ""
 "Vous ne pouvez pas supprimer cet élément parce que cet élément est utilisé "
 "dans la CMDB !"
 
-#: src/CI_Cmdb.php:87
+#: src/CI_Cmdb.php:86
 msgid "Zoom in"
 msgstr "Zoomer"
 
-#: src/CI_Cmdb.php:88
+#: src/CI_Cmdb.php:87
 msgid "Zoom out"
 msgstr "Dézoomer"
 
-#: install/update_110_111.php:89
+#: install/update_110_111.php:94
 msgid "high"
 msgstr "Haute"
 
-#: src/CIType.php:203
+#: src/CIType.php:202
 msgid "is already present in GLPI"
 msgstr "Est déjà présent dans GLPI ?"
 
-#: hook.php:440
+#: hook.php:450
 msgid "item not found or disabled"
 msgstr "Elément non trouvé ou désactivé"
 
-#: install/update_110_111.php:87
+#: install/update_110_111.php:92
 msgid "low"
 msgstr "Faible"
 
-#: install/update_110_111.php:88
+#: install/update_110_111.php:93
 msgid "medium"
 msgstr "Moyenne"
 
-#: install/update_110_111.php:90
+#: install/update_110_111.php:95
 msgid "very high"
 msgstr "Très haute"
 
-#: install/update_110_111.php:86
+#: install/update_110_111.php:91
 msgid "very low"
 msgstr "Très faible"
