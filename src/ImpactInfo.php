@@ -507,6 +507,13 @@ class ImpactInfo extends CommonDBTM
                                         $pluginFieldsField->fields['plugin_fields_containers_id'],
                                     );
                                     $container = $pluginFieldsContainer->fields;
+                                    // $container['name'] comes from the "fields" plugin config and is
+                                    // concatenated into a raw SQL table identifier below. Normalize it
+                                    // at the sink (defense in depth): skip any container whose name is
+                                    // not a plain [a-z0-9_] token rather than build a malformed query.
+                                    if (!preg_match('/^[a-z0-9_]+$/', (string) $container['name'])) {
+                                        continue;
+                                    }
                                     $table = 'glpi_plugin_fields_' . strtolower(
                                         $item->getType(),
                                     ) . $container['name'] . 's';

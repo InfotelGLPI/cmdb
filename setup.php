@@ -42,7 +42,7 @@ use GlpiPlugin\Cmdb\Profile;
 
 use function Safe\mkdir;
 
-define('PLUGIN_CMDB_VERSION', '3.1.7');
+define('PLUGIN_CMDB_VERSION', '3.1.8');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
     define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));

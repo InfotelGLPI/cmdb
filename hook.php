@@ -220,7 +220,10 @@ function plugin_cmdb_uninstall()
         "glpi_plugin_cmdb_criticities",
         "glpi_plugin_cmdb_impacticons",
         "glpi_plugin_cmdb_impactinfos",
-        "glpi_plugin_cmdb_impactinfo_fields",
+        // Real table name has no underscore before "fields" (see install SQL and
+        // ImpactInfoField::getTable()); the previous "impactinfo_fields" spelling
+        // never matched, leaving glpi_plugin_cmdb_impactinfofields behind on uninstall.
+        "glpi_plugin_cmdb_impactinfofields",
     ];
 
     $itemtypes = [
@@ -259,6 +262,13 @@ function plugin_cmdb_uninstall()
     // createFirstAccess(). A LIKE delete guarantees no residual right is left
     // in glpi_profilerights after uninstall.
     $DB->delete('glpi_profilerights', ['name' => ['LIKE', 'plugin_cmdb%']]);
+
+    // Purge leftover display preferences. The loop above only removes rows whose
+    // itemtype matches the namespaced classes (GlpiPlugin\Cmdb\*), but the install
+    // SQL seeds them with legacy "PluginCmdb*" itemtype strings (e.g.
+    // PluginCmdbImpactinfo, PluginCmdbImpacticon), which never matched and were
+    // left behind. A LIKE delete on the legacy prefix guarantees none remain.
+    $DB->delete('glpi_displaypreferences', ['itemtype' => ['LIKE', 'PluginCmdb%']]);
 
     foreach ($tables as $table) {
         $DB->dropTable($table, true);

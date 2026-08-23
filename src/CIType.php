@@ -719,6 +719,13 @@ class CIType extends CommonDropdown
         $dbu       = new DbUtils();
         $table     = $dbu->getTableForItemType($citype);
         $item      = $dbu->getItemForItemtype($citype);
+        // Validate the client-supplied itemtype at the sink: an unresolvable name
+        // makes getItemForItemtype() return false, and the $item->isField() call
+        // below would then raise a fatal Error. Fail closed like the twin endpoints.
+        if ($item === false) {
+            echo "</span>";
+            return;
+        }
         $fieldType = substr($table, 5, -1) . "types_id";
 
         $citype_doc = new CIType_Document();
