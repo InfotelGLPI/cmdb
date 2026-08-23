@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR Cmdb Development Team
+# This file is distributed under the same license as the Cmdb plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-01 07:57+0000\n"
+"POT-Creation-Date: 2026-08-23 10:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/CIType.php:990
+#: src/CIType.php:992
 msgid "Add New Field"
 msgstr ""
 
-#: src/Criticity.php:147
+#: src/Criticity.php:154
 msgid "All levels have already been added"
 msgstr ""
 
-#: front/impacticon.form.php:60 front/impacticon.form.php:92
+#: front/impacticon.form.php:64 front/impacticon.form.php:96
 msgid "An icon already exist for this type"
 msgstr ""
 
@@ -34,37 +34,37 @@ msgstr ""
 msgid "Area Text"
 msgstr ""
 
-#: src/OperationProcess_Item.php:502
+#: src/OperationProcess_Item.php:528
 msgctxt "button"
 msgid "Associate a service"
 msgstr ""
 
-#: src/OperationProcess_Item.php:102 src/OperationProcess_Item.php:104
+#: src/OperationProcess_Item.php:104 src/OperationProcess_Item.php:106
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/ImpactInfoField.php:81
+#: src/ImpactInfoField.php:82
 msgid "Base fields"
 msgstr ""
 
-#: src/CIType.php:362
+#: src/CIType.php:364
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: src/Profile.php:59 src/Menu.php:51 src/Cmdb.php:56 src/CI_Cmdb.php:55
-#: setup.php:169
+#: src/CI_Cmdb.php:55 src/Profile.php:59 src/Cmdb.php:55 src/Menu.php:52
+#: setup.php:170
 msgid "CMDB"
 msgstr ""
 
-#: src/CI.php:62
+#: src/CI.php:61
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Menu.php:68
+#: src/Menu.php:70
 msgid "Configure Type of Item Configuration"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Create Link"
 msgstr ""
 
-#: front/impacticon.form.php:69 front/impactinfo.form.php:70
+#: front/impactinfo.form.php:75 front/impacticon.form.php:73
 msgid "Creation failed"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity.php:59 src/Criticity.php:128 src/Criticity_Item.php:57
+#: src/Criticity_Item.php:58 src/Criticity.php:60 src/Criticity.php:133
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] ""
@@ -90,7 +90,7 @@ msgstr[1] ""
 msgid "Current icon"
 msgstr ""
 
-#: src/CIType.php:710
+#: src/CIType.php:712
 msgid "Default icon"
 msgstr ""
 
@@ -98,27 +98,27 @@ msgstr ""
 msgid "Delete Link"
 msgstr ""
 
-#: src/Cmdb_Ticket.php:206
+#: src/Cmdb_Ticket.php:205
 msgid "Direct impact"
 msgstr ""
 
-#: src/Cmdb.php:93
+#: src/Cmdb.php:92
 msgid "Display Item Configuration"
 msgstr ""
 
-#: src/CIType.php:366
+#: src/CIType.php:368
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr ""
 
-#: src/CIType.php:364
+#: src/CIType.php:366
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr ""
 
-#: src/Cmdb_Ticket.php:104
+#: src/Cmdb_Ticket.php:103
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr ""
 
-#: src/CIType.php:1040
+#: src/CIType.php:1042
 msgid "Existing fields for this type of CI"
 msgstr ""
 
@@ -126,18 +126,14 @@ msgstr ""
 msgid "Export PNG"
 msgstr ""
 
-#: src/CIType.php:311
-msgid "Go to custom assets"
-msgstr ""
-
-#: src/CIType.php:670 src/ImpactIcon.php:64
+#: src/ImpactIcon.php:64 src/CIType.php:672
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1126
+#: src/CIType.php:1128
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
@@ -146,68 +142,76 @@ msgstr ""
 msgid "Icon file"
 msgstr ""
 
-#: front/impacticon.form.php:53
+#: front/impacticon.form.php:57
 #, php-format
 msgid "Icon for itemtype %s"
 msgstr ""
 
-#: src/Cmdb_Ticket.php:124 src/Cmdb_Ticket.php:162
+#: src/Cmdb_Ticket.php:123 src/Cmdb_Ticket.php:161
 msgid "Impacted items"
 msgstr ""
 
-#: src/CIType.php:619
+#: src/CIType.php:621
 msgid "Import CI"
 msgstr ""
 
-#: front/impactinfo.form.php:43
+#: front/impactinfo.form.php:56
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/CI.php:217
+#: src/ImpactIcon.php:337
+msgid "Invalid icon file."
+msgstr ""
+
+#: src/ImpactInfo.php:61
+msgid "Invalid item type."
+msgstr ""
+
+#: src/CI.php:216
 msgid "Invalid name !"
 msgstr ""
 
-#: src/CIType.php:345
+#: src/CIType.php:347
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: src/Profile.php:130 src/Menu.php:70
+#: src/Profile.php:131 src/Menu.php:72
 msgid "Item Configuration"
 msgstr ""
 
-#: src/Profile.php:207 src/Profile.php:240
+#: src/Profile.php:210 src/Profile.php:243
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Cmdb_Ticket.php:109
+#: src/Cmdb_Ticket.php:108
 msgid "No elements of CMDB linked to the ticket"
 msgstr ""
 
-#: src/ImpactInfo.php:576
+#: src/ImpactInfo.php:592
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfo.php:586
+#: src/ImpactInfo.php:602
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfoField.php:109
+#: src/ImpactInfoField.php:110
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:197
+#: src/Criticity.php:205
 msgid "Please choose a level for criticality"
 msgstr ""
 
-#: src/ImpactInfoField.php:81
+#: src/ImpactInfoField.php:82
 msgid "Plugin additional fields fields"
 msgstr ""
 
-#: src/Cmdb_Ticket.php:163
+#: src/Cmdb_Ticket.php:162
 msgid "Proximity"
 msgstr ""
 
@@ -215,7 +219,7 @@ msgstr ""
 msgid "Purge CMDB"
 msgstr ""
 
-#: src/CIType.php:1044
+#: src/CIType.php:1046
 msgid "Reset Existing fields"
 msgstr ""
 
@@ -231,13 +235,13 @@ msgstr ""
 msgid "See associated tickets"
 msgstr ""
 
-#: src/OperationProcess.php:66 src/OperationProcessMenu.php:53
+#: src/OperationProcess.php:66 src/OperationProcessMenu.php:54
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/OperationProcessState.php:54
+#: src/OperationProcessState.php:55
 msgid "State of service"
 msgid_plural "States of service"
 msgstr[0] ""
@@ -247,7 +251,11 @@ msgstr[1] ""
 msgid "String"
 msgstr ""
 
-#: src/CIType.php:1387 src/CIType.php:1404
+#: src/ImpactIcon.php:345
+msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
+msgstr ""
+
+#: src/CIType.php:1389 src/CIType.php:1406
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
@@ -258,13 +266,13 @@ msgid_plural "Types CIs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Profile.php:244
+#: src/Profile.php:247
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Profile.php:134 src/Profile.php:220
+#: src/Profile.php:135 src/Profile.php:223
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] ""
@@ -274,15 +282,15 @@ msgstr[1] ""
 msgid "Update Link"
 msgstr ""
 
-#: front/impacticon.form.php:97
+#: front/impacticon.form.php:101
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1013
+#: src/CIType.php:1015
 msgid "Upload icon"
 msgstr ""
 
-#: front/menu.php:43
+#: front/menu.php:41
 msgid ""
 "With GLPI 11, you can create new custom assets, so migrate your existing "
 "objets to core"
@@ -296,7 +304,7 @@ msgstr ""
 msgid "Yes/No"
 msgstr ""
 
-#: front/ci.form.php:69
+#: front/ci.form.php:68
 msgid "You can't delete this item, because this item is used on CMDB !"
 msgstr ""
 
@@ -308,7 +316,7 @@ msgstr ""
 msgid "Zoom out"
 msgstr ""
 
-#: install/update_110_111.php:90
+#: install/update_110_111.php:94
 msgid "high"
 msgstr ""
 
@@ -316,22 +324,22 @@ msgstr ""
 msgid "is already present in GLPI"
 msgstr ""
 
-#: hook.php:447
+#: hook.php:450
 msgid "item not found or disabled"
 msgstr ""
 
-#: install/update_110_111.php:88
+#: install/update_110_111.php:92
 msgid "low"
 msgstr ""
 
-#: install/update_110_111.php:89
+#: install/update_110_111.php:93
 msgid "medium"
 msgstr ""
 
-#: install/update_110_111.php:91
+#: install/update_110_111.php:95
 msgid "very high"
 msgstr ""
 
-#: install/update_110_111.php:87
+#: install/update_110_111.php:91
 msgid "very low"
 msgstr ""
