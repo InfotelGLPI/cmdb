@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -57,7 +57,7 @@ use User;
 
 class ImpactIcon extends CommonDBTM
 {
-    static $rightname = 'plugin_cmdb_impacticons';
+    public static $rightname = 'plugin_cmdb_impacticons';
 
     public static function getTypeName($nb = 0)
     {
@@ -69,7 +69,7 @@ class ImpactIcon extends CommonDBTM
         return 'CMDB - ' . static::getTypeName(Session::getPluralNumber());
     }
 
-    static function getMenuContent()
+    public static function getMenuContent()
     {
         $menu['title'] = self::getMenuName(2);
         $menu['page'] = self::getSearchURL(false);
@@ -81,23 +81,23 @@ class ImpactIcon extends CommonDBTM
         return $menu;
     }
 
-    static function getIcon()
+    public static function getIcon()
     {
         return "ti ti-tags";
     }
 
-//    public function getName($options = [])
-//    {
-//        return $this->fields['itemtype']::getTypeName().' '.$this->getID();
-//    }
+    //    public function getName($options = [])
+    //    {
+    //        return $this->fields['itemtype']::getTypeName().' '.$this->getID();
+    //    }
 
-    function rawSearchOptions()
+    public function rawSearchOptions()
     {
         $tab = [];
 
         $tab[] = [
             'id' => 'common',
-            'name' => self::getTypeName(2)
+            'name' => self::getTypeName(2),
         ];
         $tab[] = [
             'id' => '1',
@@ -105,7 +105,7 @@ class ImpactIcon extends CommonDBTM
             'field' => 'id',
             'name' => __('ID'),
             'massiveaction' => false,
-            'datatype' => 'itemlink'
+            'datatype' => 'itemlink',
         ];
 
         $tab[] = [
@@ -114,7 +114,7 @@ class ImpactIcon extends CommonDBTM
             'field' => 'itemtype',
             'name' => __('Item type'),
             'datatype' => 'specific',
-            'massiveaction' => 'false'
+            'massiveaction' => 'false',
         ];
 
         $tab[] = [
@@ -125,7 +125,7 @@ class ImpactIcon extends CommonDBTM
             'datatype' => 'specific',
             'massiveaction' => 'false',
             'nosort' => true,
-            'nosearch' => true
+            'nosearch' => true,
         ];
 
         $tab[] = [
@@ -136,7 +136,7 @@ class ImpactIcon extends CommonDBTM
             'datatype' => 'specific',
             'massiveaction' => 'false',
             'nosort' => true,
-            'nosearch' => true
+            'nosearch' => true,
         ];
 
         return $tab;
@@ -152,7 +152,7 @@ class ImpactIcon extends CommonDBTM
      * @return string
      *
      */
-    static function getSpecificValueToDisplay($field, $values, array $options = [])
+    public static function getSpecificValueToDisplay($field, $values, array $options = [])
     {
         global $CFG_GLPI;
         switch ($field) {
@@ -208,13 +208,13 @@ class ImpactIcon extends CommonDBTM
                 return Dropdown::showFromArray(
                     $name,
                     $types,
-                    $options
+                    $options,
                 );
         }
         return parent::getSpecificValueToSelect($field, $name, $values, $options);
     }
 
-    function showForm($ID, $options = [])
+    public function showForm($ID, $options = [])
     {
         global $CFG_GLPI;
 
@@ -237,8 +237,8 @@ class ImpactIcon extends CommonDBTM
             [
                 'value' => $this->fields['itemtype'],
                 'rand' => $rand,
-                'required' => true
-            ]
+                'required' => true,
+            ],
         );
         $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_icon_criterias.php";
         echo "
@@ -279,8 +279,8 @@ class ImpactIcon extends CommonDBTM
             [
                 'name' => 'filename',
                 'required' => $this->isNewID($ID),
-                'onlyimages' => true
-            ]
+                'onlyimages' => true,
+            ],
         );
         echo "</td>";
         echo "</tr>";
@@ -291,39 +291,101 @@ class ImpactIcon extends CommonDBTM
         return true;
     }
 
-    function post_addItem($history = 1)
+    public function prepareInputForAdd($input)
+    {
+        if (!$this->checkUploadedIcon($input)) {
+            return false;
+        }
+
+        return $input;
+    }
+
+    public function prepareInputForUpdate($input)
+    {
+        if (!$this->checkUploadedIcon($input)) {
+            return false;
+        }
+
+        return $input;
+    }
+
+    /**
+     * Server-side validation of the uploaded icon, fail-closed.
+     *
+     * Html::file(['onlyimages' => true]) is a client-side hint only; without this the
+     * server delegated straight to addFiles() (hence the "TODO check new file's type"
+     * that used to sit in impacticon.form.php). A temp name carrying a path separator is
+     * rejected outright, and a temp file that cannot be probed as a raster image (SVG,
+     * scripts, missing file) fails the whole add/update instead of being attached.
+     *
+     * @param array $input
+     *
+     * @return bool
+     */
+    private function checkUploadedIcon(array $input): bool
+    {
+        // No new file in this request (e.g. a metadata-only update): nothing to validate.
+        if (!isset($input['_filename']) || !is_array($input['_filename'])) {
+            return true;
+        }
+
+        $allowed = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+        foreach ($input['_filename'] as $file) {
+            $file = (string) $file;
+            // A legitimate temp name is a bare basename; a separator means tampering.
+            if ($file === '' || strpbrk($file, "/\\") !== false || basename($file) !== $file) {
+                Session::addMessageAfterRedirect(__('Invalid icon file.', 'cmdb'), false, ERROR);
+                return false;
+            }
+
+            // Fail-closed: an unreadable/absent temp file or a non-raster image is refused.
+            $info = @getimagesize(GLPI_TMP_DIR . '/' . $file);
+            if ($info === false || !in_array($info['mime'], $allowed, true)) {
+                Session::addMessageAfterRedirect(
+                    __('The icon must be a PNG, JPEG, GIF or WEBP image.', 'cmdb'),
+                    false,
+                    ERROR,
+                );
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function post_addItem($history = 1)
     {
         $this->addFiles($this->input);
         $document_item = new Document_Item();
         $document_item->getFromDBByCrit([
             'itemtype' => $this->getType(),
-            'items_id' => $this->getID()
+            'items_id' => $this->getID(),
         ]);
         $this->update([
             'documents_id' => $document_item->fields['documents_id'],
-            'id' => $this->getID()
+            'id' => $this->getID(),
         ]);
     }
 
-    function post_updateItem($history = 1)
+    public function post_updateItem($history = 1)
     {
         if (array_key_exists('_filename', $this->input) && $this->input['_filename']) {
             $document_item = new Document_Item();
             // delete link to previous icon
             $document_item->getFromDBByCrit([
                 'itemtype' => $this->getType(),
-                'items_id' => $this->getID()
+                'items_id' => $this->getID(),
             ]);
             $document_item->delete(['id' => $document_item->getID()]);
             $this->addFiles($this->input);
             // add link to new icon
             $document_item->getFromDBByCrit([
                 'itemtype' => $this->getType(),
-                'items_id' => $this->getID()
+                'items_id' => $this->getID(),
             ]);
             $this->update([
                 'documents_id' => $document_item->fields['documents_id'],
-                'id' => $this->getID()
+                'id' => $this->getID(),
             ]);
         }
     }
@@ -400,8 +462,7 @@ class ImpactIcon extends CommonDBTM
                     if ($item->getFromDB($data['items_id'])) {
                         // $item has the value used for the itemtype's criteria
                         if (isset($item->fields[$criterias[$item->getType()]])
-                            && $item->fields[$criterias[$item->getType()]] != '0') // criteria have 0 as default value, so 0 = no criteria
-                        {
+                            && $item->fields[$criterias[$item->getType()]] != '0') { // criteria have 0 as default value, so 0 = no criteria
                             // is there an icon for the specific criteria ?
                             if (isset($cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]])) {
                                 return $cachedData[$item->getType()][$item->fields[$criterias[$item->getType()]]];
@@ -428,7 +489,7 @@ class ImpactIcon extends CommonDBTM
         return [
             NetworkEquipment::getType() => 'networkequipmenttypes_id',
             Computer::getType() => 'computertypes_id',
-            Appliance::getType() => 'appliancetypes_id'
+            Appliance::getType() => 'appliancetypes_id',
         ];
     }
 
@@ -474,7 +535,8 @@ class ImpactIcon extends CommonDBTM
      * itemtypes with a picture property
      * @return array
      */
-    public static function itemtypeWithPicture() {
+    public static function itemtypeWithPicture()
+    {
         // TODO : could add hook
         return [
             Appliance::getType(),
@@ -483,7 +545,7 @@ class ImpactIcon extends CommonDBTM
             CartridgeItem::getType(),
             SoftwareLicense::getType(),
             Supplier::getType(),
-            User::getType()
+            User::getType(),
         ];
     }
 
@@ -492,7 +554,8 @@ class ImpactIcon extends CommonDBTM
      * itemtypes with a model who has a picture property
      * @return array
      */
-    public static function itemtypeModelWithPicture() {
+    public static function itemtypeModelWithPicture()
+    {
         // TODO : could add hook
         return [
             Computer::getType(),
@@ -503,7 +566,7 @@ class ImpactIcon extends CommonDBTM
             Peripheral::getType(),
             Phone::getType(),
             Printer::getType(),
-            Rack::getType()
+            Rack::getType(),
         ];
     }
 }

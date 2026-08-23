@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -62,7 +62,8 @@ class Profile extends \Profile
     }
 
 
-    static function getIcon() {
+    public static function getIcon()
+    {
         return "ti ti-affiliate";
     }
     /**
@@ -84,7 +85,7 @@ class Profile extends \Profile
                 'plugin_cmdb_cis'                            => 0,
                 'plugin_cmdb_citypes'                        => 0,
                 'plugin_cmdb_impacticons'                    => 0,
-                'plugin_cmdb_impactinfos'                    => 0
+                'plugin_cmdb_impactinfos'                    => 0,
             ]);
 
             $prof->showForm($ID);
@@ -132,10 +133,10 @@ class Profile extends \Profile
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
                     'title'         => __('Type of item configuration', 'cmdb')]);
-//                $rights = $this->getOperationProcessRights();
-//                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-//                    'default_class' => 'tab_bg_2',
-//                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
+                //                $rights = $this->getOperationProcessRights();
+                //                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+                //                    'default_class' => 'tab_bg_2',
+                //                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
                 $rights = $this->getImpactIconRights();
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
@@ -174,23 +175,25 @@ class Profile extends \Profile
     /**
      * @return array
      */
-//    public function getOperationProcessRights()
-//    {
-//        $rights = [['itemtype' => OperationProcess::class,
-//            'label'    => _n('Service', 'Services', 2, 'cmdb'),
-//            'field'    => 'plugin_cmdb_operationprocesses']];
-//        return $rights;
-//    }
+    //    public function getOperationProcessRights()
+    //    {
+    //        $rights = [['itemtype' => OperationProcess::class,
+    //            'label'    => _n('Service', 'Services', 2, 'cmdb'),
+    //            'field'    => 'plugin_cmdb_operationprocesses']];
+    //        return $rights;
+    //    }
 
 
-    function getImpactIconRights() {
+    public function getImpactIconRights()
+    {
         $rights = [['itemtype' => ImpactIcon::class,
             'label'    => ImpactIcon::getTypeName(2),
             'field'    => 'plugin_cmdb_impacticons']];
         return $rights;
     }
 
-    function getImpactInfoRights() {
+    public function getImpactInfoRights()
+    {
         $rights = [['itemtype' => ImpactInfo::class,
             'label'    => ImpactInfo::getTypeName(2),
             'field'    => 'plugin_cmdb_impactinfos']];
@@ -232,10 +235,10 @@ class Profile extends \Profile
     public static function getAllRights($all = false)
     {
         $rights = [
-//            ['itemtype' => OperationProcess::class,
-//                'label'    => _n('Service', 'Services', 2, 'cmdb'),
-//                'field'    => 'plugin_cmdb_operationprocesses',
-//            ],
+            //            ['itemtype' => OperationProcess::class,
+            //                'label'    => _n('Service', 'Services', 2, 'cmdb'),
+            //                'field'    => 'plugin_cmdb_operationprocesses',
+            //            ],
             ['itemtype' => CI::class,
                 'label'    => _n('Item configuration', 'Items configuration', 2, 'cmdb'),
                 'field'    => 'plugin_cmdb_cis',
@@ -246,12 +249,12 @@ class Profile extends \Profile
             ],
             ['itemtype' => ImpactIcon::class,
                 'label'    => ImpactIcon::getTypeName(2),
-                'field'    => 'plugin_cmdb_impacticons'
+                'field'    => 'plugin_cmdb_impacticons',
             ],
             ['itemtype' => ImpactInfo::class,
                 'label'    => ImpactInfo::getTypeName(2),
-                'field'    => 'plugin_cmdb_impactinfos'
-            ]
+                'field'    => 'plugin_cmdb_impactinfos',
+            ],
         ];
 
         if ($all) {

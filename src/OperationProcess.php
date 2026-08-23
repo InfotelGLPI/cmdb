@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -357,7 +357,6 @@ class OperationProcess extends CommonDBTM
         }
 
         $iterator = $DB->request(
-
             ['SELECT'   => 'glpi_plugin_cmdb_operationprocessstates.*',
                 'DISTINCT' => true,
                 'FROM'     => ['glpi_plugin_cmdb_operationprocessstates', 'glpi_plugin_cmdb_operationprocesses'],
@@ -366,9 +365,9 @@ class OperationProcess extends CommonDBTM
                     "glpi_plugin_cmdb_operationprocesses",
                     '',
                     $p['entity'],
-                    true
+                    true,
                 ),
-                'ORDER'    => 'glpi_plugin_cmdb_operationprocessstates.name']
+                'ORDER'    => 'glpi_plugin_cmdb_operationprocessstates.name'],
         );
 
         $values = [0 => Dropdown::EMPTY_VALUE];
@@ -393,7 +392,7 @@ class OperationProcess extends CommonDBTM
             "show_" . $p['name'] . $rand,
             $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationProcesses.php",
             $params,
-            false
+            false,
         );
         $out .= "<span id='show_" . $p['name'] . "$rand'>";
         $out .= "</span>\n";
@@ -403,7 +402,7 @@ class OperationProcess extends CommonDBTM
             "show_" . $p['name'] . $rand,
             $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationProcesses.php",
             $params,
-            false
+            false,
         );
         if ($p['display']) {
             echo $out;

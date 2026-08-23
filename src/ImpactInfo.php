@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -43,19 +43,34 @@ use Toolbox;
 
 class ImpactInfo extends CommonDBTM
 {
-    static $rightname = 'plugin_cmdb_impactinfos';
+    public static $rightname = 'plugin_cmdb_impactinfos';
 
     public static function getTypeName($nb = 0)
     {
         return _n('Information', 'Informations', $nb);
     }
 
-    public static function getMenuName()
+    public function prepareInputForAdd($input)
     {
-        return 'CMDB - '.static::getTypeName(Session::getPluralNumber());
+        // Validate itemtype against the real class registry before persisting. Every other
+        // entry point (impact_item_infos.php, impact_infos_fields*.php, impacticon.form.php)
+        // already whitelists itemtype, and showInfos() re-checks on read; enforcing it at the
+        // write sink too closes front/impactinfo.form.php's "add" branch, which forwarded the
+        // raw $_POST['itemtype'] straight to add() and could store orphan/incoherent rows.
+        if (!isset($input['itemtype']) || getItemForItemtype($input['itemtype']) === false) {
+            Session::addMessageAfterRedirect(__('Invalid item type.', 'cmdb'), false, ERROR);
+            return false;
+        }
+
+        return $input;
     }
 
-    static function getMenuContent()
+    public static function getMenuName()
+    {
+        return 'CMDB - ' . static::getTypeName(Session::getPluralNumber());
+    }
+
+    public static function getMenuContent()
     {
         $menu['title'] = self::getMenuName(2);
         $menu['page'] = self::getSearchURL(false);
@@ -67,22 +82,22 @@ class ImpactInfo extends CommonDBTM
         return $menu;
     }
 
-//    public function getName($options = []) {
-//        return $this->fields['itemtype']::getTypeName();
-//    }
+    //    public function getName($options = []) {
+    //        return $this->fields['itemtype']::getTypeName();
+    //    }
 
-    static function getIcon()
+    public static function getIcon()
     {
         return "fa fa-question";
     }
 
-    function rawSearchOptions()
+    public function rawSearchOptions()
     {
         $tab = [];
 
         $tab[] = [
             'id' => 'common',
-            'name' => self::getTypeName(2)
+            'name' => self::getTypeName(2),
         ];
         $tab[] = [
             'id' => '1',
@@ -90,7 +105,7 @@ class ImpactInfo extends CommonDBTM
             'field' => 'id',
             'name' => __('ID'),
             'massiveaction' => false,
-            'datatype' => 'itemlink'
+            'datatype' => 'itemlink',
         ];
 
         $tab[] = [
@@ -99,7 +114,7 @@ class ImpactInfo extends CommonDBTM
             'field' => 'itemtype',
             'name' => __('Item type'),
             'datatype' => 'specific',
-            'massiveaction' => 'false'
+            'massiveaction' => 'false',
         ];
 
         return $tab;
@@ -115,7 +130,7 @@ class ImpactInfo extends CommonDBTM
      * @return string
      *
      */
-    static function getSpecificValueToDisplay($field, $values, array $options = [])
+    public static function getSpecificValueToDisplay($field, $values, array $options = [])
     {
         global $CFG_GLPI;
         switch ($field) {
@@ -157,13 +172,13 @@ class ImpactInfo extends CommonDBTM
                 return Dropdown::showFromArray(
                     $name,
                     $types,
-                    $options
+                    $options,
                 );
         }
         return parent::getSpecificValueToSelect($field, $name, $values, $options);
     }
 
-    function showForm($ID, $options = [])
+    public function showForm($ID, $options = [])
     {
         global $CFG_GLPI;
 
@@ -189,8 +204,8 @@ class ImpactInfo extends CommonDBTM
                     'value' => $this->fields['itemtype'],
                     'rand' => $rand,
                     'required' => true,
-                    'display_emptychoice' => true
-                ]
+                    'display_emptychoice' => true,
+                ],
             );
             echo "
             <script>
@@ -251,7 +266,7 @@ class ImpactInfo extends CommonDBTM
             $fields['glpi'] = [];
             foreach ($searchOptions as $id => $option) {
                 if (isset($option['table'])) {
-                    $fields['glpi'][$id] = $dbu->getItemTypeForTable($option['table'])::getTypeName(1).' - '.$option['name'];
+                    $fields['glpi'][$id] = $dbu->getItemTypeForTable($option['table'])::getTypeName(1) . ' - ' . $option['name'];
                 }
             }
             if ($plugin->isActivated('fields')) {
@@ -265,7 +280,7 @@ class ImpactInfo extends CommonDBTM
             $fields = $field->find(['plugin_cmdb_citypes_id' => $ciType->getID()]);
             $value = [];
             $value['cmdb'] = [];
-            foreach($fields as $field) {
+            foreach ($fields as $field) {
                 $value['cmdb'][$field['id']] = $field['name'];
             }
             foreach ($searchOptions as $id => $option) {
@@ -287,8 +302,8 @@ class ImpactInfo extends CommonDBTM
         $containers = $container->find([
             'itemtypes' => [
                 'LIKE',
-                '%"' . $itemtype . '"%'
-            ]
+                '%"' . $itemtype . '"%',
+            ],
         ]);
         $field = new PluginFieldsField();
         foreach ($containers as $c) {
@@ -300,7 +315,8 @@ class ImpactInfo extends CommonDBTM
         return $pluginFields;
     }
 
-    function showInfos($itemtype, $items_id) {
+    public function showInfos($itemtype, $items_id)
+    {
 
         $impactInfo = new ImpactInfo();
         if ($impactInfo->getFromDBByCrit(['itemtype' => $itemtype])) {
@@ -315,14 +331,14 @@ class ImpactInfo extends CommonDBTM
             $impactInfoField = new ImpactInfoField();
             $fieldsToShow = $impactInfoField->find(
                 ['plugin_cmdb_impactinfos_id' => $impactInfo->getID()],
-                'glpi_plugin_cmdb_impactinfofields.order ASC'
+                'glpi_plugin_cmdb_impactinfofields.order ASC',
             );
 
             // tooltip header
             echo "<div class='d-flex justify-content-between pt-1'>
             <strong>" . htmlescape($item->getTypeName()) . " : <a href='" . htmlescape($item->getFormUrlWithID(
-                    $item->getID()
-                ) . "&forcetab=main") . "' target='blank'>" . htmlescape($item->getFriendlyName()) . "</a></strong>
+                $item->getID(),
+            ) . "&forcetab=main") . "' target='blank'>" . htmlescape($item->getFriendlyName()) . "</a></strong>
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
             if (count($fieldsToShow)) {
@@ -353,8 +369,8 @@ class ImpactInfo extends CommonDBTM
                                     'link' => 'AND',
                                     'field' => $primaryKey,
                                     'searchtype' => 'equals',
-                                    'value' => $item->getID()
-                                ]
+                                    'value' => $item->getID(),
+                                ],
                             ], // following parameters are here just to avoid warnings
                             'all_search' => null,
                             'sort' => [],
@@ -363,13 +379,13 @@ class ImpactInfo extends CommonDBTM
                             'no_search' => true,
                             'start' => 0,
                             'list_limit' => 1,
-                            'is_deleted' => 0
+                            'is_deleted' => 0,
                         ],
                         'itemtype' => $item->getType(), // FROM
                         'item' => $item, // itemtype specific WHERE (template, entity, etc.)
                         'toview' => $fieldsIds, // SELECT
                         'tocompute' => $fieldsIds, // JOIN,
-                        'display_type' => Search::HTML_OUTPUT // formatting result during call to constructData
+                        'display_type' => Search::HTML_OUTPUT, // formatting result during call to constructData
                     ];
                     Search::constructSQL($queryData); // create SQL datas and add them in key 'sql'
                     Search::constructData($queryData); // use the SQL datas to get the values and format it in key 'data'
@@ -413,14 +429,14 @@ class ImpactInfo extends CommonDBTM
                             $value = preg_replace('/' . Search::LBHR . '/', '<hr>', $value);
                             $value = '<div class="fup-popup">' . $value . '</div>';
                             $valTip = ' ' . Html::showToolTip(
-                                    $value,
-                                    [
-                                        'awesome-class' => 'fa-plus',
-                                        'display' => false,
-                                        'autoclose' => false,
-                                        'onclick' => true
-                                    ]
-                                );
+                                $value,
+                                [
+                                    'awesome-class' => 'fa-plus',
+                                    'display' => false,
+                                    'autoclose' => false,
+                                    'onclick' => true,
+                                ],
+                            );
                             $display .= $values[0] . $valTip;
                         } else {
                             $value = preg_replace('/' . Search::LBBR . '/', '<br>', $value);
@@ -456,7 +472,7 @@ class ImpactInfo extends CommonDBTM
                             if ($ciValue->getFromDBByCrit([
                                 'itemtype' => $item->getType(),
                                 'items_id' => $item->getID(),
-                                'plugin_cmdb_cifields_id' => $field['field_id']
+                                'plugin_cmdb_cifields_id' => $field['field_id'],
                             ])) {
                                 $value = $ciValue->fields['value'];
                             }
@@ -483,24 +499,24 @@ class ImpactInfo extends CommonDBTM
                             if ($pluginFieldsField->getFromDB($field['field_id'])) {
                                 $container = array_filter(
                                     $containers,
-                                    fn($e) => $e['id'] === $pluginFieldsField->fields['plugin_fields_containers_id']
+                                    fn($e) => $e['id'] === $pluginFieldsField->fields['plugin_fields_containers_id'],
                                 );
                                 $container = reset($container);
                                 if (!$container) {
                                     $pluginFieldsContainer->getFromDB(
-                                        $pluginFieldsField->fields['plugin_fields_containers_id']
+                                        $pluginFieldsField->fields['plugin_fields_containers_id'],
                                     );
                                     $container = $pluginFieldsContainer->fields;
                                     $table = 'glpi_plugin_fields_' . strtolower(
-                                            $item->getType()
-                                        ) . $container['name'] . 's';
+                                        $item->getType(),
+                                    ) . $container['name'] . 's';
                                     $values = $DB->request([
                                         'FROM' => $table,
                                         'WHERE' => [
                                             'items_id' => $items_id,
                                             'itemtype' => $itemtype,
-                                            'plugin_fields_containers_id' => $container['id']
-                                        ]
+                                            'plugin_fields_containers_id' => $container['id'],
+                                        ],
                                     ]);
                                     $container['values'] = $values->current();
                                     $containers[] = $container;
@@ -518,7 +534,7 @@ class ImpactInfo extends CommonDBTM
                                             foreach ($ids as $id) {
                                                 $values[] = Dropdown::getDropdownName(
                                                     $itemtype::getTable(),
-                                                    $id
+                                                    $id,
                                                 );
                                             }
                                             $value = implode(' - ', $values);
@@ -527,7 +543,7 @@ class ImpactInfo extends CommonDBTM
                                             if (getItemForItemtype($itemtype)) {
                                                 $value = Dropdown::getDropdownName(
                                                     $itemtype::getTable(),
-                                                    $values[$fieldData['name']]
+                                                    $values[$fieldData['name']],
                                                 );
                                             }
 
@@ -543,7 +559,7 @@ class ImpactInfo extends CommonDBTM
                                         $itemtype = 'PluginFields' . ucfirst($fieldData['name']) . 'Dropdown';
                                         $value = Dropdown::getDropdownName(
                                             $itemtype::getTable(),
-                                            $values['plugin_fields_' . $fieldData['name'] . 'dropdowns_id']
+                                            $values['plugin_fields_' . $fieldData['name'] . 'dropdowns_id'],
                                         );
                                     } else {
                                         $value = $values[$fieldData['name']];
@@ -594,7 +610,8 @@ class ImpactInfo extends CommonDBTM
      * @param string $itemtype
      * @return void
      */
-    public static function makeDropdown($key, $availableFields, $itemtype) {
+    public static function makeDropdown($key, $availableFields, $itemtype)
+    {
 
         $rand = mt_rand();
         Dropdown::showFromArray(
@@ -602,8 +619,8 @@ class ImpactInfo extends CommonDBTM
             $availableFields,
             [
                 'display_emptychoice' => true,
-                'rand' => $rand
-            ]
+                'rand' => $rand,
+            ],
         );
         $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields_dropdown.php";
 
@@ -684,7 +701,6 @@ class ImpactInfo extends CommonDBTM
                             });
                         })
                         newDiv.append(deleteButton);
-
 
                         // get all selected fields
                         usedFields = col$key.querySelectorAll('div[id^=\"field$key\"]');

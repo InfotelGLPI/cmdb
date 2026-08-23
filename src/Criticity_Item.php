@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -36,293 +36,319 @@ use Infocom;
 use Log;
 
 if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access directly to this file");
+    die("Sorry. You can't access directly to this file");
 }
 
 /**
  * Class Criticity_Item
  */
-class Criticity_Item extends CommonDBTM {
+class Criticity_Item extends CommonDBTM
+{
+    public static $rightname = "plugin_cmdb_cis";
 
-   static $rightname = "plugin_cmdb_cis";
+    public const HISTORY_CRITICITY = 20;
 
-   const HISTORY_CRITICITY = 20;
+    /**
+     * Return the localized name of the current Type
+     *
+     * @return string
+     * */
+    public static function getTypeName($nb = 0)
+    {
+        return _n('Criticity', 'Criticities', $nb, 'cmdb');
+    }
 
-   /**
-    * Return the localized name of the current Type
-    *
-    * @return string
-    * */
-   public static function getTypeName($nb = 0) {
-      return _n('Criticity', 'Criticities', $nb, 'cmdb');
-   }
 
+    /**
+     * @return array
+     */
+    public static function getCIType()
+    {
 
-   /**
-    * @return array
-    */
-   static function getCIType() {
+        $tabCIType = [];
+        $where     = [];
 
-      $tabCIType = [];
-      $where     = [];
-
-      $itemtype = new CIType();
-      $dbu      = new DbUtils();
-      $table    = $dbu->getTableForItemType(CIType::class);
-      if ($itemtype->isEntityAssign()) {
-         $entity = (isset($_SESSION["glpiactive_entity"]) ? $_SESSION["glpiactive_entity"] : 0);
-         /// Case of personal items : entity = -1 : create on active entity (Reminder case))
-         if ($itemtype->getEntityID() >= 0) {
-            $entity = $itemtype->getEntityID();
-         }
-
-         if ($itemtype->maybeRecursive()) {
-            $entities  = $dbu->getSonsOf('glpi_entities', $entity);
-            $recursive = true;
-         } else {
-            $entities  = $entity;
-            $recursive = false;
-         }
-         $where = $dbu->getEntitiesRestrictCriteria($table, '', $entities, $recursive);
-      }
-      $tabCIType[] = OperationProcess::class;
-      $tabCIType[] = CI::class;
-            $citype = new CIType();
-            $citypes = $citype->find($where);
-
-            if (count($citypes) > 0) {
-               foreach ($citypes as $data) {
-                   $tabCIType[] = $data["name"];
-               }
+        $itemtype = new CIType();
+        $dbu      = new DbUtils();
+        $table    = $dbu->getTableForItemType(CIType::class);
+        if ($itemtype->isEntityAssign()) {
+            $entity = (isset($_SESSION["glpiactive_entity"]) ? $_SESSION["glpiactive_entity"] : 0);
+            /// Case of personal items : entity = -1 : create on active entity (Reminder case))
+            if ($itemtype->getEntityID() >= 0) {
+                $entity = $itemtype->getEntityID();
             }
 
-      return $tabCIType;
-   }
-
-   /**
-    * display a value according to a field
-    *
-    * @param $field     String         name of the field
-    * @param $values    String / Array with the value to display
-    * @param $options   Array          of option
-    *
-    * @return a string
-    **@since version 0.83
-    *
-    */
-   static function getSpecificValueToDisplay($field, $values, array $options = []) {
-
-      if (!is_array($values)) {
-         $values = [$field => $values];
-      }
-      switch ($field) {
-         case 'value':
-            return Dropdown::getDropdownName('glpi_businesscriticities', $values[$field]);
-      }
-      return parent::getSpecificValueToDisplay($field, $values, $options);
-   }
-
-   /**
-    * @param $field
-    * @param $name (default '')
-    * @param $values (defaut '')
-    * @param $options   array
-    **@since version 2.3.0
-    *
-    */
-   static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = []) {
-
-      if (!is_array($values)) {
-         $values = [$field => $values];
-      }
-      switch ($field) {
-         case 'value':
-            $options['display']                        = false;
-            $options['plugin_cmdb_criticity_id']       = false;
-            $options['plugin_cmdb_criticity_itemtype'] = false;
-            $tabCriticity                              = Criticity::getAllCriticity();
-
-            return Dropdown::showFromArray($name, $tabCriticity, $options);
-
-      }
-      return parent::getSpecificValueToSelect($field, $values, $options);
-   }
-
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return int
-    */
-   function getCriticity($citype, $id) {
-      global $CFG_GLPI;
-
-      $name = $citype->fields['name'];
-      if (!$citype->fields['is_imported']) {
-         $name = CI::class;
-      }
-      $value = 0;
-      if (in_array($name, $CFG_GLPI['infocom_types'])) {
-         $infocom = new Infocom();
-         if ($infocom->getFromDBByCrit(['itemtype' => $name,
-                                        'items_id' => $id])) {
-            $value = $infocom->fields['businesscriticities_id'];
-         }
-
-      } else {
-
-         if ($this->getFromDBByCrit(['itemtype' => $name,
-                                     'items_id' => $id])) {
-            $value = $this->fields['value'];
-         }
-      }
-      return $value;
-   }
-
-
-   /**
-    * @param \CommonDBTM $item
-    * Used on hook.php
-    */
-   static function preUpdateItemCriticity(CommonDBTM $item) {
-
-      //massive actions
-      if (isset($item->input['plugin_cmdb_criticities_items_id'])) {
-         $item->input['_plugin_cmdb_criticity_items'] = $item->input['plugin_cmdb_criticities_items_id'];
-      }
-
-      if (isset($item->input['_plugin_cmdb_criticity_items'])) {
-
-         $crit = new Criticity_Item();
-
-         if ($crit->getFromDBByCrit(['itemtype' => $item->getType(),
-                                     'items_id' => $item->getID()])) {
-
-            $input["id"] = $crit->getID();
-            if ($item->input['_plugin_cmdb_criticity_items'] == 0) {
-               $crit->deleteByCriteria($input);
+            if ($itemtype->maybeRecursive()) {
+                $entities  = $dbu->getSonsOf('glpi_entities', $entity);
+                $recursive = true;
             } else {
-               if ($item->input['_plugin_cmdb_criticity_items'] != $crit->getField('plugin_cmdb_criticities_id')) {
-                  $old_value      = $crit->getField('plugin_cmdb_criticities_id');
-                  $input["plugin_cmdb_criticities_id"] = $item->input['_plugin_cmdb_criticity_items'];
-
-                  $crit->update($input);
-
-                  $changes[0] = 0;
-                  $changes[1] = $old_value;
-                  $changes[2] = $input["plugin_cmdb_criticities_id"];
-                  Log::history($crit->getField('items_id'), $crit->getField('itemtype'),
-                               $changes, __CLASS__, Log::HISTORY_PLUGIN + self::HISTORY_CRITICITY);
-               }
+                $entities  = $entity;
+                $recursive = false;
             }
-         } else {
-            if ($item->input['_plugin_cmdb_criticity_items'] != 0) {
-               //ADD
-               $input["itemtype"]                   = $item->getType();
-               $input["items_id"]                   = $item->getID();
-               $input["plugin_cmdb_criticities_id"] = $item->input['_plugin_cmdb_criticity_items'];
-               $crit->add($input);
+            $where = $dbu->getEntitiesRestrictCriteria($table, '', $entities, $recursive);
+        }
+        $tabCIType[] = OperationProcess::class;
+        $tabCIType[] = CI::class;
+        $citype = new CIType();
+        $citypes = $citype->find($where);
 
-               $changes[0] = 0;
-               $changes[1] = '';
-               $changes[2] = $input["plugin_cmdb_criticities_id"];
-               Log::history($input["items_id"], $input["itemtype"],
-                            $changes, __CLASS__, Log::HISTORY_PLUGIN + self::HISTORY_CRITICITY);
+        if (count($citypes) > 0) {
+            foreach ($citypes as $data) {
+                $tabCIType[] = $data["name"];
             }
-         }
-      }
-   }
+        }
 
-   /**
-    * @param \CommonDBTM $item
-    * Used on hook.php
-    */
-   static function addItemCriticity(CommonDBTM $item) {
+        return $tabCIType;
+    }
 
-      if (isset($item->input['_plugin_cmdb_criticity_items'])) {
+    /**
+     * display a value according to a field
+     *
+     * @param $field     String         name of the field
+     * @param $values    String / Array with the value to display
+     * @param $options   Array          of option
+     *
+     * @return a string
+     **@since version 0.83
+     *
+     */
+    public static function getSpecificValueToDisplay($field, $values, array $options = [])
+    {
 
-         $crit = new Criticity_Item();
+        if (!is_array($values)) {
+            $values = [$field => $values];
+        }
+        switch ($field) {
+            case 'value':
+                return Dropdown::getDropdownName('glpi_businesscriticities', $values[$field]);
+        }
+        return parent::getSpecificValueToDisplay($field, $values, $options);
+    }
 
-         $input["itemtype"]                   = $item->getType();
-         $input["items_id"]                   = $item->fields['id'];
-         $input["plugin_cmdb_criticities_id"] = $item->input['_plugin_cmdb_criticity_items'];
+    /**
+     * @param $field
+     * @param $name (default '')
+     * @param $values (defaut '')
+     * @param $options   array
+     **@since version 2.3.0
+     *
+     */
+    public static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = [])
+    {
 
-         $crit->add($input);
+        if (!is_array($values)) {
+            $values = [$field => $values];
+        }
+        switch ($field) {
+            case 'value':
+                $options['display']                        = false;
+                $options['plugin_cmdb_criticity_id']       = false;
+                $options['plugin_cmdb_criticity_itemtype'] = false;
+                $tabCriticity                              = Criticity::getAllCriticity();
 
-         $changes[0] = 0;
-         $changes[1] = '';
-         $changes[2] = $item->input['_plugin_cmdb_criticity_items'];
-         Log::history($item->fields['id'], $item->getType(),
-                      $changes, __CLASS__, Log::HISTORY_PLUGIN + self::HISTORY_CRITICITY);
-      }
-   }
+                return Dropdown::showFromArray($name, $tabCriticity, $options);
+
+        }
+        return parent::getSpecificValueToSelect($field, $values, $options);
+    }
+
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return int
+     */
+    public function getCriticity($citype, $id)
+    {
+        global $CFG_GLPI;
+
+        $name = $citype->fields['name'];
+        if (!$citype->fields['is_imported']) {
+            $name = CI::class;
+        }
+        $value = 0;
+        if (in_array($name, $CFG_GLPI['infocom_types'])) {
+            $infocom = new Infocom();
+            if ($infocom->getFromDBByCrit(['itemtype' => $name,
+                'items_id' => $id])) {
+                $value = $infocom->fields['businesscriticities_id'];
+            }
+
+        } else {
+
+            if ($this->getFromDBByCrit(['itemtype' => $name,
+                'items_id' => $id])) {
+                $value = $this->fields['value'];
+            }
+        }
+        return $value;
+    }
 
 
-   /**
-    * @param \CommonDBTM $item
-    * Used on hook.php
-    */
-   static function purgeItemCriticity(CommonDBTM $item) {
+    /**
+     * @param \CommonDBTM $item
+     * Used on hook.php
+     */
+    public static function preUpdateItemCriticity(CommonDBTM $item)
+    {
 
-      $crit = new Criticity_Item();
+        //massive actions
+        if (isset($item->input['plugin_cmdb_criticities_items_id'])) {
+            $item->input['_plugin_cmdb_criticity_items'] = $item->input['plugin_cmdb_criticities_items_id'];
+        }
 
-      $plugin_cmdb_citypes_id = 0;
-      if ($item->getType() == CI::class) {
-         $plugin_cmdb_citypes_id = $item->fields['plugin_cmdb_citypes_id'];
-      } else {
-         $citype = new CIType();
-         if ($citype->getFromDBByCrit(['name' => $item->getType()])) {
-            $plugin_cmdb_citypes_id = $citype->getID();
-         }
-      }
+        if (isset($item->input['_plugin_cmdb_criticity_items'])) {
 
-      if ($plugin_cmdb_citypes_id) {
+            $crit = new Criticity_Item();
 
-         $items_id = $item->fields['id'];
-         //TODO MAJ COEUR
-         //delete link from object to other objects
-//         $temp = new PluginCmdbLink_Item();
-//         $temp->deleteByCriteria(['plugin_cmdb_citypes_id_1' => $plugin_cmdb_citypes_id,
-//                                  'items_id_1'               => $items_id], 1);
-//         $temp->deleteByCriteria(['plugin_cmdb_citypes_id_2' => $plugin_cmdb_citypes_id,
-//                                  'items_id_2'               => $items_id], 1);
-//
-//         //delete position from object to other objects
-//         $temp = new PluginCmdbCi_Position();
-//         $temp->deleteByCriteria(['plugin_cmdb_citypes_id' => $plugin_cmdb_citypes_id,
-//                                  'items_id'               => $items_id], 1);
-//
-//         $temp->deleteByCriteria(['plugin_cmdb_citypes_id_ref' => $plugin_cmdb_citypes_id,
-//                                  'items_id_ref'               => $items_id], 1);
+            if ($crit->getFromDBByCrit(['itemtype' => $item->getType(),
+                'items_id' => $item->getID()])) {
 
-      }
-      //delete criticity
-      if (isset($item->input["plugin_cmdb_criticity_id"])) {
+                $input["id"] = $crit->getID();
+                if ($item->input['_plugin_cmdb_criticity_items'] == 0) {
+                    $crit->deleteByCriteria($input);
+                } else {
+                    if ($item->input['_plugin_cmdb_criticity_items'] != $crit->getField('plugin_cmdb_criticities_id')) {
+                        $old_value      = $crit->getField('plugin_cmdb_criticities_id');
+                        $input["plugin_cmdb_criticities_id"] = $item->input['_plugin_cmdb_criticity_items'];
 
-         $input["id"] = $item->input['plugin_cmdb_criticity_id'];
-         $crit->delete($input, 1);
+                        $crit->update($input);
 
-      }
+                        $changes[0] = 0;
+                        $changes[1] = $old_value;
+                        $changes[2] = $input["plugin_cmdb_criticities_id"];
+                        Log::history(
+                            $crit->getField('items_id'),
+                            $crit->getField('itemtype'),
+                            $changes,
+                            __CLASS__,
+                            Log::HISTORY_PLUGIN + self::HISTORY_CRITICITY,
+                        );
+                    }
+                }
+            } else {
+                if ($item->input['_plugin_cmdb_criticity_items'] != 0) {
+                    //ADD
+                    $input["itemtype"]                   = $item->getType();
+                    $input["items_id"]                   = $item->getID();
+                    $input["plugin_cmdb_criticities_id"] = $item->input['_plugin_cmdb_criticity_items'];
+                    $crit->add($input);
 
-   }
+                    $changes[0] = 0;
+                    $changes[1] = '';
+                    $changes[2] = $input["plugin_cmdb_criticities_id"];
+                    Log::history(
+                        $input["items_id"],
+                        $input["itemtype"],
+                        $changes,
+                        __CLASS__,
+                        Log::HISTORY_PLUGIN + self::HISTORY_CRITICITY,
+                    );
+                }
+            }
+        }
+    }
 
-   /**
-    * Get an history entry message
-    *
-    * @param $data
-    *
-    * @return string
-    **/
-   static function getHistoryEntry($data) {
+    /**
+     * @param \CommonDBTM $item
+     * Used on hook.php
+     */
+    public static function addItemCriticity(CommonDBTM $item)
+    {
 
-      switch ($data['linked_action'] - Log::HISTORY_PLUGIN) {
-         case self::HISTORY_CRITICITY :
-            return sprintf(__('Change %1$s to %2$s'),
-                           Dropdown::getDropdownName('glpi_businesscriticities', $data['old_value']),
-                           Dropdown::getDropdownName('glpi_businesscriticities', $data['new_value']));
+        if (isset($item->input['_plugin_cmdb_criticity_items'])) {
 
-      }
-      return '';
-   }
+            $crit = new Criticity_Item();
+
+            $input["itemtype"]                   = $item->getType();
+            $input["items_id"]                   = $item->fields['id'];
+            $input["plugin_cmdb_criticities_id"] = $item->input['_plugin_cmdb_criticity_items'];
+
+            $crit->add($input);
+
+            $changes[0] = 0;
+            $changes[1] = '';
+            $changes[2] = $item->input['_plugin_cmdb_criticity_items'];
+            Log::history(
+                $item->fields['id'],
+                $item->getType(),
+                $changes,
+                __CLASS__,
+                Log::HISTORY_PLUGIN + self::HISTORY_CRITICITY,
+            );
+        }
+    }
+
+
+    /**
+     * @param \CommonDBTM $item
+     * Used on hook.php
+     */
+    public static function purgeItemCriticity(CommonDBTM $item)
+    {
+
+        $crit = new Criticity_Item();
+
+        $plugin_cmdb_citypes_id = 0;
+        if ($item->getType() == CI::class) {
+            $plugin_cmdb_citypes_id = $item->fields['plugin_cmdb_citypes_id'];
+        } else {
+            $citype = new CIType();
+            if ($citype->getFromDBByCrit(['name' => $item->getType()])) {
+                $plugin_cmdb_citypes_id = $citype->getID();
+            }
+        }
+
+        if ($plugin_cmdb_citypes_id) {
+
+            $items_id = $item->fields['id'];
+            //TODO MAJ COEUR
+            //delete link from object to other objects
+            //         $temp = new PluginCmdbLink_Item();
+            //         $temp->deleteByCriteria(['plugin_cmdb_citypes_id_1' => $plugin_cmdb_citypes_id,
+            //                                  'items_id_1'               => $items_id], 1);
+            //         $temp->deleteByCriteria(['plugin_cmdb_citypes_id_2' => $plugin_cmdb_citypes_id,
+            //                                  'items_id_2'               => $items_id], 1);
+            //
+            //         //delete position from object to other objects
+            //         $temp = new PluginCmdbCi_Position();
+            //         $temp->deleteByCriteria(['plugin_cmdb_citypes_id' => $plugin_cmdb_citypes_id,
+            //                                  'items_id'               => $items_id], 1);
+            //
+            //         $temp->deleteByCriteria(['plugin_cmdb_citypes_id_ref' => $plugin_cmdb_citypes_id,
+            //                                  'items_id_ref'               => $items_id], 1);
+
+        }
+        //delete criticity
+        if (isset($item->input["plugin_cmdb_criticity_id"])) {
+
+            $input["id"] = $item->input['plugin_cmdb_criticity_id'];
+            $crit->delete($input, 1);
+
+        }
+
+    }
+
+    /**
+     * Get an history entry message
+     *
+     * @param $data
+     *
+     * @return string
+     **/
+    public static function getHistoryEntry($data)
+    {
+
+        switch ($data['linked_action'] - Log::HISTORY_PLUGIN) {
+            case self::HISTORY_CRITICITY:
+                return sprintf(
+                    __('Change %1$s to %2$s'),
+                    Dropdown::getDropdownName('glpi_businesscriticities', $data['old_value']),
+                    Dropdown::getDropdownName('glpi_businesscriticities', $data['new_value']),
+                );
+
+        }
+        return '';
+    }
 
 }

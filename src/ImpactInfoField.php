@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -34,9 +34,9 @@ use Toolbox;
 
 class ImpactInfoField extends CommonDBTM
 {
-    static $rightname = 'plugin_cmdb_impactinfos';
+    public static $rightname = 'plugin_cmdb_impactinfos';
 
-    function showInfos($itemtype, $id)
+    public function showInfos($itemtype, $id)
     {
         $impactInfo = new ImpactInfo();
         $impactInfoField = new ImpactInfoField();
@@ -46,7 +46,7 @@ class ImpactInfoField extends CommonDBTM
         $availableFields = ImpactInfo::getFieldsForItemtype($itemtype);
         $usedFields = $impactInfoField->find(
             ['plugin_cmdb_impactinfos_id' => $id],
-            'order ASC'
+            'order ASC',
         );
 
         echo "<td colspan='2'>";
@@ -58,7 +58,7 @@ class ImpactInfoField extends CommonDBTM
             $availableFields,
             $usedFields,
             array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi',
-            $itemtype
+            $itemtype,
         );
 
         // plugin fields
@@ -67,7 +67,7 @@ class ImpactInfoField extends CommonDBTM
                 $availableFields,
                 $usedFields,
                 'fields',
-                $itemtype
+                $itemtype,
             );
         }
         echo "</div>";
@@ -75,10 +75,11 @@ class ImpactInfoField extends CommonDBTM
         echo "</td>";
     }
 
-    function createSelectionColumn($availableFields, $usedFields, $key, $itemtype) {
+    public function createSelectionColumn($availableFields, $usedFields, $key, $itemtype)
+    {
         echo "<div class='col'>";
         echo "<div class='d-flex align-items-center m-1'>";
-        echo $key !== 'fields' ? '<label>'.__('Base fields', 'cmdb').'</label>' : '<label>'.__('Plugin additional fields fields', 'cmdb').'</label>';
+        echo $key !== 'fields' ? '<label>' . __('Base fields', 'cmdb') . '</label>' : '<label>' . __('Plugin additional fields fields', 'cmdb') . '</label>';
         echo "<div id='$key-select' class='ms-2'>";
         $fields = $availableFields[$key];
         $comparaisonArray = [];
@@ -106,10 +107,14 @@ class ImpactInfoField extends CommonDBTM
             // if display is modified here, also modify JS in ImpactInfo::makeDropdown
             echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
             echo "<span>";
-            echo "<label>".__('Order', 'cmdb')."</label>";
+            echo "<label>" . __('Order', 'cmdb') . "</label>";
             echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
             echo "</span>";
-            echo "<strong>".$label."</strong>";
+            // The 'cmdb' label comes from a user-defined CI field name (stored raw by
+            // GLPI); escape it like every other DB value echoed by this plugin to
+            // prevent stored XSS across the plugin_cmdb_cis / _impactinfos privilege
+            // boundary.
+            echo "<strong>" . htmlescape($label) . "</strong>";
             echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
             echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
             echo "<i class=\"fa fa-times mx-2 fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";

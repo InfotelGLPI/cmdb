@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -89,7 +89,7 @@ class CI_Cmdb extends CommonDBTM
         $tabAction['exportPNG']           = __('Export PNG', 'cmdb');
         $tabAction['seeAssociatedTicket'] = __('See associated tickets', 'cmdb');
         $tabAction['purgeCMDB']           = __('Purge CMDB', 'cmdb');
-//        $tabAction['createBaseline']      = __('Create baseline', 'cmdb');
+        //        $tabAction['createBaseline']      = __('Create baseline', 'cmdb');
         return $tabAction;
     }
 
@@ -184,7 +184,7 @@ class CI_Cmdb extends CommonDBTM
         }
 
         $ci        = new CI();
-//        $link_item = new PluginCmdbLink_Item();
+        //        $link_item = new PluginCmdbLink_Item();
 
         // Construct item
         $item = $this->constructItem($id, $idType, $id_ref, $idType_ref, $level, $options);
@@ -209,93 +209,93 @@ class CI_Cmdb extends CommonDBTM
                 "plugin_cmdb_citypes_id_2" => $idType,
                 "items_id_2"               => $id];
 
-//            $iterator  = $link_item->getFromDBbyItem($input);
+            //            $iterator  = $link_item->getFromDBbyItem($input);
 
-//            foreach ($iterator as $data) {
-//                $items_id_1               = $data["items_id_1"];
-//                $items_id_2               = $data["items_id_2"];
-//                $plugin_cmdb_citypes_id_1 = $data["plugin_cmdb_citypes_id_1"];
-//                $plugin_cmdb_citypes_id_2 = $data["plugin_cmdb_citypes_id_2"];
-//
-//                if ($params['setLinks']) {
-//                    $plugin_cmdb_id         = $data["plugin_cmdb_id"];
-//                    $plugin_cmdb_citypes_id = $data["plugin_cmdb_citypes_id"];
-//                }
-//
-//                if ($params['setLinks']) {
-//                    //TODO add option voir totalité CMDB
-//                    if (isset($options['plugin_cmdb_id']) && $plugin_cmdb_id == $options['plugin_cmdb_id']
-//                        && isset($options['plugin_cmdb_citypes_id']) && $plugin_cmdb_citypes_id == $options['plugin_cmdb_citypes_id']) {
-//                        if ($ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_1, $items_id_1)
-//                            && $ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_2, $items_id_2)) {
-//                            // Set level
-//                            $newlevel = $level + 1;
-//                            if ($params['firstItem']) {
-//                                $newlevel = 1;
-//                            }
-//
-//                            // Recursive call
-//                            $options['firstItem'] = false;
-//                            $id1                  = $this->setItem(
-//                                $items_id_1,
-//                                $plugin_cmdb_citypes_id_1,
-//                                $id_ref,
-//                                $idType_ref,
-//                                $json,
-//                                $newlevel,
-//                                $options
-//                            );
-//                            $id2                  = $this->setItem(
-//                                $items_id_2,
-//                                $plugin_cmdb_citypes_id_2,
-//                                $id_ref,
-//                                $idType_ref,
-//                                $json,
-//                                $newlevel,
-//                                $options
-//                            );
-//
-//                            $plugin_cmdb_typelinks_id = $data["plugin_cmdb_typelinks_id"];
-//                            $typelink                 = new PluginCmdbTypelink();
-//                            $typelink->getFromDB($plugin_cmdb_typelinks_id);
-//                            $linkName = $typelink->fields['name'];
-//                            $this->setLinkBetweenItems($id1, $id2, $linkName, $plugin_cmdb_typelinks_id, $json);
-//                        }
-//                    }
-//                } else {
-//                    if ($ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_1, $items_id_1)
-//                        && $ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_2, $items_id_2)) {
-//                        // Set level
-//                        $newlevel = $level + 1;
-//                        if ($params['firstItem']) {
-//                            $newlevel = 1;
-//                        }
-//
-//                        // Recursive call
-//                        $options['firstItem'] = false;
-//                        $this->setItem(
-//                            $items_id_1,
-//                            $plugin_cmdb_citypes_id_1,
-//                            $id_ref,
-//                            $idType_ref,
-//                            $json,
-//                            $newlevel,
-//                            $options
-//                        );
-//                        $this->setItem(
-//                            $items_id_2,
-//                            $plugin_cmdb_citypes_id_2,
-//                            $id_ref,
-//                            $idType_ref,
-//                            $json,
-//                            $newlevel,
-//                            $options
-//                        );
-//
-//                    }
-//
-//                }
-//            }
+            //            foreach ($iterator as $data) {
+            //                $items_id_1               = $data["items_id_1"];
+            //                $items_id_2               = $data["items_id_2"];
+            //                $plugin_cmdb_citypes_id_1 = $data["plugin_cmdb_citypes_id_1"];
+            //                $plugin_cmdb_citypes_id_2 = $data["plugin_cmdb_citypes_id_2"];
+            //
+            //                if ($params['setLinks']) {
+            //                    $plugin_cmdb_id         = $data["plugin_cmdb_id"];
+            //                    $plugin_cmdb_citypes_id = $data["plugin_cmdb_citypes_id"];
+            //                }
+            //
+            //                if ($params['setLinks']) {
+            //                    //TODO add option voir totalité CMDB
+            //                    if (isset($options['plugin_cmdb_id']) && $plugin_cmdb_id == $options['plugin_cmdb_id']
+            //                        && isset($options['plugin_cmdb_citypes_id']) && $plugin_cmdb_citypes_id == $options['plugin_cmdb_citypes_id']) {
+            //                        if ($ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_1, $items_id_1)
+            //                            && $ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_2, $items_id_2)) {
+            //                            // Set level
+            //                            $newlevel = $level + 1;
+            //                            if ($params['firstItem']) {
+            //                                $newlevel = 1;
+            //                            }
+            //
+            //                            // Recursive call
+            //                            $options['firstItem'] = false;
+            //                            $id1                  = $this->setItem(
+            //                                $items_id_1,
+            //                                $plugin_cmdb_citypes_id_1,
+            //                                $id_ref,
+            //                                $idType_ref,
+            //                                $json,
+            //                                $newlevel,
+            //                                $options
+            //                            );
+            //                            $id2                  = $this->setItem(
+            //                                $items_id_2,
+            //                                $plugin_cmdb_citypes_id_2,
+            //                                $id_ref,
+            //                                $idType_ref,
+            //                                $json,
+            //                                $newlevel,
+            //                                $options
+            //                            );
+            //
+            //                            $plugin_cmdb_typelinks_id = $data["plugin_cmdb_typelinks_id"];
+            //                            $typelink                 = new PluginCmdbTypelink();
+            //                            $typelink->getFromDB($plugin_cmdb_typelinks_id);
+            //                            $linkName = $typelink->fields['name'];
+            //                            $this->setLinkBetweenItems($id1, $id2, $linkName, $plugin_cmdb_typelinks_id, $json);
+            //                        }
+            //                    }
+            //                } else {
+            //                    if ($ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_1, $items_id_1)
+            //                        && $ci->isInstalledOrActivatedOrNotDeleted($plugin_cmdb_citypes_id_2, $items_id_2)) {
+            //                        // Set level
+            //                        $newlevel = $level + 1;
+            //                        if ($params['firstItem']) {
+            //                            $newlevel = 1;
+            //                        }
+            //
+            //                        // Recursive call
+            //                        $options['firstItem'] = false;
+            //                        $this->setItem(
+            //                            $items_id_1,
+            //                            $plugin_cmdb_citypes_id_1,
+            //                            $id_ref,
+            //                            $idType_ref,
+            //                            $json,
+            //                            $newlevel,
+            //                            $options
+            //                        );
+            //                        $this->setItem(
+            //                            $items_id_2,
+            //                            $plugin_cmdb_citypes_id_2,
+            //                            $id_ref,
+            //                            $idType_ref,
+            //                            $json,
+            //                            $newlevel,
+            //                            $options
+            //                        );
+            //
+            //                    }
+            //
+            //                }
+            //            }
         }
         // Return added item's ID
         return $this->itemSearch($item, $json["nodes"], $searchfields);
@@ -356,12 +356,12 @@ class CI_Cmdb extends CommonDBTM
         $icon = $ci->getCIIcon($idType, $id);
 
         // Get item position
-//        $input         = ["items_id"                   => $id,
-//            "plugin_cmdb_citypes_id"     => $idType,
-//            "items_id_ref"               => $id_ref,
-//            "plugin_cmdb_citypes_id_ref" => $idType_ref];
-//        $position_item = new PluginCmdbCi_Position();
-//        $position      = $position_item->getPosition($input);
+        //        $input         = ["items_id"                   => $id,
+        //            "plugin_cmdb_citypes_id"     => $idType,
+        //            "items_id_ref"               => $id_ref,
+        //            "plugin_cmdb_citypes_id_ref" => $idType_ref];
+        //        $position_item = new PluginCmdbCi_Position();
+        //        $position      = $position_item->getPosition($input);
 
         $item = ["type"           => $nameType,
             "name"           => $name,
@@ -374,8 +374,8 @@ class CI_Cmdb extends CommonDBTM
             "colorCriticity" => $colorCriticity,
             "ticket"         => $ticket,
             "icon"           => $icon,
-//            "position_x"     => $position['x'],
-//            "position_y"     => $position['y'],
+            //            "position_x"     => $position['x'],
+            //            "position_y"     => $position['y'],
             'level'          => $level];
 
         // Get doc

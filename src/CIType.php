@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -142,13 +142,13 @@ class CIType extends CommonDropdown
                 }
             }
             $citype_doc = new CIType_Document();
-            $icon       = PLUGIN_CMDB_WEBDIR.'/pics/iconCI.png';
+            $icon       = PLUGIN_CMDB_WEBDIR . '/pics/iconCI.png';
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $type['id'],
                 'types_id'               => 0])) {
                 $document = new Document();
                 $document->getFromDB($citype_doc->fields['documents_id']);
                 //            $icon =  'files/'.$document->getField("filepath");
-                $icon =PLUGIN_CMDB_WEBDIR."/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
+                $icon = PLUGIN_CMDB_WEBDIR . "/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
             }
             if (class_exists($type['name'])) {
                 $CFG_GLPI['impact_asset_types'][$type['name']] = $icon;
@@ -238,7 +238,7 @@ class CIType extends CommonDropdown
                 $dbu       = new DbUtils();
                 $types     = $dbu->getAllDataFromTable(
                     "glpi_plugin_cmdb_citypes",
-                    ["is_imported" => 0]
+                    ["is_imported" => 0],
                 );
 
                 foreach ($types as $type) {
@@ -275,7 +275,7 @@ class CIType extends CommonDropdown
                 $dbu       = new DbUtils();
                 $types     = $dbu->getAllDataFromTable(
                     "glpi_plugin_cmdb_citypes",
-                    ["is_imported" => 0]
+                    ["is_imported" => 0],
                 );
 
                 foreach ($types as $type) {
@@ -308,9 +308,9 @@ class CIType extends CommonDropdown
             echo "<div class='alert alert-warning'>";
             echo "<i>" . __("With GLPI 11, you can create now custom assets", 'cmdb') . "</i>";
             echo "<a href='" . $CFG_GLPI['root_doc'] . "/front/asset/assetdefinition.php' style='float:right'>" . __(
-                    'Go to custom assets',
-                    'cmdb'
-                ) . "</a>";
+                'Go to custom assets',
+                'cmdb',
+            ) . "</a>";
             echo "</div>";
         } else {
             $options["colspan"] = 1;
@@ -332,7 +332,9 @@ class CIType extends CommonDropdown
                     echo "<td width='50%'>" . __('Name');
                     echo "</td>";
                     echo "<td width='50%'>";
-                    echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40, 'disabled' => 'disabled']
+                    echo Html::input(
+                        'name',
+                        ['value' => $this->fields['name'], 'size' => 40, 'disabled' => 'disabled'],
                     );
                     echo "</td>";
                     echo "</tr>";
@@ -386,20 +388,20 @@ class CIType extends CommonDropdown
      * @global  $DB
      *
      */
-//    public function existNameCIType($name)
-//    {
-//        $dbu   = new DbUtils();
-//        $count = $dbu->countElementsInTable(
-//            "glpi_plugin_cmdb_citypes",
-//            ["name" => addslashes($name)]
-//        );
-//
-//        if ($count > 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    //    public function existNameCIType($name)
+    //    {
+    //        $dbu   = new DbUtils();
+    //        $count = $dbu->countElementsInTable(
+    //            "glpi_plugin_cmdb_citypes",
+    //            ["name" => addslashes($name)]
+    //        );
+    //
+    //        if ($count > 0) {
+    //            return true;
+    //        } else {
+    //            return false;
+    //        }
+    //    }
 
     /**
      * Set Message after add type if the form isn't valid
@@ -408,99 +410,99 @@ class CIType extends CommonDropdown
      *
      * @return mixed[]
      */
-//    public function prepareInputForAdd($input)
-//    {
-//
-//        if (isset($input["is_imported"]) && $input["is_imported"] == 1) {
-//            $input['is_imported'] = 1;
-//            $input['name']        = $input['selectCI'];
-//
-//            if (!empty($input['_fields'])) {
-//                $input['fields'] = implode(',', $input['_fields']);
-//            } else {
-//                $input['fields'] = '';
-//            }
-//        } else {
-//            $input["name"] = str_replace(" ", "", $input["name"]);
-//            $input['name']        = "GlpiPlugin\\Cmdb\\" . ucfirst($input['name']);
-//            $input['is_imported'] = 0;
-//            if (!empty($input['_fields'])) {
-//                $input['fields'] = implode(',', $input['_fields']);
-//            } else {
-//                $input['fields'] = '';
-//            }
-//        }
-//
-//        if ($input['is_imported'] > 0) {
-//            if (isset($input['selectCI']) && $input['selectCI'] == '0') {//Validation about type of ci
-//                Session::addMessageAfterRedirect(__('Please, choose an imported CI !', 'cmdb'), true, ERROR);
-//                return false;
-//            }
-//        } else {
-//            if ($input['name'] == 'GlpiPlugin\Cmdb' || $this->existNameCIType($input['name'])) {
-//                Session::addMessageAfterRedirect(__('There is already an existing name or the name is invalid', 'cmdb'), true, ERROR);
-//                return false;
-//            }
-//        }
-//
-//        return $input;
-//    }
+    //    public function prepareInputForAdd($input)
+    //    {
+    //
+    //        if (isset($input["is_imported"]) && $input["is_imported"] == 1) {
+    //            $input['is_imported'] = 1;
+    //            $input['name']        = $input['selectCI'];
+    //
+    //            if (!empty($input['_fields'])) {
+    //                $input['fields'] = implode(',', $input['_fields']);
+    //            } else {
+    //                $input['fields'] = '';
+    //            }
+    //        } else {
+    //            $input["name"] = str_replace(" ", "", $input["name"]);
+    //            $input['name']        = "GlpiPlugin\\Cmdb\\" . ucfirst($input['name']);
+    //            $input['is_imported'] = 0;
+    //            if (!empty($input['_fields'])) {
+    //                $input['fields'] = implode(',', $input['_fields']);
+    //            } else {
+    //                $input['fields'] = '';
+    //            }
+    //        }
+    //
+    //        if ($input['is_imported'] > 0) {
+    //            if (isset($input['selectCI']) && $input['selectCI'] == '0') {//Validation about type of ci
+    //                Session::addMessageAfterRedirect(__('Please, choose an imported CI !', 'cmdb'), true, ERROR);
+    //                return false;
+    //            }
+    //        } else {
+    //            if ($input['name'] == 'GlpiPlugin\Cmdb' || $this->existNameCIType($input['name'])) {
+    //                Session::addMessageAfterRedirect(__('There is already an existing name or the name is invalid', 'cmdb'), true, ERROR);
+    //                return false;
+    //            }
+    //        }
+    //
+    //        return $input;
+    //    }
 
     /**
      * @param int $history
      */
-//    public function post_addItem($history = 1)
-//    {
-//
-//        if (!$this->input['is_imported']) {
-//            $cifield                               = new CiFields();
-//            $this->input['plugin_cmdb_citypes_id'] = $this->getID();
-//            $cifield->addCIFields($this->input);
-//
-//            $img = $this->addIcons(0, 1, 0);
-//            foreach ($img as $key => $name) {
-//                $citype_doc = new CIType_Document();
-//                $citype_doc->add([
-//                    'plugin_cmdb_citypes_id' => $this->getID(),
-//                    'types_id'               => '0',
-//                    'documents_id'           => $key,
-//                ]);
-//            }
-//        } else {
-//            foreach ($this->input as $key => $val) {
-//                $pattern = '/^_filename\$\$(\d+)/';
-//                if (preg_match($pattern, $key, $matches)) {
-//                    $img = $this->addIcons(0, 1, $matches[1]);
-//
-//                    foreach ($img as $key => $name) {
-//                        $citype_doc = new CIType_Document();
-//                        $citype_doc->add([
-//                            'plugin_cmdb_citypes_id' => $this->getID(),
-//                            'types_id'               => $matches[1],
-//                            'documents_id'           => $key,
-//                        ]);
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (!self::generateTemplate($this->fields)) {
-//            return false;
-//        }
-//        $classname = $this->fields['name'];
-//        if (!$this->input['is_imported']) {
-//            $classname = self::getClassname($this->fields['name']);
-//            $classname::install();
-//        }
-//        $core_config = Config::getConfigurationValues("core");
-//        $db_values = importArrayFromDB($core_config[Impact::CONF_ENABLED]);
-//        $db_values[] = $classname;
-//        $input[Impact::CONF_ENABLED] = $db_values;
-//        $input["id"] = 1;
-//
-//        $config = new Config();
-//        $config->update($input);
-//    }
+    //    public function post_addItem($history = 1)
+    //    {
+    //
+    //        if (!$this->input['is_imported']) {
+    //            $cifield                               = new CiFields();
+    //            $this->input['plugin_cmdb_citypes_id'] = $this->getID();
+    //            $cifield->addCIFields($this->input);
+    //
+    //            $img = $this->addIcons(0, 1, 0);
+    //            foreach ($img as $key => $name) {
+    //                $citype_doc = new CIType_Document();
+    //                $citype_doc->add([
+    //                    'plugin_cmdb_citypes_id' => $this->getID(),
+    //                    'types_id'               => '0',
+    //                    'documents_id'           => $key,
+    //                ]);
+    //            }
+    //        } else {
+    //            foreach ($this->input as $key => $val) {
+    //                $pattern = '/^_filename\$\$(\d+)/';
+    //                if (preg_match($pattern, $key, $matches)) {
+    //                    $img = $this->addIcons(0, 1, $matches[1]);
+    //
+    //                    foreach ($img as $key => $name) {
+    //                        $citype_doc = new CIType_Document();
+    //                        $citype_doc->add([
+    //                            'plugin_cmdb_citypes_id' => $this->getID(),
+    //                            'types_id'               => $matches[1],
+    //                            'documents_id'           => $key,
+    //                        ]);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //
+    //        if (!self::generateTemplate($this->fields)) {
+    //            return false;
+    //        }
+    //        $classname = $this->fields['name'];
+    //        if (!$this->input['is_imported']) {
+    //            $classname = self::getClassname($this->fields['name']);
+    //            $classname::install();
+    //        }
+    //        $core_config = Config::getConfigurationValues("core");
+    //        $db_values = importArrayFromDB($core_config[Impact::CONF_ENABLED]);
+    //        $db_values[] = $classname;
+    //        $input[Impact::CONF_ENABLED] = $db_values;
+    //        $input["id"] = 1;
+    //
+    //        $config = new Config();
+    //        $config->update($input);
+    //    }
 
 
     /**
@@ -631,7 +633,7 @@ class CIType extends CommonDropdown
             $rand   = Dropdown::showFromArray(
                 "name",
                 $tabCIType2,
-                ['value' => $this->fields['name'], 'readonly' => true]
+                ['value' => $this->fields['name'], 'readonly' => true],
             );
             $params = ['itemtype' => '__VALUE__',
                 'id'       => $ID];
@@ -639,13 +641,13 @@ class CIType extends CommonDropdown
                 "dropdown_name$rand",
                 "types_icon",
                 "$url_cmdb_ajax/dropdownTypeByCIType.php",
-                $params
+                $params,
             );
             Ajax::updateItemOnSelectEvent(
                 "dropdown_name$rand",
                 "span_fields",
                 "$url_cmdb_ajax/dropdownInfoFields.php",
-                $params
+                $params,
             );
         } else {
             $rand   = Dropdown::showFromArray("selectCI", $tabCIType2);
@@ -655,13 +657,13 @@ class CIType extends CommonDropdown
                 "dropdown_selectCI$rand",
                 "types_icon",
                 "$url_cmdb_ajax/dropdownTypeByCIType.php",
-                $params
+                $params,
             );
             Ajax::updateItemOnSelectEvent(
                 "dropdown_selectCI$rand",
                 "span_fields",
                 "$url_cmdb_ajax/dropdownInfoFields.php",
-                $params
+                $params,
             );
         }
         echo "</td>";
@@ -1141,7 +1143,7 @@ class CIType extends CommonDropdown
                     $docadded[$docID]['data'] = sprintf(
                         __('%1$s - %2$s'),
                         $doc->fields["name"],
-                        $doc->fields["filename"]
+                        $doc->fields["filename"],
                     );
 
                     if (isset($input2["tag"])) {
@@ -1260,7 +1262,7 @@ class CIType extends CommonDropdown
         $dbu = new DbUtils();
         return $dbu->countElementsInTable(
             'glpi_plugin_cmdb_baselines_cis',
-            ['plugin_cmdb_citypes_id' => $this->getID()]
+            ['plugin_cmdb_citypes_id' => $this->getID()],
         );
     }
 
@@ -1297,7 +1299,7 @@ class CIType extends CommonDropdown
             $dbu = new DbUtils();
             if ($dbu->countElementsInTable(
                 'glpi_plugin_cmdb_cis',
-                ['plugin_cmdb_citypes_id' => $id]
+                ['plugin_cmdb_citypes_id' => $id],
             )) {
                 return true;
             }
@@ -1402,7 +1404,7 @@ class CIType extends CommonDropdown
                 echo "&nbsp;" . $_SESSION['glpiactive_entity_shortname'];
                 echo "<br><br>" . Html::submit(
                     _x('button', 'Transfer', 'cmdb'),
-                    ['name' => 'massiveaction', 'class' => 'btn btn-primary']
+                    ['name' => 'massiveaction', 'class' => 'btn btn-primary'],
                 );
                 return true;
         }

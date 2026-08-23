@@ -1,40 +1,53 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\ImpactInfoField;
 
-Session::checkLoginUser();
-
 $impactInfo = new ImpactInfo();
 $impactInfoField = new ImpactInfoField();
 global $DB;
+
+// Whitelist the sub-array keys a client may set on an ImpactInfoField row and reject
+// rows whose type is not one of the three known families. This prevents mass-assignment
+// of arbitrary columns from the raw $_POST sub-arrays.
+$sanitizeImpactField = static function (array $field, int $impactinfos_id): ?array {
+    if (!isset($field['type']) || !in_array($field['type'], ['glpi', 'cmdb', 'fields'], true)) {
+        return null;
+    }
+    return [
+        'type'                       => $field['type'],
+        'field_id'                   => (string) ($field['field_id'] ?? ''),
+        'order'                      => (int) ($field['order'] ?? 0),
+        'plugin_cmdb_impactinfos_id' => $impactinfos_id,
+    ];
+};
 if (isset($_POST["add"])) {
     $input = ['itemtype' => $_POST['itemtype']];
     $impactInfo->check(-1, CREATE, $input);
@@ -45,22 +58,14 @@ if (isset($_POST["add"])) {
     }
 
     if ($newID = $impactInfo->add($input)) {
-        if (isset($_POST['glpi-fields']) && is_array($_POST['glpi-fields'])) {
-            foreach ($_POST['glpi-fields'] as $field) {
-                $field['plugin_cmdb_impactinfos_id'] = $newID;
-                $impactInfoField->add($field);
-            }
-        }
-        if (isset($_POST['fields-fields']) && is_array($_POST['fields-fields'])) {
-            foreach ($_POST['fields-fields'] as $field) {
-                $field['plugin_cmdb_impactinfos_id'] = $newID;
-                $impactInfoField->add($field);
-            }
-        }
-        if (isset($_POST['cmdb-fields']) && is_array($_POST['cmdb-fields'])) {
-            foreach ($_POST['cmdb-fields'] as $field) {
-                $field['plugin_cmdb_impactinfos_id'] = $newID;
-                $impactInfoField->add($field);
+        foreach (['glpi-fields', 'fields-fields', 'cmdb-fields'] as $group) {
+            if (isset($_POST[$group]) && is_array($_POST[$group])) {
+                foreach ($_POST[$group] as $field) {
+                    if (!is_array($field) || ($clean = $sanitizeImpactField($field, (int) $newID)) === null) {
+                        continue;
+                    }
+                    $impactInfoField->add($clean);
+                }
             }
         }
         if ($_SESSION['glpibackcreated']) {
@@ -75,7 +80,7 @@ if (isset($_POST["add"])) {
 
     $DB->delete(
         $impactInfoField->getTable(),
-        ['plugin_cmdb_impactinfos_id' => $_POST['id']]
+        ['plugin_cmdb_impactinfos_id' => $_POST['id']],
     );
 
     $impactInfo->delete($_POST, 1);
@@ -85,25 +90,17 @@ if (isset($_POST["add"])) {
 
     $DB->delete(
         $impactInfoField->getTable(),
-        ['plugin_cmdb_impactinfos_id' => $_POST['id']]
+        ['plugin_cmdb_impactinfos_id' => $_POST['id']],
     );
 
-    if (isset($_POST['glpi-fields']) && is_array($_POST['glpi-fields'])) {
-        foreach ($_POST['glpi-fields'] as $field) {
-            $field['plugin_cmdb_impactinfos_id'] = $_POST['id'];
-            $impactInfoField->add($field);
-        }
-    }
-    if (isset($_POST['fields-fields']) && is_array($_POST['fields-fields'])) {
-        foreach ($_POST['fields-fields'] as $field) {
-            $field['plugin_cmdb_impactinfos_id'] = $_POST['id'];
-            $impactInfoField->add($field);
-        }
-    }
-    if (isset($_POST['cmdb-fields']) && is_array($_POST['cmdb-fields'])) {
-        foreach ($_POST['cmdb-fields'] as $field) {
-            $field['plugin_cmdb_impactinfos_id'] = $_POST['id'];
-            $impactInfoField->add($field);
+    foreach (['glpi-fields', 'fields-fields', 'cmdb-fields'] as $group) {
+        if (isset($_POST[$group]) && is_array($_POST[$group])) {
+            foreach ($_POST[$group] as $field) {
+                if (!is_array($field) || ($clean = $sanitizeImpactField($field, (int) $_POST['id'])) === null) {
+                    continue;
+                }
+                $impactInfoField->add($clean);
+            }
         }
     }
 

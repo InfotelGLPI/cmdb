@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 global $CFG_GLPI;
@@ -39,6 +39,7 @@ use GlpiPlugin\Cmdb\ImpactIcon;
 use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\Menu;
 use GlpiPlugin\Cmdb\Profile;
+
 use function Safe\mkdir;
 
 define('PLUGIN_CMDB_VERSION', '3.1.7');
@@ -70,28 +71,28 @@ function plugin_init_cmdb()
 
     $PLUGIN_HOOKS[Hooks::CHANGE_PROFILE]['cmdb']   = [Profile::class, 'initProfile'];
     $PLUGIN_HOOKS[Hooks::ASSIGN_TO_TICKET]['cmdb'] = true;
-//    include_once(PLUGIN_CMDB_DIR . "/src/Autoloader.php");
+    //    include_once(PLUGIN_CMDB_DIR . "/src/Autoloader.php");
     $plugincmdb_autoloader = new Autoloader([PLUGINCMDB_CLASS_PATH]);
     $plugincmdb_autoloader->register();
 
-//    Plugin::registerClass(CIType_Document::class);
-//    Plugin::registerClass(OperationProcess::class, ['ticket_types'           => true,
-//        'helpdesk_visible_types' => true]);
-//    Plugin::registerClass(Cmdb_Ticket::class, ['addtabon' => 'Ticket']);
-//    Plugin::registerClass(Criticity::class, ['addtabon' => ['BusinessCriticity']]);
+    //    Plugin::registerClass(CIType_Document::class);
+    //    Plugin::registerClass(OperationProcess::class, ['ticket_types'           => true,
+    //        'helpdesk_visible_types' => true]);
+    //    Plugin::registerClass(Cmdb_Ticket::class, ['addtabon' => 'Ticket']);
+    //    Plugin::registerClass(Criticity::class, ['addtabon' => ['BusinessCriticity']]);
 
     if (Session::getLoginUserID()) {
 
         Plugin::registerClass(
             Profile::class,
-            array('addtabon' => 'Profile')
+            ['addtabon' => 'Profile'],
         );
-//        $PLUGIN_HOOKS['plugin_fields']['cmdb'] = OperationProcess::class;
+        //        $PLUGIN_HOOKS['plugin_fields']['cmdb'] = OperationProcess::class;
 
-//        $CFG_GLPI['impact_asset_types'][OperationProcess::class] = PLUGIN_CMDB_WEBDIR."/pics/service.png";
+        //        $CFG_GLPI['impact_asset_types'][OperationProcess::class] = PLUGIN_CMDB_WEBDIR."/pics/service.png";
 
         //Define impact_asset_types for ci types
-//        include_once(PLUGIN_CMDB_DIR . "/src/CiType.php");
+        //        include_once(PLUGIN_CMDB_DIR . "/src/CiType.php");
         $citype = new CIType();
         if (Plugin::isPluginActive('cmdb')) {
             $citype->showInAssetTypes();
@@ -125,10 +126,10 @@ function plugin_init_cmdb()
             }
         }
 
-//        if (class_exists(OperationProcess::class)
-//          && OperationProcess::canView()) {
-//            $PLUGIN_HOOKS['menu_toadd']['cmdb']['assets'] = [OperationProcessMenu::class];
-//        }
+        //        if (class_exists(OperationProcess::class)
+        //          && OperationProcess::canView()) {
+        //            $PLUGIN_HOOKS['menu_toadd']['cmdb']['assets'] = [OperationProcessMenu::class];
+        //        }
         if (class_exists(Cmdb::class)
           && Cmdb::canView()) {
             $PLUGIN_HOOKS['menu_toadd']['cmdb']['plugins'] = [Menu::class];
@@ -136,7 +137,7 @@ function plugin_init_cmdb()
 
         $PLUGIN_HOOKS['set_item_impact_icon']['cmdb'] = [
             ImpactIcon::class,
-            'getItemIcon'
+            'getItemIcon',
         ];
 
         if (ImpactIcon::canView()) {

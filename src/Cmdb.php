@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -43,20 +43,19 @@ if (!defined('GLPI_ROOT')) {
  */
 class Cmdb extends CommonDBTM
 {
+    public static $rightname = "plugin_cmdb_cis";
 
-    static $rightname = "plugin_cmdb_cis";
-
-   /**
-    * Return the localized name of the current Type
-    *
-    * @return string
-    * */
+    /**
+     * Return the localized name of the current Type
+     *
+     * @return string
+     * */
     public static function getTypeName($nb = 0)
     {
         return __('CMDB', 'cmdb');
     }
 
-    function displayMenu()
+    public function displayMenu()
     {
         global $CFG_GLPI;
 
@@ -68,7 +67,7 @@ class Cmdb extends CommonDBTM
         $where = [];
         if ($item->isEntityAssign()) {
             $entity = $_SESSION["glpiactive_entity"];
-           /// Case of personal items : entity = -1 : create on active entity (Reminder case))
+            /// Case of personal items : entity = -1 : create on active entity (Reminder case))
             if ($item->getEntityID() >= 0) {
                 $entity = $item->getEntityID();
             }
@@ -126,7 +125,7 @@ class Cmdb extends CommonDBTM
                     echo "<td class='center b'>";
                     echo "<a href='" . htmlescape($link) . "'>";
                     if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $id,
-                                                 'types_id'               => 0])) {
+                        'types_id'               => 0])) {
                         echo "<img width='64' height='64' src='" . $CFG_GLPI['root_doc'] .
                         "/front/document.send.php?docid=" . $citype_doc->fields['documents_id'] . "'/>";
                     } else {
@@ -145,11 +144,11 @@ class Cmdb extends CommonDBTM
                 }
 
                 if ($i % 3 != 0) {
-//                    $j    = 0;
-//                    $rest = $i % 3;
-//                    for ($j = 0; $j < 3 - $rest; $j++) {
-//                        echo "<td></td>";
-//                    }
+                    //                    $j    = 0;
+                    //                    $rest = $i % 3;
+                    //                    for ($j = 0; $j < 3 - $rest; $j++) {
+                    //                        echo "<td></td>";
+                    //                    }
                     echo "</tr>";
                 }
             }

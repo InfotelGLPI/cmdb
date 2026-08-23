@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 use GlpiPlugin\Cmdb\CI;
@@ -102,13 +102,13 @@ function plugin_cmdb_install()
         'PluginCmdbOperationprocess' => OperationProcess::class,
         'PluginCmdbBaseline' => 'GlpiPlugin\\Cmdb\\Baseline',
         'PluginCmdbCIType' => CIType::class,
-        'PluginCmdbCriticity' => Criticity::class
+        'PluginCmdbCriticity' => Criticity::class,
     ];
 
     foreach ($classes as $old => $new) {
         $displayusers = $DB->request([
             'SELECT' => [
-                'users_id'
+                'users_id',
             ],
             'DISTINCT' => true,
             'FROM' => 'glpi_displaypreferences',
@@ -122,12 +122,12 @@ function plugin_cmdb_install()
                 $iterator = $DB->request([
                     'SELECT' => [
                         'num',
-                        'id'
+                        'id',
                     ],
                     'FROM' => 'glpi_displaypreferences',
                     'WHERE' => [
                         'itemtype' => $old,
-                        'users_id' => $displayuser['users_id']
+                        'users_id' => $displayuser['users_id'],
                     ],
                 ]);
 
@@ -135,14 +135,14 @@ function plugin_cmdb_install()
                     foreach ($iterator as $data) {
                         $iterator2 = $DB->request([
                             'SELECT' => [
-                                'id'
+                                'id',
                             ],
                             'FROM' => 'glpi_displaypreferences',
                             'WHERE' => [
                                 'itemtype' => $new,
                                 'users_id' => $displayuser['users_id'],
                                 'num' => $data['num'],
-                                'interface' => 'central'
+                                'interface' => 'central',
                             ],
                         ]);
                         if (count($iterator2) > 0) {
@@ -185,7 +185,7 @@ function plugin_cmdb_uninstall()
         $dir = GLPI_ROOT . "/files/_plugins/cmdb/src/";
 
         // Guard against path traversal / arbitrary file inclusion via a tampered CIType name
-        if (preg_match('/^[A-Za-z0-9_\\\\]+$/', (string)$item) && strpos($item, '..') === false) {
+        if (preg_match('/^[A-Za-z0-9_\\\\]+$/', (string) $item) && strpos($item, '..') === false) {
             $class_file = $dir . basename(str_replace('\\', '/', $item)) . ".php";
             if (file_exists($class_file)) {
                 include_once($class_file);
@@ -220,12 +220,8 @@ function plugin_cmdb_uninstall()
         "glpi_plugin_cmdb_criticities",
         "glpi_plugin_cmdb_impacticons",
         "glpi_plugin_cmdb_impactinfos",
-        "glpi_plugin_cmdb_impactinfo_fields"
+        "glpi_plugin_cmdb_impactinfo_fields",
     ];
-
-    foreach ($tables as $table) {
-        $DB->dropTable($table, true);
-    }
 
     $itemtypes = [
         'Alert',
@@ -238,7 +234,7 @@ function plugin_cmdb_uninstall()
         'SavedSearch',
         'DropdownTranslation',
         'NotificationTemplate',
-        'Notification'
+        'Notification',
     ];
     foreach ($itemtypes as $itemtype) {
         foreach (
@@ -247,7 +243,7 @@ function plugin_cmdb_uninstall()
                 CI::class,
                 CIType::class,
                 CIType_Document::class,
-                ImpactInfo::class
+                ImpactInfo::class,
             ] as $deletedType
         ) {
             if ($item = getItemForItemtype($itemtype)) {
@@ -256,9 +252,16 @@ function plugin_cmdb_uninstall()
         }
     }
 
-    $profileRight = new ProfileRight();
-    foreach (Profile::getAllRights() as $right) {
-        $profileRight->deleteByCriteria(['name' => $right['field']]);
+    // Remove every plugin profile right. getAllRights() is not a reliable
+    // source here: it omits plugin_cmdb_operationprocesses_open_ticket unless
+    // called with true, and the base plugin_cmdb_operationprocesses right is
+    // commented out of it entirely while still being granted by
+    // createFirstAccess(). A LIKE delete guarantees no residual right is left
+    // in glpi_profilerights after uninstall.
+    $DB->delete('glpi_profilerights', ['name' => ['LIKE', 'plugin_cmdb%']]);
+
+    foreach ($tables as $table) {
+        $DB->dropTable($table, true);
     }
 
     //remove files
@@ -286,22 +289,22 @@ function plugin_cmdb_getDatabaseRelations()
             "glpi_entities" => [
                 "glpi_plugin_cmdb_operationprocesses" => "entities_id",
                 "glpi_plugin_cmdb_citypes" => "entities_id",
-//            "glpi_plugin_cmdb_cis"  => "entities_id"
+                //            "glpi_plugin_cmdb_cis"  => "entities_id"
             ],
             //              "glpi_plugin_cmdb_operationprocessstates" => ["glpi_plugin_cmdb_operationprocesses"
             //                                                            => "plugin_cmdb_operationprocessstates_id"],
             "glpi_plugin_cmdb_criticities" => [
                 "glpi_plugin_cmdb_criticities_items"
-                => "plugin_cmdb_criticities_id"
+                => "plugin_cmdb_criticities_id",
             ],
             "glpi_users" => [
                 "glpi_plugin_cmdb_operationprocesses"
-                => "users_id_tech"
+                => "users_id_tech",
             ],
             "glpi_groups" => [
                 "glpi_plugin_cmdb_operationprocesses"
-                => "groups_id_tech"
-            ]
+                => "groups_id_tech",
+            ],
         ];
     }
     return [];
@@ -333,7 +336,7 @@ function plugin_cmdb_getDropdown()
             OperationProcessState::class
             => OperationProcessState::getTypeName(2),
             CIType::class
-            => CIType::getTypeName(2)
+            => CIType::getTypeName(2),
         ];
         $result = array_merge($array, $dropdowns);
         return $result;

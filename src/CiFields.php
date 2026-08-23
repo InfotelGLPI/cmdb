@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -43,18 +43,17 @@ if (!defined('GLPI_ROOT')) {
  */
 class CiFields extends CommonDBTM
 {
+    public static $rightname = "plugin_cmdb_cis";
 
-    static $rightname = "plugin_cmdb_cis";
-
-   /**
-    * add Fields of an item
-    *
-    * @param   $input
-    *
-    * @global  $DB
-    *
-    */
-    function addCIFields($input)
+    /**
+     * add Fields of an item
+     *
+     * @param   $input
+     *
+     * @global  $DB
+     *
+     */
+    public function addCIFields($input)
     {
 
         if (isset($input["nameNewField"])) {
@@ -68,15 +67,15 @@ class CiFields extends CommonDBTM
     }
 
 
-   /**
-    * Update fields of an no imported item
-    *
-    * @param   $input
-    *
-    * @global  $DB
-    *
-    */
-    function updateCIFields($input)
+    /**
+     * Update fields of an no imported item
+     *
+     * @param   $input
+     *
+     * @global  $DB
+     *
+     */
+    public function updateCIFields($input)
     {
 
         if (isset($input["nameField"])) {
@@ -98,13 +97,13 @@ class CiFields extends CommonDBTM
         $this->addCIFields($input);
     }
 
-   /**
-    * @param $typefield
-    * @param $value
-    *
-    * @return string
-    */
-    static function setValue($typefield, $value)
+    /**
+     * @param $typefield
+     * @param $value
+     *
+     * @return string
+     */
+    public static function setValue($typefield, $value)
     {
         switch ($typefield) {
             case 4:
@@ -116,16 +115,16 @@ class CiFields extends CommonDBTM
                 break;
             default:
                 return $value;
-            break;
+                break;
         }
     }
 
-   /**
-    * @param $idType
-    * @param $id
-    * @param $itemtype
-    */
-    function setFieldByType($idType, $id, $itemtype = CI::class)
+    /**
+     * @param $idType
+     * @param $id
+     * @param $itemtype
+     */
+    public function setFieldByType($idType, $id, $itemtype = CI::class)
     {
         if ($res = $this->find(['plugin_cmdb_citypes_id' => $idType])) {
             if (count($res) > 0) {
@@ -136,11 +135,11 @@ class CiFields extends CommonDBTM
         }
     }
 
-   /**
-    * @param $field
-    * @param $idCi
-    */
-    static function setFieldInput($field, $idCi, $itemtype = CI::class)
+    /**
+     * @param $field
+     * @param $idCi
+     */
+    public static function setFieldInput($field, $idCi, $itemtype = CI::class)
     {
 
         echo "<tr class='field tab_bg_1'>";
@@ -152,8 +151,8 @@ class CiFields extends CommonDBTM
         if ($idCi != -1 && $idCi != "") {
             $civalues = new CiValues();
             if ($civalues->getFromDBByCrit(['items_id'      => $idCi,
-                                         'itemtype'      => $itemtype,
-                                         'plugin_cmdb_cifields_id' => $field['id']])) {
+                'itemtype'      => $itemtype,
+                'plugin_cmdb_cifields_id' => $field['id']])) {
                 $value = $civalues->fields["value"];
                 $id    = $civalues->fields["id"];
                 $name  = "field[$id]";
@@ -165,11 +164,11 @@ class CiFields extends CommonDBTM
                 break;
             case 1:
                 Html::textarea(['name'              => $name,
-                            'value'             => $value,
-                            'cols'              => '100',
-                            'rows'              => '8',
-                            'enable_richtext'   => false,
-                            'enable_fileupload' => false]);
+                    'value'             => $value,
+                    'cols'              => '100',
+                    'rows'              => '8',
+                    'enable_richtext'   => false,
+                    'enable_fileupload' => false]);
                 break;
             case 2:
                 Html::showDateField($name, ['value' => $value]);
@@ -179,8 +178,8 @@ class CiFields extends CommonDBTM
                 break;
             case 4:
                 Dropdown::showFromArray($name, ['0' => __('No'),
-                                            '1' => __('Yes')], ["value" => $value,
-                                                                "width" => 100]);
+                    '1' => __('Yes')], ["value" => $value,
+                        "width" => 100]);
                 break;
         }
         echo "</td>";
@@ -188,11 +187,11 @@ class CiFields extends CommonDBTM
     }
 
 
-   /**
-    * @param $idCI
-    * @param $CIType
-    */
-    function getContentFieldsCI($idCI, $CIType)
+    /**
+     * @param $idCI
+     * @param $CIType
+     */
+    public function getContentFieldsCI($idCI, $CIType)
     {
         global $DB;
 
@@ -238,7 +237,7 @@ class CiFields extends CommonDBTM
                     $searchOption = $target->getSearchOptionByField('field', $field);
                     if (empty($searchOption)) {
                         if ($table = $dbu->getTableNameForForeignKeyField($field)) {
-                              $searchOption = $target->getSearchOptionByField('field', 'name', $table);
+                            $searchOption = $target->getSearchOptionByField('field', 'name', $table);
                         }
                     }
 
@@ -256,16 +255,16 @@ class CiFields extends CommonDBTM
             $iterator = $DB->request(
                 ['glpi_plugin_cmdb_civalues', 'glpi_plugin_cmdb_cifields'],
                 ['WHERE' => ['glpi_plugin_cmdb_cifields.plugin_cmdb_citypes_id' => $CIType['id'],
-                                               'glpi_plugin_cmdb_civalues.plugin_cmdb_cis_id'     => $idCI],
-                                   'FKEY'  => ['glpi_plugin_cmdb_cifields' => 'id',
-                                               'glpi_plugin_cmdb_civalues' => 'plugin_cmdb_cifields_id']
-                ]
+                    'glpi_plugin_cmdb_civalues.plugin_cmdb_cis_id'     => $idCI],
+                    'FKEY'  => ['glpi_plugin_cmdb_cifields' => 'id',
+                        'glpi_plugin_cmdb_civalues' => 'plugin_cmdb_cifields_id'],
+                ],
             );
 
             foreach ($iterator as $data) {
                 echo "<p>" . htmlescape($data['name']) . " : " . htmlescape(CiFields::setValue(
                     $data['typefield'],
-                    $data['value']
+                    $data['value'],
                 )) . "</p>";
             }
         }

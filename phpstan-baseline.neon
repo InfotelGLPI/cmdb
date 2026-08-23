@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CiFields\:\:setFieldByType\(\) invoked with 2 parameters, 3 required\.$#'
-			identifier: arguments.count
-			count: 1
-			path: ajax/change_field.php
-
-		-
 			message: '#^You should not use the `exit` function\. It prevents the execution of post\-request/post\-command routines\.$#'
 			identifier: glpi.forbidExit
 			count: 1
@@ -71,6 +65,90 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: setup.php
+
+		-
+			message: '#^Cannot call method isDeleted\(\) on object\|true\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/CI.php
+
+		-
+			message: '#^Default value of the parameter \#1 \$history \(int\) of method GlpiPlugin\\Cmdb\\CI\:\:post_updateItem\(\) is incompatible with type bool\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:cleanDBonPurge\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:cleanDBonPurge\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:prepareInputForAdd\(\) should return array but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) has invalid return type GlpiPlugin\\Cmdb\\an\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) should return GlpiPlugin\\Cmdb\\an but returns array\<int, array\<string, string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Offset ''id'' does not exist on null\.$#'
+			identifier: offsetAccess.notFound
+			count: 4
+			path: src/CI.php
+
+		-
+			message: '#^Offset ''plugin_cmdb_citypes_id'' does not exist on null\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:deleteByCriteria\(\) expects bool, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/CI.php
+
+		-
+			message: '#^Result of method DBmysqlIterator\:\:next\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 5
+			path: src/CI.php
+
+		-
+			message: '#^Return type \(GlpiPlugin\\Cmdb\\an\) of method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) should be compatible with return type \(array\<array\<string, mixed\>\>\) of method CommonDBTM\:\:rawSearchOptions\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/CI.php
+
+		-
+			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
+			identifier: glpi.forbidExit
+			count: 1
+			path: src/CI.php
 
 		-
 			message: '#^Access to offset ''_fields'' on an unknown class GlpiPlugin\\Cmdb\\type\.$#'
@@ -235,96 +313,6 @@ parameters:
 			path: src/CI_Cmdb.php
 
 		-
-			message: '#^Cannot call method isDeleted\(\) on object\|true\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/Ci.php
-
-		-
-			message: '#^Default value of the parameter \#1 \$history \(int\) of method GlpiPlugin\\Cmdb\\CI\:\:post_updateItem\(\) is incompatible with type bool\.$#'
-			identifier: parameter.defaultValue
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:cleanDBonPurge\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:cleanDBonPurge\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:prepareInputForAdd\(\) should return array but returns false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) has invalid return type GlpiPlugin\\Cmdb\\an\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) should return GlpiPlugin\\Cmdb\\an but returns array\<int, array\<string, string\>\>\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\CiFields\:\:setFieldByType\(\) invoked with 2 parameters, 3 required\.$#'
-			identifier: arguments.count
-			count: 2
-			path: src/Ci.php
-
-		-
-			message: '#^Offset ''id'' does not exist on null\.$#'
-			identifier: offsetAccess.notFound
-			count: 4
-			path: src/Ci.php
-
-		-
-			message: '#^Offset ''plugin_cmdb_citypes_id'' does not exist on null\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:deleteByCriteria\(\) expects bool, int given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/Ci.php
-
-		-
-			message: '#^Result of method DBmysqlIterator\:\:next\(\) \(void\) is used\.$#'
-			identifier: method.void
-			count: 5
-			path: src/Ci.php
-
-		-
-			message: '#^Return type \(GlpiPlugin\\Cmdb\\an\) of method GlpiPlugin\\Cmdb\\CI\:\:rawSearchOptions\(\) should be compatible with return type \(array\<array\<string, mixed\>\>\) of method CommonDBTM\:\:rawSearchOptions\(\)$#'
-			identifier: method.childReturnType
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: src/Ci.php
-
-		-
-			message: '#^You should not use the `die` function\. It prevents the execution of post\-request/post\-command routines\.$#'
-			identifier: glpi.forbidExit
-			count: 1
-			path: src/Ci.php
-
-		-
 			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
 			identifier: glpi.forbidDynamicInstantiation
 			count: 2
@@ -403,7 +391,7 @@ parameters:
 			path: src/Criticity.php
 
 		-
-			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\r\\n    ", expected type at offset 135 on line 8$#'
+			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 135 on line 8$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/Criticity.php

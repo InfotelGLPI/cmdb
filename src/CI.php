@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -47,32 +47,31 @@ if (!defined('GLPI_ROOT')) {
  */
 class CI extends CommonDBTM
 {
-
-    static $rightname  = "plugin_cmdb_cis";
+    public static $rightname  = "plugin_cmdb_cis";
     public $dohistory  = true;
     protected $usenotepad = true;
 
-   /**
-    * Return the localized name of the current Type
-    *
-    * @return string
-    **/
+    /**
+     * Return the localized name of the current Type
+     *
+     * @return string
+     **/
     public static function getTypeName($nb = 0)
     {
         return _n('Configuration Item', 'Configuration Items', $nb, 'cmdb');
     }
 
-   /**
-    * Define tabs to display
-    *
-    * NB : Only called for existing object
-    *
-    * @param $options array
-    *     - withtemplate is a template view ?
-    *
-    * @return array containing the onglets
-    **/
-    function defineTabs($options = [])
+    /**
+     * Define tabs to display
+     *
+     * NB : Only called for existing object
+     *
+     * @param $options array
+     *     - withtemplate is a template view ?
+     *
+     * @return array containing the onglets
+     **/
+    public function defineTabs($options = [])
     {
 
         $ong = [];
@@ -83,50 +82,50 @@ class CI extends CommonDBTM
         return $ong;
     }
 
-   /**
-    * Get the Search options for the given Type
-    *
-    * This should be overloaded in Class
-    *
-    * @return an array of search options
-    **/
-    function rawSearchOptions()
+    /**
+     * Get the Search options for the given Type
+     *
+     * This should be overloaded in Class
+     *
+     * @return an array of search options
+     **/
+    public function rawSearchOptions()
     {
 
         $tab = [];
 
         $tab[] = [
-         'id'   => 'common',
-         'name' => self::getTypeName(2)
+            'id'   => 'common',
+            'name' => self::getTypeName(2),
         ];
 
         $tab[] = [
-         'id'            => '1',
-         'table'         => $this->getTable(),
-         'field'         => 'name',
-         'name'          => __('Name'),
-         'datatype'      => 'itemlink',
-         'itemlink_type' => $this->getType()
+            'id'            => '1',
+            'table'         => $this->getTable(),
+            'field'         => 'name',
+            'name'          => __('Name'),
+            'datatype'      => 'itemlink',
+            'itemlink_type' => $this->getType(),
         ];
 
         $tab[] = [
-         'id'       => '2',
-         'table'    => 'glpi_plugin_cmdb_citypes',
-         'field'    => 'name',
-         'name'     => CIType::getTypeName(1),
-         'datatype' => 'specific'
+            'id'       => '2',
+            'table'    => 'glpi_plugin_cmdb_citypes',
+            'field'    => 'name',
+            'name'     => CIType::getTypeName(1),
+            'datatype' => 'specific',
         ];
 
         return $tab;
     }
 
-   /**
-    * @param       $ID
-    * @param array $options
-    *
-    * @return bool
-    */
-    function showForm($ID, $options = [])
+    /**
+     * @param       $ID
+     * @param array $options
+     *
+     * @return bool
+     */
+    public function showForm($ID, $options = [])
     {
 
         $this->initForm($ID, $options);
@@ -160,22 +159,22 @@ class CI extends CommonDBTM
         return true;
     }
 
-   /**
-    * @param $id
-    *
-    * @return int|mixed
-    */
-    function setSelectCITypes($id)
+    /**
+     * @param $id
+     *
+     * @return int|mixed
+     */
+    public function setSelectCITypes($id)
     {
         global $DB;
         $tabCIType = [];
 
         $iterator = $DB->request([
-                                  'SELECT'   => ['name', 'id'],
-                                  'DISTINCT' => true,
-                                  'FROM'     => 'glpi_plugin_cmdb_citypes',
-                                  'WHERE'    => ['is_imported' => 0],
-                                  'ORDER'    => 'id DESC']);
+            'SELECT'   => ['name', 'id'],
+            'DISTINCT' => true,
+            'FROM'     => 'glpi_plugin_cmdb_citypes',
+            'WHERE'    => ['is_imported' => 0],
+            'ORDER'    => 'id DESC']);
 
         if (!isset($id) || $id == "") {
             $id = -1;
@@ -189,29 +188,29 @@ class CI extends CommonDBTM
         }
 
         $iterator = $DB->request([
-                                  'SELECT'   => 'plugin_cmdb_citypes_id',
-                                  'DISTINCT' => true,
-                                  'FROM'     => 'glpi_plugin_cmdb_cis',
-                                  'WHERE'    => ['id' => $id]]);
+            'SELECT'   => 'plugin_cmdb_citypes_id',
+            'DISTINCT' => true,
+            'FROM'     => 'glpi_plugin_cmdb_cis',
+            'WHERE'    => ['id' => $id]]);
 
         if (count($iterator)) {
             $data   = $iterator->next();
             $idType = $data['plugin_cmdb_citypes_id'];
         }
         Dropdown::showFromArray("plugin_cmdb_citypes_id", $tabCIType, ["on_change" => "changeField(this,$id)",
-                                                                     "value"     => $idType]);
+            "value"     => $idType]);
         return $idType;
     }
 
 
-   /**
-    * Prepare input datas for adding the item
-    *
-    * @param array $input datas used to add the item
-    *
-    * @return array the modified $input array
-    **/
-    function prepareInputForAdd($input)
+    /**
+     * Prepare input datas for adding the item
+     *
+     * @param array $input datas used to add the item
+     *
+     * @return array the modified $input array
+     **/
+    public function prepareInputForAdd($input)
     {
         if ($input['name'] == '') {
             Session::addMessageAfterRedirect(__('Invalid name !', 'cmdb'), true, ERROR);
@@ -220,7 +219,7 @@ class CI extends CommonDBTM
         return $input;
     }
 
-    function postAddCi($history, $item)
+    public function postAddCi($history, $item)
     {
 
         $civalue                     = new CiValues();
@@ -232,10 +231,10 @@ class CI extends CommonDBTM
         }
     }
 
-   /**
-    * @param int $history
-    */
-    function post_addItem($history = 1)
+    /**
+     * @param int $history
+     */
+    public function post_addItem($history = 1)
     {
 
         if (isset($this->input["newfield"])) {
@@ -243,14 +242,14 @@ class CI extends CommonDBTM
         }
     }
 
-   /**
-    * Actions done after the UPDATE of the item in the database
-    *
-    * @param boolean $history store changes history ? (default 1)
-    *
-    * @return void
-    **/
-    function post_updateItem($history = 1)
+    /**
+     * Actions done after the UPDATE of the item in the database
+     *
+     * @param boolean $history store changes history ? (default 1)
+     *
+     * @return void
+     **/
+    public function post_updateItem($history = 1)
     {
 
         if (isset($this->oldvalues["plugin_cmdb_citypes_id"])
@@ -265,7 +264,7 @@ class CI extends CommonDBTM
                 foreach ($this->input["field"] as $key => $value) {
                     $temp = new CiValues();
                     $temp->update(['value' => $value,
-                              'id'    => $key]);
+                        'id'    => $key]);
                 }
             }
             if (isset($this->input["newfield"])) {
@@ -275,27 +274,27 @@ class CI extends CommonDBTM
     }
 
 
-   /**
-    * Actions done when item is deleted from the database
-    *
-    * @return nothing
-    **/
+    /**
+     * Actions done when item is deleted from the database
+     *
+     * @return nothing
+     **/
     public function cleanDBonPurge()
     {
 
         $temp = new CiValues();
         $temp->deleteByCriteria(['items_id' => $this->fields['id'],
-                               'itemtype' => $this->getType()], 1);
+            'itemtype' => $this->getType()], 1);
     }
 
 
-   /**
-    * @param $idCIType
-    * @param $id
-    *
-    * @return bool|false|object
-    */
-    function getItem($idCIType, $id)
+    /**
+     * @param $idCIType
+     * @param $id
+     *
+     * @return bool|false|object
+     */
+    public function getItem($idCIType, $id)
     {
         $dbu    = new DbUtils();
         $citype = new CIType();
@@ -317,13 +316,13 @@ class CI extends CommonDBTM
         }
     }
 
-   /**
-    * @param $idCIType
-    * @param $id
-    *
-    * @return bool
-    */
-    function isInstalledOrActivatedOrNotDeleted($idCIType, $id)
+    /**
+     * @param $idCIType
+     * @param $id
+     *
+     * @return bool
+     */
+    public function isInstalledOrActivatedOrNotDeleted($idCIType, $id)
     {
 
         $citype = new CIType();
@@ -345,12 +344,12 @@ class CI extends CommonDBTM
                         return false;
                     }
                 } else {
-//                    if (!Plugin::isPluginActive($namePlugin)) {
-//                        $link_item = new PluginCmdbLink_Item();
-//                        $input     = ["plugin_cmdb_citypes_id_1" => $idCIType,
-//                                "plugin_cmdb_citypes_id_2" => $idCIType];
-//                        $link_item->deletebyCitype($input);
-//                    }
+                    //                    if (!Plugin::isPluginActive($namePlugin)) {
+                    //                        $link_item = new PluginCmdbLink_Item();
+                    //                        $input     = ["plugin_cmdb_citypes_id_1" => $idCIType,
+                    //                                "plugin_cmdb_citypes_id_2" => $idCIType];
+                    //                        $link_item->deletebyCitype($input);
+                    //                    }
                     return false;
                 }
             } else {
@@ -359,12 +358,12 @@ class CI extends CommonDBTM
                         return false;
                     }
                 } else {
-//                    $link_item = new PluginCmdbLink_Item();
-//                    $input     = ["plugin_cmdb_citypes_id_1" => $idCIType,
-//                             "items_id_1"               => $id,
-//                             "plugin_cmdb_citypes_id_2" => $idCIType,
-//                             "items_id_2"               => $id];
-//                    $link_item->deletebyItem($input);
+                    //                    $link_item = new PluginCmdbLink_Item();
+                    //                    $input     = ["plugin_cmdb_citypes_id_1" => $idCIType,
+                    //                             "items_id_1"               => $id,
+                    //                             "plugin_cmdb_citypes_id_2" => $idCIType,
+                    //                             "items_id_2"               => $id];
+                    //                    $link_item->deletebyItem($input);
 
                     return false;
                 }
@@ -375,27 +374,27 @@ class CI extends CommonDBTM
         return true;
     }
 
-   /**
-    * Returns true if the CI object is used in baseline_items
-    *
-    * @param $input
-    *
-    * @return bool
-    */
-    function ciTypesUsed($input)
+    /**
+     * Returns true if the CI object is used in baseline_items
+     *
+     * @param $input
+     *
+     * @return bool
+     */
+    public function ciTypesUsed($input)
     {
         global $DB;
-       //TODO MAJ COEUR
+        //TODO MAJ COEUR
         if (isset($input["id"]) && isset($input['plugin_cmdb_citypes_id'])) {
             $iterator = $DB->request(["FROM"  => 'glpi_plugin_cmdb_baselines_cis',
-                                   "WHERE" => ['items_id'               => $input['id'],
-                                               'plugin_cmdb_citypes_id' => $input['plugin_cmdb_citypes_id']]]);
+                "WHERE" => ['items_id'               => $input['id'],
+                    'plugin_cmdb_citypes_id' => $input['plugin_cmdb_citypes_id']]]);
             $dbu      = new DbUtils();
             foreach ($iterator as $data) {
                 if ($dbu->countElementsInTable(
                     'glpi_plugin_cmdb_baselines_items_items',
                     ["OR" => ["plugin_cmdb_baselines_cis_id_1" => $data["id"]],
-                    ["plugin_cmdb_baselines_cis_id_2" => $data["id"]]]
+                        ["plugin_cmdb_baselines_cis_id_2" => $data["id"]]],
                 ) > 0) {
                     return true;
                 }
@@ -404,13 +403,13 @@ class CI extends CommonDBTM
         return false;
     }
 
-   /**
-    * @param $idType
-    * @param $id
-    *
-    * @return string
-    */
-    function getCIIcon($idType, $id)
+    /**
+     * @param $idType
+     * @param $id
+     *
+     * @return string
+     */
+    public function getCIIcon($idType, $id)
     {
         global $CFG_GLPI;
 
@@ -429,12 +428,12 @@ class CI extends CommonDBTM
                 $idType = $item->fields[$fieldType];
 
                 if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                              'types_id'               => $idType])) {
+                    'types_id'               => $idType])) {
                     return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                       $citype_doc->fields['documents_id'] . "&type=pics";
                 } else {
                     if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                                 'types_id'               => 0])) {
+                        'types_id'               => 0])) {
                         return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                          $citype_doc->fields['documents_id'] . "&type=pics";
                     } else {
@@ -443,7 +442,7 @@ class CI extends CommonDBTM
                 }
             } else {
                 if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                              'types_id'               => 0])) {
+                    'types_id'               => 0])) {
                     return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                       $citype_doc->fields['documents_id'] . "&type=pics";
                 } else {
@@ -452,7 +451,7 @@ class CI extends CommonDBTM
             }
         } else {
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                           'types_id'               => 0])) {
+                'types_id'               => 0])) {
                 return $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" .
                    $citype_doc->fields['documents_id'] . "&type=pics";
             } else {
@@ -463,13 +462,13 @@ class CI extends CommonDBTM
     }
 
 
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return string
-    */
-    function getDocumentItemId($citype, $id)
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return string
+     */
+    public function getDocumentItemId($citype, $id)
     {
         global $DB;
 
@@ -486,37 +485,37 @@ class CI extends CommonDBTM
                 $idType = $item->fields[$fieldType];
 
                 if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                              'types_id'               => $idType])) {
+                    'types_id'               => $idType])) {
                     $iterator = $DB->request(['SELECT' => 'id',
-                                         'FROM'   => 'glpi_documents_items',
-                                         'WHERE'  => ['itemtype' => CIType::class,
-                                                      'items_id' => $citype_doc->fields['id']]]);
+                        'FROM'   => 'glpi_documents_items',
+                        'WHERE'  => ['itemtype' => CIType::class,
+                            'items_id' => $citype_doc->fields['id']]]);
 
                     if (count($iterator)) {
-                         $data = $iterator->next();
-                         return $data['id'];
+                        $data = $iterator->next();
+                        return $data['id'];
                     }
                 } else {
                     if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                                 'types_id'               => 0])) {
+                        'types_id'               => 0])) {
                         $iterator = $DB->request(['SELECT' => 'id',
-                                            'FROM'   => 'glpi_documents_items',
-                                            'WHERE'  => ['itemtype' => CIType::class,
-                                                         'items_id' => $citype_doc->fields['id']]]);
+                            'FROM'   => 'glpi_documents_items',
+                            'WHERE'  => ['itemtype' => CIType::class,
+                                'items_id' => $citype_doc->fields['id']]]);
 
                         if (count($iterator)) {
-                             $data = $iterator->next();
-                             return $data['id'];
+                            $data = $iterator->next();
+                            return $data['id'];
                         }
                     }
                 }
             } else {
                 if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                              'types_id'               => 0])) {
+                    'types_id'               => 0])) {
                     $iterator = $DB->request(['SELECT' => 'id',
-                                         'FROM'   => 'glpi_documents_items',
-                                         'WHERE'  => ['itemtype' => CIType::class,
-                                                      'items_id' => $citype_doc->fields['id']]]);
+                        'FROM'   => 'glpi_documents_items',
+                        'WHERE'  => ['itemtype' => CIType::class,
+                            'items_id' => $citype_doc->fields['id']]]);
 
                     if (count($iterator)) {
                         $data = $iterator->next();
@@ -526,28 +525,28 @@ class CI extends CommonDBTM
             }
         } else {
             if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $citype->fields['id'],
-                                           'types_id'               => 0])) {
+                'types_id'               => 0])) {
                 $iterator = $DB->request(['SELECT' => 'id',
-                                      'FROM'   => 'glpi_documents_items',
-                                      'WHERE'  => ['itemtype' => CIType::class,
-                                                   'items_id' => $citype_doc->fields['id']]]);
+                    'FROM'   => 'glpi_documents_items',
+                    'WHERE'  => ['itemtype' => CIType::class,
+                        'items_id' => $citype_doc->fields['id']]]);
 
                 if (count($iterator)) {
-                     $data = $iterator->next();
-                     return $data['id'];
+                    $data = $iterator->next();
+                    return $data['id'];
                 }
             }
         }
         return '';
     }
 
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return mixed|string
-    */
-    function getTicket($citype, $id)
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return mixed|string
+     */
+    public function getTicket($citype, $id)
     {
 
         if ($citype->fields['is_imported']) {
@@ -557,55 +556,55 @@ class CI extends CommonDBTM
             return countElementsInTable(
                 [$tablename, $itemtable],
                 ['FKEY'                  => [$tablename => 'id',
-                                         $itemtable => 'tickets_id'],
-                "$itemtable.itemtype"   => $citype->fields['name'],
-                "$itemtable.items_id"   => $id,
-                "$tablename.is_deleted" => 0,
-                'NOT'                   => ["$tablename.status" => [CommonITILObject::SOLVED,
-                CommonITILObject::CLOSED]]]
+                    $itemtable => 'tickets_id'],
+                    "$itemtable.itemtype"   => $citype->fields['name'],
+                    "$itemtable.items_id"   => $id,
+                    "$tablename.is_deleted" => 0,
+                    'NOT'                   => ["$tablename.status" => [CommonITILObject::SOLVED,
+                        CommonITILObject::CLOSED]]],
             );
         }
         return 0;
     }
 
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return string
-    */
-    function getLinkCI($citype, $id)
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return string
+     */
+    public function getLinkCI($citype, $id)
     {
         $type = $citype->fields['name'];
         if ($citype->fields['is_imported']) {
             return Toolbox::getItemTypeFormURL($type) . "?id=$id&forcetab=$type" . '$main';
         } else {
-            return Toolbox::getItemTypeFormURL(CI::class) . "?id=$id&forcetab=".CI::class . '$main';
+            return Toolbox::getItemTypeFormURL(CI::class) . "?id=$id&forcetab=" . CI::class . '$main';
         }
     }
 
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return string
-    */
-    function getLinkUrlReload($citype, $id)
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return string
+     */
+    public function getLinkUrlReload($citype, $id)
     {
         $type = $citype->fields['name'];
         if ($citype->fields['is_imported']) {
-            return Toolbox::getItemTypeFormURL($type) . "?id=$id&forcetab=".CI_Cmdb::class . '$1';
+            return Toolbox::getItemTypeFormURL($type) . "?id=$id&forcetab=" . CI_Cmdb::class . '$1';
         } else {
-            return Toolbox::getItemTypeFormURL($this->getType()) . "?id=$id&forcetab=".CI_Cmdb::class . '$1';
+            return Toolbox::getItemTypeFormURL($this->getType()) . "?id=$id&forcetab=" . CI_Cmdb::class . '$1';
         }
     }
 
-   /**
-    * @param $citype
-    *
-    * @return mixed
-    */
-    function getTypeName2($citype)
+    /**
+     * @param $citype
+     *
+     * @return mixed
+     */
+    public function getTypeName2($citype)
     {
         $nameType = $citype->fields['name'];
         if ($citype->fields['is_imported']) {
@@ -616,13 +615,13 @@ class CI extends CommonDBTM
         return $nameType;
     }
 
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return mixed
-    */
-    function getNameCI($citype, $id)
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function getNameCI($citype, $id)
     {
 
         $ci = new CI();
@@ -636,13 +635,13 @@ class CI extends CommonDBTM
         return $ci->getName();
     }
 
-   /**
-    * @param $citype
-    * @param $id
-    *
-    * @return string
-    */
-    function getSubTypeName($citype, $id)
+    /**
+     * @param $citype
+     * @param $id
+     *
+     * @return string
+     */
+    public function getSubTypeName($citype, $id)
     {
         if ($citype->fields['is_imported']) {
             $dbu       = new DbUtils();
@@ -664,16 +663,16 @@ class CI extends CommonDBTM
         return '';
     }
 
-   /**
-    * Get the standard massive actions which are forbidden
-    *
-    * @return array an array of massive actions
-    **@since 0.84
-    *
-    * This should be overloaded in Class
-    *
-    */
-    function getForbiddenStandardMassiveAction()
+    /**
+     * Get the standard massive actions which are forbidden
+     *
+     * @return array an array of massive actions
+     **@since 0.84
+     *
+     * This should be overloaded in Class
+     *
+     */
+    public function getForbiddenStandardMassiveAction()
     {
 
         $forbidden = parent::getForbiddenStandardMassiveAction();

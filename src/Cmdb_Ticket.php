@@ -1,30 +1,30 @@
 <?php
 
-/*
- -------------------------------------------------------------------------
- cmdb plugin for GLPI
- Copyright (C) 2020-2026 by the cmdb Development Team.
-
- https://github.com/InfotelGLPI/cmdb
- -------------------------------------------------------------------------
-
- LICENSE
-
- This file is part of cmdb.
-
- cmdb is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
-
- cmdb is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with cmdb. If not, see <http://www.gnu.org/licenses/>.
- --------------------------------------------------------------------------
+/**
+ * -------------------------------------------------------------------------
+ * cmdb plugin for GLPI
+ * Copyright (C) 2020-2026 by the cmdb Development Team.
+ *
+ * https://github.com/InfotelGLPI/cmdb
+ * -------------------------------------------------------------------------
+ *
+ * LICENSE
+ *
+ * This file is part of cmdb.
+ *
+ * cmdb is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * cmdb is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ * --------------------------------------------------------------------------
  */
 
 namespace GlpiPlugin\Cmdb;
@@ -43,42 +43,41 @@ if (!defined('GLPI_ROOT')) {
  */
 class Cmdb_Ticket extends CommonDBRelation
 {
+    public static $rightname = "plugin_cmdb_cis";
 
-    static $rightname = "plugin_cmdb_cis";
+    /**
+     * Get Tab Name used for itemtype
+     *
+     * NB : Only called for existing object
+     *      Must check right on what will be displayed + template
+     *
+     * @since version 0.83
+     *
+     * @param $item                     CommonDBTM object for which the tab need to be displayed
+     * @param $withtemplate    boolean  is a template object ? (default 0)
+     *
+     * @return string tab name
+     **/
+    //TODO MAJ COEUR
+    //   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+    //      if ($item->getType() == "Ticket"
+    //          && Session::haveRight(self::$rightname, READ)
+    //          && Session::getCurrentInterface() == "central") {
+    //         return __("Criticities impact", 'cmdb');
+    //      }
+    //   }
 
-   /**
-    * Get Tab Name used for itemtype
-    *
-    * NB : Only called for existing object
-    *      Must check right on what will be displayed + template
-    *
-    * @since version 0.83
-    *
-    * @param $item                     CommonDBTM object for which the tab need to be displayed
-    * @param $withtemplate    boolean  is a template object ? (default 0)
-    *
-    * @return string tab name
-    **/
-   //TODO MAJ COEUR
-//   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-//      if ($item->getType() == "Ticket"
-//          && Session::haveRight(self::$rightname, READ)
-//          && Session::getCurrentInterface() == "central") {
-//         return __("Criticities impact", 'cmdb');
-//      }
-//   }
-
-   /**
-    * show Tab content
-    *
-    * @since version 0.83
-    *
-    * @param $item                  CommonGLPI object for which the tab need to be displayed
-    * @param $tabnum       integer  tab number (default 1)
-    * @param $withtemplate boolean  is a template object ? (default 0)
-    *
-    * @return true
-    * */
+    /**
+     * show Tab content
+     *
+     * @since version 0.83
+     *
+     * @param $item                  CommonGLPI object for which the tab need to be displayed
+     * @param $tabnum       integer  tab number (default 1)
+     * @param $withtemplate boolean  is a template object ? (default 0)
+     *
+     * @return true
+     * */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
 
@@ -87,10 +86,10 @@ class Cmdb_Ticket extends CommonDBRelation
         return true;
     }
 
-   /**
-    * @param \CommonGLPI $item
-    */
-    static function showImpactCMDB(CommonGLPI $item)
+    /**
+     * @param \CommonGLPI $item
+     */
+    public static function showImpactCMDB(CommonGLPI $item)
     {
 
         $idTicket     = $item->fields['id'];
@@ -111,10 +110,10 @@ class Cmdb_Ticket extends CommonDBRelation
         }
     }
 
-   /**
-    * @param $impactedItems
-    */
-    static function showImpactedItems($impactedItems)
+    /**
+     * @param $impactedItems
+     */
+    public static function showImpactedItems($impactedItems)
     {
 
         $ci = new CI();
@@ -130,10 +129,10 @@ class Cmdb_Ticket extends CommonDBRelation
         $criticities = Criticity::getAllCriticityWithColor();
 
         $itemsSortByCriticity = [1 => [],
-                               2 => [],
-                               3 => [],
-                               4 => [],
-                               5 => []];
+            2 => [],
+            3 => [],
+            4 => [],
+            5 => []];
 
         foreach ($impactedItems['nodes'] as $key => $node) {
             $levelMin = -1;
@@ -145,10 +144,10 @@ class Cmdb_Ticket extends CommonDBRelation
             }
 
             $itemsSortByCriticity[$criticity_id][] = ['idItem'       => $node['idItem'],
-                                                   'idItemtype'   => $node['idItemtype'],
-                                                   'items_id_ref' => $items_id_ref,
-                                                   'itemtype_ref' => $itemtype_ref,
-                                                   'level'        => $levelMin];
+                'idItemtype'   => $node['idItemtype'],
+                'items_id_ref' => $items_id_ref,
+                'itemtype_ref' => $itemtype_ref,
+                'level'        => $levelMin];
         }
 
         foreach ($criticities as $value => $data) {
@@ -166,21 +165,21 @@ class Cmdb_Ticket extends CommonDBRelation
                     return $a['level'] - $b['level'];
                 });
                 foreach ($itemsSortByCriticity[$value] as $info) {
-                     echo "<tr>";
-                     echo "<td>";
+                    echo "<tr>";
+                    echo "<td>";
 
-                     $citype = new CIType();
-                     $citype->getFromDB($info['idItemtype']);
-                     $citype_name = $ci->getTypeName2($citype);
-                     $ci_name     = $ci->getNameCI($citype, $info['idItem']);
-                     $url         = $ci->getLinkCI($citype, $info['idItem']);
-                     echo "<a href='" . htmlescape($url) . "' target='_blank'>" . htmlescape($citype_name) . " : " . htmlescape($ci_name) . "</a>";
-                     echo "</td>";
+                    $citype = new CIType();
+                    $citype->getFromDB($info['idItemtype']);
+                    $citype_name = $ci->getTypeName2($citype);
+                    $ci_name     = $ci->getNameCI($citype, $info['idItem']);
+                    $url         = $ci->getLinkCI($citype, $info['idItem']);
+                    echo "<a href='" . htmlescape($url) . "' target='_blank'>" . htmlescape($citype_name) . " : " . htmlescape($ci_name) . "</a>";
+                    echo "</td>";
 
-                     echo "<td>";
-                     echo self::getImpactName($info['level']);
-                     echo "</td>";
-                     echo "</tr>";
+                    echo "<td>";
+                    echo self::getImpactName($info['level']);
+                    echo "</td>";
+                    echo "</tr>";
                 }
                 echo "</table>";
                 echo "</div>";
@@ -194,12 +193,12 @@ class Cmdb_Ticket extends CommonDBRelation
         echo "</script>";
     }
 
-   /**
-    * @param $level
-    *
-    * @return string
-    */
-    static function getImpactName($level)
+    /**
+     * @param $level
+     *
+     * @return string
+     */
+    public static function getImpactName($level)
     {
 
         if ($level == 1) {
@@ -208,12 +207,12 @@ class Cmdb_Ticket extends CommonDBRelation
         return $level;
     }
 
-   /**
-    * @param $items
-    *
-    * @return array
-    */
-    static function getImpactedItems($items)
+    /**
+     * @param $items
+     *
+     * @return array
+     */
+    public static function getImpactedItems($items)
     {
 
         $impactedItems = ['nodes' => []];
@@ -239,7 +238,7 @@ class Cmdb_Ticket extends CommonDBRelation
                     $citype['id'],
                     $impactedItems,
                     0,
-                    ['firstItem' => true, 'setLinks' => false]
+                    ['firstItem' => true, 'setLinks' => false],
                 );
             }
         }
