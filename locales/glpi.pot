@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-23 10:14+0000\n"
+"POT-Creation-Date: 2026-08-23 10:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/CIType.php:992
+#: src/CIType.php:999
 msgid "Add New Field"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr ""
 
-#: src/CIType.php:1042
+#: src/CIType.php:1049
 msgid "Existing fields for this type of CI"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1128
+#: src/CIType.php:1135
 #, php-format
 msgid "Icon CIType %d"
 msgstr ""
@@ -189,12 +189,12 @@ msgstr[1] ""
 msgid "No elements of CMDB linked to the ticket"
 msgstr ""
 
-#: src/ImpactInfo.php:592
+#: src/ImpactInfo.php:599
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfo.php:602
+#: src/ImpactInfo.php:609
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr ""
@@ -219,7 +219,7 @@ msgstr ""
 msgid "Purge CMDB"
 msgstr ""
 
-#: src/CIType.php:1046
+#: src/CIType.php:1053
 msgid "Reset Existing fields"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
 msgstr ""
 
-#: src/CIType.php:1389 src/CIType.php:1406
+#: src/CIType.php:1396 src/CIType.php:1413
 msgctxt "button"
 msgid "Transfer"
 msgstr ""
@@ -286,7 +286,7 @@ msgstr ""
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1015
+#: src/CIType.php:1022
 msgid "Upload icon"
 msgstr ""
 
@@ -324,7 +324,7 @@ msgstr ""
 msgid "is already present in GLPI"
 msgstr ""
 
-#: hook.php:450
+#: hook.php:460
 msgid "item not found or disabled"
 msgstr ""
 
