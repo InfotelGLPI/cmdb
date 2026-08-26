@@ -27,9 +27,24 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\NotFoundHttpException;
+use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\CiFields;
 
 Session::checkRight('plugin_cmdb_cis', UPDATE);
+
+// checkRight() above only tests the global profile bitmask; it carries no entity notion.
+// When editing an existing CI, enforce a real per-record read (right + entity) on the
+// targeted CI before setFieldByType() discloses its stored field values, to prevent a
+// cross-entity IDOR (mirrors ci.form.php display() and ImpactInfo::showInfos()). A new-CI
+// form legitimately passes id -1/"" and has no record to read yet.
+$id = (int) ($_POST['id'] ?? 0);
+if ($id > 0) {
+    $ci = new CI();
+    if (!$ci->can($id, READ)) {
+        throw new NotFoundHttpException();
+    }
+}
 
 $fields = new CiFields();
 $fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
