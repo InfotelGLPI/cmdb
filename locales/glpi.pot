@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-28 07:31+0000\n"
+"POT-Creation-Date: 2026-08-29 10:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,6 +124,10 @@ msgstr ""
 
 #: src/CI_Cmdb.php:89
 msgid "Export PNG"
+msgstr ""
+
+#: src/CIType.php:311
+msgid "Go to custom assets"
 msgstr ""
 
 #: src/ImpactIcon.php:64 src/CIType.php:672
