@@ -7,324 +7,391 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-20 09:11+0200\n"
+"POT-Creation-Date: 2026-08-31 14:50+0000\n"
 "PO-Revision-Date: 2020-07-30 14:44+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 2.3\n"
 
-#: hook.php:326 inc/ci_cmdb.class.php:337 inc/ci_cmdb.class.php:352
-msgid "item not found or disabled"
-msgstr "item not found or disabled"
-
-#: setup.php:139 inc/ci_cmdb.class.php:49 inc/cmdb.class.php:47
-#: inc/menu.class.php:47 inc/profile.class.php:50
-msgid "CMDB"
-msgstr "CMDB"
-
-#: front/ci.form.php:66
-msgid "You can't delete this item, because this item is used on CMDB !"
-msgstr "You can't delete this item, because this item is used on CMDB !"
-
-#: inc/ci.class.php:49
-msgid "Configuration Item"
-msgid_plural "Configuration Items"
-msgstr[0] "Configuration Item"
-msgstr[1] "Configuration Items"
-
-#: inc/ci.class.php:199
-msgid "Invalid name !"
-msgstr "Invalid name !"
-
-#: inc/ci_cmdb.class.php:74
-msgid "See CI"
-msgstr "See CI"
-
-#: inc/ci_cmdb.class.php:75
-msgid "Create Link"
-msgstr "Create Link"
-
-#: inc/ci_cmdb.class.php:76
-msgid "Update Link"
-msgstr "Update Link"
-
-#: inc/ci_cmdb.class.php:77
-msgid "Delete Link"
-msgstr "Delete Link"
-
-#: inc/ci_cmdb.class.php:78
-msgid "Zoom in"
-msgstr "Zoom in"
-
-#: inc/ci_cmdb.class.php:79
-msgid "Zoom out"
-msgstr "Zoom out"
-
-#: inc/ci_cmdb.class.php:80
-msgid "Reset Zoom"
-msgstr "Reset Zoom"
-
-#: inc/ci_cmdb.class.php:81
-msgid "Export PNG"
-msgstr "Export PNG"
-
-#: inc/ci_cmdb.class.php:82
-msgid "See associated tickets"
-msgstr "See associated tickets"
-
-#: inc/ci_cmdb.class.php:83
-msgid "Purge CMDB"
-msgstr "Purge CMDB"
-
-#: inc/ci_cmdb.class.php:84
-msgid "Create baseline"
-msgstr "Create baseline"
-
-#: inc/ci_cmdb.class.php:204
-msgid "Preferences"
-msgstr "Preferences"
-
-#: inc/ci_cmdb.class.php:210
-msgid "View links"
-msgstr "View links"
-
-#: inc/ci_cmdb.class.php:222
-msgid "Refresh"
-msgstr "Refresh"
-
-#: inc/ci_cmdb.class.php:225
-msgid "Save positions"
-msgstr "Save positions"
-
-#: inc/ci_cmdb.class.php:250
-msgid "Add new type of CI to the CMDB"
-msgstr "Add new type of CI to the CMDB"
-
-#: inc/ci_cmdb.class.php:255
-msgid "Add new type of link to the CMDB"
-msgstr "Add new type of link to the CMDB"
-
-#: inc/ci_cmdb.class.php:261
-msgid "Manage type of CI to the CMDB"
-msgstr "Manage type of CI to the CMDB"
-
-#: inc/ci_cmdb.class.php:266
-msgid "Manage type of links to the CMDB"
-msgstr "Manage type of links to the CMDB"
-
-#: inc/ci_cmdb.class.php:283 inc/ci_cmdb.class.php:290
-msgid "Existing links"
-msgstr "Existing links"
-
-#: inc/ci_cmdb.class.php:307
-msgid "Linked element"
-msgstr "Linked element"
-
-#: inc/ci_cmdb.class.php:425
-msgid "CMDB depth"
-msgstr "CMDB depth"
-
-#: inc/citype.class.php:53
-msgid "String"
-msgstr "String"
-
-#: inc/citype.class.php:54
-msgid "Area Text"
-msgstr "Area Text"
-
-#: inc/citype.class.php:57
-msgid "Yes/No"
-msgstr "Yes/No"
-
-#: inc/citype.class.php:66
-msgid "Type CI"
-msgid_plural "Types CIs"
-msgstr[0] "Type CI"
-msgstr[1] "Types CIs"
-
-#: inc/citype.class.php:178
-msgid "is already present in GLPI"
-msgstr "is already present in GLPI"
-
-#: inc/citype.class.php:305
-msgid "Is this item presents in glpi ?"
-msgstr "Is this item presents in glpi ?"
-
-#: inc/citype.class.php:315
-msgid "Be careful the name cannot be changed after creation"
-msgstr "Be careful the name cannot be changed after creation"
-
-#: inc/citype.class.php:317
-msgid "Do not use a plural classname (like 'myobjects')"
-msgstr "Do not use a plural classname (like 'myobjects')"
-
-#: inc/citype.class.php:319
-msgid "Do not use a classname with spaces (like 'my objects')"
-msgstr "Do not use a classname with spaces (like 'my objects')"
-
-#: inc/citype.class.php:385
-msgid "Please, choose an imported CI !"
-msgstr "Please, choose an imported CI !"
-
-#: inc/citype.class.php:390
-msgid "There is already an existing name or the name is invalid"
-msgstr "There is already an existing name or the name is invalid"
-
-#: inc/citype.class.php:578
-msgid "Import CI"
-msgstr "Import CI"
-
-#: inc/citype.class.php:618
-msgid "Icon by types"
-msgstr "Icon by types"
-
-#: inc/citype.class.php:657
-msgid "Default icon"
-msgstr "Default icon"
-
-#: inc/citype.class.php:940
+#: src/CIType.php:999
 msgid "Add New Field"
 msgstr "Add New Field"
 
-#: inc/citype.class.php:964
-msgid "Upload icon"
-msgstr "Upload icon"
-
-#: inc/citype.class.php:990
-msgid "Existing fields for this type of CI"
-msgstr "Existing fields for this type of CI"
-
-#: inc/citype.class.php:994
-msgid "Reset Existing fields"
-msgstr "Reset Existing fields"
-
-#. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: inc/citype.class.php:1076
-#, php-format
-msgid "Icon CIType %d"
-msgstr "Icon CIType %d"
-
-#: inc/citype.class.php:1320 inc/citype.class.php:1335
-msgctxt "button"
-msgid "Transfer"
-msgstr "Transfer"
-
-#: inc/cmdb.class.php:88
-msgid "Display Item Configuration"
-msgstr "Display Item Configuration"
-
-#: inc/cmdb.class.php:173 inc/cmdb.class.php:176
-msgid "No Types of CI found. Please create Types of CI before display CIs"
-msgstr "No Types of CI found. Please create Types of CI before display CIs"
-
-#: inc/cmdb_ticket.class.php:94
-msgid "Elements linked to the ticket aren't imported in CMDB"
-msgstr "Elements linked to the ticket aren't imported in CMDB"
-
-#: inc/cmdb_ticket.class.php:99
-msgid "No elements of CMDB linked to the ticket"
-msgstr "No elements of CMDB linked to the ticket"
-
-#: inc/cmdb_ticket.class.php:113 inc/cmdb_ticket.class.php:151
-msgid "Impacted items"
-msgstr "Impacted items"
-
-#: inc/cmdb_ticket.class.php:152
-msgid "Proximity"
-msgstr "Proximity"
-
-#: inc/cmdb_ticket.class.php:194
-msgid "Direct impact"
-msgstr "Direct impact"
-
-#: inc/criticity.class.php:51 inc/criticity.class.php:118
-#: inc/criticity_item.class.php:49
-msgid "Criticity"
-msgid_plural "Criticities"
-msgstr[0] "Criticity"
-msgstr[1] "Criticities"
-
-#: inc/criticity.class.php:137
+#: src/Criticity.php:154
 msgid "All levels have already been added"
 msgstr "All levels have already been added"
 
-#: inc/criticity.class.php:187
-msgid "Please choose a level for criticality"
-msgstr "Please choose a level for criticality"
+#: front/impacticon.form.php:64 front/impacticon.form.php:96
+msgid "An icon already exist for this type"
+msgstr ""
 
-#: inc/menu.class.php:64
-msgid "Configure Type of Item Configuration"
-msgstr "Configure Type of Item Configuration"
+#: src/CIType.php:75
+msgid "Area Text"
+msgstr "Area Text"
 
-#: inc/menu.class.php:66 inc/profile.class.php:109
-msgid "Item Configuration"
-msgstr "Item Configuration"
+#: src/OperationProcess_Item.php:528
+msgctxt "button"
+msgid "Associate a service"
+msgstr "Associate a service"
 
-#: inc/operationprocess.class.php:51 inc/operationprocessmenu.class.php:49
-#: inc/profile.class.php:117 inc/profile.class.php:149
-#: inc/profile.class.php:187
-msgid "Service"
-msgid_plural "Services"
-msgstr[0] "Service"
-msgstr[1] "Services"
-
-#: inc/operationprocess_item.class.php:87
-#: inc/operationprocess_item.class.php:89
+#: src/OperationProcess_Item.php:104 src/OperationProcess_Item.php:106
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] "Attached service"
 msgstr[1] "Attached services"
 
-#: inc/operationprocess_item.class.php:483
-msgctxt "button"
-msgid "Associate a service"
-msgstr "Associate a service"
+#: src/ImpactInfoField.php:82
+msgid "Base fields"
+msgstr ""
 
-#: inc/operationprocessstate.class.php:50
-msgid "State of service"
-msgid_plural "States of service"
-msgstr[0] "State of service"
-msgstr[1] "States of service"
+#: src/CIType.php:364
+msgid "Be careful the name cannot be changed after creation"
+msgstr "Be careful the name cannot be changed after creation"
 
-#: inc/profile.class.php:113 inc/profile.class.php:172
-msgid "Type of item configuration"
-msgid_plural "Types of item configuration"
-msgstr[0] "Type of item configuration"
-msgstr[1] "Types of item configuration"
+#: src/CI_Cmdb.php:55 src/Profile.php:59 src/Cmdb.php:55 src/Menu.php:52
+#: setup.php:170
+msgid "CMDB"
+msgstr "CMDB"
 
-#: inc/profile.class.php:160 inc/profile.class.php:191
+#: src/CI.php:61
+msgid "Configuration Item"
+msgid_plural "Configuration Items"
+msgstr[0] "Configuration Item"
+msgstr[1] "Configuration Items"
+
+#: src/Menu.php:70
+msgid "Configure Type of Item Configuration"
+msgstr "Configure Type of Item Configuration"
+
+#: src/CI_Cmdb.php:83
+msgid "Create Link"
+msgstr "Create Link"
+
+#: front/impactinfo.form.php:75 front/impacticon.form.php:73
+msgid "Creation failed"
+msgstr ""
+
+#: src/ImpactIcon.php:124
+msgid "Criteria"
+msgstr ""
+
+#: src/Criticity_Item.php:58 src/Criticity.php:60 src/Criticity.php:133
+msgid "Criticity"
+msgid_plural "Criticities"
+msgstr[0] "Criticity"
+msgstr[1] "Criticities"
+
+#: src/ImpactIcon.php:267
+msgid "Current icon"
+msgstr ""
+
+#: src/CIType.php:712
+msgid "Default icon"
+msgstr "Default icon"
+
+#: src/CI_Cmdb.php:85
+msgid "Delete Link"
+msgstr "Delete Link"
+
+#: src/Cmdb_Ticket.php:205
+msgid "Direct impact"
+msgstr "Direct impact"
+
+#: src/Cmdb.php:92
+msgid "Display Item Configuration"
+msgstr "Display Item Configuration"
+
+#: src/CIType.php:368
+msgid "Do not use a classname with spaces (like 'my objects')"
+msgstr "Do not use a classname with spaces (like 'my objects')"
+
+#: src/CIType.php:366
+msgid "Do not use a plural classname (like 'myobjects')"
+msgstr "Do not use a plural classname (like 'myobjects')"
+
+#: src/Cmdb_Ticket.php:103
+msgid "Elements linked to the ticket aren't imported in CMDB"
+msgstr "Elements linked to the ticket aren't imported in CMDB"
+
+#: src/CIType.php:1049
+msgid "Existing fields for this type of CI"
+msgstr "Existing fields for this type of CI"
+
+#: src/CI_Cmdb.php:89
+msgid "Export PNG"
+msgstr "Export PNG"
+
+#: src/CIType.php:311
+msgid "Go to custom assets"
+msgstr ""
+
+#: src/ImpactIcon.php:64 src/CIType.php:672
+msgid "Icon"
+msgid_plural "Icons"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANS: Default document to files attached to tickets : %d is the ticket id
+#: src/CIType.php:1135
+#, php-format
+msgid "Icon CIType %d"
+msgstr "Icon CIType %d"
+
+#: src/ImpactIcon.php:276
+msgid "Icon file"
+msgstr ""
+
+#: front/impacticon.form.php:57
+#, php-format
+msgid "Icon for itemtype %s"
+msgstr ""
+
+#: src/Cmdb_Ticket.php:123 src/Cmdb_Ticket.php:161
+msgid "Impacted items"
+msgstr "Impacted items"
+
+#: src/CIType.php:621
+msgid "Import CI"
+msgstr "Import CI"
+
+#: front/impactinfo.form.php:56
+msgid "Infos are already set for this type"
+msgstr ""
+
+#: src/ImpactIcon.php:337
+msgid "Invalid icon file."
+msgstr ""
+
+#: src/ImpactInfo.php:61
+msgid "Invalid item type."
+msgstr ""
+
+#: src/CI.php:216
+msgid "Invalid name !"
+msgstr "Invalid name !"
+
+#: src/CIType.php:347
+msgid "Is this item presents in glpi ?"
+msgstr "Is this item presents in glpi ?"
+
+#: src/Profile.php:131 src/Menu.php:72
+msgid "Item Configuration"
+msgstr "Item Configuration"
+
+#: src/Profile.php:210 src/Profile.php:243
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Item configuration"
 msgstr[1] "Items configuration"
 
-#: inc/profile.class.php:195
+#: src/Cmdb_Ticket.php:108
+msgid "No elements of CMDB linked to the ticket"
+msgstr "No elements of CMDB linked to the ticket"
+
+#: src/ImpactInfo.php:599
+#, php-format
+msgid "No tooltip content set for itemtype %s"
+msgstr ""
+
+#: src/ImpactInfo.php:609
+#, php-format
+msgid "No tooltip set for itemtype %s"
+msgstr ""
+
+#: src/ImpactInfoField.php:110
+msgid "Order"
+msgstr ""
+
+#: src/Criticity.php:205
+msgid "Please choose a level for criticality"
+msgstr "Please choose a level for criticality"
+
+#: src/ImpactInfoField.php:82
+msgid "Plugin additional fields fields"
+msgstr ""
+
+#: src/Cmdb_Ticket.php:162
+msgid "Proximity"
+msgstr "Proximity"
+
+#: src/CI_Cmdb.php:91
+msgid "Purge CMDB"
+msgstr "Purge CMDB"
+
+#: src/CIType.php:1053
+msgid "Reset Existing fields"
+msgstr "Reset Existing fields"
+
+#: src/CI_Cmdb.php:88
+msgid "Reset Zoom"
+msgstr "Reset Zoom"
+
+#: src/CI_Cmdb.php:82
+msgid "See CI"
+msgstr "See CI"
+
+#: src/CI_Cmdb.php:90
+msgid "See associated tickets"
+msgstr "See associated tickets"
+
+#: src/OperationProcess.php:66 src/OperationProcessMenu.php:54
+msgid "Service"
+msgid_plural "Services"
+msgstr[0] "Service"
+msgstr[1] "Services"
+
+#: src/OperationProcessState.php:55
+msgid "State of service"
+msgid_plural "States of service"
+msgstr[0] "State of service"
+msgstr[1] "States of service"
+
+#: src/CIType.php:74
+msgid "String"
+msgstr "String"
+
+#: src/ImpactIcon.php:345
+msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
+msgstr ""
+
+#: src/CIType.php:1396 src/CIType.php:1413
+msgctxt "button"
+msgid "Transfer"
+msgstr "Transfer"
+
+#: src/CIType.php:88
+msgid "Type CI"
+msgid_plural "Types CIs"
+msgstr[0] "Type CI"
+msgstr[1] "Types CIs"
+
+#: src/Profile.php:247
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of Item Configuration"
 msgstr[1] "Types of item configuration"
 
-#: install/update_110_111.php:86
-msgid "very low"
-msgstr "very low"
+#: src/Profile.php:135 src/Profile.php:223
+msgid "Type of item configuration"
+msgid_plural "Types of item configuration"
+msgstr[0] "Type of item configuration"
+msgstr[1] "Types of item configuration"
 
-#: install/update_110_111.php:87
-msgid "low"
-msgstr "low"
+#: src/CI_Cmdb.php:84
+msgid "Update Link"
+msgstr "Update Link"
 
-#: install/update_110_111.php:88
-msgid "medium"
-msgstr "medium"
+#: front/impacticon.form.php:101
+msgid "Update failed"
+msgstr ""
 
-#: install/update_110_111.php:89
+#: src/CIType.php:1022
+msgid "Upload icon"
+msgstr "Upload icon"
+
+#: front/menu.php:41
+msgid ""
+"With GLPI 11, you can create new custom assets, so migrate your existing "
+"objets to core"
+msgstr ""
+
+#: src/CIType.php:309
+msgid "With GLPI 11, you can create now custom assets"
+msgstr ""
+
+#: src/CIType.php:78
+msgid "Yes/No"
+msgstr "Yes/No"
+
+#: front/ci.form.php:68
+msgid "You can't delete this item, because this item is used on CMDB !"
+msgstr "You can't delete this item, because this item is used on CMDB !"
+
+#: src/CI_Cmdb.php:86
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: src/CI_Cmdb.php:87
+msgid "Zoom out"
+msgstr "Zoom out"
+
+#: install/update_110_111.php:94
 msgid "high"
 msgstr "high"
 
-#: install/update_110_111.php:90
+#: src/CIType.php:202
+msgid "is already present in GLPI"
+msgstr "is already present in GLPI"
+
+#: hook.php:460
+msgid "item not found or disabled"
+msgstr "item not found or disabled"
+
+#: install/update_110_111.php:92
+msgid "low"
+msgstr "low"
+
+#: install/update_110_111.php:93
+msgid "medium"
+msgstr "medium"
+
+#: install/update_110_111.php:95
 msgid "very high"
 msgstr "very high"
+
+#: install/update_110_111.php:91
+msgid "very low"
+msgstr "very low"
+
+#~ msgid "Create baseline"
+#~ msgstr "Create baseline"
+
+#~ msgid "Preferences"
+#~ msgstr "Preferences"
+
+#~ msgid "View links"
+#~ msgstr "View links"
+
+#~ msgid "Refresh"
+#~ msgstr "Refresh"
+
+#~ msgid "Save positions"
+#~ msgstr "Save positions"
+
+#~ msgid "Add new type of CI to the CMDB"
+#~ msgstr "Add new type of CI to the CMDB"
+
+#~ msgid "Add new type of link to the CMDB"
+#~ msgstr "Add new type of link to the CMDB"
+
+#~ msgid "Manage type of CI to the CMDB"
+#~ msgstr "Manage type of CI to the CMDB"
+
+#~ msgid "Manage type of links to the CMDB"
+#~ msgstr "Manage type of links to the CMDB"
+
+#~ msgid "Existing links"
+#~ msgstr "Existing links"
+
+#~ msgid "Linked element"
+#~ msgstr "Linked element"
+
+#~ msgid "CMDB depth"
+#~ msgstr "CMDB depth"
+
+#~ msgid "Please, choose an imported CI !"
+#~ msgstr "Please, choose an imported CI !"
+
+#~ msgid "There is already an existing name or the name is invalid"
+#~ msgstr "There is already an existing name or the name is invalid"
+
+#~ msgid "Icon by types"
+#~ msgstr "Icon by types"
+
+#~ msgid "No Types of CI found. Please create Types of CI before display CIs"
+#~ msgstr "No Types of CI found. Please create Types of CI before display CIs"
