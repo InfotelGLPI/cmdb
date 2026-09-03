@@ -38,19 +38,11 @@ function update110to111()
 
     $migration = new Migration(111);
 
-    $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_cmdb_criticities` (
-               `id` int(11) NOT NULL auto_increment,
-               `name` varchar(255) collate utf8_unicode_ci default '',
-               `entities_id` int(11) NOT NULL default '0',
-               `is_recursive` tinyint(1) NOT NULL default '0',
-               `comment` text collate utf8_unicode_ci,
-               `color` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-               `level` tinyint(1) NOT NULL DEFAULT '0',
-               PRIMARY KEY  (`id`),
-               KEY `entities_id` (`entities_id`),
-               KEY `is_recursive` (`is_recursive`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-    $DB->doQuery($query);
+    // Table DDL moved to install/sql/update-1.1.1.sql and executed through
+    // $DB->runFile(), consistent with every other install/upgrade step of this
+    // plugin (see plugin_cmdb_install() in hook.php): no SQL string is built
+    // nor executed from PHP any more.
+    $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-1.1.1.sql");
 
     $criticities = getAllCriticity();
     foreach ($criticities as $key => $value) {

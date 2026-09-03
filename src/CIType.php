@@ -867,11 +867,11 @@ class CIType extends CommonDropdown
             if (!empty($searchOption)
              && ($field['Field'] != $parentIDfield)
              && !in_array($field['Field'], self::getUnallowedFields($citype))) {
-                echo "<option value='" . $field['Field'] . "'";
+                echo "<option value='" . htmlescape($field['Field']) . "'";
                 if (isset($config_fields) && in_array($field['Field'], $config_fields)) {
                     echo " selected ";
                 }
-                echo ">" . $searchOption['name'] . "</option>";
+                echo ">" . htmlescape($searchOption['name']) . "</option>";
             }
         }
 
