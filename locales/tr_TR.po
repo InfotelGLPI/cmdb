@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:50+0000\n"
+"POT-Creation-Date: 2026-09-03 13:09+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2021\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/"
@@ -57,8 +57,8 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Ad oluşturulduktan sonra değiştirilemeyeceğinden dikkatli olun"
 
-#: src/CI_Cmdb.php:55 src/Profile.php:59 src/Cmdb.php:55 src/Menu.php:52
-#: setup.php:170
+#: setup.php:170 src/Menu.php:52 src/Cmdb.php:55 src/CI_Cmdb.php:55
+#: src/Profile.php:59
 msgid "CMDB"
 msgstr "CMDB"
 
@@ -76,7 +76,7 @@ msgstr "Öge Yapılandırması Türünü Yapılandırın"
 msgid "Create Link"
 msgstr "Bağlantı Ekle"
 
-#: front/impactinfo.form.php:75 front/impacticon.form.php:73
+#: front/impacticon.form.php:73 front/impactinfo.form.php:75
 msgid "Creation failed"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity_Item.php:58 src/Criticity.php:60 src/Criticity.php:133
+#: src/Criticity.php:60 src/Criticity.php:133 src/Criticity_Item.php:58
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Kritiklik"
@@ -184,7 +184,7 @@ msgstr "Ad geçersiz!"
 msgid "Is this item presents in glpi ?"
 msgstr "Bu öge GLPI üzerinde var mı?"
 
-#: src/Profile.php:131 src/Menu.php:72
+#: src/Menu.php:72 src/Profile.php:131
 msgid "Item Configuration"
 msgstr "Öge Yapılandırması"
 
@@ -244,7 +244,7 @@ msgstr "CI bak"
 msgid "See associated tickets"
 msgstr "İlgili destek kayıtlarını görüntüle"
 
-#: src/OperationProcess.php:66 src/OperationProcessMenu.php:54
+#: src/OperationProcessMenu.php:54 src/OperationProcess.php:66
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Hizmet"
@@ -325,7 +325,7 @@ msgstr "Yakınlaştır"
 msgid "Zoom out"
 msgstr "Uzaklaştır"
 
-#: install/update_110_111.php:94
+#: install/update_110_111.php:86
 msgid "high"
 msgstr "yüksek"
 
@@ -337,19 +337,19 @@ msgstr "zaten GLPI üzerinde var"
 msgid "item not found or disabled"
 msgstr "Öge bulunamadı ya da devre dışı bırakılmış"
 
-#: install/update_110_111.php:92
+#: install/update_110_111.php:84
 msgid "low"
 msgstr "düşük"
 
-#: install/update_110_111.php:93
+#: install/update_110_111.php:85
 msgid "medium"
 msgstr "orta"
 
-#: install/update_110_111.php:95
+#: install/update_110_111.php:87
 msgid "very high"
 msgstr "çok yüksek"
 
-#: install/update_110_111.php:91
+#: install/update_110_111.php:83
 msgid "very low"
 msgstr "çok düşük"
 

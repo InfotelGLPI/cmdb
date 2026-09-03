@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-01 15:22+0000\n"
+"POT-Creation-Date: 2026-09-03 13:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,8 +53,8 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: src/CI_Cmdb.php:55 src/Profile.php:59 src/Cmdb.php:55 src/Menu.php:52
-#: setup.php:170
+#: setup.php:170 src/Menu.php:52 src/Cmdb.php:55 src/CI_Cmdb.php:55
+#: src/Profile.php:59
 msgid "CMDB"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Create Link"
 msgstr ""
 
-#: front/impactinfo.form.php:75 front/impacticon.form.php:73
+#: front/impacticon.form.php:73 front/impactinfo.form.php:75
 msgid "Creation failed"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity_Item.php:58 src/Criticity.php:60 src/Criticity.php:133
+#: src/Criticity.php:60 src/Criticity.php:133 src/Criticity_Item.php:58
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] ""
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: src/Profile.php:131 src/Menu.php:72
+#: src/Menu.php:72 src/Profile.php:131
 msgid "Item Configuration"
 msgstr ""
 
@@ -239,7 +239,7 @@ msgstr ""
 msgid "See associated tickets"
 msgstr ""
 
-#: src/OperationProcess.php:66 src/OperationProcessMenu.php:54
+#: src/OperationProcessMenu.php:54 src/OperationProcess.php:66
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] ""
@@ -320,7 +320,7 @@ msgstr ""
 msgid "Zoom out"
 msgstr ""
 
-#: install/update_110_111.php:94
+#: install/update_110_111.php:86
 msgid "high"
 msgstr ""
 
@@ -332,18 +332,18 @@ msgstr ""
 msgid "item not found or disabled"
 msgstr ""
 
-#: install/update_110_111.php:92
+#: install/update_110_111.php:84
 msgid "low"
 msgstr ""
 
-#: install/update_110_111.php:93
+#: install/update_110_111.php:85
 msgid "medium"
 msgstr ""
 
-#: install/update_110_111.php:95
+#: install/update_110_111.php:87
 msgid "very high"
 msgstr ""
 
-#: install/update_110_111.php:91
+#: install/update_110_111.php:83
 msgid "very low"
 msgstr ""

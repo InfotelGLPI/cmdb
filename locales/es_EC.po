@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 14:50+0000\n"
+"POT-Creation-Date: 2026-09-03 13:09+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -59,8 +59,8 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Tenga cuidado, el nombre no se puede cambiar después de la creación"
 
-#: src/CI_Cmdb.php:55 src/Profile.php:59 src/Cmdb.php:55 src/Menu.php:52
-#: setup.php:170
+#: setup.php:170 src/Menu.php:52 src/Cmdb.php:55 src/CI_Cmdb.php:55
+#: src/Profile.php:59
 msgid "CMDB"
 msgstr "CMDB"
 
@@ -79,7 +79,7 @@ msgstr "Configurar el Tipo de Configuración del elemento"
 msgid "Create Link"
 msgstr "Crear enlace"
 
-#: front/impactinfo.form.php:75 front/impacticon.form.php:73
+#: front/impacticon.form.php:73 front/impactinfo.form.php:75
 msgid "Creation failed"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity_Item.php:58 src/Criticity.php:60 src/Criticity.php:133
+#: src/Criticity.php:60 src/Criticity.php:133 src/Criticity_Item.php:58
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Criticidad"
@@ -189,7 +189,7 @@ msgstr "¡Nombre inválido!"
 msgid "Is this item presents in glpi ?"
 msgstr "¿Este elemento está presente en glpi?"
 
-#: src/Profile.php:131 src/Menu.php:72
+#: src/Menu.php:72 src/Profile.php:131
 msgid "Item Configuration"
 msgstr "Configuración de elementos"
 
@@ -250,7 +250,7 @@ msgstr "Ver CI"
 msgid "See associated tickets"
 msgstr "Ver casos asociados"
 
-#: src/OperationProcess.php:66 src/OperationProcessMenu.php:54
+#: src/OperationProcessMenu.php:54 src/OperationProcess.php:66
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Servicio"
@@ -336,7 +336,7 @@ msgstr "Ampliar"
 msgid "Zoom out"
 msgstr "Reducir"
 
-#: install/update_110_111.php:94
+#: install/update_110_111.php:86
 msgid "high"
 msgstr "alta"
 
@@ -348,19 +348,19 @@ msgstr "ya está presente en GLPI"
 msgid "item not found or disabled"
 msgstr "elemento no encontrado o deshabilitado"
 
-#: install/update_110_111.php:92
+#: install/update_110_111.php:84
 msgid "low"
 msgstr "bajo"
 
-#: install/update_110_111.php:93
+#: install/update_110_111.php:85
 msgid "medium"
 msgstr "medio"
 
-#: install/update_110_111.php:95
+#: install/update_110_111.php:87
 msgid "very high"
 msgstr "muy alto"
 
-#: install/update_110_111.php:91
+#: install/update_110_111.php:83
 msgid "very low"
 msgstr "muy bajo"
 
