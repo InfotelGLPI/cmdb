@@ -154,7 +154,7 @@ function plugin_init_cmdb()
         $PLUGIN_HOOKS['item_purge']['cmdb'][CiFields::class] = 'plugin_cmdb_item_purge';
         $PLUGIN_HOOKS['item_purge']['cmdb'][PluginFieldsField::class] = 'plugin_cmdb_item_purge';
 
-        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/cmdb_impact.js.php';
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/cmdb_impact.js';
 
 
         $PLUGIN_HOOKS[Hooks::POST_INIT]['cmdb'] = 'plugin_cmdb_postinit';

@@ -1,5 +1,3 @@
-<?php
-
 /**
  * -------------------------------------------------------------------------
  * cmdb plugin for GLPI
@@ -27,10 +25,11 @@
  * --------------------------------------------------------------------------
  */
 
-include('../../../../inc/includes.php');
-header('Content-Type: text/javascript');
-echo 'let cmdbRootUrl = "' . PLUGIN_CMDB_WEBDIR . '"';
-?>
+// Plugin web root, mirroring PLUGIN_CMDB_WEBDIR from setup.php. GLPI exposes
+// both variables in the page <head> (config_js) before any plugin script is
+// loaded, so no server-side interpolation is needed here.
+let cmdbRootUrl = ((window.CFG_GLPI && CFG_GLPI.root_doc) || '')
+   + ((window.GLPI_PLUGINS_PATH && GLPI_PLUGINS_PATH.cmdb) || '/plugins/cmdb');
 
 function cmdbLoadInfos(event) {
     let itemtype = event.target.data('id')
