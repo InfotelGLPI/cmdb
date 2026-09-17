@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 13:09+0000\n"
+"POT-Creation-Date: 2026-09-17 14:25+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2021\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/"
@@ -22,28 +22,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/CIType.php:999
+#: src/Criticity.php:218
+msgid "A criticity already exists for this business criticity."
+msgstr ""
+
+#: src/CIType.php:998
 msgid "Add New Field"
 msgstr "Alan Ekle"
 
-#: src/Criticity.php:154
+#: src/Criticity.php:151
 msgid "All levels have already been added"
 msgstr "Tüm düzeyler zaten eklenmiş"
 
-#: front/impacticon.form.php:64 front/impacticon.form.php:96
+#: front/impacticon.form.php:72 front/impacticon.form.php:104
 msgid "An icon already exist for this type"
 msgstr ""
 
-#: src/CIType.php:75
+#: src/CIType.php:71
 msgid "Area Text"
 msgstr "Metin Alanı"
 
-#: src/OperationProcess_Item.php:528
+#: src/OperationProcess_Item.php:533
 msgctxt "button"
 msgid "Associate a service"
 msgstr "Bir hizmete bağla"
 
-#: src/OperationProcess_Item.php:104 src/OperationProcess_Item.php:106
+#: src/OperationProcess_Item.php:100 src/OperationProcess_Item.php:102
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] "Bağlantılı hizmet"
@@ -53,88 +57,89 @@ msgstr[1] "Bağlantılı hizmetler"
 msgid "Base fields"
 msgstr ""
 
-#: src/CIType.php:364
+#: src/CIType.php:360
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Ad oluşturulduktan sonra değiştirilemeyeceğinden dikkatli olun"
 
-#: setup.php:170 src/Menu.php:52 src/Cmdb.php:55 src/CI_Cmdb.php:55
-#: src/Profile.php:59
+#: setup.php:166 src/Menu.php:48 src/Cmdb.php:51 src/CI_Cmdb.php:51
+#: src/Profile.php:55
 msgid "CMDB"
 msgstr "CMDB"
 
-#: src/CI.php:61
+#: src/CI.php:57
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
 msgstr[0] "Yapılandırma Ögesi"
 msgstr[1] "Yapılandırma Ögeleri"
 
-#: src/Menu.php:70
+#: src/Menu.php:66
 msgid "Configure Type of Item Configuration"
 msgstr "Öge Yapılandırması Türünü Yapılandırın"
 
-#: src/CI_Cmdb.php:83
+#: src/CI_Cmdb.php:79
 msgid "Create Link"
 msgstr "Bağlantı Ekle"
 
-#: front/impacticon.form.php:73 front/impactinfo.form.php:75
+#: front/impacticon.form.php:81 front/criticity.form.php:46
+#: front/impactinfo.form.php:82
 msgid "Creation failed"
 msgstr ""
 
-#: src/ImpactIcon.php:124
+#: src/ImpactIcon.php:125
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity.php:60 src/Criticity.php:133 src/Criticity_Item.php:58
+#: src/Criticity.php:57 src/Criticity.php:130 src/Criticity_Item.php:54
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Kritiklik"
 msgstr[1] "Kritiklikler"
 
-#: src/ImpactIcon.php:267
+#: src/ImpactIcon.php:265
 msgid "Current icon"
 msgstr ""
 
-#: src/CIType.php:712
+#: src/CIType.php:708
 msgid "Default icon"
 msgstr "Varsayılan simge"
 
-#: src/CI_Cmdb.php:85
+#: src/CI_Cmdb.php:81
 msgid "Delete Link"
 msgstr "Bağlantıyı Sil"
 
-#: src/Cmdb_Ticket.php:205
+#: src/Cmdb_Ticket.php:201
 msgid "Direct impact"
 msgstr "Doğrudan etki"
 
-#: src/Cmdb.php:92
+#: src/Cmdb.php:88
 msgid "Display Item Configuration"
 msgstr "Öge Yapılandırmasını Görüntüle"
 
-#: src/CIType.php:368
+#: src/CIType.php:364
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr "Sınıf adında boşluk kullanmayın ('bu nesne' gibi)"
 
-#: src/CIType.php:366
+#: src/CIType.php:362
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr "Sınıf adında çoğul kullanmayın ('nesnelerim' gibi)"
 
-#: src/Cmdb_Ticket.php:103
+#: src/Cmdb_Ticket.php:99
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Destek kaydı ile ilişkili bileşenler CMDB içine aktarılmamış"
 
-#: src/CIType.php:1049
+#: src/CIType.php:1048
 msgid "Existing fields for this type of CI"
 msgstr "I türü için var olan alanlar"
 
-#: src/CI_Cmdb.php:89
+#: src/CI_Cmdb.php:85
 msgid "Export PNG"
 msgstr "PNG Olarak Dışa Aktar"
 
-#: src/CIType.php:311
+#: src/CIType.php:307
 msgid "Go to custom assets"
 msgstr ""
 
-#: src/ImpactIcon.php:64 src/CIType.php:672
+#: src/ImpactIcon.php:65 src/CIType.php:668
 #, fuzzy
 msgid "Icon"
 msgid_plural "Icons"
@@ -142,68 +147,76 @@ msgstr[0] "Simge"
 msgstr[1] "Simge"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1135
+#: src/CIType.php:1140
 #, php-format
 msgid "Icon CIType %d"
 msgstr "%d CI Türü Simgesi "
 
-#: src/ImpactIcon.php:276
+#: src/ImpactIcon.php:274
 msgid "Icon file"
 msgstr ""
 
-#: front/impacticon.form.php:57
+#: front/impacticon.form.php:65
 #, php-format
 msgid "Icon for itemtype %s"
 msgstr ""
 
-#: src/Cmdb_Ticket.php:123 src/Cmdb_Ticket.php:161
+#: src/Cmdb_Ticket.php:119 src/Cmdb_Ticket.php:157
 msgid "Impacted items"
 msgstr "Etkilenen ögeler"
 
-#: src/CIType.php:621
+#: src/CIType.php:617
 msgid "Import CI"
 msgstr "CI İçe Aktar"
 
-#: front/impactinfo.form.php:56
+#: front/impactinfo.form.php:63
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/ImpactIcon.php:337
+#: src/Criticity.php:212
+msgid "Invalid business criticity."
+msgstr ""
+
+#: src/Criticity.php:275
+msgid "Invalid color."
+msgstr ""
+
+#: src/ImpactIcon.php:339
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/ImpactInfo.php:61
+#: src/OperationProcess_Item.php:183 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
-#: src/CI.php:216
+#: src/CI.php:212
 msgid "Invalid name !"
 msgstr "Ad geçersiz!"
 
-#: src/CIType.php:347
+#: src/CIType.php:343
 msgid "Is this item presents in glpi ?"
 msgstr "Bu öge GLPI üzerinde var mı?"
 
-#: src/Menu.php:72 src/Profile.php:131
+#: src/Menu.php:68 src/Profile.php:127
 msgid "Item Configuration"
 msgstr "Öge Yapılandırması"
 
-#: src/Profile.php:210 src/Profile.php:243
+#: src/Profile.php:206 src/Profile.php:239
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Öge yapılandırması"
 msgstr[1] "Öge yapılandırmaları"
 
-#: src/Cmdb_Ticket.php:108
+#: src/Cmdb_Ticket.php:104
 msgid "No elements of CMDB linked to the ticket"
 msgstr "Destek kaydı ile ilişkili bir CMDB bileşeni yok"
 
-#: src/ImpactInfo.php:599
+#: src/ImpactInfo.php:651
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfo.php:609
+#: src/ImpactInfo.php:661
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr ""
@@ -212,7 +225,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:205
+#: src/Criticity.php:202 src/Criticity.php:262
 msgid "Please choose a level for criticality"
 msgstr "Lütfen bir kritiklik düzeyi seçin"
 
@@ -220,108 +233,108 @@ msgstr "Lütfen bir kritiklik düzeyi seçin"
 msgid "Plugin additional fields fields"
 msgstr ""
 
-#: src/Cmdb_Ticket.php:162
+#: src/Cmdb_Ticket.php:158
 msgid "Proximity"
 msgstr "Yakınlık"
 
-#: src/CI_Cmdb.php:91
+#: src/CI_Cmdb.php:87
 msgid "Purge CMDB"
 msgstr "CMDB Boşalt"
 
-#: src/CIType.php:1053
+#: src/CIType.php:1052
 msgid "Reset Existing fields"
 msgstr "Var olan alanları sıfırla"
 
-#: src/CI_Cmdb.php:88
+#: src/CI_Cmdb.php:84
 msgid "Reset Zoom"
 msgstr "Yakınlaştırmayı Sıfırla"
 
-#: src/CI_Cmdb.php:82
+#: src/CI_Cmdb.php:78
 msgid "See CI"
 msgstr "CI bak"
 
-#: src/CI_Cmdb.php:90
+#: src/CI_Cmdb.php:86
 msgid "See associated tickets"
 msgstr "İlgili destek kayıtlarını görüntüle"
 
-#: src/OperationProcessMenu.php:54 src/OperationProcess.php:66
+#: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Hizmet"
 msgstr[1] "Hizmetler"
 
-#: src/OperationProcessState.php:55
+#: src/OperationProcessState.php:51
 msgid "State of service"
 msgid_plural "States of service"
 msgstr[0] "Hizmet durumu"
 msgstr[1] "Hizmet durumları"
 
-#: src/CIType.php:74
+#: src/CIType.php:70
 msgid "String"
 msgstr "Dizge"
 
-#: src/ImpactIcon.php:345
+#: src/ImpactIcon.php:347
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
 msgstr ""
 
-#: src/CIType.php:1396 src/CIType.php:1413
+#: src/CIType.php:1401 src/CIType.php:1418
 msgctxt "button"
 msgid "Transfer"
 msgstr "Aktarım"
 
-#: src/CIType.php:88
+#: src/CIType.php:84
 msgid "Type CI"
 msgid_plural "Types CIs"
 msgstr[0] "CI Türü"
 msgstr[1] "CI Türleri"
 
-#: src/Profile.php:247
+#: src/Profile.php:243
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Öge yapılandırması türü"
 msgstr[1] "Öge yapılandırması türleri"
 
-#: src/Profile.php:135 src/Profile.php:223
+#: src/Profile.php:131 src/Profile.php:219
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Öge yapılandırması türü"
 msgstr[1] "Öge yapılandırması türleri"
 
-#: src/CI_Cmdb.php:84
+#: src/CI_Cmdb.php:80
 msgid "Update Link"
 msgstr "Bağlantıyı Güncelle"
 
-#: front/impacticon.form.php:101
+#: front/impacticon.form.php:109 front/criticity.form.php:52
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1022
+#: src/CIType.php:1021
 msgid "Upload icon"
 msgstr "Yükleme simgesi"
 
-#: front/menu.php:41
+#: front/menu.php:43
 msgid ""
 "With GLPI 11, you can create new custom assets, so migrate your existing "
 "objets to core"
 msgstr ""
 
-#: src/CIType.php:309
+#: src/CIType.php:305
 msgid "With GLPI 11, you can create now custom assets"
 msgstr ""
 
-#: src/CIType.php:78
+#: src/CIType.php:74
 msgid "Yes/No"
 msgstr "Evet/Hayır"
 
-#: front/ci.form.php:68
+#: front/ci.form.php:73
 msgid "You can't delete this item, because this item is used on CMDB !"
 msgstr "Bu öge CMD üzerinde kullanıldığından silinemez!"
 
-#: src/CI_Cmdb.php:86
+#: src/CI_Cmdb.php:82
 msgid "Zoom in"
 msgstr "Yakınlaştır"
 
-#: src/CI_Cmdb.php:87
+#: src/CI_Cmdb.php:83
 msgid "Zoom out"
 msgstr "Uzaklaştır"
 
@@ -329,11 +342,11 @@ msgstr "Uzaklaştır"
 msgid "high"
 msgstr "yüksek"
 
-#: src/CIType.php:202
+#: src/CIType.php:198
 msgid "is already present in GLPI"
 msgstr "zaten GLPI üzerinde var"
 
-#: hook.php:460
+#: hook.php:477
 msgid "item not found or disabled"
 msgstr "Öge bulunamadı ya da devre dışı bırakılmış"
 
