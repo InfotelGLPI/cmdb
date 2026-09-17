@@ -120,6 +120,9 @@ class ImpactInfoField extends CommonDBTM
             echo "<i class=\"fa fa-times mx-2 fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
             echo "</div>";
             $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields_dropdown.php";
+            // Same reason as ImpactInfo::showForm(): a namespaced itemtype is not a plain
+            // JS string, its backslashes would be consumed as escape sequences.
+            $itemtype_js = json_encode($itemtype, JSON_HEX_TAG | JSON_HEX_AMP);
             echo "
     <script>
         document.getElementById('deletefield$key$fieldId').addEventListener('click', e => {
@@ -134,7 +137,7 @@ class ImpactInfoField extends CommonDBTM
                             // regenerate the select with the updated options
                             $('#$key-select').load('$url', {
                                 'key' : '$key',
-                                'itemtype' : '$itemtype',
+                                'itemtype' : $itemtype_js,
                                 'used' : values
                             });
             e.target.parentNode.parentNode.removeChild(e.target.parentNode);

@@ -34,10 +34,6 @@ use DbUtils;
 use Dropdown;
 use Html;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class CiFields
  */
@@ -78,8 +74,22 @@ class CiFields extends CommonDBTM
     public function updateCIFields($input)
     {
 
+        // Both loops below are indexed by the row id the form posted back, and neither
+        // checked that the row belongs to the type being edited: a forged id renamed,
+        // retyped or deleted a field of any other CI type, and deleted its stored values with
+        // it. CiFields has no entities_id either, so checkEntity() is a no-op on it. The type
+        // id is not read from the payload — CIType::post_updateItem() overwrites it with the
+        // row actually being updated — so it is the one trustworthy value here.
+        $owned = [];
+        if (isset($input['plugin_cmdb_citypes_id'])) {
+            $owned = $this->find(['plugin_cmdb_citypes_id' => (int) $input['plugin_cmdb_citypes_id']]);
+        }
+
         if (isset($input["nameField"])) {
             foreach ($input["nameField"] as $key => $value) {
+                if (!isset($owned[$key])) {
+                    continue;
+                }
                 $values['name']      = $input['nameField'][$key];
                 $values['typefield'] = $input['typeField'][$key];
                 $values['id']        = $key;
@@ -88,6 +98,9 @@ class CiFields extends CommonDBTM
         }
         if (isset($input["deletedField"])) {
             foreach ($input["deletedField"] as $key => $data) {
+                if (!isset($owned[$data])) {
+                    continue;
+                }
                 $this->deleteByCriteria(['id' => $data]);
                 $temp = new CiValues();
                 $temp->deleteByCriteria(['plugin_cmdb_cifields_id' => $data]);
@@ -255,7 +268,8 @@ class CiFields extends CommonDBTM
             $iterator = $DB->request(
                 ['glpi_plugin_cmdb_civalues', 'glpi_plugin_cmdb_cifields'],
                 ['WHERE' => ['glpi_plugin_cmdb_cifields.plugin_cmdb_citypes_id' => $CIType['id'],
-                    'glpi_plugin_cmdb_civalues.plugin_cmdb_cis_id'     => $idCI],
+                    'glpi_plugin_cmdb_civalues.items_id'               => $idCI,
+                    'glpi_plugin_cmdb_civalues.itemtype'               => [CI::class, '']],
                     'FKEY'  => ['glpi_plugin_cmdb_cifields' => 'id',
                         'glpi_plugin_cmdb_civalues' => 'plugin_cmdb_cifields_id'],
                 ],

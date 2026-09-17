@@ -27,21 +27,21 @@
  * --------------------------------------------------------------------------
  */
 
-use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Menu;
 
-Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class);
-
+// Guard first: Html::header() renders the whole GLPI chrome — menus, breadcrumb, page title —
+// before anything is checked, so an unauthorised visitor was served a rendered page and its
+// navigation. checkGlobal() raises the access error itself, which is what made the canView()
+// branch that used to wrap this body unreachable.
 $cmdb = new Cmdb();
 $cmdb->checkGlobal(READ);
 
-if ($cmdb->canView()) {
-    echo "<div class='alert alert-warning'>";
-    echo "<i>" . __("With GLPI 11, you can create new custom assets, so migrate your existing objets to core", 'cmdb') . "</i>";
-    echo "</div>";
-    $cmdb->displayMenu();
-} else {
-    throw new AccessDeniedHttpException();
-}
+Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class);
+
+echo "<div class='alert alert-warning'>";
+echo "<i>" . __("With GLPI 11, you can create new custom assets, so migrate your existing objets to core", 'cmdb') . "</i>";
+echo "</div>";
+$cmdb->displayMenu();
+
 Html::footer();

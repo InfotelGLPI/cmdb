@@ -63,6 +63,11 @@ if (isset($_POST["add"])) {
 
 } elseif (isset($_POST["purge"])) {
 
+    // Check before reading: ciTypesUsed() queries the CI named by the posted id and its answer
+    // is observable through the error message below, so it ran — and leaked — ahead of the
+    // right, entity and item checks check() performs.
+    $ci->check($_POST['id'], PURGE);
+
     if ($ci->ciTypesUsed($_POST)) {
         Session::addMessageAfterRedirect(
             __("You can't delete this item, because this item is used on CMDB !", 'cmdb'),
@@ -71,7 +76,6 @@ if (isset($_POST["add"])) {
         );
         Html::back();
     } else {
-        $ci->check($_POST['id'], PURGE);
         $ci->delete($_POST, 1);
         $ci->redirectToList();
     }

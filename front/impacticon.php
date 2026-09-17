@@ -27,17 +27,15 @@
  * --------------------------------------------------------------------------
  */
 
-use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\ImpactIcon;
 
-Html::header(ImpactIcon::getTypeName(2), '', "config", ImpactIcon::class);
-
+// Same reason as front/menu.php: the page was rendered before the right was checked, and
+// checkGlobal() already raises the access error the removed branch was throwing by hand.
 $impactIcon = new ImpactIcon();
 $impactIcon->checkGlobal(READ);
 
-if ($impactIcon->canView()) {
-    Search::show(ImpactIcon::getType());
-} else {
-    throw new AccessDeniedHttpException();
-}
+Html::header(ImpactIcon::getTypeName(2), '', "config", ImpactIcon::class);
+
+Search::show(ImpactIcon::getType());
+
 Html::footer();

@@ -29,15 +29,12 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use BusinessCriticity;
 use CommonDBTM;
 use CommonGLPI;
 use Dropdown;
 use Html;
 use Session;
-
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
 
 /**
  * Class Criticity
@@ -175,12 +172,12 @@ class Criticity extends CommonDBTM
             echo Html::submit(_x('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
             echo "</th></tr>";
         }
-        if ($criticity->getID() > 1 && self::canUpdate()) {
+        if ($criticity->getID() > 0 && self::canUpdate()) {
             echo "<tr><th colspan='4'>";
             echo Html::submit(_x('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
             echo "</th></tr>";
         }
-        if ($criticity->getID() > 1 && self::canPurge()) {
+        if ($criticity->getID() > 0 && self::canPurge()) {
             echo "<tr><th colspan='4' style='text-align:right'>";
             echo Html::submit(_sx('button', 'Delete permanently'), ['name' => 'purge', 'class' => 'btn btn-primary']);
             echo "</th></tr>";
@@ -205,6 +202,81 @@ class Criticity extends CommonDBTM
             Session::addMessageAfterRedirect(__("Please choose a level for criticality", "cmdb"), false, ERROR);
             return [];
         }
+
+        // The row is keyed on a business criticity of the core and showForm() only ever reads
+        // the first match back, so refuse a dangling or duplicated reference here rather than
+        // let it create a row nothing can reach again.
+        $businesscriticities_id = (int) ($input['businesscriticities_id'] ?? 0);
+        $business_criticity     = new BusinessCriticity();
+        if ($businesscriticities_id <= 0 || !$business_criticity->getFromDB($businesscriticities_id)) {
+            Session::addMessageAfterRedirect(__('Invalid business criticity.', 'cmdb'), false, ERROR);
+            return false;
+        }
+        $existing = new self();
+        if ($existing->getFromDBByCrit(['businesscriticities_id' => $businesscriticities_id])) {
+            Session::addMessageAfterRedirect(
+                __('A criticity already exists for this business criticity.', 'cmdb'),
+                false,
+                ERROR,
+            );
+            return false;
+        }
+        $input['businesscriticities_id'] = $businesscriticities_id;
+
+        return $this->prepareInput($input);
+    }
+
+    /**
+     * @see CommonDBTM::prepareInputForUpdate()
+     *
+     * @param  $input
+     *
+     * @return array|false
+     */
+    public function prepareInputForUpdate($input)
+    {
+        // The business criticity a row hangs on is not re-selectable: the form posts it as a
+        // hidden field only so the tab knows which one it renders.
+        unset($input['businesscriticities_id']);
+
+        return $this->prepareInput($input);
+    }
+
+    /**
+     * Domain validation shared by both write paths.
+     *
+     * The level drives what the tab displays and is offered as a 1-5 dropdown, and the color
+     * is echoed verbatim into a style='background:...' attribute by Cmdb_Ticket and
+     * CI_Cmdb::getColorCriticity(): neither may be taken as posted.
+     *
+     * @param  $input
+     *
+     * @return array|false
+     */
+    private function prepareInput($input)
+    {
+        if (isset($input['level'])) {
+            $level = (int) $input['level'];
+            if ($level < 1 || $level > 5) {
+                Session::addMessageAfterRedirect(
+                    __("Please choose a level for criticality", "cmdb"),
+                    false,
+                    ERROR,
+                );
+                return false;
+            }
+            $input['level'] = $level;
+        }
+
+        if (isset($input['color'])) {
+            // Only the #rrggbb notation Html::showColorField() produces: escaping protects
+            // the attribute delimiters but not the CSS property list itself.
+            if (preg_match('/^#[0-9a-fA-F]{6}$/', (string) $input['color']) !== 1) {
+                Session::addMessageAfterRedirect(__('Invalid color.', 'cmdb'), false, ERROR);
+                return false;
+            }
+        }
+
         return $input;
     }
 
@@ -300,6 +372,17 @@ class Criticity extends CommonDBTM
 
         $item = $params['item'];
 
+        // This hook runs on the form of every asset type, and the criticity it appends is a
+        // CMDB object: without this check the field was rendered — and its value disclosed —
+        // to every profile allowed to open that form, whatever its CMDB rights.
+        // Criticity and Criticity_Item both declare plugin_cmdb_cis as their rightname;
+        // plugin_cmdb_criticities is not a right this plugin registers (see
+        // Profile::getAllRights()), so gating on that name would have hidden the field from
+        // everybody instead.
+        if (!Criticity::canView()) {
+            return false;
+        }
+
         $tab = Criticity_Item::getCIType();
 
         if (!in_array($item::getType(), $tab)) {
@@ -378,7 +461,13 @@ class Criticity extends CommonDBTM
 
         $tabCriticity = self::getAllCriticity();
 
-        Dropdown::showFromArray("_plugin_cmdb_criticity_items", $tabCriticity, ["value" => $value]);
+        // Read access is enough to reach this dropdown (addFieldCriticity() only checks
+        // READ); posting it is an update of the link, so render it read-only rather than
+        // offering a control whose submission preUpdateItemCriticity() will now refuse.
+        Dropdown::showFromArray("_plugin_cmdb_criticity_items", $tabCriticity, [
+            "value"    => $value,
+            "readonly" => !Criticity_Item::canUpdate(),
+        ]);
 
         echo "</span>";
 

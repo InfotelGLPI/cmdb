@@ -40,8 +40,6 @@ use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\Menu;
 use GlpiPlugin\Cmdb\Profile;
 
-use function Safe\mkdir;
-
 define('PLUGIN_CMDB_VERSION', '3.1.10');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
@@ -53,16 +51,14 @@ if (!defined("PLUGIN_CMDB_DIR")) {
 if (!defined("PLUGINCMDB_DOC_DIR")) {
     define("PLUGINCMDB_DOC_DIR", GLPI_PLUGIN_DOC_DIR . "/cmdb");
 }
-if (!file_exists(PLUGINCMDB_DOC_DIR)) {
-    mkdir(PLUGINCMDB_DOC_DIR);
-}
 
 if (!defined("PLUGINCMDB_CLASS_PATH")) {
     define("PLUGINCMDB_CLASS_PATH", PLUGINCMDB_DOC_DIR . "/src");
 }
-if (!file_exists(PLUGINCMDB_CLASS_PATH)) {
-    mkdir(PLUGINCMDB_CLASS_PATH);
-}
+
+// The two directories are created by plugin_cmdb_install(). Creating them from here ran on
+// every request that merely loads the plugin list — before installation, and for anonymous
+// visitors — and Safe\mkdir() turns a permission problem into a fatal at discovery time.
 
 
 function plugin_init_cmdb()

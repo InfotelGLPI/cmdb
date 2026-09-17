@@ -38,10 +38,6 @@ use Plugin;
 use Session;
 use Toolbox;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class CI
  */
@@ -222,8 +218,14 @@ class CI extends CommonDBTM
     public function postAddCi($history, $item)
     {
 
-        $civalue                     = new CiValues();
-        $input['plugin_cmdb_cis_id'] = $item->getID();
+        // plugin_cmdb_cis_id no longer exists: update-2.2.1.sql renamed it to items_id and
+        // added itemtype next to it. Writing the dead name left every value row with
+        // items_id = 0 and an empty itemtype, so CiFields::setFieldInput() and
+        // ImpactInfo::showInfos() — which both read on (items_id, itemtype) — found nothing,
+        // and CI::cleanDBonPurge() left the rows behind when the CI was purged.
+        $civalue           = new CiValues();
+        $input['items_id'] = $item->getID();
+        $input['itemtype'] = $item->getType();
         foreach ($item->input["newfield"] as $key => $value) {
             $input['value']                   = $value;
             $input['plugin_cmdb_cifields_id'] = $key;
@@ -256,13 +258,23 @@ class CI extends CommonDBTM
           && $this->oldvalues["plugin_cmdb_citypes_id"] != $this->fields['plugin_cmdb_citypes_id']) {
             $id   = $this->fields['id'];
             $temp = new CiValues();
-            $temp->deleteByCriteria(['plugin_cmdb_cis_id' => $id], 1);
+            $temp->deleteByCriteria(CiValues::getOwnerCriteria($this->getType(), $id), 1);
 
             self::postAddCi($history, $this);
         } else {
             if (isset($this->input["field"])) {
+                // The form indexes these rows by their own civalues id and the browser posts
+                // it back untouched, so a forged id rewrote the value of any row of the
+                // table — including the custom fields of a CI in another entity. CiValues
+                // carries no entities_id, so checkEntity() cannot catch it, and update() on a
+                // bare id checks nothing else. Reload the set this CI actually owns and keep
+                // only the intersection.
+                $temp  = new CiValues();
+                $owned = $temp->find(CiValues::getOwnerCriteria($this->getType(), $this->getID()));
                 foreach ($this->input["field"] as $key => $value) {
-                    $temp = new CiValues();
+                    if (!isset($owned[$key])) {
+                        continue;
+                    }
                     $temp->update(['value' => $value,
                         'id'    => $key]);
                 }
@@ -283,8 +295,7 @@ class CI extends CommonDBTM
     {
 
         $temp = new CiValues();
-        $temp->deleteByCriteria(['items_id' => $this->fields['id'],
-            'itemtype' => $this->getType()], 1);
+        $temp->deleteByCriteria(CiValues::getOwnerCriteria($this->getType(), $this->fields['id']), 1);
     }
 
 

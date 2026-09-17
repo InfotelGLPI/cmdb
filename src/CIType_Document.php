@@ -31,10 +31,6 @@ namespace GlpiPlugin\Cmdb;
 
 use CommonDBTM;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class CIType_Document
  */

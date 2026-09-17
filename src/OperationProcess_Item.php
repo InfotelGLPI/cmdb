@@ -38,10 +38,6 @@ use Html;
 use Session;
 use Toolbox;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class OperationProcess_Item
  */
@@ -178,6 +174,15 @@ class OperationProcess_Item extends CommonDBRelation
      */
     public function addItem($values)
     {
+
+        // itemtype comes straight from the association form and is copied into the row, where
+        // every later read instantiates it. CommonDBRelation::canCreateItem() happens to
+        // reject an unknown class today, but nothing here relied on that on purpose: validate
+        // the value against the class registry the way ImpactInfo::prepareInputForAdd() does.
+        if (!isset($values["itemtype"]) || getItemForItemtype($values["itemtype"]) === false) {
+            Session::addMessageAfterRedirect(__('Invalid item type.', 'cmdb'), false, ERROR);
+            return false;
+        }
 
         $this->add(['plugin_cmdb_operationprocesses_id' => $values["plugin_cmdb_operationprocesses_id"],
             'items_id'                          => $values["items_id"],
@@ -370,7 +375,7 @@ class OperationProcess_Item extends CommonDBRelation
                              ">" . $name . "</td>";
 
                         if (Session::isMultiEntitiesMode()) {
-                            echo "<td class='center'>" . Dropdown::getDropdownName("glpi_entities", $data['entity']) . "</td>";
+                            echo "<td class='center'>" . htmlescape(Dropdown::getDropdownName("glpi_entities", $data['entity'])) . "</td>";
                         }
 
                         echo "</tr>";
@@ -588,13 +593,13 @@ class OperationProcess_Item extends CommonDBRelation
                 }
                 echo "<td class='center'>$link</td>";
                 if (Session::isMultiEntitiesMode()) {
-                    echo "<td class='center'>" . Dropdown::getDropdownName("glpi_entities", $data['entities_id']) .
+                    echo "<td class='center'>" . htmlescape(Dropdown::getDropdownName("glpi_entities", $data['entities_id'])) .
                          "</td>";
                 }
-                echo "<td>" . Dropdown::getDropdownName(
+                echo "<td>" . htmlescape(Dropdown::getDropdownName(
                     "glpi_plugin_cmdb_operationprocessstates",
                     $data["plugin_cmdb_operationprocessstates_id"],
-                ) . "</td>";
+                )) . "</td>";
                 echo "</tr>";
             }
         }

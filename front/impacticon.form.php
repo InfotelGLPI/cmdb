@@ -32,9 +32,12 @@ use GlpiPlugin\Cmdb\ImpactIcon;
 
 $impactIcon = new ImpactIcon();
 
-// Restrict itemtype to the allowed criteria whitelist before any dynamic class usage
+// Restrict itemtype to the itemtypes the form itself offers, before any dynamic class usage.
+// getCriterias() names only the three itemtypes that own a type dropdown, so validating
+// against it rejected every other itemtype of the dropdown — Software, Datacenter, the CI
+// types of this plugin and the custom assets — with a 400.
 if (isset($_POST['itemtype'])
-    && !in_array($_POST['itemtype'], array_keys(ImpactIcon::getCriterias()), true)) {
+    && !in_array($_POST['itemtype'], ImpactIcon::getAllowedItemtypes(), true)) {
     throw new BadRequestHttpException();
 }
 
@@ -43,6 +46,11 @@ foreach ($criterias as $criteria) {
     if (isset($_POST[$criteria])) {
         $_POST['criteria'] = $_POST[$criteria];
     }
+}
+// An itemtype without a type dropdown — a custom asset among them — posts no criteria at all:
+// it gets the single default icon, which the column stores as 0.
+if (isset($_POST['itemtype']) && !isset($_POST['criteria'])) {
+    $_POST['criteria'] = 0;
 }
 
 // The uploaded icon's MIME type is validated server-side, fail-closed, in

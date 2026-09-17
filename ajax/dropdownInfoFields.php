@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\BadRequestHttpException;
 use GlpiPlugin\Cmdb\CIType;
 
 if (strpos($_SERVER['PHP_SELF'], "dropdownInfoFields.php")) {
@@ -34,4 +35,14 @@ if (strpos($_SERVER['PHP_SELF'], "dropdownInfoFields.php")) {
     Html::header_nocache();
 }
 Session::checkRight('plugin_cmdb_citypes', UPDATE);
-CIType::selectCriterias($_POST['itemtype']);
+
+// Replay at the sink the very list the dropdown of CIType::showImportedItem() is built
+// from: any other itemtype was never offered to this user and has no business reaching the
+// dynamic instantiation behind it. The empty entry of that dropdown posts "0".
+$itemtype = (string) ($_POST['itemtype'] ?? '');
+if ($itemtype !== '' && $itemtype !== '0'
+    && !in_array($itemtype, CIType::getTypes(), true)) {
+    throw new BadRequestHttpException();
+}
+
+CIType::selectCriterias($itemtype);

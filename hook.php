@@ -39,6 +39,8 @@ use GlpiPlugin\Cmdb\OperationProcess_Item;
 use GlpiPlugin\Cmdb\OperationProcessState;
 use GlpiPlugin\Cmdb\Profile;
 
+use function Safe\mkdir;
+
 /**
  * @return bool
  */
@@ -159,6 +161,21 @@ function plugin_cmdb_install()
     }
 
     $DB->runFile(PLUGIN_CMDB_DIR . "/install/sql/update-3.1.4.sql");
+
+    // Data directories the plugin reads from at runtime, created here rather than at
+    // setup.php load time.
+    foreach ([PLUGINCMDB_DOC_DIR, PLUGINCMDB_CLASS_PATH] as $directory) {
+        if (!file_exists($directory)) {
+            mkdir($directory);
+        }
+    }
+
+    // update-2.2.1.sql renamed glpi_plugin_cmdb_civalues.plugin_cmdb_cis_id to items_id and
+    // added itemtype beside it, but CI::postAddCi() kept writing the old name: every row
+    // created since carries items_id = 0 and an empty itemtype, which the readers — they all
+    // query on the (items_id, itemtype) pair — never match, and which the purge cleanup never
+    // collected. The rows can only belong to a CI, that is the one writer.
+    $DB->update('glpi_plugin_cmdb_civalues', ['itemtype' => CI::class], ['itemtype' => '']);
 
     Profile::initProfile();
     Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);

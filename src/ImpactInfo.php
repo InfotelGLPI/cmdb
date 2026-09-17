@@ -37,6 +37,7 @@ use Html;
 use Plugin;
 use PluginFieldsContainer;
 use PluginFieldsField;
+use ReflectionClass;
 use Search;
 use Session;
 use Toolbox;
@@ -52,17 +53,35 @@ class ImpactInfo extends CommonDBTM
 
     public function prepareInputForAdd($input)
     {
-        // Validate itemtype against the real class registry before persisting. Every other
-        // entry point (impact_item_infos.php, impact_infos_fields*.php, impacticon.form.php)
-        // already whitelists itemtype, and showInfos() re-checks on read; enforcing it at the
-        // write sink too closes front/impactinfo.form.php's "add" branch, which forwarded the
-        // raw $_POST['itemtype'] straight to add() and could store orphan/incoherent rows.
-        if (!isset($input['itemtype']) || getItemForItemtype($input['itemtype']) === false) {
+        // Validate itemtype at the write sink, against the very list showForm() offers rather
+        // than against the whole class registry: front/impactinfo.form.php's "add" branch
+        // forwards the raw $_POST['itemtype'] to add(), and any class name at all was stored,
+        // producing rows the impact analysis can never display.
+        if (!isset($input['itemtype'])
+            || !in_array($input['itemtype'], self::getAllowedItemtypes(), true)) {
             Session::addMessageAfterRedirect(__('Invalid item type.', 'cmdb'), false, ERROR);
             return false;
         }
 
         return $input;
+    }
+
+    /**
+     * Itemtypes an information set may be attached to.
+     *
+     * Single source of truth for showForm(), for prepareInputForAdd() and for
+     * front/impactinfo.form.php. impact_asset_types holds the core assets, the itemtypes this
+     * plugin declares through CIType::showInAssetTypes(), and the custom assets whose
+     * definition carries the impact capacity — HasImpactCapacity::onClassBootstrap()
+     * registers them there, so they are offered and accepted like any other asset.
+     *
+     * @return string[]
+     */
+    public static function getAllowedItemtypes()
+    {
+        global $CFG_GLPI;
+
+        return array_keys($CFG_GLPI['impact_asset_types'] ?? []);
     }
 
     public static function getMenuName()
@@ -180,8 +199,6 @@ class ImpactInfo extends CommonDBTM
 
     public function showForm($ID, $options = [])
     {
-        global $CFG_GLPI;
-
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
@@ -190,10 +207,9 @@ class ImpactInfo extends CommonDBTM
         echo "<td>";
         $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields.php";
         if ($this->isNewID($this->getID())) {
-            // all types available for impact analysis
-            $types = $CFG_GLPI['impact_asset_types'];
+            // all types available for impact analysis, custom assets included
             $availableTypes = [];
-            foreach (array_keys($types) as $type) {
+            foreach (self::getAllowedItemtypes() as $type) {
                 $availableTypes[$type] = $type::getTypeName();
             }
             $rand = mt_rand();
@@ -224,7 +240,13 @@ class ImpactInfo extends CommonDBTM
         ";
         } else {
             $itemtype = $this->fields['itemtype'];
-            echo $itemtype::getTypeName();
+            // A namespaced itemtype — every custom asset, and the CI types of this plugin —
+            // dropped verbatim between JS quotes has its backslashes read as escape sequences:
+            // 'Glpi\CustomAsset\FooAsset' reached the endpoint as "GlpiCustomAssetFooAsset",
+            // which no longer resolves to a class and was answered with a 400. Emit a real JS
+            // literal instead. HEX_TAG/HEX_AMP only: quoting the delimiters would break it.
+            $itemtype_js = json_encode($itemtype, JSON_HEX_TAG | JSON_HEX_AMP);
+            echo htmlescape($itemtype::getTypeName());
             echo "
             <script>
                 $(document).ready(function() {
@@ -232,7 +254,7 @@ class ImpactInfo extends CommonDBTM
                     fieldsForm[0].innerHTML = '<div class=\"d-flex justify-content-center\"><i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i></div>';
                     fieldsForm.load('$url', {
                         'id' : $ID,
-                        'itemtype' : '$itemtype'
+                        'itemtype' : $itemtype_js
                     });
                 });
             </script>
@@ -255,7 +277,6 @@ class ImpactInfo extends CommonDBTM
      */
     public static function getFieldsForItemtype($itemtype)
     {
-        $dbu = new DbUtils();
         $plugin = new Plugin();
         if (!$item = getItemForItemtype($itemtype)) {
             return [];
@@ -266,7 +287,8 @@ class ImpactInfo extends CommonDBTM
             $fields['glpi'] = [];
             foreach ($searchOptions as $id => $option) {
                 if (isset($option['table'])) {
-                    $fields['glpi'][$id] = $dbu->getItemTypeForTable($option['table'])::getTypeName(1) . ' - ' . $option['name'];
+                    $fields['glpi'][$id] = self::getSearchOptionTypeName($option['table'], $itemtype)
+                        . ' - ' . $option['name'];
                 }
             }
             if ($plugin->isActivated('fields')) {
@@ -293,6 +315,36 @@ class ImpactInfo extends CommonDBTM
             }
             return $value;
         }
+    }
+
+    /**
+     * Name the itemtype a search option belongs to, for the "<type> - <option>" labels.
+     *
+     * getItemTypeForTable() maps a table back to a class name, but every custom asset shares
+     * the tables of the asset engine of the core: glpi_assets_assets maps back to
+     * Glpi\Asset\Asset, the abstract parent, whose getTypeName() reads a static property that
+     * only a generated concrete class initialises — reaching it aborted the whole request with
+     * a fatal error. The same call also produced "UNKNOWN" for any table the core cannot map.
+     * Fall back on the itemtype actually being described whenever the class derived from the
+     * table cannot name itself.
+     *
+     * @param string $table    the table of the search option
+     * @param string $itemtype the itemtype the search options were read for
+     *
+     * @return string
+     */
+    private static function getSearchOptionTypeName(string $table, string $itemtype): string
+    {
+        $table_itemtype = (new DbUtils())->getItemTypeForTable($table);
+
+        if (
+            !is_a($table_itemtype, CommonDBTM::class, true)
+            || (new ReflectionClass($table_itemtype))->isAbstract()
+        ) {
+            return $itemtype::getTypeName(1);
+        }
+
+        return $table_itemtype::getTypeName(1);
     }
 
     public static function getPluginFieldsFields($itemtype)
@@ -630,6 +682,8 @@ class ImpactInfo extends CommonDBTM
             ],
         );
         $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields_dropdown.php";
+        // Same reason as showForm(): a namespaced itemtype is not a plain JS string.
+        $itemtype_js = json_encode($itemtype, JSON_HEX_TAG | JSON_HEX_AMP);
 
         echo "
             <script>
@@ -703,7 +757,7 @@ class ImpactInfo extends CommonDBTM
                             // regenerate the select with the updated options
                             container$key.load('$url', {
                                 'key' : '$key',
-                                'itemtype' : '$itemtype',
+                                'itemtype' : $itemtype_js,
                                 'used' : values
                             });
                         })
@@ -719,7 +773,7 @@ class ImpactInfo extends CommonDBTM
                         // regenerate the select with the updated options
                         container$key.load('$url', {
                             'key' : '$key',
-                            'itemtype' : '$itemtype',
+                            'itemtype' : $itemtype_js,
                             'used' : values
                         });
                     })

@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\BadRequestHttpException;
 use GlpiPlugin\Cmdb\CIType;
 
 if (strpos($_SERVER['PHP_SELF'], "dropdownTypeByCIType.php")) {
@@ -34,4 +35,13 @@ if (strpos($_SERVER['PHP_SELF'], "dropdownTypeByCIType.php")) {
     Html::header_nocache();
 }
 Session::checkRight('plugin_cmdb_citypes', UPDATE);
-CIType::selectTypesByCIType($_POST['itemtype'], $_POST['id']);
+
+// Same allow-list as the twin endpoint: both are wired on the same dropdown by
+// CIType::showImportedItem(), so both accept exactly what it offers.
+$itemtype = (string) ($_POST['itemtype'] ?? '');
+if ($itemtype !== '' && $itemtype !== '0'
+    && !in_array($itemtype, CIType::getTypes(), true)) {
+    throw new BadRequestHttpException();
+}
+
+CIType::selectTypesByCIType($itemtype, (int) ($_POST['id'] ?? 0));

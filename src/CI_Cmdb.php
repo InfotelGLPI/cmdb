@@ -33,10 +33,6 @@ use CommonDBTM;
 use CommonGLPI;
 use Html;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class CI_Cmdb
  */

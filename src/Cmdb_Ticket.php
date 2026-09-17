@@ -34,10 +34,6 @@ use CommonDBTM;
 use CommonGLPI;
 use Item_Ticket;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Cmdb_Ticket
  */

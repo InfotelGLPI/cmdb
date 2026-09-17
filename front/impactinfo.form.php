@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\BadRequestHttpException;
 use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\ImpactInfoField;
 
@@ -49,6 +50,12 @@ $sanitizeImpactField = static function (array $field, int $impactinfos_id): ?arr
     ];
 };
 if (isset($_POST["add"])) {
+    // itemtype drives getFromDBByCrit() just below and is revalidated against the itemtypes
+    // the form offers by ImpactInfo::prepareInputForAdd(); require it here to answer a clean
+    // 400 rather than reaching that check on an undefined key.
+    if (!isset($_POST['itemtype'])) {
+        throw new BadRequestHttpException();
+    }
     $input = ['itemtype' => $_POST['itemtype']];
     $impactInfo->check(-1, CREATE, $input);
 

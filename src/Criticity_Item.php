@@ -35,10 +35,6 @@ use Dropdown;
 use Infocom;
 use Log;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class Criticity_Item
  */
@@ -120,7 +116,7 @@ class Criticity_Item extends CommonDBTM
         }
         switch ($field) {
             case 'value':
-                return Dropdown::getDropdownName('glpi_businesscriticities', $values[$field]);
+                return htmlescape(Dropdown::getDropdownName('glpi_businesscriticities', $values[$field]));
         }
         return parent::getSpecificValueToDisplay($field, $values, $options);
     }
@@ -192,6 +188,14 @@ class Criticity_Item extends CommonDBTM
     public static function preUpdateItemCriticity(CommonDBTM $item)
     {
 
+        // Writing a criticity is an update of a CMDB object, but this hook fires on the
+        // update of the host asset: the right of the host was the only one ever checked, so
+        // any profile able to update a computer could set, move or clear its criticity. The
+        // massive action path below lands here too.
+        if (!self::canUpdate()) {
+            return;
+        }
+
         //massive actions
         if (isset($item->input['plugin_cmdb_criticities_items_id'])) {
             $item->input['_plugin_cmdb_criticity_items'] = $item->input['plugin_cmdb_criticities_items_id'];
@@ -256,6 +260,12 @@ class Criticity_Item extends CommonDBTM
     public static function addItemCriticity(CommonDBTM $item)
     {
 
+        // Same reason as preUpdateItemCriticity(): the creation of the host asset carried the
+        // criticity along and no CMDB right was consulted on the way.
+        if (!self::canUpdate()) {
+            return;
+        }
+
         if (isset($item->input['_plugin_cmdb_criticity_items'])) {
 
             $crit = new Criticity_Item();
@@ -319,13 +329,13 @@ class Criticity_Item extends CommonDBTM
             //                                  'items_id_ref'               => $items_id], 1);
 
         }
-        //delete criticity
-        if (isset($item->input["plugin_cmdb_criticity_id"])) {
-
-            $input["id"] = $item->input['plugin_cmdb_criticity_id'];
-            $crit->delete($input, 1);
-
-        }
+        // Delete the criticity of the item being purged, resolved from the item itself. The
+        // row id used to be read from $item->input, i.e. straight from the purge form, so a
+        // forged plugin_cmdb_criticity_id purged the criticity of any other item — the link
+        // carries no entities_id, so nothing else constrained it — while the criticity of the
+        // item actually purged survived as an orphan.
+        $crit->deleteByCriteria(['itemtype' => $item->getType(),
+            'items_id' => $item->fields['id']], true);
 
     }
 

@@ -39,6 +39,7 @@ use Datacenter;
 use Document_Item;
 use Dropdown;
 use Enclosure;
+use Glpi\Asset\Asset;
 use Html;
 use Monitor;
 use NetworkEquipment;
@@ -216,18 +217,15 @@ class ImpactIcon extends CommonDBTM
 
     public function showForm($ID, $options = [])
     {
-        global $CFG_GLPI;
-
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Item type') . "</td>";
         echo "<td>";
-        // all types available for impact analysis
-        $types = $CFG_GLPI['impact_asset_types'];
+        // all types available for impact analysis, custom assets included
         $availableTypes = [];
-        foreach (array_keys($types) as $type) {
+        foreach (self::getAllowedItemtypes() as $type) {
             $availableTypes[$type] = $type::getTypeName();
         }
         $rand = mt_rand();
@@ -293,7 +291,7 @@ class ImpactIcon extends CommonDBTM
 
     public function prepareInputForAdd($input)
     {
-        if (!$this->checkUploadedIcon($input)) {
+        if (!self::checkUploadedIcon($input['_filename'] ?? null)) {
             return false;
         }
 
@@ -302,7 +300,7 @@ class ImpactIcon extends CommonDBTM
 
     public function prepareInputForUpdate($input)
     {
-        if (!$this->checkUploadedIcon($input)) {
+        if (!self::checkUploadedIcon($input['_filename'] ?? null)) {
             return false;
         }
 
@@ -318,19 +316,23 @@ class ImpactIcon extends CommonDBTM
      * rejected outright, and a temp file that cannot be probed as a raster image (SVG,
      * scripts, missing file) fails the whole add/update instead of being attached.
      *
-     * @param array $input
+     * Public and static because CIType::addIcons() uploads the CI type icon through a code
+     * path of its own — it reads the files from $this->input['_filename$$<id>'] — and has to
+     * apply the very same rule.
+     *
+     * @param mixed $files the uploaded temp file names of the request, if any
      *
      * @return bool
      */
-    private function checkUploadedIcon(array $input): bool
+    public static function checkUploadedIcon($files): bool
     {
         // No new file in this request (e.g. a metadata-only update): nothing to validate.
-        if (!isset($input['_filename']) || !is_array($input['_filename'])) {
+        if (!is_array($files)) {
             return true;
         }
 
         $allowed = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
-        foreach ($input['_filename'] as $file) {
+        foreach ($files as $file) {
             $file = (string) $file;
             // A legitimate temp name is a bare basename; a separator means tampering.
             if ($file === '' || strpbrk($file, "/\\") !== false || basename($file) !== $file) {
@@ -404,7 +406,7 @@ class ImpactIcon extends CommonDBTM
                 $obj = new $itemtype();
 
                 // itemtype that can have a picture
-                if (in_array($obj->getType(), self::itemtypeWithPicture())) {
+                if (self::hasOwnPicture($obj->getType())) {
                     if ($obj->getFromDB($data['items_id'])) {
                         if (isset($obj->fields['pictures'])
                             && !empty($obj->fields['pictures'])) {
@@ -421,7 +423,7 @@ class ImpactIcon extends CommonDBTM
                 }
 
                 // itemtype with model that con have a picture
-                if (in_array($obj->getType(), self::itemtypeModelWithPicture())) {
+                if (self::hasModelPicture($obj->getType())) {
                     if (class_exists($obj->getType() . "Model")) {
                         $tablemodel = getTableForItemType($itemtype . "Model");
                         $modelfield = getForeignKeyFieldForTable($tablemodel);
@@ -493,6 +495,27 @@ class ImpactIcon extends CommonDBTM
         ];
     }
 
+    /**
+     * Itemtypes an icon may be attached to.
+     *
+     * Single source of truth for the dropdown of showForm() and for the validation done by
+     * front/impacticon.form.php. impact_asset_types is the registry the impact analysis
+     * itself works on: core assets, the itemtypes this plugin declares through
+     * CIType::showInAssetTypes(), and the custom assets whose definition carries the impact
+     * capacity — HasImpactCapacity::onClassBootstrap() registers them there. The controller
+     * used to validate against getCriterias() instead, which names only the three itemtypes
+     * that own a type dropdown: every other itemtype the form offered, custom assets
+     * included, was answered with a 400.
+     *
+     * @return string[]
+     */
+    public static function getAllowedItemtypes()
+    {
+        global $CFG_GLPI;
+
+        return array_keys($CFG_GLPI['impact_asset_types'] ?? []);
+    }
+
     public static function getCache($recursive = false)
     {
         global $GLPI_CACHE;
@@ -535,6 +558,37 @@ class ImpactIcon extends CommonDBTM
      * itemtypes with a picture property
      * @return array
      */
+    /**
+     * Does this itemtype carry its own pictures column?
+     *
+     * @param string $itemtype
+     *
+     * @return bool
+     */
+    public static function hasOwnPicture($itemtype)
+    {
+        return in_array($itemtype, self::itemtypeWithPicture(), true);
+    }
+
+    /**
+     * Does this itemtype carry its pictures on its model?
+     *
+     * Custom assets cannot be listed one by one below: an administrator creates them at
+     * runtime, so they are recognised by class instead of by name. glpi_assets_assets has no
+     * pictures column while glpi_assets_assetmodels has one, which puts them in this family:
+     * <Name>Asset resolves its model through <Name>AssetModel and assets_assetmodels_id,
+     * exactly the lookup getItemIcon() already performs for the core itemtypes.
+     *
+     * @param string $itemtype
+     *
+     * @return bool
+     */
+    public static function hasModelPicture($itemtype)
+    {
+        return in_array($itemtype, self::itemtypeModelWithPicture(), true)
+            || is_a($itemtype, Asset::class, true);
+    }
+
     public static function itemtypeWithPicture()
     {
         // TODO : could add hook

@@ -47,10 +47,6 @@ use Plugin;
 use Session;
 use Toolbox;
 
-if (!defined('GLPI_ROOT')) {
-    die("Sorry. You can't access directly to this file");
-}
-
 /**
  * Class CIType
  */
@@ -838,18 +834,21 @@ class CIType extends CommonDropdown
 
         echo "<span id='span_fields' name='span_fields'>";
 
-        if (!isset($citype) || !$citype || !class_exists($citype)) {
+        $dbu = new DbUtils();
+
+        // Validate the client-supplied itemtype at the sink: class_exists() accepted any
+        // loadable class name, so the dynamic instantiation below built an arbitrary object
+        // and getTableForItemType() then derived a table name from it. Resolve it the way
+        // the rest of GLPI does and fail closed, like the twin selectTypesByCIType().
+        $target = $dbu->getItemForItemtype((string) $citype);
+        if ($target === false) {
             echo "</span>";
             return;
         }
+
         $ci_type = new CIType();
         $ci_type->getFromDB($ID);
         $config_fields = explode(',', $ci_type->getField('fields'));
-
-        //Search option for this type
-        $target = new $citype();
-
-        $dbu = new DbUtils();
 
         //Construct list
         echo "<span id='span_fields' name='span_fields'>";
@@ -1106,6 +1105,12 @@ class CIType extends CommonDropdown
         if (!isset($this->input['_filename$$' . $id]) || (count($this->input['_filename$$' . $id]) == 0)) {
             return [];
         }
+        // The temp file names come straight from the request and are turned into a path just
+        // below; Html::file(['onlyimages' => true]) on the form is a client-side hint only.
+        // Apply the same fail-closed server-side check as the other icon upload of the plugin.
+        if (!ImpactIcon::checkUploadedIcon($this->input['_filename$$' . $id])) {
+            return [];
+        }
         $docadded = [];
 
         foreach ($this->input['_filename$$' . $id] as $key => $file) {
@@ -1132,7 +1137,7 @@ class CIType extends CommonDropdown
                 }
             } else {
                 //TRANS: Default document to files attached to tickets : %d is the ticket id
-                $input2["name"]                    = addslashes(sprintf(__('Icon CIType %d', 'cmdb'), $this->getID()));
+                $input2["name"]                    = sprintf(__('Icon CIType %d', 'cmdb'), $this->getID());
                 $input2["entities_id"]             = $this->fields["entities_id"];
                 $input2["documentcategories_id"]   = $CFG_GLPI["documentcategories_id_forticket"];
                 $input2["_only_if_upload_succeed"] = 1;
@@ -1408,7 +1413,7 @@ class CIType extends CommonDropdown
 
         switch ($ma->getAction()) {
             case 'transfer':
-                echo "&nbsp;" . $_SESSION['glpiactive_entity_shortname'];
+                echo "&nbsp;" . htmlescape($_SESSION['glpiactive_entity_shortname']);
                 echo "<br><br>" . Html::submit(
                     _x('button', 'Transfer', 'cmdb'),
                     ['name' => 'massiveaction', 'class' => 'btn btn-primary'],

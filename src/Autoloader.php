@@ -33,6 +33,12 @@ class Autoloader
 {
     protected $paths = [];
 
+    /** @var array<string,true>|null lazily built allow-list of the generated class names */
+    protected $allowed_classes = null;
+
+    /** @var bool re-entrancy guard: building the allow-list runs a query, which autoloads */
+    protected $is_resolving = false;
+
     public function __construct($options = null)
     {
         if (null !== $options) {
@@ -81,6 +87,10 @@ class Autoloader
                     return false;
                 }
 
+                if (!$this->isAllowedClass($class_name)) {
+                    return false;
+                }
+
                 $filename = implode(".", [
                     $class_name,
                     "php",
@@ -95,6 +105,60 @@ class Autoloader
             }
         }
         return false;
+    }
+
+    /**
+     * Is this class name one of the CI type classes the plugin declares?
+     *
+     * The paths handed to this autoloader live under GLPI_PLUGIN_DOC_DIR, a directory the web
+     * process writes to: any .php file dropped there — through an upload flaw anywhere else
+     * in the instance, or left over by an older version — was included and executed on the
+     * mere mention of a matching class name. The class name pattern already forbids a path
+     * separator, so the missing piece is not traversal but the fact that nothing said which
+     * files are legitimate. Rebuild that list from glpi_plugin_cmdb_citypes, the table the
+     * generated classes were named after, and refuse everything else.
+     *
+     * Refusing is safe when the database is not reachable yet: the plugin's own classes are
+     * loaded by GLPI from marketplace/cmdb/src, never from here.
+     *
+     * @param string $class_name
+     *
+     * @return bool
+     */
+    protected function isAllowedClass($class_name)
+    {
+        global $DB;
+
+        if ($this->allowed_classes === null) {
+            if ($this->is_resolving
+                || !$DB->connected
+                || !$DB->tableExists('glpi_plugin_cmdb_citypes')) {
+                return false;
+            }
+
+            $this->is_resolving    = true;
+            $this->allowed_classes = [];
+            $iterator = $DB->request([
+                'SELECT' => 'name',
+                'FROM'   => 'glpi_plugin_cmdb_citypes',
+                'WHERE'  => ['is_imported' => 0],
+            ]);
+            foreach ($iterator as $citype) {
+                // Same transformation as CIType::getSystemName() followed by the ucfirst()
+                // CIType::cleanDBonPurge() applies to build the file name.
+                $system_name = preg_replace(
+                    '/[^a-z0-9_]/',
+                    '',
+                    strtolower(substr((string) $citype['name'], strlen('GlpiPlugin\\Cmdb'))),
+                );
+                if ($system_name !== '') {
+                    $this->allowed_classes[ucfirst($system_name)] = true;
+                }
+            }
+            $this->is_resolving = false;
+        }
+
+        return isset($this->allowed_classes[$class_name]);
     }
 
     public function register()

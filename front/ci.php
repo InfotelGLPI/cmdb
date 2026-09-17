@@ -27,21 +27,17 @@
  * --------------------------------------------------------------------------
  */
 
-use Glpi\Exception\Http\AccessDeniedHttpException;
 use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Menu;
 
-Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class, 'ci');
-
+// Same reason as front/menu.php: the page was rendered before the right was checked, and
+// checkGlobal() already raises the access error the removed branch was throwing by hand.
 $op = new CI();
 $op->checkGlobal(READ);
 
-if ($op->canView()) {
-    Search::show(CI::class);
+Html::header(Cmdb::getTypeName(2), '', "plugins", Menu::class, 'ci');
 
-} else {
+Search::show(CI::class);
 
-    throw new AccessDeniedHttpException();
-}
 Html::footer();
