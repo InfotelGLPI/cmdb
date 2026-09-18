@@ -205,11 +205,11 @@ msgstr "Nom invalide !"
 msgid "Is this item presents in glpi ?"
 msgstr "Est ce que cet élément est présent dans GLPI ? "
 
-#: src/Menu.php:68 src/Profile.php:127
+#: src/Menu.php:68 src/Profile.php:126
 msgid "Item Configuration"
 msgstr "Element de configuration"
 
-#: src/Profile.php:206 src/Profile.php:239
+#: src/Profile.php:205 src/Profile.php:238
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Elément de configuration"
@@ -300,14 +300,14 @@ msgstr[0] "Type d'élément de configuration"
 msgstr[1] "Types d'élément de configuration"
 msgstr[2] "Types d'élément de configuration"
 
-#: src/Profile.php:243
+#: src/Profile.php:242
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type d'élément de configuration"
 msgstr[1] "Types d'élement de configuration"
 msgstr[2] "Types d'élement de configuration"
 
-#: src/Profile.php:131 src/Profile.php:219
+#: src/Profile.php:130 src/Profile.php:218
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type d'élément de configuration"

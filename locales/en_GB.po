@@ -196,11 +196,11 @@ msgstr "Invalid name !"
 msgid "Is this item presents in glpi ?"
 msgstr "Is this item presents in glpi ?"
 
-#: src/Menu.php:68 src/Profile.php:127
+#: src/Menu.php:68 src/Profile.php:126
 msgid "Item Configuration"
 msgstr "Item Configuration"
 
-#: src/Profile.php:206 src/Profile.php:239
+#: src/Profile.php:205 src/Profile.php:238
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Item configuration"
@@ -287,13 +287,13 @@ msgid_plural "Types CIs"
 msgstr[0] "Type CI"
 msgstr[1] "Types CIs"
 
-#: src/Profile.php:243
+#: src/Profile.php:242
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of Item Configuration"
 msgstr[1] "Types of item configuration"
 
-#: src/Profile.php:131 src/Profile.php:219
+#: src/Profile.php:130 src/Profile.php:218
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of item configuration"
