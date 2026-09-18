@@ -439,8 +439,11 @@ class Criticity extends CommonDBTM
             }
         }
 
-        $itemtype = $options['itemtype'];
-        $items_id = $options['items_id'];
+        // ajax/criticity_values.php calls this with the itemtype alone, so reading items_id
+        // unconditionally raised "Undefined array key" on every AJAX render; any byte emitted
+        // before the dropdown corrupts the fragment the client injects in its place.
+        $itemtype = (string) ($options['itemtype'] ?? '');
+        $items_id = (int) ($options['items_id'] ?? 0);
 
         if (!$obj = getItemForItemtype($itemtype)) {
             return;
@@ -454,8 +457,11 @@ class Criticity extends CommonDBTM
         $value          = 0;
         $criticity_item = new Criticity_Item();
 
-        if ($criticity_item->getFromDBByCrit(['itemtype' => $itemtype,
-            'items_id' => $items_id])) {
+        // Without an item there is no link to preselect: keep the default rather than query
+        // the table on items_id 0, which the creation form would otherwise match by accident.
+        if ($items_id > 0
+            && $criticity_item->getFromDBByCrit(['itemtype' => $itemtype,
+                'items_id' => $items_id])) {
             $value = $criticity_item->fields['plugin_cmdb_criticities_id'];
         }
 

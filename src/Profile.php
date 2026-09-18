@@ -76,14 +76,13 @@ class Profile extends \Profile
             $ID   = $item->getID();
             $prof = new self();
 
-            self::addDefaultProfileInfos($ID, ['plugin_cmdb_operationprocesses'             => 0,
-                'plugin_cmdb_operationprocesses_open_ticket' => 0,
-                'plugin_cmdb_cis'                            => 0,
-                'plugin_cmdb_citypes'                        => 0,
-                'plugin_cmdb_impacticons'                    => 0,
-                'plugin_cmdb_impactinfos'                    => 0,
-            ]);
-
+            // Rendering the tab used to call addDefaultProfileInfos(), so a GET request
+            // inserted rights rows and pushed them into the session. The seeding already has
+            // its own explicit paths: the install and update hooks go through initProfile(),
+            // which registers the right names on every profile, and a profile created later is
+            // filled by the core in Profile::post_addItem() via fillProfileRights(). A row
+            // that is still missing is read as "no right" by displayRightsChoiceMatrix()
+            // anyway, so displaying only needs to read.
             $prof->showForm($ID);
         }
         return true;

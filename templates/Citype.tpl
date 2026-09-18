@@ -95,7 +95,7 @@ class %%CLASSNAME%% extends CommonDropdown {
       echo "</td>";
       echo "</tr>";
 
-      $cifields = new Cifields();
+      $cifields = new CiFields();
       $cifields->setFieldByType(%%TYPE%%, $ID, self::getType());
       $this->showFormButtons($options);
 
@@ -119,10 +119,20 @@ class %%CLASSNAME%% extends CommonDropdown {
 
    function postAddCi($history, $item) {
 
-      $civalue           = new Civalues();
+      $civalue           = new CiValues();
       $input['items_id'] = $item->getID();
       $input['itemtype'] = self::getType();
+
+      // newfield is indexed by the cifields id the form rendered, and the browser posts those
+      // keys back untouched: a forged key created a value row bound to a field definition of
+      // another CI type. Keep only the definitions that belong to this type, the very same
+      // intersection CI::postAddCi() applies.
+      $owned_fields = (new CiFields())->find(['plugin_cmdb_citypes_id' => %%TYPE%%]);
+
       foreach ($item->input["newfield"] as $key => $value) {
+         if (!isset($owned_fields[$key])) {
+            continue;
+         }
          $input['value']                   = $value;
          $input['plugin_cmdb_cifields_id'] = $key;
          $civalue->add($input, [], $history);
@@ -153,9 +163,19 @@ class %%CLASSNAME%% extends CommonDropdown {
 
 
       if (isset($this->input["field"])) {
-         foreach ($this->input["field"] as $key => $value) {
-            $temp = new Civalues();
+         // The form indexes these rows by their own civalues id and the browser posts it back
+         // untouched, so a forged id rewrote the value of any row of the table — including the
+         // custom fields of an item in another entity. CiValues carries no entities_id, so
+         // checkEntity() is inoperative on it, and update() on a bare id checks nothing else.
+         // Reload the set this item actually owns and keep only the intersection, exactly as
+         // CI::post_updateItem() does.
+         $temp  = new CiValues();
+         $owned = $temp->find(CiValues::getOwnerCriteria(self::getType(), $this->fields['id']));
 
+         foreach ($this->input["field"] as $key => $value) {
+            if (!isset($owned[$key])) {
+               continue;
+            }
             $temp->update(['value' => $value,
                            'id'    => $key]);
          }
@@ -174,8 +194,12 @@ class %%CLASSNAME%% extends CommonDropdown {
    public
    function cleanDBonPurge() {
 
-      $temp = new Civalues();
-      $temp->deleteByCriteria(['items_id' => $this->fields['id'], 'itemtype'], 1);
+      // The second entry carried a numeric key, so "itemtype" reached the criteria builder as
+      // a raw fragment and the condition was true for any non-empty itemtype: purging one item
+      // deleted the custom values of every type sharing the same items_id. Use the ownership
+      // criteria, like CI::cleanDBonPurge().
+      $temp = new CiValues();
+      $temp->deleteByCriteria(CiValues::getOwnerCriteria(self::getType(), $this->fields['id']), true);
 
       $impactitem = new ImpactItem();
       $impactitem->deleteByCriteria(["itemtype" => self::class, 'items_id' => $this->fields['id']]);

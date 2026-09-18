@@ -30,6 +30,7 @@
 use Glpi\Exception\Http\NotFoundHttpException;
 use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\CiFields;
+use GlpiPlugin\Cmdb\CIType;
 
 Session::checkRight('plugin_cmdb_cis', UPDATE);
 
@@ -46,5 +47,20 @@ if ($id > 0) {
     }
 }
 
+// idCIType is the second id of the payload and reached the query builder untouched. CIType is
+// entity-assigned — getCiTypesByEntity() scopes its own lists with getEntitiesRestrictCriteria()
+// — so every custom field definition of any type could be listed from any entity. This endpoint
+// is gated on plugin_cmdb_cis, not on plugin_cmdb_citypes: a can() here would demand a right the
+// technician legitimately does not hold, so enforce the entity boundary instead. The is_recursive
+// flag is mandatory, otherwise a recursive type declared in a parent entity would be refused from
+// a child one.
+$idCIType = (int) ($_POST['idCIType'] ?? 0);
+$citype   = new CIType();
+if ($idCIType <= 0
+    || !$citype->getFromDB($idCIType)
+    || !Session::haveAccessToEntity($citype->fields['entities_id'], $citype->fields['is_recursive'])) {
+    throw new NotFoundHttpException();
+}
+
 $fields = new CiFields();
-$fields->setFieldByType($_POST["idCIType"], $_POST["id"]);
+$fields->setFieldByType($idCIType, $id);

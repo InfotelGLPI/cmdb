@@ -27,13 +27,25 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Exception\Http\NotFoundHttpException;
 use GlpiPlugin\Cmdb\CIType;
 
 Session::checkRight('plugin_cmdb_citypes', UPDATE);
 
-$data   = [];
+// The id was read raw and the return of getFromDB() was dropped: checkRight() above only
+// carries the global profile bitmask, while CIType is entity-assigned — getCiTypesByEntity()
+// scopes its own lists with getEntitiesRestrictCriteria() — so the search URL, hence the
+// itemtype, of a type belonging to any other entity was answered; and an id matching no row
+// left $citype->fields empty, raising "Undefined array key name" just below. can() chains the
+// right check and checkEntity(), the control the sibling endpoints ajax/change_field.php and
+// ajax/reset_fields_citypes.php already received. UPDATE is the level this endpoint is gated on.
+$id     = (int) ($_POST['id'] ?? 0);
 $citype = new CIType();
-$citype->getFromDB($_POST['id']);
+if ($id <= 0 || !$citype->can($id, UPDATE)) {
+    throw new NotFoundHttpException();
+}
+
+$data = [];
 if (isset($citype->fields["is_imported"])
     && $citype->fields["is_imported"]) {
     $data["link"] = Toolbox::getItemTypeSearchURL($citype->fields["name"]);
