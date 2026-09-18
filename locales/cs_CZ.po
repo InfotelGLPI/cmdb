@@ -209,11 +209,11 @@ msgstr "Neplatný název!"
 msgid "Is this item presents in glpi ?"
 msgstr "Je tato položka přítomna v glpi?"
 
-#: src/Menu.php:68 src/Profile.php:127
+#: src/Menu.php:68 src/Profile.php:126
 msgid "Item Configuration"
 msgstr "Konfigurační položka"
 
-#: src/Profile.php:206 src/Profile.php:239
+#: src/Profile.php:205 src/Profile.php:238
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Konfigurační položka"
@@ -308,7 +308,7 @@ msgstr[1] "Typů CI"
 msgstr[2] "Typů CI"
 msgstr[3] "Typy CI"
 
-#: src/Profile.php:243
+#: src/Profile.php:242
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Typ konfigurační položky"
@@ -316,7 +316,7 @@ msgstr[1] "Typů konfiguračních položek"
 msgstr[2] "Typů konfiguračních položek"
 msgstr[3] "Typy konfiguračních položek"
 
-#: src/Profile.php:131 src/Profile.php:219
+#: src/Profile.php:130 src/Profile.php:218
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Typ konfigurační položky"

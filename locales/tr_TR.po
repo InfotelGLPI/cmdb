@@ -201,11 +201,11 @@ msgstr "Ad geçersiz!"
 msgid "Is this item presents in glpi ?"
 msgstr "Bu öge GLPI üzerinde var mı?"
 
-#: src/Menu.php:68 src/Profile.php:127
+#: src/Menu.php:68 src/Profile.php:126
 msgid "Item Configuration"
 msgstr "Öge Yapılandırması"
 
-#: src/Profile.php:206 src/Profile.php:239
+#: src/Profile.php:205 src/Profile.php:238
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Öge yapılandırması"
@@ -292,13 +292,13 @@ msgid_plural "Types CIs"
 msgstr[0] "CI Türü"
 msgstr[1] "CI Türleri"
 
-#: src/Profile.php:243
+#: src/Profile.php:242
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Öge yapılandırması türü"
 msgstr[1] "Öge yapılandırması türleri"
 
-#: src/Profile.php:131 src/Profile.php:219
+#: src/Profile.php:130 src/Profile.php:218
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Öge yapılandırması türü"
