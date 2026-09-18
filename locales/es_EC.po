@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 09:37+0000\n"
+"POT-Creation-Date: 2026-09-18 13:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
-#: src/CIType.php:1053
+#: src/CIType.php:1109
 msgid "Add New Field"
 msgstr "Agregar Nuevo Campo"
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Area Text"
 msgstr "Área del texto"
 
-#: src/OperationProcess_Item.php:549
+#: src/OperationProcess_Item.php:546
 msgctxt "button"
 msgid "Associate a service"
 msgstr "Asociar un servicio"
@@ -103,7 +103,7 @@ msgstr[2] "Criticidades"
 msgid "Current icon"
 msgstr ""
 
-#: src/CIType.php:732
+#: src/CIType.php:782
 msgid "Default icon"
 msgstr "Icono predeterminado"
 
@@ -131,7 +131,7 @@ msgstr "No utilice un nombre de clase en plural (como \"misobjetos\")"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Los elementos vinculados al caso no se importan en la CMDB"
 
-#: src/CIType.php:1103
+#: src/CIType.php:1159
 msgid "Existing fields for this type of CI"
 msgstr "Campos existentes para este tipo de CI"
 
@@ -143,7 +143,7 @@ msgstr "Exportar PNG"
 msgid "Go to custom assets"
 msgstr ""
 
-#: src/ImpactIcon.php:66 src/CIType.php:692
+#: src/ImpactIcon.php:66 src/CIType.php:742
 #, fuzzy
 msgid "Icon"
 msgid_plural "Icons"
@@ -152,7 +152,7 @@ msgstr[1] "Icono"
 msgstr[2] "Icono"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1195
+#: src/CIType.php:1251
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Icono CIType 1%d"
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Impacted items"
 msgstr "Elementos afectados"
 
-#: src/CIType.php:641
+#: src/CIType.php:691
 msgid "Import CI"
 msgstr "Importar CI"
 
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Invalid item type."
 msgstr ""
 
-#: src/CI.php:212
+#: src/CI.php:226
 msgid "Invalid name !"
 msgstr "¡Nombre inválido!"
 
@@ -221,12 +221,12 @@ msgstr[2] "Configuración de elementos"
 msgid "No elements of CMDB linked to the ticket"
 msgstr "No hay elementos de CMDB vinculados al caso"
 
-#: src/ImpactInfo.php:679
+#: src/ImpactInfo.php:687
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfo.php:690
+#: src/ImpactInfo.php:698
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr ""
@@ -238,6 +238,10 @@ msgstr ""
 #: src/Criticity.php:202 src/Criticity.php:262
 msgid "Please choose a level for criticality"
 msgstr "Por favor elija un nivel de criticidad"
+
+#: src/CIType.php:445
+msgid "Please, choose an imported CI !"
+msgstr "¡Por favor, elija un CI importado!"
 
 #: src/ImpactInfoField.php:82
 msgid "Plugin additional fields fields"
@@ -251,7 +255,7 @@ msgstr "Proximidad"
 msgid "Purge CMDB"
 msgstr "Depurar CMDB"
 
-#: src/CIType.php:1107
+#: src/CIType.php:1163
 msgid "Reset Existing fields"
 msgstr "Restablecer campos existentes"
 
@@ -289,7 +293,11 @@ msgstr "Cadena"
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
 msgstr ""
 
-#: src/CIType.php:1456 src/CIType.php:1473
+#: src/CIType.php:458
+msgid "There is already an existing name or the name is invalid"
+msgstr "Ya existe un nombre o el nombre no es válido"
+
+#: src/CIType.php:1512 src/CIType.php:1529
 msgctxt "button"
 msgid "Transfer"
 msgstr "Transferir"
@@ -323,7 +331,7 @@ msgstr "Actualizar enlace"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1076
+#: src/CIType.php:1132
 msgid "Upload icon"
 msgstr "Subir icono"
 
@@ -383,12 +391,6 @@ msgstr "muy bajo"
 
 #~ msgid "Create baseline"
 #~ msgstr "Crear una base de referencia"
-
-#~ msgid "Please, choose an imported CI !"
-#~ msgstr "¡Por favor, elija un CI importado!"
-
-#~ msgid "There is already an existing name or the name is invalid"
-#~ msgstr "Ya existe un nombre o el nombre no es válido"
 
 #~ msgid "No Types of CI found. Please create Types of CI before display CIs"
 #~ msgstr ""
