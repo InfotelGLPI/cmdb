@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-17 14:25+0000\n"
+"POT-Creation-Date: 2026-09-18 09:37+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
 "Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
-#: src/CIType.php:998
+#: src/CIType.php:1053
 msgid "Add New Field"
 msgstr "Přidat nové pole"
 
@@ -39,11 +39,11 @@ msgstr "Všechny úrovně byly přidány"
 msgid "An icon already exist for this type"
 msgstr "Pro tento typ již existuje ikona"
 
-#: src/CIType.php:71
+#: src/CIType.php:88
 msgid "Area Text"
 msgstr "Textové pole"
 
-#: src/OperationProcess_Item.php:533
+#: src/OperationProcess_Item.php:549
 msgctxt "button"
 msgid "Associate a service"
 msgstr "Přiřadit službu"
@@ -60,7 +60,7 @@ msgstr[3] "Přiřazené služby"
 msgid "Base fields"
 msgstr "Základní pole"
 
-#: src/CIType.php:360
+#: src/CIType.php:377
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Buďte opatrní, název nelze po vytvoření změnit"
 
@@ -86,11 +86,11 @@ msgid "Create Link"
 msgstr "Vytvořit odkaz"
 
 #: front/impacticon.form.php:81 front/criticity.form.php:46
-#: front/impactinfo.form.php:82
+#: front/impactinfo.form.php:119
 msgid "Creation failed"
 msgstr "Vytvoření selhalo"
 
-#: src/ImpactIcon.php:125
+#: src/ImpactIcon.php:126
 msgid "Criteria"
 msgstr "Kritéria"
 
@@ -102,11 +102,11 @@ msgstr[1] "Kritičností"
 msgstr[2] "Kritičností"
 msgstr[3] "Kritičnosti"
 
-#: src/ImpactIcon.php:265
+#: src/ImpactIcon.php:266
 msgid "Current icon"
 msgstr "Aktuální ikona"
 
-#: src/CIType.php:708
+#: src/CIType.php:732
 msgid "Default icon"
 msgstr "Výchozí ikona"
 
@@ -114,7 +114,7 @@ msgstr "Výchozí ikona"
 msgid "Delete Link"
 msgstr "Smazat odkaz"
 
-#: src/Cmdb_Ticket.php:201
+#: src/Cmdb_Ticket.php:245
 msgid "Direct impact"
 msgstr "Přímý dopad"
 
@@ -122,19 +122,19 @@ msgstr "Přímý dopad"
 msgid "Display Item Configuration"
 msgstr "Zobrazit položku konfigurace"
 
-#: src/CIType.php:364
+#: src/CIType.php:381
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr "Nepoužívejte název třídy s mezerami (jako 'moje objekty')"
 
-#: src/CIType.php:362
+#: src/CIType.php:379
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr "Nepoužívejte název třídy v množném čísle (např. 'myobjects')"
 
-#: src/Cmdb_Ticket.php:99
+#: src/Cmdb_Ticket.php:143
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Prvky propojené s požadavkem se neimportují do CMDB"
 
-#: src/CIType.php:1048
+#: src/CIType.php:1103
 msgid "Existing fields for this type of CI"
 msgstr "Existující pole pro tento typ CI"
 
@@ -142,11 +142,11 @@ msgstr "Existující pole pro tento typ CI"
 msgid "Export PNG"
 msgstr "Exportovat PNG"
 
-#: src/CIType.php:307
+#: src/CIType.php:324
 msgid "Go to custom assets"
 msgstr "Přejít na vlastní aktiva"
 
-#: src/ImpactIcon.php:65 src/CIType.php:668
+#: src/ImpactIcon.php:66 src/CIType.php:692
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] "Ikona"
@@ -155,12 +155,12 @@ msgstr[2] "Ikon"
 msgstr[3] "Ikony"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1140
+#: src/CIType.php:1195
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Ikona typu CI %d"
 
-#: src/ImpactIcon.php:274
+#: src/ImpactIcon.php:275
 msgid "Icon file"
 msgstr "Soubor ikon"
 
@@ -169,15 +169,15 @@ msgstr "Soubor ikon"
 msgid "Icon for itemtype %s"
 msgstr "Ikona pro typ položky %s"
 
-#: src/Cmdb_Ticket.php:119 src/Cmdb_Ticket.php:157
+#: src/Cmdb_Ticket.php:163 src/Cmdb_Ticket.php:201
 msgid "Impacted items"
 msgstr "Ovlivněné položky"
 
-#: src/CIType.php:617
+#: src/CIType.php:641
 msgid "Import CI"
 msgstr "Importovat CI"
 
-#: front/impactinfo.form.php:63
+#: front/impactinfo.form.php:96
 msgid "Infos are already set for this type"
 msgstr "Informace pro tento typ jsou již nastaveny"
 
@@ -189,11 +189,15 @@ msgstr ""
 msgid "Invalid color."
 msgstr ""
 
-#: src/ImpactIcon.php:339
+#: src/CiFields.php:79
+msgid "Invalid field type."
+msgstr ""
+
+#: src/ImpactIcon.php:340
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/OperationProcess_Item.php:183 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:186 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
@@ -201,7 +205,7 @@ msgstr ""
 msgid "Invalid name !"
 msgstr "Neplatný název!"
 
-#: src/CIType.php:343
+#: src/CIType.php:360
 msgid "Is this item presents in glpi ?"
 msgstr "Je tato položka přítomna v glpi?"
 
@@ -217,16 +221,16 @@ msgstr[1] "Konfiguračních položek"
 msgstr[2] "Konfiguračních položek"
 msgstr[3] "Konfigurační položky"
 
-#: src/Cmdb_Ticket.php:104
+#: src/Cmdb_Ticket.php:148
 msgid "No elements of CMDB linked to the ticket"
 msgstr "Žádné prvky CMDB nejsou připojeny"
 
-#: src/ImpactInfo.php:651
+#: src/ImpactInfo.php:679
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr "Pro typ položky %s není nastaven obsah popisku."
 
-#: src/ImpactInfo.php:661
+#: src/ImpactInfo.php:690
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr "Pro typ položky %s není nastavena žádná popiska"
@@ -243,7 +247,7 @@ msgstr "Prosím zvolte úroveň kritičnosti"
 msgid "Plugin additional fields fields"
 msgstr "Pole zásuvného modulu další pole"
 
-#: src/Cmdb_Ticket.php:158
+#: src/Cmdb_Ticket.php:202
 msgid "Proximity"
 msgstr "Blízkost"
 
@@ -251,7 +255,7 @@ msgstr "Blízkost"
 msgid "Purge CMDB"
 msgstr "Vyčistit CMDB"
 
-#: src/CIType.php:1052
+#: src/CIType.php:1107
 msgid "Reset Existing fields"
 msgstr "Smazání existujících polí"
 
@@ -283,20 +287,20 @@ msgstr[1] "Stavů služeb"
 msgstr[2] "Stavů služeb"
 msgstr[3] "Stavy služby"
 
-#: src/CIType.php:70
+#: src/CIType.php:87
 msgid "String"
 msgstr "Řetězec"
 
-#: src/ImpactIcon.php:347
+#: src/ImpactIcon.php:348
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
 msgstr ""
 
-#: src/CIType.php:1401 src/CIType.php:1418
+#: src/CIType.php:1456 src/CIType.php:1473
 msgctxt "button"
 msgid "Transfer"
 msgstr "Přesun"
 
-#: src/CIType.php:84
+#: src/CIType.php:101
 msgid "Type CI"
 msgid_plural "Types CIs"
 msgstr[0] "Typ CI"
@@ -328,7 +332,7 @@ msgstr "Aktualizovat odkaz"
 msgid "Update failed"
 msgstr "Aktualizace selhala"
 
-#: src/CIType.php:1021
+#: src/CIType.php:1076
 msgid "Upload icon"
 msgstr "Vložit ikonu"
 
@@ -340,11 +344,11 @@ msgstr ""
 "S GLPI 11 můžete vytvářet nové vlastní zdroje, takže migrujte své stávající "
 "objekty do jádra"
 
-#: src/CIType.php:305
+#: src/CIType.php:322
 msgid "With GLPI 11, you can create now custom assets"
 msgstr "S GLPI 11, si nyní můžete vytvářet vlastní datové zdroje/data"
 
-#: src/CIType.php:74
+#: src/CIType.php:91
 msgid "Yes/No"
 msgstr "Ano/Ne"
 
@@ -364,11 +368,11 @@ msgstr "Zmenšit"
 msgid "high"
 msgstr "vysoká"
 
-#: src/CIType.php:198
+#: src/CIType.php:215
 msgid "is already present in GLPI"
 msgstr "je již přítomno v GLPI"
 
-#: hook.php:477
+#: hook.php:485
 msgid "item not found or disabled"
 msgstr "položka nenalezena nebo je zakázána"
 
