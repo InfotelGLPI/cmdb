@@ -417,6 +417,56 @@ class CIType extends CommonDropdown
     //    }
 
     /**
+     * Prepare input datas for adding the item
+     *
+     * The creation form is deprecated — showForm() only points to the core custom assets for a
+     * new id — but the add stays reachable through the core dropdown controller, and the whole
+     * validation of this class was left commented out below: the posted name was written
+     * verbatim and is then used as a class name by CiFields::getContentFieldsCI() and
+     * Cmdb::showMenu(). Confront it with the domain the plugin really supports before storing
+     * it. The name can no longer change afterwards: prepareInputForUpdate() forces it back to
+     * the stored value for a generated type, and the form renders it read only for an imported
+     * one, so this is the only place where it enters the table.
+     *
+     * @param array $input datas used to add the item
+     *
+     * @return array|false the modified $input array, or false to refuse the creation
+     */
+    public function prepareInputForAdd($input)
+    {
+        if (!empty($input['is_imported'])) {
+            // The form of an imported type posts the class through selectCI and not through
+            // name, which is why the name column stayed empty once the mapping below was
+            // commented out. getTypes(true) is the list the dropdown itself is built from.
+            $input['is_imported'] = 1;
+            $input['name']        = (string) ($input['selectCI'] ?? '');
+
+            if (!in_array($input['name'], self::getTypes(true), true)) {
+                Session::addMessageAfterRedirect(__('Please, choose an imported CI !', 'cmdb'), true, ERROR);
+                return false;
+            }
+        } else {
+            $input['is_imported'] = 0;
+            $input['name']        = 'GlpiPlugin\\Cmdb\\'
+                . self::getClassname(str_replace(' ', '', (string) ($input['name'] ?? '')));
+
+            // getSystemName() keeps only [a-z0-9_] of the part that follows the namespace and
+            // is what names the generated class file: an empty result means the posted name
+            // carried nothing usable and would be stored as a class that can never be loaded.
+            if (self::getSystemName($input['name']) === '') {
+                Session::addMessageAfterRedirect(
+                    __('There is already an existing name or the name is invalid', 'cmdb'),
+                    true,
+                    ERROR,
+                );
+                return false;
+            }
+        }
+
+        return $input;
+    }
+
+    /**
      * Set Message after add type if the form isn't valid
      *
      * @param  $input
@@ -814,7 +864,11 @@ class CIType extends CommonDropdown
                         }
                     }
                     //               echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
-                    echo "<input class='form-control' type='file' name='filename$$' . $key'>";
+                    // prepareInputForUpdate() matches uploaded icons with
+                    // preg_match('/^_filename\$\$(\d+)/'), so the field name must carry the
+                    // numeric suffix: build it outside of the double quoted string.
+                    $nameFileupload = 'filename$$' . $key;
+                    echo "<input class='form-control' type='file' name='" . htmlescape($nameFileupload) . "'>";
                     echo "</div>";
                 }
                 echo "</div>";
@@ -833,7 +887,9 @@ class CIType extends CommonDropdown
                     }
                 }
                 //            echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
-                echo "<input class='form-control' type='file' name='filename$$' . $key'>";
+                // Same as above: the numeric suffix is what prepareInputForUpdate() matches on.
+                $nameFileupload = 'filename$$' . $key;
+                echo "<input class='form-control' type='file' name='" . htmlescape($nameFileupload) . "'>";
                 echo "</div>";
             }
             echo "</div>";

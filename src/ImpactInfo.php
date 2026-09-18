@@ -611,41 +611,49 @@ class ImpactInfo extends CommonDBTM
                                     $values = $container['values'];
                                     $fieldData = $pluginFieldsField->fields;
                                     $fieldType = $fieldData['type'];
+                                    // The itemtype resolved here belongs to the field being
+                                    // rendered: it is kept in loop-local variables so that the
+                                    // container query above keeps querying the item actually
+                                    // being displayed on every iteration. Every dynamic static
+                                    // call goes through getItemForItemtype() so a stale row
+                                    // (disabled plugin, removed type) skips the field instead
+                                    // of raising a fatal Error.
                                     if (str_starts_with($fieldType, 'dropdown-')) { // Dropdown using an existing object
-                                        if ($fieldData['multiple'] == 1) {
+                                        $loop_itemtype = explode('-', $fieldType)[1];
+                                        $loop_item = getItemForItemtype($loop_itemtype);
+                                        if ($loop_item === false) {
+                                            $value = '';
+                                        } elseif ($fieldData['multiple'] == 1) {
                                             $ids = json_decode($values[$fieldData['name']]);
                                             $values = [];
-                                            $itemtype = explode('-', $fieldType)[1];
                                             foreach ($ids as $id) {
                                                 $values[] = Dropdown::getDropdownName(
-                                                    $itemtype::getTable(),
+                                                    $loop_item::getTable(),
                                                     $id,
                                                 );
                                             }
                                             $value = implode(' - ', $values);
                                         } else {
-                                            $itemtype = explode('-', $fieldType)[1];
-                                            if (getItemForItemtype($itemtype)) {
-                                                $value = Dropdown::getDropdownName(
-                                                    $itemtype::getTable(),
-                                                    $values[$fieldData['name']],
-                                                );
-                                            }
-
+                                            $value = Dropdown::getDropdownName(
+                                                $loop_item::getTable(),
+                                                $values[$fieldData['name']],
+                                            );
                                         }
                                     } elseif ($fieldType === 'glpi_item') { // Dropdown where item's type can be one of several
-                                        $itemtype = $values['itemtype_' . $fieldData['name']];
-                                        $items_id = $values['items_id_' . $fieldData['name']];
-                                        if ($obj = getItemForItemtype($itemtype)) {
-                                            $obj->getFromDB($items_id);
+                                        $loop_itemtype = $values['itemtype_' . $fieldData['name']];
+                                        $loop_items_id = $values['items_id_' . $fieldData['name']];
+                                        if ($obj = getItemForItemtype($loop_itemtype)) {
+                                            $obj->getFromDB($loop_items_id);
                                             $value = $obj->getFriendlyName();
                                         }
                                     } elseif ($fieldType == 'dropdown') { // Dropdown created by plugin fields
-                                        $itemtype = 'PluginFields' . ucfirst($fieldData['name']) . 'Dropdown';
-                                        $value = Dropdown::getDropdownName(
-                                            $itemtype::getTable(),
-                                            $values['plugin_fields_' . $fieldData['name'] . 'dropdowns_id'],
-                                        );
+                                        $loop_itemtype = 'PluginFields' . ucfirst($fieldData['name']) . 'Dropdown';
+                                        if ($loop_item = getItemForItemtype($loop_itemtype)) {
+                                            $value = Dropdown::getDropdownName(
+                                                $loop_item::getTable(),
+                                                $values['plugin_fields_' . $fieldData['name'] . 'dropdowns_id'],
+                                            );
+                                        }
                                     } else {
                                         $value = $values[$fieldData['name']];
                                     }

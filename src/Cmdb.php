@@ -106,16 +106,25 @@ class Cmdb extends CommonDBTM
 
                 $i     = 0;
                 foreach ($tabCIType as $id => $val) {
-                    if ($i % 3 == 0) {
-                        echo "<tr class='tab_bg_1'>";
-                    }
                     $citype = new CIType();
                     $citype->getFromDB($id);
                     if (isset($citype->fields["is_imported"])
                     && $citype->fields["is_imported"]) {
                         $link = Toolbox::getItemTypeSearchURL($citype->fields["name"]);
                     } else {
-                        $link = $citype->fields["name"]::getSearchURL();
+                        // The generated classes live in GLPI_PLUGIN_DOC_DIR and may be missing
+                        // while the row still exists (restore without the doc directory, failed
+                        // write...). Resolve through getItemForItemtype() as ajax/change_link.php
+                        // does, and skip the broken type instead of raising a fatal Error that
+                        // would take the whole menu down. The link is resolved before the row is
+                        // opened so that skipping a type cannot leave a dangling <tr>.
+                        if (!$citype_item = getItemForItemtype($citype->fields["name"])) {
+                            continue;
+                        }
+                        $link = $citype_item::getSearchURL();
+                    }
+                    if ($i % 3 == 0) {
+                        echo "<tr class='tab_bg_1'>";
                     }
                     $citype_doc = new CIType_Document();
                     echo "<td class='center b'>";

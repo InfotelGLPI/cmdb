@@ -358,8 +358,6 @@ class OperationProcess_Item extends CommonDBRelation
                     );
 
                     foreach ($iterator_item as $data) {
-                        //               while ($data = $iterator_item->next()) {
-
                         $item->getFromDB($data["id"]);
 
                         Session::addToNavigateListItems($itemType, $data["id"]);
@@ -395,7 +393,6 @@ class OperationProcess_Item extends CommonDBRelation
                         }
 
                         echo "</tr>";
-                        $iterator_item->next();
                     }
                 }
             }

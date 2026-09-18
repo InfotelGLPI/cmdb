@@ -109,27 +109,9 @@ parameters:
 			path: src/CI.php
 
 		-
-			message: '#^Offset ''id'' does not exist on null\.$#'
-			identifier: offsetAccess.notFound
-			count: 4
-			path: src/CI.php
-
-		-
-			message: '#^Offset ''plugin_cmdb_citypes_id'' does not exist on null\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/CI.php
-
-		-
 			message: '#^Parameter \#2 \$force of method CommonDBTM\:\:deleteByCriteria\(\) expects bool, int given\.$#'
 			identifier: argument.type
 			count: 2
-			path: src/CI.php
-
-		-
-			message: '#^Result of method DBmysqlIterator\:\:next\(\) \(void\) is used\.$#'
-			identifier: method.void
-			count: 5
 			path: src/CI.php
 
 		-
@@ -281,12 +263,6 @@ parameters:
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/CI_Cmdb.php
-
-		-
-			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
-			identifier: glpi.forbidDynamicInstantiation
-			count: 2
-			path: src/CiFields.php
 
 		-
 			message: '#^Unreachable statement \- code above always terminates\.$#'

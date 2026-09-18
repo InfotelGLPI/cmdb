@@ -165,11 +165,20 @@ class CI extends CommonDBTM
         global $DB;
         $tabCIType = [];
 
+        // CIType is entity-assigned, and every other listing of types in the plugin is scoped
+        // (Cmdb::showMenu(), CIType::dropdownTypes(), ajax/change_field.php). This one was not,
+        // so the form disclosed the names of the CI types of every entity of the instance to
+        // any holder of plugin_cmdb_cis. The is_recursive flag is mandatory, otherwise a
+        // recursive type declared in a parent entity would disappear from a child one.
+        $dbu      = new DbUtils();
         $iterator = $DB->request([
             'SELECT'   => ['name', 'id'],
             'DISTINCT' => true,
             'FROM'     => 'glpi_plugin_cmdb_citypes',
-            'WHERE'    => ['is_imported' => 0],
+            'WHERE'    => array_merge(
+                ['is_imported' => 0],
+                $dbu->getEntitiesRestrictCriteria('glpi_plugin_cmdb_citypes', '', '', true),
+            ),
             'ORDER'    => 'id DESC']);
 
         if (!isset($id) || $id == "") {
@@ -189,8 +198,13 @@ class CI extends CommonDBTM
             'FROM'     => 'glpi_plugin_cmdb_cis',
             'WHERE'    => ['id' => $id]]);
 
+        // DBmysqlIterator::next() returns void since GLPI 10: it only moves the cursor.
+        // Reading its return value left $idType null, so the dropdown fell back to its first
+        // entry (the newest CI type) instead of the type the CI actually has. Saving the form
+        // then changed the type, and post_updateItem() purges every custom value of the CI when
+        // the type changes. current() returns the row the cursor already points at.
         if (count($iterator)) {
-            $data   = $iterator->next();
+            $data   = $iterator->current();
             $idType = $data['plugin_cmdb_citypes_id'];
         }
         Dropdown::showFromArray("plugin_cmdb_citypes_id", $tabCIType, ["on_change" => "changeField(this,$id)",
@@ -212,6 +226,53 @@ class CI extends CommonDBTM
             Session::addMessageAfterRedirect(__('Invalid name !', 'cmdb'), true, ERROR);
             return false;
         }
+        return $this->checkCITypeInput($input);
+    }
+
+    /**
+     * Prepare input datas for updating the item
+     *
+     * @param array $input datas used to update the item
+     *
+     * @return array|false the modified $input array, or false to refuse the update
+     **/
+    public function prepareInputForUpdate($input)
+    {
+        return $this->checkCITypeInput($input);
+    }
+
+    /**
+     * Confront the posted CI type with the entities of the session.
+     *
+     * The dropdown built by setSelectCITypes() only protects what is displayed: the value comes
+     * back from the browser and used to be written as is, no prepareInputForUpdate() existed and
+     * prepareInputForAdd() only checked the name. Reload the type and confront its entity, the
+     * idiom ajax/change_field.php already applies. The is_recursive flag is mandatory, otherwise
+     * a recursive type declared in a parent entity would be refused from a child one.
+     *
+     * @param array $input datas being written
+     *
+     * @return array|false the untouched $input array, or false to refuse the write
+     */
+    private function checkCITypeInput($input)
+    {
+        // A write that does not carry the type — a rename from an inline edit, a massive action
+        // on another column — leaves the stored value alone and has nothing to confront.
+        if (!isset($input['plugin_cmdb_citypes_id'])) {
+            return $input;
+        }
+
+        $citype = new CIType();
+        if (!$citype->getFromDB((int) $input['plugin_cmdb_citypes_id'])
+            || !Session::haveAccessToEntity($citype->fields['entities_id'], $citype->fields['is_recursive'])) {
+            Session::addMessageAfterRedirect(
+                __("You don't have permission to perform this action."),
+                true,
+                ERROR,
+            );
+            return false;
+        }
+
         return $input;
     }
 
@@ -517,8 +578,11 @@ class CI extends CommonDBTM
                         'WHERE'  => ['itemtype' => CIType::class,
                             'items_id' => $citype_doc->fields['id']]]);
 
+                    // Same as setSelectCITypes(): next() moves the cursor and returns void, so
+                    // the four reads of this method returned null instead of the linked
+                    // document item. current() returns the first row of the result set.
                     if (count($iterator)) {
-                        $data = $iterator->next();
+                        $data = $iterator->current();
                         return $data['id'];
                     }
                 } else {
@@ -530,7 +594,7 @@ class CI extends CommonDBTM
                                 'items_id' => $citype_doc->fields['id']]]);
 
                         if (count($iterator)) {
-                            $data = $iterator->next();
+                            $data = $iterator->current();
                             return $data['id'];
                         }
                     }
@@ -544,7 +608,7 @@ class CI extends CommonDBTM
                             'items_id' => $citype_doc->fields['id']]]);
 
                     if (count($iterator)) {
-                        $data = $iterator->next();
+                        $data = $iterator->current();
                         return $data['id'];
                     }
                 }
@@ -558,7 +622,7 @@ class CI extends CommonDBTM
                         'items_id' => $citype_doc->fields['id']]]);
 
                 if (count($iterator)) {
-                    $data = $iterator->next();
+                    $data = $iterator->current();
                     return $data['id'];
                 }
             }

@@ -39,14 +39,14 @@ if (isset($_POST['itemtype']) && $_POST['itemtype']) {
     $itemtype = $_POST['itemtype'];
 }
 
-$id = 0;
-if (isset($_POST['id']) && $_POST['id']) {
-    $id = $_POST['id'];
-}
+// The posted id reached getFromDB() as free text and its return value was discarded, so a
+// row that does not exist left fields empty while $id > 0 stayed true: the read below then
+// raised an "Undefined array key" warning in the middle of the HTML fragment returned to the
+// AJAX caller. Cast the id and carry the outcome of the load, as ajax/change_field.php does.
+$id = (int) ($_POST['id'] ?? 0);
+
 $impactIcon = new ImpactIcon();
-if ($id > 0) {
-    $impactIcon->getFromDB($id);
-}
+$is_loaded  = $id > 0 && $impactIcon->getFromDB($id);
 
 if (in_array($itemtype, array_keys(ImpactIcon::getCriterias()))) {
     // label
@@ -67,11 +67,9 @@ if (in_array($itemtype, array_keys(ImpactIcon::getCriterias()))) {
     // value
     echo "<td>";
     $value = 0; // default value for new NetworkEquipment's networkequipmenttypes_id
-    if ($id > 0) {
-        // only set value if the saved itemtype correspond
-        if ($impactIcon->fields['itemtype'] == $itemtype) {
-            $value = $impactIcon->fields['criteria'];
-        }
+    // only set value if the row was really loaded and the saved itemtype correspond
+    if ($is_loaded && $impactIcon->fields['itemtype'] === $itemtype) {
+        $value = $impactIcon->fields['criteria'];
     }
     switch ($itemtype) {
         case NetworkEquipment::getType():

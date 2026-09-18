@@ -279,8 +279,16 @@ class CiFields extends CommonDBTM
 
             $listCIFields = explode(',', $ciType->getField('fields'));
 
-            $target    = new $CIType['name']();
-            $itemclass = new $CIType['name']();
+            // The name of an imported type is a free text column used here as a class name.
+            // Resolve it through getItemForItemtype(), which refuses anything that is not a
+            // loadable GLPI class, instead of instantiating the stored string: a row written
+            // before CIType::prepareInputForAdd() validated that name — or by any other write
+            // path — turned the display of every CI of that type into a fatal Error.
+            $target = getItemForItemtype($CIType['name']);
+            if (!$target) {
+                return;
+            }
+            $itemclass = getItemForItemtype($CIType['name']);
             $itemclass->getFromDB($idCI);
 
             foreach ($listCIFields as $field) {

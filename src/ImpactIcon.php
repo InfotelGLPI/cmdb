@@ -396,36 +396,45 @@ class ImpactIcon extends CommonDBTM
     {
         $this->addFiles($this->input);
         $document_item = new Document_Item();
-        $document_item->getFromDBByCrit([
+        // addFiles() links nothing when the icon is missing or was refused by the document
+        // checks, and getFromDBByCrit() then leaves the object unloaded: reading its fields
+        // blindly overwrote documents_id with null and dropped the icon of the row.
+        if ($document_item->getFromDBByCrit([
             'itemtype' => $this->getType(),
             'items_id' => $this->getID(),
-        ]);
-        $this->update([
-            'documents_id' => $document_item->fields['documents_id'],
-            'id' => $this->getID(),
-        ]);
+        ])) {
+            $this->update([
+                'documents_id' => $document_item->fields['documents_id'],
+                'id' => $this->getID(),
+            ]);
+        }
     }
 
     public function post_updateItem($history = 1)
     {
         if (array_key_exists('_filename', $this->input) && $this->input['_filename']) {
             $document_item = new Document_Item();
-            // delete link to previous icon
-            $document_item->getFromDBByCrit([
+            // delete link to previous icon, if there is one: an unloaded object still answers
+            // getID() with -1, which sent a delete on an arbitrary criteria.
+            if ($document_item->getFromDBByCrit([
                 'itemtype' => $this->getType(),
                 'items_id' => $this->getID(),
-            ]);
-            $document_item->delete(['id' => $document_item->getID()]);
+            ])) {
+                $document_item->delete(['id' => $document_item->getID()]);
+            }
             $this->addFiles($this->input);
-            // add link to new icon
-            $document_item->getFromDBByCrit([
+            // add link to new icon. Same reason as post_addItem(): when the new file is refused
+            // nothing is linked, and reading the fields of the unloaded object replaced the
+            // documents_id of the row with null.
+            if ($document_item->getFromDBByCrit([
                 'itemtype' => $this->getType(),
                 'items_id' => $this->getID(),
-            ]);
-            $this->update([
-                'documents_id' => $document_item->fields['documents_id'],
-                'id' => $this->getID(),
-            ]);
+            ])) {
+                $this->update([
+                    'documents_id' => $document_item->fields['documents_id'],
+                    'id' => $this->getID(),
+                ]);
+            }
         }
     }
 

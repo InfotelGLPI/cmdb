@@ -49,7 +49,9 @@ if (isset($_POST['key']) && $_POST['key']) {
 if ($itemtype !== null && !getItemForItemtype($itemtype)) {
     throw new BadRequestHttpException();
 }
-if ($key !== null && !in_array($key, ['glpi', 'cmdb', 'fields'], true)) {
+// Every caller of this endpoint posts the column key it is refreshing, so a missing key is a
+// malformed request and not a default: without it the lookup below read $availableFields[null].
+if (!in_array($key, ['glpi', 'cmdb', 'fields'], true)) {
     throw new BadRequestHttpException();
 }
 
@@ -60,7 +62,10 @@ if (isset($_POST['used']) && $_POST['used']) {
 
 $availableFields = ImpactInfo::getFieldsForItemtype($itemtype);
 
-$fields = $availableFields[$key];
+// getFieldsForItemtype() only returns the columns that apply to the itemtype: "fields" is
+// absent when the fields plugin is disabled, and the whole array is empty for an unknown
+// itemtype. An empty dropdown is the correct answer there, not a TypeError in array_diff_key().
+$fields = $availableFields[$key] ?? [];
 if ($used) {
     $tmp = [];
     foreach ($used as $field) {
