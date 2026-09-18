@@ -33,6 +33,8 @@ use CommonDBRelation;
 use CommonDBTM;
 use CommonGLPI;
 use Item_Ticket;
+use Session;
+use Ticket;
 
 /**
  * Class Cmdb_Ticket
@@ -72,10 +74,26 @@ class Cmdb_Ticket extends CommonDBRelation
      * @param $tabnum       integer  tab number (default 1)
      * @param $withtemplate boolean  is a template object ? (default 0)
      *
-     * @return true
+     * @return bool
      * */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
+
+        // The guard below restores the right, not the nature of the object, and
+        // displayStandardTab() hands this method whatever itemtype the _glpi_tab of the
+        // request names. showImpactCMDB() then reads $item->fields['id'] and queries
+        // Item_Ticket on tickets_id whatever that object was, while the only upstream
+        // control — ajax/common.tabs.php — checked READ on the host object, not on the
+        // ticket: a technician able to read computer 42 but not ticket 42 got the CIs of
+        // ticket 42, their types, names, links and criticities. The itemtype is part of
+        // the guard; once it is fixed, the core's READ check lands on the ticket itself.
+        if (!$item instanceof Ticket) {
+            return false;
+        }
+
+        if (!self::canDisplayImpact()) {
+            return false;
+        }
 
         self::showImpactCMDB($item);
 
@@ -83,10 +101,36 @@ class Cmdb_Ticket extends CommonDBRelation
     }
 
     /**
+     * Replay the conditions of the commented getTabNameForItem() above.
+     *
+     * Commenting that method and the Plugin::registerClass() of setup.php does not put this
+     * tab out of reach: ajax/common.tabs.php only checks READ on the host object, then
+     * CommonGLPI::displayStandardTab() splits _glpi_tab on "$" and calls
+     * displayTabContentForItem() on any class getItemForItemtype() can resolve, without ever
+     * checking that the tab was declared for that itemtype. The rendering below lists the CIs
+     * linked to the ticket, their links and their criticities — data the plugin_cmdb_cis right
+     * is supposed to gate — so the guard has to live at the rendering, not at the declaration.
+     *
+     * @return bool
+     */
+    public static function canDisplayImpact(): bool
+    {
+        return Session::haveRight(self::$rightname, READ)
+            && Session::getCurrentInterface() === 'central';
+    }
+
+    /**
      * @param \CommonGLPI $item
      */
     public static function showImpactCMDB(CommonGLPI $item)
     {
+
+        // Also guarded here rather than only in displayTabContentForItem(): the method is
+        // public and static, and nothing stops a future caller from reaching it directly.
+        // Same reason for the itemtype — the id read just below is used as a tickets_id.
+        if (!$item instanceof Ticket || !self::canDisplayImpact()) {
+            return;
+        }
 
         $idTicket     = $item->fields['id'];
         $items_ticket = new Item_Ticket();

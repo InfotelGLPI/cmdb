@@ -59,13 +59,15 @@ function checkboxAction() {
 }
 
 
-var resetFields = function (id, tabType) {
+// The field types are read server side from CIType::getTypeFields(); they are no longer
+// carried by the request.
+var resetFields = function (id) {
    $("#fields tr.field").remove();
    $("#fields input[type='hidden']").remove();
    $.ajax({
       url: '../ajax/reset_fields_citypes.php',
       type: 'POST',
-      data: 'id=' + id + '&tabType=' + tabType + '&action=reset',
+      data: 'id=' + id + '&action=reset',
       dataType: 'html',
       success: function (code_html) {
          $("#fields").append(code_html);
@@ -77,12 +79,12 @@ function getRandomInt(min, max) {
    return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var addField = function (tabType) {
+var addField = function () {
    var rows = getRandomInt(0, 1000000);
    $.ajax({
       url: '../ajax/reset_fields_citypes.php',
       type: 'POST',
-      data: 'rows=' + rows + '&tabType=' + tabType + '&action=add',
+      data: 'rows=' + rows + '&action=add',
       dataType: 'html',
       success: function (code_html) {
          $("#newfields").append(code_html);

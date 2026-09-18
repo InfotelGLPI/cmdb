@@ -36,6 +36,7 @@ use CommonDBTM;
 use Computer;
 use ComputerType;
 use Datacenter;
+use Document;
 use Document_Item;
 use Dropdown;
 use Enclosure;
@@ -353,6 +354,42 @@ class ImpactIcon extends CommonDBTM
         }
 
         return true;
+    }
+
+    /**
+     * The uploaded icon is stored as a Document linked by a Document_Item, both created by
+     * addFiles() in post_addItem(). The core only auto-cleans Document_Item for the itemtypes
+     * of Document::getItemtypesThatCanHave(), which this plugin never registers, so purging an
+     * icon orphaned the link and the document alike — the file stayed on disk and the document
+     * stayed listed, attached to a row that no longer exists.
+     *
+     * The document is only removed when this icon is its sole holder: a document shared with
+     * another item must survive, link included.
+     *
+     * @return void
+     */
+    public function cleanDBonPurge()
+    {
+        $document_item = new Document_Item();
+        $links         = $document_item->find([
+            'itemtype' => $this->getType(),
+            'items_id' => $this->getID(),
+        ]);
+
+        foreach ($links as $id => $values) {
+            $others = $document_item->find([
+                'documents_id' => $values['documents_id'],
+                'NOT'          => ['id' => $id],
+            ]);
+            $document_item->delete(['id' => $id], true);
+
+            if (count($others) === 0) {
+                $document = new Document();
+                if ($document->getFromDB($values['documents_id'])) {
+                    $document->delete(['id' => $document->getID()], true);
+                }
+            }
+        }
     }
 
     public function post_addItem($history = 1)

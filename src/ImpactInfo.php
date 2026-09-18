@@ -67,6 +67,20 @@ class ImpactInfo extends CommonDBTM
     }
 
     /**
+     * An information set owns its field rows, which carry no entities_id and are reachable
+     * only through it. Purging the set left them behind, and the next set created for the same
+     * itemtype reused the freed id and inherited them. front/impactinfo.form.php used to delete
+     * them by hand, which covered the form but not the massive action nor any other caller.
+     *
+     * @return void
+     */
+    public function cleanDBonPurge()
+    {
+        $field = new ImpactInfoField();
+        $field->deleteByCriteria(['plugin_cmdb_impactinfos_id' => $this->fields['id']], true);
+    }
+
+    /**
      * Itemtypes an information set may be attached to.
      *
      * Single source of truth for showForm(), for prepareInputForAdd() and for
@@ -441,12 +455,21 @@ class ImpactInfo extends CommonDBTM
                     ];
                     Search::constructSQL($queryData); // create SQL datas and add them in key 'sql'
                     Search::constructData($queryData); // use the SQL datas to get the values and format it in key 'data'
-                    $data = $queryData['data']['rows'][0];
+                    // constructData() answers with no row at all when its own restrictions
+                    // exclude the item; the dereferences below then fell on a missing index.
+                    $data = $queryData['data']['rows'][0] ?? [];
                     $dbu = new DbUtils();
                     $baseFields = array_values($baseFields);
                     foreach ($baseFields as $index => $field) {
                         if ($index % 2 === 0) {
                             echo "<tr>";
+                        }
+                        // field_id is now confronted with getFieldsForItemtype() at write
+                        // time, but rows persisted before that check — or a search option
+                        // withdrawn from the itemtype since — would still index a key that
+                        // is not there. Skip the field rather than emit a warning.
+                        if (!array_key_exists($field['field_id'], $searchOptions)) {
+                            continue;
                         }
                         $option = $searchOptions[$field['field_id']];
                         if ($field['field_id'] == 1) {
@@ -455,11 +478,14 @@ class ImpactInfo extends CommonDBTM
 
                         $label = $option['name'];
                         if ($label == __('Name') && $field['field_id'] != 1) {
-                            $label = $dbu->getItemTypeForTable($option['table'])::getTypeName();
+                            // Same trap as getFieldsForItemtype(): the tables of a custom
+                            // asset map back to the abstract Glpi\Asset\Asset, whose
+                            // getTypeName() aborts the request on an uninitialised static.
+                            $label = self::getSearchOptionTypeName($option['table'], $item->getType());
                         }
 
                         $display = '';
-                        $value = $data[$item->getType() . '_' . $field['field_id']]['displayname'];
+                        $value = $data[$item->getType() . '_' . $field['field_id']]['displayname'] ?? '';
                         // see Search::showItem
                         if (!preg_match('/' . Search::LBHR . '/', $value)) {
                             $values = preg_split('/' . Search::LBBR . '/i', $value);
@@ -648,7 +674,9 @@ class ImpactInfo extends CommonDBTM
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
                 echo "<div class='text-center'>";
-                echo sprintf(__('No tooltip content set for itemtype %s', 'cmdb'), $item->getTypeName());
+                // Since GLPI 10 getTypeName() is no longer always a code constant: for a
+                // custom asset it is a label an administrator typed and the core stores raw.
+                echo sprintf(__('No tooltip content set for itemtype %s', 'cmdb'), htmlescape($item->getTypeName()));
                 echo '</div>';
             }
         } else {
@@ -657,7 +685,8 @@ class ImpactInfo extends CommonDBTM
             <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
         </div>";
             echo "<div class='text-center'>";
-            $typename = ($item = getItemForItemtype($itemtype)) ? $item->getTypeName() : htmlescape($itemtype);
+            // The fallback branch on $itemtype was already escaped; align the other one.
+            $typename = ($item = getItemForItemtype($itemtype)) ? htmlescape($item->getTypeName()) : htmlescape($itemtype);
             echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $typename);
             echo '</div>';
         }

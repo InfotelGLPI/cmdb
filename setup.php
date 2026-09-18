@@ -31,7 +31,6 @@ global $CFG_GLPI;
 
 use Glpi\Plugin\Hooks;
 use GlpiPlugin\Cmdb\Autoloader;
-use GlpiPlugin\Cmdb\CiFields;
 use GlpiPlugin\Cmdb\CIType;
 use GlpiPlugin\Cmdb\Cmdb;
 use GlpiPlugin\Cmdb\Criticity;
@@ -143,11 +142,12 @@ function plugin_init_cmdb()
             $PLUGIN_HOOKS['menu_toadd']['cmdb']['config'][] = ImpactInfo::class;
         }
 
-        $PLUGIN_HOOKS['item_add']['cmdb'][ImpactIcon::class] = 'plugin_cmdb_item_add';
-        $PLUGIN_HOOKS['item_update']['cmdb'][ImpactIcon::class] = 'plugin_cmdb_item_update';
-        $PLUGIN_HOOKS['item_purge']['cmdb'][ImpactIcon::class] = 'plugin_cmdb_item_purge';
-        $PLUGIN_HOOKS['item_purge']['cmdb'][ImpactInfo::class] = 'plugin_cmdb_item_purge';
-        $PLUGIN_HOOKS['item_purge']['cmdb'][CiFields::class] = 'plugin_cmdb_item_purge';
+        // Only the foreign class stays here. The five other declarations pointed at
+        // plugin_cmdb_item_add/update/purge, which no file of this plugin ever defined:
+        // Plugin::doHook() guards with is_callable(), so nothing ran and nothing was logged.
+        // ImpactIcon already does its add/update work in post_addItem()/post_updateItem(), and
+        // the purge of a class owned by the plugin belongs to its own cleanDBonPurge().
+        // PluginFieldsField is not ours, hence the hook.
         $PLUGIN_HOOKS['item_purge']['cmdb'][PluginFieldsField::class] = 'plugin_cmdb_item_purge';
 
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/cmdb_impact.js';

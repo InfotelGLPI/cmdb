@@ -176,18 +176,30 @@ class OperationProcess_Item extends CommonDBRelation
     {
 
         // itemtype comes straight from the association form and is copied into the row, where
-        // every later read instantiates it. CommonDBRelation::canCreateItem() happens to
-        // reject an unknown class today, but nothing here relied on that on purpose: validate
-        // the value against the class registry the way ImpactInfo::prepareInputForAdd() does.
-        if (!isset($values["itemtype"]) || getItemForItemtype($values["itemtype"]) === false) {
+        // every later read instantiates it. Checking it against the whole class registry was
+        // too wide: the form only ever offers OperationProcess::getTypes(), the very list
+        // Dropdown::showSelectItemFromItemtypes() is built from in showForItem() below, so an
+        // out-of-scope class was accepted and durably referenced by the process although no
+        // screen knows how to render or clean it. Replay that list at the sink.
+        if (!isset($values["itemtype"])
+            || !in_array($values["itemtype"], OperationProcess::getTypes(), true)) {
             Session::addMessageAfterRedirect(__('Invalid item type.', 'cmdb'), false, ERROR);
             return false;
         }
 
-        $this->add(['plugin_cmdb_operationprocesses_id' => $values["plugin_cmdb_operationprocesses_id"],
-            'items_id'                          => $values["items_id"],
-            'itemtype'                          => $values["itemtype"]]);
+        // The three columns of the row were read without ever being checked for presence: a
+        // payload missing one of them stored a relation pointing at nothing. Require them and
+        // normalise both ids, so no row can be created outside a real process.
+        $process_id = (int) ($values["plugin_cmdb_operationprocesses_id"] ?? 0);
+        $items_id   = (int) ($values["items_id"] ?? 0);
+        if ($process_id <= 0 || $items_id <= 0) {
+            Session::addMessageAfterRedirect(__('Item not found'), false, ERROR);
+            return false;
+        }
 
+        return (bool) $this->add(['plugin_cmdb_operationprocesses_id' => $process_id,
+            'items_id'                          => $items_id,
+            'itemtype'                          => $values["itemtype"]]);
     }
 
     /**
@@ -249,7 +261,11 @@ class OperationProcess_Item extends CommonDBRelation
                  __('Add an item') . "</th></tr>";
 
             echo "<tr class='tab_bg_1'><td colspan='" . (3 + $colsup) . "' class='center'>";
-            echo Html::hidden('id', ['plugin_cmdb_operationprocesses_id' => $instID]);
+            // Html::hidden() forwards every key but "value" to Html::parseAttributes(), so
+            // this emitted <input name="id" plugin_cmdb_operationprocesses_id="..."> with an
+            // empty value: the id the form was supposed to carry never reached addItem(),
+            // which read it back undefined and stored 0.
+            echo Html::hidden('plugin_cmdb_operationprocesses_id', ['value' => $instID]);
 
             Dropdown::showSelectItemFromItemtypes(['items_id_name'   => 'items_id',
                 'itemtypes'       => OperationProcess::getTypes(),

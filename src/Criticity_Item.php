@@ -201,6 +201,17 @@ class Criticity_Item extends CommonDBTM
             $item->input['_plugin_cmdb_criticity_items'] = $item->input['plugin_cmdb_criticities_items_id'];
         }
 
+        // The value is not a plugin_cmdb_criticities row id despite the column name: the
+        // dropdown of Criticity::criticityDropdown() is keyed on glpi_businesscriticities.id
+        // (see Criticity::getAllCriticity()), and only lists the business criticities a
+        // criticity row actually hangs on. Nothing replayed that list at the sink, so any
+        // integer was persisted and read back as an empty or inconsistent criticity. Key 0 is
+        // the empty entry and keeps its own meaning below (clear the link).
+        if (isset($item->input['_plugin_cmdb_criticity_items'])
+            && !array_key_exists((int) $item->input['_plugin_cmdb_criticity_items'], Criticity::getAllCriticity())) {
+            return;
+        }
+
         if (isset($item->input['_plugin_cmdb_criticity_items'])) {
 
             $crit = new Criticity_Item();
@@ -263,6 +274,15 @@ class Criticity_Item extends CommonDBTM
         // Same reason as preUpdateItemCriticity(): the creation of the host asset carried the
         // criticity along and no CMDB right was consulted on the way.
         if (!self::canUpdate()) {
+            return;
+        }
+
+        // Same domain check as preUpdateItemCriticity(). The empty entry of the dropdown is
+        // key 0 and means "no criticity": creating a link on it produced a row pointing at
+        // nothing, which no read path could ever resolve.
+        if (!isset($item->input['_plugin_cmdb_criticity_items'])
+            || (int) $item->input['_plugin_cmdb_criticity_items'] === 0
+            || !array_key_exists((int) $item->input['_plugin_cmdb_criticity_items'], Criticity::getAllCriticity())) {
             return;
         }
 

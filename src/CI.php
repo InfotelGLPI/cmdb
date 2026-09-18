@@ -226,7 +226,22 @@ class CI extends CommonDBTM
         $civalue           = new CiValues();
         $input['items_id'] = $item->getID();
         $input['itemtype'] = $item->getType();
+
+        // newfield is indexed by the cifields id the form rendered, but the keys come back
+        // from the browser untouched: a forged key created a value row bound to a field
+        // definition of another CI type. items_id and itemtype are imposed server side, so
+        // the row stays attached to this CI and nothing leaks, but no form ever reads it back
+        // — the reads join on the fields of the current type — and it is never cleaned up.
+        // Keep only the definitions that belong to the type of this CI, the same intersection
+        // post_updateItem() already applies to the "field" array.
+        $owned_fields = (new CiFields())->find([
+            'plugin_cmdb_citypes_id' => (int) ($item->fields['plugin_cmdb_citypes_id'] ?? 0),
+        ]);
+
         foreach ($item->input["newfield"] as $key => $value) {
+            if (!isset($owned_fields[$key])) {
+                continue;
+            }
             $input['value']                   = $value;
             $input['plugin_cmdb_cifields_id'] = $key;
             $civalue->add($input, [], $history);

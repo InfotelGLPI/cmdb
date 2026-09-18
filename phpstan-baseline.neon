@@ -265,12 +265,6 @@ parameters:
 			path: src/CIType.php
 
 		-
-			message: '#^Variable \$config_fields in isset\(\) always exists and is not nullable\.$#'
-			identifier: isset.variable
-			count: 1
-			path: src/CIType.php
-
-		-
 			message: '#^Variable \$name might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -299,12 +293,6 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 2
 			path: src/CiFields.php
-
-		-
-			message: '#^Access to an undefined property CommonGLPI\:\:\$fields\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Cmdb_Ticket.php
 
 		-
 			message: '#^Loose comparison using \=\= between \-1 and \-1 will always evaluate to true\.$#'
@@ -582,3 +570,14 @@ parameters:
 			count: 1
 			path: src/Profile.php
 
+		-
+			message: '#^Class PluginFieldsField not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Call to method getID\(\) on an unknown class PluginFieldsField\.$#'
+			identifier: class.notFound
+			count: 1
+			path: hook.php

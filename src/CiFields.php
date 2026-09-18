@@ -33,6 +33,7 @@ use CommonDBTM;
 use DbUtils;
 use Dropdown;
 use Html;
+use Session;
 
 /**
  * Class CiFields
@@ -49,16 +50,80 @@ class CiFields extends CommonDBTM
      * @global  $DB
      *
      */
+    public function prepareInputForAdd($input)
+    {
+        return $this->prepareInput($input);
+    }
+
+    public function prepareInputForUpdate($input)
+    {
+        return $this->prepareInput($input);
+    }
+
+    /**
+     * typefield drives the rendering and the reading of every custom value of the type (the
+     * switch of showField() and setFieldInput() below), and only the keys of
+     * CIType::getTypeFields() are meaningful. Neither addCIFields() nor updateCIFields()
+     * checked it, so an out-of-domain value was persisted and every field of that type then
+     * fell through to the default branch, making the data already captured unreadable without
+     * any error being raised. Validating here covers both writers and any future one.
+     *
+     * @param array $input
+     *
+     * @return array|false
+     */
+    private function prepareInput($input)
+    {
+        if (isset($input['typefield'])) {
+            if (!array_key_exists((int) $input['typefield'], CIType::getTypeFields())) {
+                Session::addMessageAfterRedirect(__('Invalid field type.', 'cmdb'), false, ERROR);
+                return false;
+            }
+            $input['typefield'] = (int) $input['typefield'];
+        }
+
+        return $input;
+    }
+
+    /**
+     * A custom field owns the values captured for it on every CI of the type. updateCIFields()
+     * deletes them next to each deleteByCriteria() it issues, but nothing did when the row was
+     * purged from anywhere else — CIType::cleanDBonPurge() included, which drops the fields of
+     * the type through deleteCIFields(). The orphan values then kept a foreign key to a field
+     * id free to be reused by the next one created.
+     *
+     * @return void
+     */
+    public function cleanDBonPurge()
+    {
+        $values = new CiValues();
+        $values->deleteByCriteria(['plugin_cmdb_cifields_id' => $this->fields['id']], true);
+    }
+
     public function addCIFields($input)
     {
 
-        if (isset($input["nameNewField"])) {
-            for ($i = 0; $i < sizeof($input["nameNewField"]); $i++) {
-                $values['name']                   = $input['nameNewField'][$i];
-                $values['typefield']              = $input['typeNewField'][$i];
-                $values['plugin_cmdb_citypes_id'] = $input['plugin_cmdb_citypes_id'];
-                $this->add($values);
+        if (!isset($input["nameNewField"], $input['plugin_cmdb_citypes_id'])
+            || !is_array($input["nameNewField"])) {
+            return;
+        }
+
+        foreach ($input["nameNewField"] as $i => $name) {
+            // The two posted arrays were indexed blindly against the length of the first one.
+            // A payload carrying one without the other raised "Undefined array key" and then
+            // inserted a row whose typefield was null, which prepareInput() cannot reject
+            // since it only validates the key when it is set. Skip the odd index rather than
+            // write half a row; the value itself is confronted with CIType::getTypeFields()
+            // there, for this writer and any future one.
+            if (!isset($input['typeNewField'][$i])) {
+                continue;
             }
+
+            $this->add([
+                'name'                   => $name,
+                'typefield'              => $input['typeNewField'][$i],
+                'plugin_cmdb_citypes_id' => $input['plugin_cmdb_citypes_id'],
+            ]);
         }
     }
 

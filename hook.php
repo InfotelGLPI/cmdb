@@ -34,6 +34,7 @@ use GlpiPlugin\Cmdb\CIType_Document;
 use GlpiPlugin\Cmdb\Criticity;
 use GlpiPlugin\Cmdb\Criticity_Item;
 use GlpiPlugin\Cmdb\ImpactInfo;
+use GlpiPlugin\Cmdb\ImpactInfoField;
 use GlpiPlugin\Cmdb\OperationProcess;
 use GlpiPlugin\Cmdb\OperationProcess_Item;
 use GlpiPlugin\Cmdb\OperationProcessState;
@@ -98,6 +99,8 @@ function plugin_cmdb_install()
         }
     }
     cmdb_rmdir($olddir);
+
+    plugin_cmdb_rewriteGeneratedClasses();
 
     //DisplayPreferences Migration
     $classes = [
@@ -471,8 +474,13 @@ function plugin_cmdb_giveItem($type, $ID, $data, $num)
                         $link = Toolbox::getItemTypeFormURL(CIType::class) . "?id=" . $data['id'];
                         $dbu = new DbUtils();
                         if ($item = $dbu->getItemForItemtype($type->fields['name'])) {
+                            // Since GLPI 11 an itemtype label is not necessarily a constant of
+                            // the code: a custom asset returns the name its definition stored,
+                            // i.e. free text, and this formatter feeds an HTML search cell.
+                            // Every other formatter of the plugin escapes at the sink (see
+                            // src/Cmdb_Ticket.php:197 and :216); this branch was the omission.
                             $display = $item::getTypeName(1);
-                            return "<a href='$link'>$display</a>";
+                            return "<a href='" . htmlescape($link) . "'>" . htmlescape($display) . "</a>";
                         } else {
                             return __('item not found or disabled', 'cmdb');
                         }
@@ -482,6 +490,108 @@ function plugin_cmdb_giveItem($type, $ID, $data, $num)
         }
     }
     return "";
+}
+
+/**
+ * Clean the impact information fields that reference a purged foreign row.
+ *
+ * ImpactInfoField holds a polymorphic reference: when type is "fields", field_id is the id of
+ * a PluginFieldsField row — a class this plugin does not own, so the cleanup cannot live in a
+ * cleanDBonPurge() of ours. Every class the plugin does own cleans its own children there.
+ *
+ * @param CommonDBTM $item
+ *
+ * @return bool
+ */
+function plugin_cmdb_item_purge(CommonDBTM $item)
+{
+    global $DB;
+
+    if ($item instanceof PluginFieldsField) {
+        $DB->delete(
+            ImpactInfoField::getTable(),
+            ['type'     => 'fields',
+                'field_id' => (string) $item->getID()],
+        );
+    }
+
+    return true;
+}
+
+/**
+ * Rewrite from the current template the CI type classes already generated on disk.
+ *
+ * templates/Citype.tpl carried the very write IDOR that was closed in CI::post_updateItem() and
+ * CI::postAddCi(): a posted civalues id used as the primary key of an update() with no ownership
+ * check, on a table that has no entities_id and therefore no checkEntity() fallback. Fixing the
+ * template alone protects nobody — the generator is gone, nothing calls generateTemplate() any
+ * more — while Autoloader still includes the classes earlier versions deposited under
+ * PLUGINCMDB_CLASS_PATH, flaw included. Rewrite those files in place.
+ *
+ * Only files that already exist are touched, so this never generates a new class, and the class
+ * name each file declares is kept: the autoloader resolves it from the file name, renaming it
+ * would make the type unloadable.
+ *
+ * @return void
+ */
+function plugin_cmdb_rewriteGeneratedClasses()
+{
+    global $DB;
+
+    $template_path = PLUGIN_CMDB_DIR . "/templates/Citype.tpl";
+
+    if (!is_dir(PLUGINCMDB_CLASS_PATH)
+        || !$DB->tableExists('glpi_plugin_cmdb_citypes')
+        || !file_exists($template_path)) {
+        return;
+    }
+
+    $template = file_get_contents($template_path);
+    if ($template === false) {
+        return;
+    }
+
+    $iterator = $DB->request(['SELECT' => ['id', 'name'],
+        'FROM'  => 'glpi_plugin_cmdb_citypes',
+        'WHERE' => ['is_imported' => 0],
+    ]);
+
+    foreach ($iterator as $citype) {
+        // Same transformation as Autoloader::isAllowedClass(): the file name is the only thing
+        // that ties a row of the table to a class on disk.
+        $system_name = CIType::getSystemName((string) $citype['name']);
+        if ($system_name === '') {
+            continue;
+        }
+
+        $path = PLUGINCMDB_CLASS_PATH . "/" . ucfirst($system_name) . ".php";
+        if (!file_exists($path)) {
+            continue;
+        }
+
+        $current = file_get_contents($path);
+        if ($current === false
+            || str_contains($current, 'getOwnerCriteria')
+            || preg_match('/^\s*class\s+(\w+)\s+extends/m', $current, $matches) !== 1) {
+            // Already rewritten from the fixed template, or not a file this plugin wrote.
+            continue;
+        }
+
+        // The label lands in a double quoted literal of the generated file, so it has to be
+        // escaped: the original generator substituted it raw and a quote in the name of a CI
+        // type produced a class file that could not even be parsed.
+        $label = addcslashes(substr((string) $citype['name'], strlen('GlpiPlugin\\Cmdb\\')), '"\\$');
+
+        $class = str_replace(
+            ["%%CLASSNAME%%", "%%TYPE%%", "%%ITEMRIGHT%%", "%%NAME%%"],
+            [$matches[1], (string) (int) $citype['id'], "plugin_cmdb_cis", $label],
+            $template,
+        );
+
+        if (file_put_contents($path, $class) === false) {
+            Toolbox::logDebug("Error : class file rewrite - $path");
+        }
+    }
 }
 
 function cmdb_rmdir($dir)

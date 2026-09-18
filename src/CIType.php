@@ -67,7 +67,24 @@ class CIType extends CommonDropdown
      **/
     public function __construct()
     {
-        self::$typeField = [__('String', 'cmdb'),
+        self::$typeField = self::getTypeFields();
+    }
+
+    /**
+     * The custom field types a CI type may declare, indexed by the value stored in the
+     * typefield column of CiFields.
+     *
+     * $typeField was only ever populated by the constructor, so any static caller had to
+     * instantiate a CIType first just to read it — which is why the dropdown of the form was
+     * rebuilt from $_POST['tabType'] instead. Building the list here makes it reachable
+     * without that side effect, and makes it the single source of truth for both the form and
+     * the sink validation of CiFields.
+     *
+     * @return array<int, string>
+     */
+    public static function getTypeFields(): array
+    {
+        return [__('String', 'cmdb'),
             __('Area Text', 'cmdb'),
             __('Date'),
             _x('Quantity', 'Number'),
@@ -590,7 +607,14 @@ class CIType extends CommonDropdown
     {
 
         if (isset($input['_fields'])) {
-            $values['fields'] = implode(',', $input['_fields']);
+            // Replay at the sink the domain the form offered. The posted list used to be
+            // imploded into the fields column as it came, so a replayed POST stored column
+            // names this type never exposes, and the renderers that explode the column back
+            // then drive the display from identifiers with no counterpart. getSelectableFields()
+            // is the very list selectCriterias() builds the <select> from.
+            $allowed = array_keys(self::getSelectableFields((string) $this->fields['name']));
+
+            $values['fields'] = implode(',', array_intersect((array) $input['_fields'], $allowed));
             $values['id']     = $this->getID();
             $this->update($values);
         }
@@ -830,8 +854,6 @@ class CIType extends CommonDropdown
      * */
     public static function selectCriterias($citype, $ID = 0)
     {
-        global $DB;
-
         echo "<span id='span_fields' name='span_fields'>";
 
         $dbu = new DbUtils();
@@ -853,28 +875,61 @@ class CIType extends CommonDropdown
         //Construct list
         echo "<span id='span_fields' name='span_fields'>";
         echo "<select class='form-select' name='_fields[]' multiple size='15' style='width:400px'>";
-        $parentIDfield = $dbu->getForeignKeyFieldForTable($dbu->getTableForItemType($citype));
-        foreach ($DB->listFields($dbu->getTableForItemType($citype)) as $field) {
-            $searchOption = $target->getSearchOptionByField('field', $field['Field']);
-
-            if (empty($searchOption)) {
-                if ($table = $dbu->getTableNameForForeignKeyField($field['Field'])) {
-                    $searchOption = $target->getSearchOptionByField('field', 'name', $table);
-                }
+        foreach (self::getSelectableFields($citype) as $name => $label) {
+            echo "<option value='" . htmlescape($name) . "'";
+            if (in_array($name, $config_fields)) {
+                echo " selected ";
             }
-
-            if (!empty($searchOption)
-             && ($field['Field'] != $parentIDfield)
-             && !in_array($field['Field'], self::getUnallowedFields($citype))) {
-                echo "<option value='" . htmlescape($field['Field']) . "'";
-                if (isset($config_fields) && in_array($field['Field'], $config_fields)) {
-                    echo " selected ";
-                }
-                echo ">" . htmlescape($searchOption['name']) . "</option>";
-            }
+            echo ">" . htmlescape($label) . "</option>";
         }
 
         echo "</select></span>";
+    }
+
+    /**
+     * The columns of an imported type the display form may offer, keyed by column name and
+     * valued by the label of its search option.
+     *
+     * selectCriterias() used to compute this inline, which left updateDisplayFields() writing
+     * back whatever the client posted. Both now read the same list, so the domain the form
+     * offers is the domain that gets persisted.
+     *
+     * @param string $citype itemtype of the imported asset
+     *
+     * @return array<string, string>
+     */
+    public static function getSelectableFields($citype): array
+    {
+        global $DB;
+
+        $dbu    = new DbUtils();
+        $target = $dbu->getItemForItemtype((string) $citype);
+        if ($target === false) {
+            return [];
+        }
+
+        $table          = $dbu->getTableForItemType($citype);
+        $parent_idfield = $dbu->getForeignKeyFieldForTable($table);
+        $unallowed      = self::getUnallowedFields($citype);
+        $fields         = [];
+
+        foreach ($DB->listFields($table) as $field) {
+            $search_option = $target->getSearchOptionByField('field', $field['Field']);
+
+            if (empty($search_option)) {
+                if ($fk_table = $dbu->getTableNameForForeignKeyField($field['Field'])) {
+                    $search_option = $target->getSearchOptionByField('field', 'name', $fk_table);
+                }
+            }
+
+            if (!empty($search_option)
+             && ($field['Field'] != $parent_idfield)
+             && !in_array($field['Field'], $unallowed)) {
+                $fields[$field['Field']] = $search_option['name'];
+            }
+        }
+
+        return $fields;
     }
 
     /**
@@ -995,7 +1050,7 @@ class CIType extends CommonDropdown
         global $CFG_GLPI;
         echo "<tr class='newItem tab_bg_1' style='display:none;'>";
         echo "<td colspan='2' class='center'><a class='submit btn btn-primary'
-            onclick='addField(" . json_encode(self::$typeField, JSON_HEX_TAG) . ")'>" . __('Add New Field', 'cmdb') . "</a></td>";
+            onclick='addField()'>" . __('Add New Field', 'cmdb') . "</a></td>";
         echo "</tr>";
 
         echo "<tr class='newItem tab_bg_1' style='display:none;'>";
@@ -1049,7 +1104,7 @@ class CIType extends CommonDropdown
                 echo "</tr>";
                 echo "<tr class='newItem tab_bg_1' style='display:none;'>";
                 echo "<td colspan='2' class='center'><a class='submit btn btn-primary'
-                    onclick='resetFields($id," . json_encode(self::$typeField, JSON_HEX_TAG) . ")'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
+                    onclick='resetFields($id)'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
                 echo "</tr>";
                 echo "<tr class='newItem tab_bg_1' style='display:none;'>";
                 echo "<td colspan='2' class='center'>";
@@ -1067,7 +1122,7 @@ class CIType extends CommonDropdown
                     $name = "nameField[$i]";
                     echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
                     echo "<td>";
-                    Dropdown::showFromArray("typeField[$i]", self::$typeField, ["value" => $d['typefield'], "width" => 125]);
+                    Dropdown::showFromArray("typeField[$i]", self::getTypeFields(), ["value" => $d['typefield'], "width" => 125]);
 
                     echo "</td>";
                     echo "<td><i class='fa-2x ti ti-trash pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
