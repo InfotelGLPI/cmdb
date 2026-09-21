@@ -83,6 +83,11 @@ class Profile extends \Profile
             // filled by the core in Profile::post_addItem() via fillProfileRights(). A row
             // that is still missing is read as "no right" by displayRightsChoiceMatrix()
             // anyway, so displaying only needs to read.
+            // Explicit read guard rather than one delegated to the core: the tab is
+            // routed from the posted _glpi_tab, and showForm() below reads profile
+            // rights straight from the database.
+            Session::checkRight(self::$rightname, READ);
+
             $prof->showForm($ID);
         }
         return true;
@@ -113,7 +118,12 @@ class Profile extends \Profile
     {
         echo "<div class='firstbloc'>";
         $profile = new \Profile();
-        if (($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE])) && $openform) {
+        // Computed once, up front, so that every control below shares the same gate:
+        // the Helpdesk checkbox used to be rendered outside it and disclosed a slice of
+        // the profile configuration to a read-only viewer, on a control the core would
+        // have refused to save anyway.
+        $canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE]);
+        if ($canedit && $openform) {
             echo "<form method='post' action='" . $profile->getFormURL() . "'>";
 
             $profile->getFromDB($profiles_id);
@@ -128,10 +138,10 @@ class Profile extends \Profile
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
                     'title'         => __('Type of item configuration', 'cmdb')]);
-                //                $rights = $this->getOperationProcessRights();
-                //                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                //                    'default_class' => 'tab_bg_2',
-                //                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
+                $rights = $this->getOperationProcessRights();
+                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+                    'default_class' => 'tab_bg_2',
+                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
                 $rights = $this->getImpactIconRights();
                 $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
                     'default_class' => 'tab_bg_2',
@@ -144,17 +154,20 @@ class Profile extends \Profile
             }
         }
 
-        echo "<table class='tab_cadre_fixehov'>";
-        echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Helpdesk') . "</th></tr>\n";
+        // The Helpdesk right is part of the same editable set as the matrices above.
+        if ($canedit) {
+            echo "<table class='tab_cadre_fixehov'>";
+            echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Helpdesk') . "</th></tr>\n";
 
-        $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_cmdb_operationprocesses_open_ticket']);
-        echo "<tr class='tab_bg_2'>";
-        echo "<td width='20%'>" . __('Associable items to a ticket') . "</td>";
-        echo "<td colspan='5'>";
-        Html::showCheckbox(['name'    => '_plugin_cmdb_operationprocesses_open_ticket',
-            'checked' => $effective_rights['plugin_cmdb_operationprocesses_open_ticket']]);
-        echo "</td></tr>\n";
-        echo "</table>";
+            $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_cmdb_operationprocesses_open_ticket']);
+            echo "<tr class='tab_bg_2'>";
+            echo "<td width='20%'>" . __('Associable items to a ticket') . "</td>";
+            echo "<td colspan='5'>";
+            Html::showCheckbox(['name'    => '_plugin_cmdb_operationprocesses_open_ticket',
+                'checked' => $effective_rights['plugin_cmdb_operationprocesses_open_ticket']]);
+            echo "</td></tr>\n";
+            echo "</table>";
+        }
 
         if ($canedit && $closeform) {
             echo "<div class='center'>";
@@ -170,13 +183,13 @@ class Profile extends \Profile
     /**
      * @return array
      */
-    //    public function getOperationProcessRights()
-    //    {
-    //        $rights = [['itemtype' => OperationProcess::class,
-    //            'label'    => _n('Service', 'Services', 2, 'cmdb'),
-    //            'field'    => 'plugin_cmdb_operationprocesses']];
-    //        return $rights;
-    //    }
+    public function getOperationProcessRights()
+    {
+        $rights = [['itemtype' => OperationProcess::class,
+            'label'    => _n('Service', 'Services', 2, 'cmdb'),
+            'field'    => 'plugin_cmdb_operationprocesses']];
+        return $rights;
+    }
 
 
     public function getImpactIconRights()
@@ -230,10 +243,17 @@ class Profile extends \Profile
     public static function getAllRights($all = false)
     {
         $rights = [
-            //            ['itemtype' => OperationProcess::class,
-            //                'label'    => _n('Service', 'Services', 2, 'cmdb'),
-            //                'field'    => 'plugin_cmdb_operationprocesses',
-            //            ],
+            // Kept in the list even though the Services menu entry is commented out in
+            // setup.php: createFirstAccess() still grants this right, the front/ controllers
+            // still answer and plugin_cmdb_postinit() still registers the OperationProcess_Item
+            // tab on eleven itemtypes. Commenting the entry out made initProfile() skip the
+            // profilerights row, showForm() hide the matrix and removeRightsFromSession() leave
+            // the right in the session -- the installer profile held it permanently with no way
+            // to delegate or revoke it from the interface.
+            ['itemtype' => OperationProcess::class,
+                'label'    => _n('Service', 'Services', 2, 'cmdb'),
+                'field'    => 'plugin_cmdb_operationprocesses',
+            ],
             ['itemtype' => CI::class,
                 'label'    => _n('Item configuration', 'Items configuration', 2, 'cmdb'),
                 'field'    => 'plugin_cmdb_cis',

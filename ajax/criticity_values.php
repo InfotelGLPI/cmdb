@@ -33,9 +33,12 @@ use GlpiPlugin\Cmdb\Criticity_Item;
 
 Session::checkRight('plugin_cmdb_cis', UPDATE);
 
-// Validate the itemtype reflected into the rendered markup to prevent reflected XSS.
+// Replay the business allow-list at the sink rather than accepting any instantiable
+// class of the GLPI registry: Criticity_Item::getCIType() is the very list
+// Criticity::addFieldCriticity() consults to decide whether the field is offered at all.
+// The former 'ticket' lowercase literal matched no GLPI itemtype and had no caller.
 $itemtype = (string) ($_REQUEST['itemtype'] ?? '');
-if ($itemtype !== 'ticket' && !getItemForItemtype($itemtype)) {
+if (!in_array($itemtype, Criticity_Item::getCIType(), true)) {
     throw new \Glpi\Exception\Http\BadRequestHttpException();
 }
 

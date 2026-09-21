@@ -1101,8 +1101,11 @@ class CIType extends CommonDropdown
                 echo "<tr class='newItem tab_bg_1' style='display:none;'>";
                 echo "<td>" . __('Icon') . "</td>";
                 echo "<td>";
-                echo "<img width='32' height='32' src='" . $CFG_GLPI['root_doc']
-                 . "/front/document.send.php?docid=" . $citype_doc->fields['documents_id'] . "'/>";
+                // Cast and escape, like the twin fragment of src/Cmdb.php:138-139 and
+                // ImpactIcon::getSpecificValueToDisplay(): documents_id is an int column
+                // today, so this closes a regression path rather than a live XSS.
+                echo "<img width='32' height='32' src='" . htmlescape($CFG_GLPI['root_doc'])
+                 . "/front/document.send.php?docid=" . (int) $citype_doc->fields['documents_id'] . "'/>";
                 echo "</td>";
                 echo "</tr>";
             }

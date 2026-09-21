@@ -131,8 +131,12 @@ class Cmdb extends CommonDBTM
                     echo "<a href='" . htmlescape($link) . "'>";
                     if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $id,
                         'types_id'               => 0])) {
-                        echo "<img width='64' height='64' src='" . $CFG_GLPI['root_doc'] .
-                        "/front/document.send.php?docid=" . $citype_doc->fields['documents_id'] . "'/>";
+                        // Cast and escape, as ImpactIcon::getSpecificValueToDisplay() and
+                        // ImpactInfo::showInfos() already do for the very same URL: this was
+                        // the only fragment of the plugin interpolating a database value into
+                        // an attribute without either.
+                        echo "<img width='64' height='64' src='" . htmlescape($CFG_GLPI['root_doc'])
+                            . "/front/document.send.php?docid=" . (int) $citype_doc->fields['documents_id'] . "'/>";
                     } else {
                         echo "<i class='ti ti-adjustments'></i>";
                     }
