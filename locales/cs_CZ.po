@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 13:33+0000\n"
+"POT-Creation-Date: 2026-09-21 07:26+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
 "Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
-#: src/CIType.php:1109
+#: src/CIType.php:1118
 msgid "Add New Field"
 msgstr "Přidat nové pole"
 
@@ -43,12 +43,12 @@ msgstr "Pro tento typ již existuje ikona"
 msgid "Area Text"
 msgstr "Textové pole"
 
-#: src/OperationProcess_Item.php:546
+#: src/OperationProcess_Item.php:553
 msgctxt "button"
 msgid "Associate a service"
 msgstr "Přiřadit službu"
 
-#: src/OperationProcess_Item.php:100 src/OperationProcess_Item.php:102
+#: src/OperationProcess_Item.php:105 src/OperationProcess_Item.php:107
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] "Přiřazená služba"
@@ -60,7 +60,7 @@ msgstr[3] "Přiřazené služby"
 msgid "Base fields"
 msgstr "Základní pole"
 
-#: src/CIType.php:377
+#: src/CIType.php:379
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Buďte opatrní, název nelze po vytvoření změnit"
 
@@ -102,11 +102,11 @@ msgstr[1] "Kritičností"
 msgstr[2] "Kritičností"
 msgstr[3] "Kritičnosti"
 
-#: src/ImpactIcon.php:266
+#: src/ImpactIcon.php:274
 msgid "Current icon"
 msgstr "Aktuální ikona"
 
-#: src/CIType.php:782
+#: src/CIType.php:791
 msgid "Default icon"
 msgstr "Výchozí ikona"
 
@@ -122,11 +122,11 @@ msgstr "Přímý dopad"
 msgid "Display Item Configuration"
 msgstr "Zobrazit položku konfigurace"
 
-#: src/CIType.php:381
+#: src/CIType.php:383
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr "Nepoužívejte název třídy s mezerami (jako 'moje objekty')"
 
-#: src/CIType.php:379
+#: src/CIType.php:381
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr "Nepoužívejte název třídy v množném čísle (např. 'myobjects')"
 
@@ -134,7 +134,7 @@ msgstr "Nepoužívejte název třídy v množném čísle (např. 'myobjects')"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Prvky propojené s požadavkem se neimportují do CMDB"
 
-#: src/CIType.php:1159
+#: src/CIType.php:1168
 msgid "Existing fields for this type of CI"
 msgstr "Existující pole pro tento typ CI"
 
@@ -142,11 +142,11 @@ msgstr "Existující pole pro tento typ CI"
 msgid "Export PNG"
 msgstr "Exportovat PNG"
 
-#: src/CIType.php:324
+#: src/CIType.php:326
 msgid "Go to custom assets"
 msgstr "Přejít na vlastní aktiva"
 
-#: src/ImpactIcon.php:66 src/CIType.php:742
+#: src/ImpactIcon.php:66 src/CIType.php:751
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] "Ikona"
@@ -155,12 +155,12 @@ msgstr[2] "Ikon"
 msgstr[3] "Ikony"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1251
+#: src/CIType.php:1260
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Ikona typu CI %d"
 
-#: src/ImpactIcon.php:275
+#: src/ImpactIcon.php:283
 msgid "Icon file"
 msgstr "Soubor ikon"
 
@@ -173,7 +173,7 @@ msgstr "Ikona pro typ položky %s"
 msgid "Impacted items"
 msgstr "Ovlivněné položky"
 
-#: src/CIType.php:691
+#: src/CIType.php:700
 msgid "Import CI"
 msgstr "Importovat CI"
 
@@ -193,11 +193,11 @@ msgstr ""
 msgid "Invalid field type."
 msgstr ""
 
-#: src/ImpactIcon.php:340
+#: src/ImpactIcon.php:348
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/OperationProcess_Item.php:186 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:191 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Invalid name !"
 msgstr "Neplatný název!"
 
-#: src/CIType.php:360
+#: src/CIType.php:362
 msgid "Is this item presents in glpi ?"
 msgstr "Je tato položka přítomna v glpi?"
 
@@ -225,17 +225,17 @@ msgstr[3] "Konfigurační položky"
 msgid "No elements of CMDB linked to the ticket"
 msgstr "Žádné prvky CMDB nejsou připojeny"
 
-#: src/ImpactInfo.php:687
+#: src/ImpactInfo.php:695
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr "Pro typ položky %s není nastaven obsah popisku."
 
-#: src/ImpactInfo.php:698
+#: src/ImpactInfo.php:706
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr "Pro typ položky %s není nastavena žádná popiska"
 
-#: src/ImpactInfoField.php:110
+#: src/ImpactInfoField.php:120
 msgid "Order"
 msgstr "Pořadí"
 
@@ -243,7 +243,7 @@ msgstr "Pořadí"
 msgid "Please choose a level for criticality"
 msgstr "Prosím zvolte úroveň kritičnosti"
 
-#: src/CIType.php:445
+#: src/CIType.php:447
 msgid "Please, choose an imported CI !"
 msgstr ""
 
@@ -259,7 +259,7 @@ msgstr "Blízkost"
 msgid "Purge CMDB"
 msgstr "Vyčistit CMDB"
 
-#: src/CIType.php:1163
+#: src/CIType.php:1172
 msgid "Reset Existing fields"
 msgstr "Smazání existujících polí"
 
@@ -295,15 +295,15 @@ msgstr[3] "Stavy služby"
 msgid "String"
 msgstr "Řetězec"
 
-#: src/ImpactIcon.php:348
+#: src/ImpactIcon.php:356
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
 msgstr ""
 
-#: src/CIType.php:458
+#: src/CIType.php:467
 msgid "There is already an existing name or the name is invalid"
 msgstr ""
 
-#: src/CIType.php:1512 src/CIType.php:1529
+#: src/CIType.php:1521 src/CIType.php:1538
 msgctxt "button"
 msgid "Transfer"
 msgstr "Přesun"
@@ -340,7 +340,7 @@ msgstr "Aktualizovat odkaz"
 msgid "Update failed"
 msgstr "Aktualizace selhala"
 
-#: src/CIType.php:1132
+#: src/CIType.php:1141
 msgid "Upload icon"
 msgstr "Vložit ikonu"
 
@@ -352,7 +352,7 @@ msgstr ""
 "S GLPI 11 můžete vytvářet nové vlastní zdroje, takže migrujte své stávající "
 "objekty do jádra"
 
-#: src/CIType.php:322
+#: src/CIType.php:324
 msgid "With GLPI 11, you can create now custom assets"
 msgstr "S GLPI 11, si nyní můžete vytvářet vlastní datové zdroje/data"
 
@@ -380,7 +380,7 @@ msgstr "vysoká"
 msgid "is already present in GLPI"
 msgstr "je již přítomno v GLPI"
 
-#: hook.php:485
+#: hook.php:502
 msgid "item not found or disabled"
 msgstr "položka nenalezena nebo je zakázána"
 
