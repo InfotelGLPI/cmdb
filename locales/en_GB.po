@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 12:40+0000\n"
+"POT-Creation-Date: 2026-09-21 14:27+0000\n"
 "PO-Revision-Date: 2020-07-30 14:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -123,7 +123,7 @@ msgstr "Do not use a plural classname (like 'myobjects')"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Elements linked to the ticket aren't imported in CMDB"
 
-#: src/CIType.php:1138
+#: src/CIType.php:1141
 msgid "Existing fields for this type of CI"
 msgstr "Existing fields for this type of CI"
 
@@ -142,7 +142,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1230
+#: src/CIType.php:1233
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Icon CIType %d"
@@ -201,11 +201,11 @@ msgstr "Invalid name !"
 msgid "Is this item presents in glpi ?"
 msgstr "Is this item presents in glpi ?"
 
-#: src/Menu.php:68 src/Profile.php:126
+#: src/Menu.php:68 src/Profile.php:136
 msgid "Item Configuration"
 msgstr "Item Configuration"
 
-#: src/Profile.php:205 src/Profile.php:238
+#: src/Profile.php:218 src/Profile.php:258
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Item configuration"
@@ -249,7 +249,7 @@ msgstr "Proximity"
 msgid "Purge CMDB"
 msgstr "Purge CMDB"
 
-#: src/CIType.php:1142
+#: src/CIType.php:1145
 msgid "Reset Existing fields"
 msgstr "Reset Existing fields"
 
@@ -266,6 +266,7 @@ msgid "See associated tickets"
 msgstr "See associated tickets"
 
 #: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
+#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Service"
@@ -289,7 +290,7 @@ msgstr ""
 msgid "There is already an existing name or the name is invalid"
 msgstr "There is already an existing name or the name is invalid"
 
-#: src/CIType.php:1501 src/CIType.php:1518
+#: src/CIType.php:1504 src/CIType.php:1521
 msgctxt "button"
 msgid "Transfer"
 msgstr "Transfer"
@@ -300,13 +301,13 @@ msgid_plural "Types CIs"
 msgstr[0] "Type CI"
 msgstr[1] "Types CIs"
 
-#: src/Profile.php:242
+#: src/Profile.php:262
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of Item Configuration"
 msgstr[1] "Types of item configuration"
 
-#: src/Profile.php:130 src/Profile.php:218
+#: src/Profile.php:140 src/Profile.php:231
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of item configuration"
@@ -320,7 +321,7 @@ msgstr "Update Link"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1111
+#: src/CIType.php:1114
 msgid "Upload icon"
 msgstr "Upload icon"
 
