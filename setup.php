@@ -39,7 +39,7 @@ use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\Menu;
 use GlpiPlugin\Cmdb\Profile;
 
-define('PLUGIN_CMDB_VERSION', '3.1.10');
+define('PLUGIN_CMDB_VERSION', '3.1.11');
 
 if (!defined("PLUGIN_CMDB_DIR")) {
     define("PLUGIN_CMDB_DIR", Plugin::getPhpDir("cmdb"));
