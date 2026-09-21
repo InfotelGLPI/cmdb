@@ -95,7 +95,6 @@ function plugin_init_cmdb()
 
         //Change link from menu.php
         $PLUGIN_HOOKS[Hooks::JAVASCRIPT]['cmdb'] = ["/plugins/cmdb/js/changeCIMenu.js",
-            "/plugins/cmdb/js/accordion.js",
             "/plugins/cmdb/js/function_form_CIType.js",
             "/plugins/cmdb/js/show_fields.js"];
 
@@ -104,13 +103,9 @@ function plugin_init_cmdb()
         if (preg_match_all("/.*\/(.*)\.form\.php/", $_SERVER['REQUEST_URI'], $matches) !== false) {
             if (isset($matches[1][0])) {
                 $itemtype = $matches[1][0];
-                if ($itemtype == "ticket" && $_SESSION["glpiactiveprofile"]["interface"] != "helpdesk") {
-                    $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/accordion.js';
-                }
 
                 if ($itemtype == "citype") {
                     //actions for additional fields
-                    $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/accordion.js';
                     $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/function_form_CIType.js';
                 }
 

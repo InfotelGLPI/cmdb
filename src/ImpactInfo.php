@@ -147,7 +147,7 @@ class ImpactInfo extends CommonDBTM
             'field' => 'itemtype',
             'name' => __('Item type'),
             'datatype' => 'specific',
-            'massiveaction' => 'false',
+            'massiveaction' => false,
         ];
 
         return $tab;

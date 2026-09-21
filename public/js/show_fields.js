@@ -47,7 +47,3 @@ var changeField = function (idType, id) {
       }
    });
 };
-
-var showDatepicker = function () {
-   $(".datepicker").datepicker();
-};

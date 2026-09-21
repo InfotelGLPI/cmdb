@@ -37,6 +37,7 @@ use DbUtils;
 use Document;
 use Document_Item;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
 use GlpiPlugin\Resources\Resource;
 use Html;
 use Impact;
@@ -586,18 +587,18 @@ class CIType extends CommonDropdown
      */
     public function prepareInputForUpdate($input)
     {
-
-        if (!$this->fields['is_imported']) {
-            //         if (isset($input['name'])
-            //             && $this->existNameCIType($input['name'])
-            //             && $input['name'] != addslashes($this->fields['name'])
-            //         ) {
-            //            Session::addMessageAfterRedirect(__('There is already an existing name or the name is invalid',
-            //                                                'cmdb'), true, ERROR);
-            //            return false;
-            //         }
-            $input["name"] = $this->fields['name'];
-        }
+        // Neither the nature of a type nor its name may change after creation: the name
+        // doubles as the class name resolved all over the plugin (CiFields, Cmdb::showMenu(),
+        // ajax/change_link.php), it is stored as the itemtype of glpi_plugin_cmdb_impactitems
+        // and glpi_plugin_cmdb_impactrelations, and cleanDBonPurge() calls a static method on
+        // it. Immutability used to rest on the rendering alone -- showImportedItem() marks the
+        // dropdown readonly, which is a client-side control -- and the guard below read the
+        // stored is_imported instead of the posted one, so a single POST could flip a type to
+        // "generated" and give it an arbitrary class name in one go. CIType is a CommonDropdown
+        // with no form controller of its own, so the write lands on the generic one, which
+        // checks the row and not the posted values.
+        unset($input['is_imported']);
+        $input['name'] = $this->fields['name'];
 
         if ($this->fields['is_imported']) {
             foreach ($this->input as $key => $val) {
@@ -840,73 +841,43 @@ class CIType extends CommonDropdown
                 $tabCIType_type[$item['id']] = $item['name'];
             }
 
-            if ($ID) {
-                $citypeItem = new self();
-                $citypeItem->getFromDB($ID);
-                echo "<div id='accordion'>";
-                foreach ($tabCIType_type as $key => $value) {
-                    echo "<h3>" . htmlescape($value) . "</h3>";
-                    echo "<div>";
-                    if ($ID) {
-                        if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
-                            'types_id'               => $key])) {
-                            echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
-                        }
-                    }
-                    $nameFileupload = 'filename$$' . $key;
-                    //               echo Html::file(['multiple' => false, 'name' => $nameFileupload]);
-                    echo "<input class='form-control' type='file' name='$nameFileupload'>";
-                    echo "</div>";
-                }
-                echo "</div>";
-                echo "</span>";
-                echo "<script>accordion()</script>";
-            } else {
-                echo "<div id='accordion'>";
-                foreach ($tabCIType_type as $key => $value) {
-                    echo "<h3>" . htmlescape($value) . "</h3>";
-                    echo "<div>";
-                    if ($ID) {
-                        if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
-                            'types_id'               => $key])) {
-                            echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
-                        }
-                    }
-                    //               echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
-                    // prepareInputForUpdate() matches uploaded icons with
-                    // preg_match('/^_filename\$\$(\d+)/'), so the field name must carry the
-                    // numeric suffix: build it outside of the double quoted string.
-                    $nameFileupload = 'filename$$' . $key;
-                    echo "<input class='form-control' type='file' name='" . htmlescape($nameFileupload) . "'>";
-                    echo "</div>";
-                }
-                echo "</div>";
-                echo "</span>";
-                echo "<script>accordion()</script>";
-            }
-        } else {
-            echo "<div id='accordion'>";
-            foreach ($tabCIType_type as $key => $value) {
-                echo "<h3>" . htmlescape($value) . "</h3>";
-                echo "<div>";
-                if ($ID) {
-                    if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
-                        'types_id'               => $key])) {
-                        echo "<img width='32' height='32' src=\"" . $CFG_GLPI['root_doc'] . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'] . "\"/>";
-                    }
-                }
-                //            echo Html::file(['multiple' => false, 'name' => 'filename$$' . $key]);
-                // Same as above: the numeric suffix is what prepareInputForUpdate() matches on.
-                $nameFileupload = 'filename$$' . $key;
-                echo "<input class='form-control' type='file' name='" . htmlescape($nameFileupload) . "'>";
-                echo "</div>";
-            }
-            echo "</div>";
-            echo "</span>";
-            echo "<script>accordion()</script>";
-            echo "</span>";
-            return;
         }
+
+        // The three branches this replaces emitted the same panels: they only differed by a
+        // CIType instance the first one loaded without ever reading it, and by a stray
+        // </span> the third one closed on a <span> nobody had opened. When the type carries
+        // no type field, $tabCIType_type still holds the default icon alone, which is what
+        // the third branch rendered.
+        $panels = [];
+        foreach ($tabCIType_type as $key => $value) {
+            $icon_url = '';
+            if (
+                $ID
+                && $citype_doc->getFromDBByCrit([
+                    'plugin_cmdb_citypes_id' => $ID,
+                    'types_id'               => $key,
+                ])
+            ) {
+                $icon_url = $CFG_GLPI['root_doc']
+                    . "/plugins/cmdb/front/icon.send.php?idDoc=" . $citype_doc->fields['documents_id'];
+            }
+
+            $panels[] = [
+                'name'     => $value,
+                'icon_url' => $icon_url,
+                // prepareInputForUpdate() matches uploaded icons with
+                // preg_match('/^_filename\$\$(\d+)/'), so the field name must carry the
+                // numeric suffix.
+                'input_name' => 'filename$$' . $key,
+            ];
+        }
+
+        TemplateRenderer::getInstance()->display('@cmdb/citype_icons.html.twig', [
+            'dom_id' => 'plugin_cmdb_citype_icons',
+            'panels' => $panels,
+        ]);
+
+        echo "</span>";
     }
 
 
@@ -938,7 +909,6 @@ class CIType extends CommonDropdown
         $config_fields = explode(',', $ci_type->getField('fields'));
 
         //Construct list
-        echo "<span id='span_fields' name='span_fields'>";
         echo "<select class='form-select' name='_fields[]' multiple size='15' style='width:400px'>";
         foreach (self::getSelectableFields($citype) as $name => $label) {
             echo "<option value='" . htmlescape($name) . "'";
@@ -1358,7 +1328,17 @@ class CIType extends CommonDropdown
         $impactrelation->deleteByCriteria(["itemtype_source" => $this->getField("name")]);
         $impactrelation->deleteByCriteria(["itemtype_impacted" => $this->getField("name")]);
         $item = $this->getField("name");
-        if (class_exists($item) && $this->getField("is_imported") == 0) {
+        // uninstall() typically drops the tables of the class it belongs to, so it is only
+        // ever called on a class this plugin generated itself: the stored name must sit in
+        // the namespace prepareInputForAdd() builds, must really be a CommonDBTM, and must
+        // carry the static uninstall() the generator writes -- class_exists() alone accepted
+        // any loadable class name, and a CommonDBTM without that method would fatal here.
+        if (
+            str_starts_with((string) $item, 'GlpiPlugin\\Cmdb\\')
+            && is_a($item, CommonDBTM::class, true)
+            && method_exists($item, 'uninstall')
+            && $this->getField("is_imported") == 0
+        ) {
             $item::uninstall();
         }
         //remove file

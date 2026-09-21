@@ -77,6 +77,14 @@ class Criticity extends CommonDBTM
      **/
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
+        // The tab used to be offered to any itemtype carrying a `level` column -- every
+        // core CommonTreeDropdown does -- because displayStandardTab() routes on the
+        // posted _glpi_tab without consulting registerClass(). Gate on the itemtype
+        // itself, before reading any field.
+        if (!$item instanceof BusinessCriticity) {
+            return '';
+        }
+
         if ($item->getField('level') == 1) {
             return self::createTabEntry(Cmdb::getTypeName());
         }
@@ -96,6 +104,12 @@ class Criticity extends CommonDBTM
      * */
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
+        // Same itemtype gate as getTabNameForItem(): the tab is reachable without the
+        // (currently commented out) registerClass() declaration.
+        if (!$item instanceof BusinessCriticity) {
+            return true;
+        }
+
         $criticity = new self();
         if ($item->getField('level') == 1) {
             $criticity->showForm($item->getID());

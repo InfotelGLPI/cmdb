@@ -33,6 +33,7 @@ use GlpiPlugin\Cmdb\CIType;
 use GlpiPlugin\Cmdb\CIType_Document;
 use GlpiPlugin\Cmdb\Criticity;
 use GlpiPlugin\Cmdb\Criticity_Item;
+use GlpiPlugin\Cmdb\ImpactIcon;
 use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\ImpactInfoField;
 use GlpiPlugin\Cmdb\OperationProcess;
@@ -246,6 +247,23 @@ function plugin_cmdb_uninstall()
         "glpi_plugin_cmdb_impactinfofields",
     ];
 
+    // Purge the icons one by one before their table goes. Dropping it takes the rows away
+    // without ever running ImpactIcon::cleanDBonPurge(), which is what removes the
+    // Document_Item link and, when the icon was its only holder, the Document itself: the
+    // uploaded files stayed on disk and the documents stayed listed in the interface,
+    // attached to an itemtype that no longer exists.
+    if ($DB->tableExists('glpi_plugin_cmdb_impacticons')) {
+        $impact_icon = new ImpactIcon();
+        foreach ($DB->request(['SELECT' => 'id', 'FROM' => 'glpi_plugin_cmdb_impacticons']) as $row) {
+            if ($impact_icon->getFromDB($row['id'])) {
+                $impact_icon->delete(['id' => $row['id']], true);
+            }
+        }
+    }
+
+    // Runs before the sweep below: that loop deletes the Document_Item rows of
+    // ImpactIcon by criteria, and cleanDBonPurge() needs them to find the documents to
+    // free.
     $itemtypes = [
         'Alert',
         'DisplayPreference',
@@ -266,6 +284,7 @@ function plugin_cmdb_uninstall()
                 CI::class,
                 CIType::class,
                 CIType_Document::class,
+                ImpactIcon::class,
                 ImpactInfo::class,
             ] as $deletedType
         ) {

@@ -116,7 +116,7 @@ class ImpactIcon extends CommonDBTM
             'field' => 'itemtype',
             'name' => __('Item type'),
             'datatype' => 'specific',
-            'massiveaction' => 'false',
+            'massiveaction' => false,
         ];
 
         $tab[] = [
@@ -125,7 +125,7 @@ class ImpactIcon extends CommonDBTM
             'field' => 'criteria',
             'name' => __('Criteria', 'cmdb'),
             'datatype' => 'specific',
-            'massiveaction' => 'false',
+            'massiveaction' => false,
             'nosort' => true,
             'nosearch' => true,
         ];
@@ -136,7 +136,7 @@ class ImpactIcon extends CommonDBTM
             'field' => 'documents_id',
             'name' => __('Icon'),
             'datatype' => 'specific',
-            'massiveaction' => 'false',
+            'massiveaction' => false,
             'nosort' => true,
             'nosearch' => true,
         ];
@@ -273,8 +273,13 @@ class ImpactIcon extends CommonDBTM
             echo "<tr class='tab_bg_1'>";
             echo "<td>" . __('Current icon', 'cmdb') . "</td>";
             echo "<td>";
-            $iconPath = PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc=" . $this->fields['documents_id'];
-            echo "<img src='$iconPath' style='height: 50px; width: 50px'>";
+            // Escaped at the sink, whatever the column is guaranteed to hold upstream:
+            // checkIconInput() constrains documents_id to an existing integer id today, but
+            // this is the only echo of the plugin that interpolated a value into an attribute
+            // without going through htmlescape(), as plugin_cmdb_giveItem() does in hook.php.
+            $iconPath = PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc="
+                . (int) $this->fields['documents_id'];
+            echo "<img src='" . htmlescape($iconPath) . "' style='height: 50px; width: 50px'>";
             echo "</td>";
             echo "</tr>";
         }
@@ -304,13 +309,81 @@ class ImpactIcon extends CommonDBTM
             return false;
         }
 
-        return $input;
+        // An icon row is meaningless without the itemtype it applies to, and the value is
+        // used as a class name downstream (getItemIcon(), specificValueToDisplay()).
+        if (!isset($input['itemtype'])) {
+            Session::addMessageAfterRedirect(__('Invalid item type.', 'cmdb'), false, ERROR);
+            return false;
+        }
+
+        return $this->checkIconInput($input);
     }
 
     public function prepareInputForUpdate($input)
     {
         if (!self::checkUploadedIcon($input['_filename'] ?? null)) {
             return false;
+        }
+
+        return $this->checkIconInput($input);
+    }
+
+    /**
+     * Replay, at the write sink, the controls front/impacticon.form.php applies.
+     *
+     * The controller is not the only writer: a massive action, the API and any future caller
+     * reach add() and update() directly, and the columns validated here are read back as a
+     * class name (itemtype) and injected into the icon URL (documents_id), so the allow-list
+     * belongs to the object rather than to one of its entry points.
+     *
+     * @param array $input
+     *
+     * @return array|false
+     */
+    private function checkIconInput($input)
+    {
+        if (
+            isset($input['itemtype'])
+            && !in_array($input['itemtype'], self::getAllowedItemtypes(), true)
+        ) {
+            Session::addMessageAfterRedirect(__('Invalid item type.', 'cmdb'), false, ERROR);
+            return false;
+        }
+
+        if (isset($input['criteria'])) {
+            // The criteria is the id of the type dropdown the itemtype owns, or 0 for the
+            // default icon of an itemtype that has none: getCriterias() is what says which
+            // itemtypes carry one.
+            $criteria = $input['criteria'];
+            $itemtype = $input['itemtype'] ?? $this->fields['itemtype'] ?? '';
+
+            if (!is_numeric($criteria) || (int) $criteria != $criteria || (int) $criteria < 0) {
+                Session::addMessageAfterRedirect(__('Invalid criteria.', 'cmdb'), false, ERROR);
+                return false;
+            }
+
+            if ((int) $criteria !== 0 && !isset(self::getCriterias()[$itemtype])) {
+                Session::addMessageAfterRedirect(__('Invalid criteria.', 'cmdb'), false, ERROR);
+                return false;
+            }
+
+            $input['criteria'] = (int) $criteria;
+        }
+
+        // Written by post_addItem()/post_updateItem() from the uploaded document, never by the
+        // form; a caller supplying it by hand must still name an existing document.
+        if (isset($input['documents_id']) && $input['documents_id'] !== '') {
+            $document = new Document();
+            if (
+                !is_numeric($input['documents_id'])
+                || (int) $input['documents_id'] <= 0
+                || !$document->getFromDB((int) $input['documents_id'])
+            ) {
+                Session::addMessageAfterRedirect(__('Invalid icon file.', 'cmdb'), false, ERROR);
+                return false;
+            }
+
+            $input['documents_id'] = (int) $input['documents_id'];
         }
 
         return $input;
@@ -512,7 +585,13 @@ class ImpactIcon extends CommonDBTM
             // if no cache or nothing for the itemtype in the cache, no need to waste time calling the DB
             if (array_key_exists($data['itemtype'], $cachedData)) {
                 $criterias = self::getCriterias();
-                $item = new $data['itemtype']();
+                // Same guard as the core branch above: the cache is keyed by the itemtype
+                // column of the rows, and a row left over from a class the instance no longer
+                // carries — an uninstalled plugin, a deleted custom asset — would fatal here.
+                $item = getItemForItemtype($data['itemtype']);
+                if ($item === false) {
+                    return false;
+                }
                 // use criteria
                 if (in_array($item->getType(), array_keys($criterias)) && $data['items_id'] > 0) {
                     if ($item->getFromDB($data['items_id'])) {

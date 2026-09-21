@@ -84,10 +84,20 @@ if (isset($_POST["add"])) {
 
 } elseif (isset($_POST["deleteitem"])) {
 
-    foreach ($_POST["item"] as $key => $val) {
-        $input = ['id' => $key];
+    // The checkboxes are posted as item[<id>], but nothing guaranteed the shape: a request
+    // sending the scalar item=1 made foreach() raise a TypeError, turning a malformed
+    // request into a 500 and an application error in the logs instead of a clean no-op.
+    // The per-row check($id, UPDATE) below is what authorises the deletion, and it is kept.
+    $items = $_POST['item'] ?? [];
+    if (!is_array($items)) {
+        $items = [];
+    }
+
+    foreach ($items as $key => $val) {
+        $id = (int) $key;
+        $input = ['id' => $id];
         if ($val == 1) {
-            $operationprocess_item->check($key, UPDATE);
+            $operationprocess_item->check($id, UPDATE);
             $operationprocess_item->delete($input);
         }
     }

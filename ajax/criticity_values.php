@@ -38,7 +38,6 @@ $itemtype = (string) ($_REQUEST['itemtype'] ?? '');
 if ($itemtype !== 'ticket' && !getItemForItemtype($itemtype)) {
     throw new \Glpi\Exception\Http\BadRequestHttpException();
 }
-$class = ($itemtype == 'ticket') ? "tab_bg_1" : '';
 
 echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
 echo "<td>" . Criticity_Item::getTypeName(1) . "</td>";

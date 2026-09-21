@@ -31,6 +31,7 @@ namespace GlpiPlugin\Cmdb;
 
 use CommonDBRelation;
 use CommonDBTM;
+use Glpi\Application\View\TemplateRenderer;
 use CommonGLPI;
 use Item_Ticket;
 use Session;
@@ -158,14 +159,6 @@ class Cmdb_Ticket extends CommonDBRelation
 
         $ci = new CI();
 
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr class='headerRow'>";
-        echo "<th>" . __('Impacted items', 'cmdb') . "</th>";
-        echo "</tr>";
-        echo "<tr><td>";
-        $rand = mt_rand();
-        echo "<div id='accordion$rand'>";
-
         $criticities = Criticity::getAllCriticityWithColor();
 
         $itemsSortByCriticity = [1 => [],
@@ -190,47 +183,40 @@ class Cmdb_Ticket extends CommonDBRelation
                 'level'        => $levelMin];
         }
 
+        $panels = [];
         foreach ($criticities as $value => $data) {
-            if (!empty($itemsSortByCriticity[$value])) {
-                $color = $data['color'];
-                $name  = $data['name'];
-                echo "<h3 style='background:" . htmlescape($color) . "'><b>" . Criticity_Item::getTypeName(1) . " : " . htmlescape($name) . "</b></h3>";
-                echo "<div>";
-                echo "<table class='tab_cadre_fixe'>";
-                echo "<tr class='headerRow'>";
-                echo "<th>" . __('Impacted items', 'cmdb') . "</th>";
-                echo "<th width='100'>" . __("Proximity", 'cmdb') . "</th>";
-                echo "</tr>";
-                usort($itemsSortByCriticity[$value], function ($a, $b) {
-                    return $a['level'] - $b['level'];
-                });
-                foreach ($itemsSortByCriticity[$value] as $info) {
-                    echo "<tr>";
-                    echo "<td>";
-
-                    $citype = new CIType();
-                    $citype->getFromDB($info['idItemtype']);
-                    $citype_name = $ci->getTypeName2($citype);
-                    $ci_name     = $ci->getNameCI($citype, $info['idItem']);
-                    $url         = $ci->getLinkCI($citype, $info['idItem']);
-                    echo "<a href='" . htmlescape($url) . "' target='_blank'>" . htmlescape($citype_name) . " : " . htmlescape($ci_name) . "</a>";
-                    echo "</td>";
-
-                    echo "<td>";
-                    echo self::getImpactName($info['level']);
-                    echo "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-                echo "</div>";
+            if (empty($itemsSortByCriticity[$value])) {
+                continue;
             }
+
+            usort($itemsSortByCriticity[$value], function ($a, $b) {
+                return $a['level'] - $b['level'];
+            });
+
+            $items = [];
+            foreach ($itemsSortByCriticity[$value] as $info) {
+                $citype = new CIType();
+                $citype->getFromDB($info['idItemtype']);
+
+                $items[] = [
+                    'url'    => $ci->getLinkCI($citype, $info['idItem']),
+                    'label'  => $ci->getTypeName2($citype) . " : " . $ci->getNameCI($citype, $info['idItem']),
+                    'impact' => self::getImpactName($info['level']),
+                ];
+            }
+
+            $panels[] = [
+                'color' => $data['color'],
+                'name'  => $data['name'],
+                'items' => $items,
+            ];
         }
-        echo "</div>";
-        echo "</td></tr>";
-        echo "</table>";
-        echo "<script>";
-        echo "accordion('accordion$rand', 1)";
-        echo "</script>";
+
+        TemplateRenderer::getInstance()->display('@cmdb/impacted_items.html.twig', [
+            'dom_id'          => 'plugin_cmdb_impacted_items' . mt_rand(),
+            'criticity_label' => Criticity_Item::getTypeName(1),
+            'panels'          => $panels,
+        ]);
     }
 
     /**

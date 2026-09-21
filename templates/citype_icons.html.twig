@@ -1,0 +1,58 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# One panel per type, holding the icon already stored for it and the input that replaces
+ # it. The panels are drawn by the accordion of Bootstrap, which the core ships and binds
+ # through a delegated handler on [data-bs-toggle="collapse"]: no script of the plugin has
+ # to run, and the markup works the same whether it arrives with the page or inside an AJAX
+ # response. What it replaces did neither -- the <h3>/<div> pairs were handed to a jQuery UI
+ # accordion that is shipped by neither the core nor this plugin, by an inline accordion()
+ # call emitted before ADD_JAVASCRIPT had declared the function in the footer. #}
+<div class="accordion" id="{{ dom_id }}">
+    {% for panel in panels %}
+        {% set collapse_id = dom_id ~ '-' ~ loop.index0 %}
+        <div class="accordion-item">
+            <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#{{ collapse_id }}"
+                        aria-expanded="false" aria-controls="{{ collapse_id }}">
+                    {{ panel.name }}
+                </button>
+            </h3>
+            <div id="{{ collapse_id }}" class="accordion-collapse collapse"
+                 data-bs-parent="#{{ dom_id }}">
+                <div class="accordion-body">
+                    {% if panel.icon_url is not empty %}
+                        <img width="32" height="32" src="{{ panel.icon_url }}"
+                             alt="{{ panel.name }}" class="me-2">
+                    {% endif %}
+                    <input class="form-control" type="file" name="{{ panel.input_name }}">
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
