@@ -259,7 +259,9 @@ class CIType extends CommonDropdown
                     $tabCIType[$name] = $name;
                 }
 
-                return $tabCIType[$values[$field]] ?? $name;
+                // The search engine emits a 'specific' datatype as safe HTML, and the fallback
+                // must not leak the loop variable left behind by the foreach above.
+                return htmlescape($tabCIType[$values[$field]] ?? '');
         }
         return parent::getSpecificValueToDisplay($field, $values, $options);
     }
@@ -447,8 +449,15 @@ class CIType extends CommonDropdown
             }
         } else {
             $input['is_imported'] = 0;
-            $input['name']        = 'GlpiPlugin\\Cmdb\\'
-                . self::getClassname(str_replace(' ', '', (string) ($input['name'] ?? '')));
+            // The stored name doubles as the class name of the generated type and is rendered as
+            // HTML by the search engine through the 'specific' datatype of CI: keep only the
+            // characters a class name can carry, so no markup can ever reach storage.
+            $classname            = preg_replace(
+                '/[^A-Za-z0-9_]/',
+                '',
+                str_replace(' ', '', (string) ($input['name'] ?? '')),
+            );
+            $input['name']        = 'GlpiPlugin\\Cmdb\\' . self::getClassname($classname);
 
             // getSystemName() keeps only [a-z0-9_] of the part that follows the namespace and
             // is what names the generated class file: an empty result means the posted name

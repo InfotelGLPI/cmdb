@@ -327,6 +327,15 @@ function plugin_cmdb_getDatabaseRelations()
                 "glpi_plugin_cmdb_criticities_items"
                 => "plugin_cmdb_criticities_id",
             ],
+            // Underscore prefix: the cleanup is handled by the application, in
+            // OperationProcess::cleanDBonPurge() for this side and by the pre_item_purge hook
+            // registered in plugin_cmdb_postinit() for the polymorphic one. Declaring it here
+            // still lets the core account for the relation when it checks whether recursivity
+            // can be turned off on a process.
+            "glpi_plugin_cmdb_operationprocesses" => [
+                "_glpi_plugin_cmdb_operationprocesses_items"
+                => "plugin_cmdb_operationprocesses_id",
+            ],
             "glpi_users" => [
                 "glpi_plugin_cmdb_operationprocesses"
                 => "users_id_tech",
@@ -395,6 +404,14 @@ function plugin_cmdb_postinit()
 
     foreach (OperationProcess::getTypes(true) as $type) {
         CommonGLPI::registerStandardTab($type, OperationProcess_Item::class);
+        // OperationProcess_Item::cleanForItem() existed but nothing ever called it: purging a
+        // linked asset left its associations behind, pointing at an id the core is free to
+        // reassign. Hooks are dispatched by itemtype, never by the method name, so the
+        // registration has to be made here for every type the tab is offered on. 'item_purge'
+        // rather than 'pre_item_purge' because the latter holds a single callable per itemtype
+        // and is already taken below by Criticity_Item, on a list that can overlap this one --
+        // a CIType is named in free text, so nothing stops one from being called User or Group.
+        $PLUGIN_HOOKS['item_purge']['cmdb'][$type] = [OperationProcess_Item::class, 'cleanForItem'];
     }
 
     foreach (Criticity_Item::getCIType() as $value) {

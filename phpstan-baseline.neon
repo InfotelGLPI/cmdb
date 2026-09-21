@@ -247,12 +247,6 @@ parameters:
 			path: src/CIType.php
 
 		-
-			message: '#^Variable \$name might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: src/CIType.php
-
-		-
 			message: '#^PHPDoc tag @return has invalid value \(\)\: Unexpected token "\\n     ", expected type at offset 209 on line 10$#'
 			identifier: phpDoc.parseError
 			count: 1
@@ -415,12 +409,6 @@ parameters:
 			path: src/ImpactInfo.php
 
 		-
-			message: '#^Method GlpiPlugin\\Cmdb\\ImpactInfo\:\:getFieldsForItemtype\(\) should return array but return statement is missing\.$#'
-			identifier: return.missing
-			count: 1
-			path: src/ImpactInfo.php
-
-		-
 			message: '#^Static method GlpiPlugin\\Cmdb\\ImpactInfo\:\:getMenuName\(\) invoked with 1 parameter, 0 required\.$#'
 			identifier: arguments.count
 			count: 1
@@ -459,18 +447,6 @@ parameters:
 		-
 			message: '#^Left side of && is always true\.$#'
 			identifier: booleanAnd.leftAlwaysTrue
-			count: 1
-			path: src/OperationProcess_Item.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:cleanForItem\(\) has invalid return type GlpiPlugin\\Cmdb\\nothing\.$#'
-			identifier: class.notFound
-			count: 1
-			path: src/OperationProcess_Item.php
-
-		-
-			message: '#^Method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:cleanForItem\(\) should return GlpiPlugin\\Cmdb\\nothing but return statement is missing\.$#'
-			identifier: return.missing
 			count: 1
 			path: src/OperationProcess_Item.php
 

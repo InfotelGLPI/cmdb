@@ -383,10 +383,14 @@ class OperationProcess extends CommonDBTM
             'myname'                => $p['name'],
             'used'                  => $p['used']];
 
+        // The file on disk is ajax/dropdownStateOperationprocesses.php: both URLs below carried
+        // a capital P, which a Windows development filesystem resolves anyway but which 404s on
+        // a case sensitive one, leaving the state dropdown of an operation process empty on
+        // every deployment.
         $out .= Ajax::updateItemOnSelectEvent(
             $field_id,
             "show_" . $p['name'] . $rand,
-            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationProcesses.php",
+            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationprocesses.php",
             $params,
             false,
         );
@@ -396,7 +400,7 @@ class OperationProcess extends CommonDBTM
         $params['operationprocessstate'] = 0;
         $out                             .= Ajax::updateItem(
             "show_" . $p['name'] . $rand,
-            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationProcesses.php",
+            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationprocesses.php",
             $params,
             false,
         );
@@ -421,5 +425,13 @@ class OperationProcess extends CommonDBTM
 
         $ci = new Change_Item();
         $ci->cleanDBonItemDelete(__CLASS__, $this->fields['id']);
+
+        // The associations owned by the process were left behind: nothing deleted them here,
+        // and the core cannot do it on our behalf since the relation was not declared in
+        // plugin_cmdb_getDatabaseRelations(). The orphan rows kept pointing at a process id
+        // free to be reused by the next one created, which then displayed the items of the
+        // purged process as its own.
+        $opi = new OperationProcess_Item();
+        $opi->deleteByCriteria(['plugin_cmdb_operationprocesses_id' => $this->fields['id']], true);
     }
 }

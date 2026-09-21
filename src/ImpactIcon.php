@@ -164,23 +164,31 @@ class ImpactIcon extends CommonDBTM
                     $types[$type] = $type::getTypeName();
                 }
                 if (isset($types[$values['itemtype']])) {
-                    return $types[$values['itemtype']];
+                    // A 'specific' datatype is emitted as safe HTML by the search engine. Since
+                    // GLPI 11 this registry also carries custom assets and the CI types of the
+                    // plugin, whose type name is free text stored in database: escape it here.
+                    return htmlescape($types[$values['itemtype']]);
                 }
                 return "";
             case 'documents_id':
-                $iconPath = PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc=" . $values['documents_id'];
-                return "<img src='$iconPath' style='height: 25px; width: 25px'>";
+                // The tag is assembled by hand: cast the identifier and escape the attribute
+                // instead of interpolating a database value straight into the markup.
+                $iconPath = PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc=" . (int) $values['documents_id'];
+                return "<img src='" . htmlescape($iconPath) . "' style='height: 25px; width: 25px'>";
             case 'criteria':
                 $itemtype = $options['raw_data']['raw']['ITEM_GlpiPlugin\Cmdb\ImpactIcon_2'];
+                // Dropdown::getDropdownName() returns the raw name column, which is no longer
+                // escaped at storage time since GLPI 10: escape every branch, as
+                // Criticity_Item::getSpecificValueToDisplay() already does for the same call.
                 switch ($itemtype) {
                     case NetworkEquipment::getType():
-                        return Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']);
+                        return htmlescape(Dropdown::getDropdownName(NetworkEquipmentType::getTable(), $values['criteria']));
                     case Computer::getType():
-                        return Dropdown::getDropdownName(ComputerType::getTable(), $values['criteria']);
+                        return htmlescape(Dropdown::getDropdownName(ComputerType::getTable(), $values['criteria']));
                     case Appliance::getType():
-                        return Dropdown::getDropdownName(ApplianceType::getTable(), $values['criteria']);
+                        return htmlescape(Dropdown::getDropdownName(ApplianceType::getTable(), $values['criteria']));
                 }
-                return $values['criteria'];
+                return htmlescape((string) $values['criteria']);
         }
         return parent::getSpecificValueToDisplay($field, $values, $options);
     }

@@ -173,7 +173,10 @@ class ImpactInfo extends CommonDBTM
                     $types[$type] = $type::getTypeName();
                 }
                 if (isset($types[$values['itemtype']])) {
-                    return $types[$values['itemtype']];
+                    // A 'specific' datatype is emitted as safe HTML by the search engine. Since
+                    // GLPI 11 this registry also carries custom assets and the CI types of the
+                    // plugin, whose type name is free text stored in database: escape it here.
+                    return htmlescape($types[$values['itemtype']]);
                 }
                 return "";
         }
@@ -329,6 +332,11 @@ class ImpactInfo extends CommonDBTM
             }
             return $value;
         }
+
+        // An itemtype with no usable search option and outside the plugin's namespace used to
+        // fall through to an implicit null, which every caller then indexed as an array.
+        // Return the empty set so callers can treat "nothing to offer" as a nominal case.
+        return [];
     }
 
     /**

@@ -28,6 +28,7 @@
  */
 
 use Glpi\Exception\Http\BadRequestHttpException;
+use GlpiPlugin\Cmdb\ImpactInfo;
 use GlpiPlugin\Cmdb\ImpactInfoField;
 
 header("Content-Type: text/html; charset=UTF-8");
@@ -40,8 +41,11 @@ if (isset($_POST['itemtype']) && $_POST['itemtype']) {
     $itemtype = $_POST['itemtype'];
 }
 
-// Validate itemtype reflected into inline JS/HTML to prevent reflected XSS
-if ($itemtype !== null && !getItemForItemtype($itemtype)) {
+// Validate itemtype reflected into inline JS/HTML to prevent reflected XSS, and replay at
+// this sink the very allow-list ImpactInfo::prepareInputForAdd() applies on the write path:
+// resolving as a class is not enough. Any other resolvable class reaches a branch of
+// getFieldsForItemtype() that yields nothing usable, and the renderer fails open on it.
+if ($itemtype !== null && !in_array($itemtype, ImpactInfo::getAllowedItemtypes(), true)) {
     throw new BadRequestHttpException();
 }
 

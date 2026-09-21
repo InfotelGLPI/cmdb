@@ -155,6 +155,13 @@ class CiFields extends CommonDBTM
                 if (!isset($owned[$key])) {
                     continue;
                 }
+                // Mirror of addCIFields(): the two posted arrays are indexed independently,
+                // so a payload carrying nameField[] without its typeField[] counterpart wrote
+                // a null type that prepareInput() cannot reject -- it only validates the key
+                // when it is set. Skip the incomplete row rather than blank out its type.
+                if (!isset($input['nameField'][$key], $input['typeField'][$key])) {
+                    continue;
+                }
                 $values['name']      = $input['nameField'][$key];
                 $values['typefield'] = $input['typeField'][$key];
                 $values['id']        = $key;

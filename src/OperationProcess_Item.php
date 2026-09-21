@@ -57,9 +57,13 @@ class OperationProcess_Item extends CommonDBRelation
     /**
      * Clean table when item is purged
      *
+     * Registered on the 'item_purge' hook by plugin_cmdb_postinit() for every itemtype the
+     * association tab is offered on. The table carries no is_deleted column, so the deletion
+     * is forced to make the removal unconditional rather than depend on that default.
+     *
      * @param \CommonDBTM $item Object to use
      *
-     * @return nothing
+     * @return void
      **/
     public static function cleanForItem(CommonDBTM $item)
     {
@@ -68,6 +72,7 @@ class OperationProcess_Item extends CommonDBRelation
         $temp->deleteByCriteria(
             ['itemtype' => $item->getType(),
                 'items_id' => $item->getField('id')],
+            true,
         );
     }
 
@@ -383,7 +388,9 @@ class OperationProcess_Item extends CommonDBRelation
                             Html::showMassiveActionCheckBox(__CLASS__, $data["items_id"]);
                             echo "</td>";
                         }
-                        echo "<td class='center'>" . $item::getTypeName(1) . "</td>";
+                        // registerType() lets any itemtype be linked here, including a custom
+                        // asset whose type name is free text: escape it like the sibling cells.
+                        echo "<td class='center'>" . htmlescape($item::getTypeName(1)) . "</td>";
 
                         echo "<td class='center' " . (isset($data['is_deleted']) && $data['is_deleted'] ? "class='tab_bg_2_2'" : "") .
                              ">" . $name . "</td>";

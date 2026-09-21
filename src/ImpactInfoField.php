@@ -81,7 +81,10 @@ class ImpactInfoField extends CommonDBTM
         echo "<div class='d-flex align-items-center m-1'>";
         echo $key !== 'fields' ? '<label>' . __('Base fields', 'cmdb') . '</label>' : '<label>' . __('Plugin additional fields fields', 'cmdb') . '</label>';
         echo "<div id='$key-select' class='ms-2'>";
-        $fields = $availableFields[$key];
+        // showInfos() picks $key from what the itemtype actually offers, but an itemtype with
+        // no usable field offers neither 'cmdb' nor 'glpi'. Render the empty column instead of
+        // indexing a missing key and pushing null down into array_diff_key().
+        $fields = $availableFields[$key] ?? [];
         $comparaisonArray = [];
         if ($usedFields) {
             $usedFields = array_filter($usedFields, fn($e) => $e['type'] === $key);
@@ -102,6 +105,13 @@ class ImpactInfoField extends CommonDBTM
             // against any future write path that could store a string and turn this
             // echo-built markup into a stored XSS sink.
             $fieldId = (int) $field['field_id'];
+            // A persisted field_id has no guarantee of still resolving: the search option may
+            // have been dropped by a core upgrade, or the Fields container deleted. Skip the
+            // stale row the way ImpactInfo::showInfos() already does, rather than echoing an
+            // undefined key through htmlescape(null).
+            if (!array_key_exists($fieldId, $fields)) {
+                continue;
+            }
             $label = $fields[$fieldId];
             $order = (int) $field['order'];
             // if display is modified here, also modify JS in ImpactInfo::makeDropdown
