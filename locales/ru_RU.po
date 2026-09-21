@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 12:40+0000\n"
+"POT-Creation-Date: 2026-09-21 14:27+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Александр Дюжев <frduke51@gmail.com>, 2021\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/infotelGLPI/"
@@ -137,7 +137,7 @@ msgstr ""
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Элементы, связанные с заявкой, не импортируются в CMDB"
 
-#: src/CIType.php:1138
+#: src/CIType.php:1141
 msgid "Existing fields for this type of CI"
 msgstr "Существующие поля для этого типа CI"
 
@@ -159,7 +159,7 @@ msgstr[2] "Значок"
 msgstr[3] "Значок"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1230
+#: src/CIType.php:1233
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Значок типа CI %d"
@@ -218,11 +218,11 @@ msgstr "Неверное имя!"
 msgid "Is this item presents in glpi ?"
 msgstr "Этот предмет есть в GLPI?"
 
-#: src/Menu.php:68 src/Profile.php:126
+#: src/Menu.php:68 src/Profile.php:136
 msgid "Item Configuration"
 msgstr "Конфигурации элемента"
 
-#: src/Profile.php:205 src/Profile.php:238
+#: src/Profile.php:218 src/Profile.php:258
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Настройка устройства"
@@ -268,7 +268,7 @@ msgstr "Близость"
 msgid "Purge CMDB"
 msgstr "Безвозвратное удаление CMDB"
 
-#: src/CIType.php:1142
+#: src/CIType.php:1145
 msgid "Reset Existing fields"
 msgstr "Сбросить существующие поля"
 
@@ -285,6 +285,7 @@ msgid "See associated tickets"
 msgstr "Смотреть связанные заявки"
 
 #: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
+#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Сервис"
@@ -312,7 +313,7 @@ msgstr ""
 msgid "There is already an existing name or the name is invalid"
 msgstr "Имя используется или не действительно"
 
-#: src/CIType.php:1501 src/CIType.php:1518
+#: src/CIType.php:1504 src/CIType.php:1521
 msgctxt "button"
 msgid "Transfer"
 msgstr "Передача"
@@ -325,7 +326,7 @@ msgstr[1] "Типы CI"
 msgstr[2] "Типы CI"
 msgstr[3] "Типы CI"
 
-#: src/Profile.php:242
+#: src/Profile.php:262
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Тип настройки устройства"
@@ -333,7 +334,7 @@ msgstr[1] "Типы настройки устройств"
 msgstr[2] "Типов настройки устройств"
 msgstr[3] "Типы настройки устройств"
 
-#: src/Profile.php:130 src/Profile.php:218
+#: src/Profile.php:140 src/Profile.php:231
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Тип настройки устройства"
@@ -349,7 +350,7 @@ msgstr "Обновить Ссылку"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1111
+#: src/CIType.php:1114
 msgid "Upload icon"
 msgstr "Загрузить значок"
 

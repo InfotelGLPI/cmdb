@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 12:40+0000\n"
+"POT-Creation-Date: 2026-09-21 14:27+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -131,7 +131,7 @@ msgstr "No utilice un nombre de clase en plural (como \"misobjetos\")"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Los elementos vinculados al caso no se importan en la CMDB"
 
-#: src/CIType.php:1138
+#: src/CIType.php:1141
 msgid "Existing fields for this type of CI"
 msgstr "Campos existentes para este tipo de CI"
 
@@ -152,7 +152,7 @@ msgstr[1] "Icono"
 msgstr[2] "Icono"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1230
+#: src/CIType.php:1233
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Icono CIType 1%d"
@@ -211,11 +211,11 @@ msgstr "¡Nombre inválido!"
 msgid "Is this item presents in glpi ?"
 msgstr "¿Este elemento está presente en glpi?"
 
-#: src/Menu.php:68 src/Profile.php:126
+#: src/Menu.php:68 src/Profile.php:136
 msgid "Item Configuration"
 msgstr "Configuración de elementos"
 
-#: src/Profile.php:205 src/Profile.php:238
+#: src/Profile.php:218 src/Profile.php:258
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Configuración del elemento"
@@ -260,7 +260,7 @@ msgstr "Proximidad"
 msgid "Purge CMDB"
 msgstr "Depurar CMDB"
 
-#: src/CIType.php:1142
+#: src/CIType.php:1145
 msgid "Reset Existing fields"
 msgstr "Restablecer campos existentes"
 
@@ -277,6 +277,7 @@ msgid "See associated tickets"
 msgstr "Ver casos asociados"
 
 #: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
+#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Servicio"
@@ -302,7 +303,7 @@ msgstr ""
 msgid "There is already an existing name or the name is invalid"
 msgstr "Ya existe un nombre o el nombre no es válido"
 
-#: src/CIType.php:1501 src/CIType.php:1518
+#: src/CIType.php:1504 src/CIType.php:1521
 msgctxt "button"
 msgid "Transfer"
 msgstr "Transferir"
@@ -314,14 +315,14 @@ msgstr[0] "Tipo de CI"
 msgstr[1] "Tipos de CIs"
 msgstr[2] "Tipos de CIs"
 
-#: src/Profile.php:242
+#: src/Profile.php:262
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Tipos de configuración de elementos"
 msgstr[1] "Tipos de configuración de elementos"
 msgstr[2] "Tipos de configuración de elementos"
 
-#: src/Profile.php:130 src/Profile.php:218
+#: src/Profile.php:140 src/Profile.php:231
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Tipo de configuración del elemento"
@@ -336,7 +337,7 @@ msgstr "Actualizar enlace"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1111
+#: src/CIType.php:1114
 msgid "Upload icon"
 msgstr "Subir icono"
 

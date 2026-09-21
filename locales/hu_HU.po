@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 12:40+0000\n"
+"POT-Creation-Date: 2026-09-21 14:27+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Árpád Bögöthy, 2024\n"
 "Language-Team: Hungarian (Hungary) (https://app.transifex.com/infotelGLPI/"
@@ -127,7 +127,7 @@ msgstr "Ne használjon többes számot osztálynevenél (pl. 'myobjects')"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "A jeggyel összekapcsolt elemek nem kerülnek importálásra a CMDB-be."
 
-#: src/CIType.php:1138
+#: src/CIType.php:1141
 msgid "Existing fields for this type of CI"
 msgstr "Meglévő mezők ehhez a CI típushoz"
 
@@ -147,7 +147,7 @@ msgstr[0] "Ikon"
 msgstr[1] "Ikon"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1230
+#: src/CIType.php:1233
 #, php-format
 msgid "Icon CIType %d"
 msgstr "CIType ikon %d"
@@ -206,11 +206,11 @@ msgstr "Érvénytelen név!"
 msgid "Is this item presents in glpi ?"
 msgstr "Ez az elem jelen van a glpi-ben?"
 
-#: src/Menu.php:68 src/Profile.php:126
+#: src/Menu.php:68 src/Profile.php:136
 msgid "Item Configuration"
 msgstr "Elem konfiguráció"
 
-#: src/Profile.php:205 src/Profile.php:238
+#: src/Profile.php:218 src/Profile.php:258
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Elem konfiguráció"
@@ -254,7 +254,7 @@ msgstr "Közelség"
 msgid "Purge CMDB"
 msgstr "CMDB törlése"
 
-#: src/CIType.php:1142
+#: src/CIType.php:1145
 msgid "Reset Existing fields"
 msgstr "Már létező mezők visszaállítása"
 
@@ -271,6 +271,7 @@ msgid "See associated tickets"
 msgstr "Kapcsolódó jegyek megtekintése"
 
 #: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
+#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Szolgáltatások"
@@ -294,7 +295,7 @@ msgstr ""
 msgid "There is already an existing name or the name is invalid"
 msgstr "Már létezik ilyen név, vagy a név érvénytelen."
 
-#: src/CIType.php:1501 src/CIType.php:1518
+#: src/CIType.php:1504 src/CIType.php:1521
 msgctxt "button"
 msgid "Transfer"
 msgstr "Átvitel"
@@ -305,13 +306,13 @@ msgid_plural "Types CIs"
 msgstr[0] "CI típus"
 msgstr[1] "CI Típusai"
 
-#: src/Profile.php:242
+#: src/Profile.php:262
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Az elem konfiguráció típusa"
 msgstr[1] "Az elem konfiguráció típusai"
 
-#: src/Profile.php:130 src/Profile.php:218
+#: src/Profile.php:140 src/Profile.php:231
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Az elem konfiguráció típusa"
@@ -325,7 +326,7 @@ msgstr "Link frissítése"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1111
+#: src/CIType.php:1114
 msgid "Upload icon"
 msgstr "Ikon feltöltése"
 

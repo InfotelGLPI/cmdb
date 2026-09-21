@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 12:40+0000\n"
+"POT-Creation-Date: 2026-09-21 14:27+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2021\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/"
@@ -127,7 +127,7 @@ msgstr "Sınıf adında çoğul kullanmayın ('nesnelerim' gibi)"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Destek kaydı ile ilişkili bileşenler CMDB içine aktarılmamış"
 
-#: src/CIType.php:1138
+#: src/CIType.php:1141
 msgid "Existing fields for this type of CI"
 msgstr "I türü için var olan alanlar"
 
@@ -147,7 +147,7 @@ msgstr[0] "Simge"
 msgstr[1] "Simge"
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1230
+#: src/CIType.php:1233
 #, php-format
 msgid "Icon CIType %d"
 msgstr "%d CI Türü Simgesi "
@@ -206,11 +206,11 @@ msgstr "Ad geçersiz!"
 msgid "Is this item presents in glpi ?"
 msgstr "Bu öge GLPI üzerinde var mı?"
 
-#: src/Menu.php:68 src/Profile.php:126
+#: src/Menu.php:68 src/Profile.php:136
 msgid "Item Configuration"
 msgstr "Öge Yapılandırması"
 
-#: src/Profile.php:205 src/Profile.php:238
+#: src/Profile.php:218 src/Profile.php:258
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Öge yapılandırması"
@@ -254,7 +254,7 @@ msgstr "Yakınlık"
 msgid "Purge CMDB"
 msgstr "CMDB Boşalt"
 
-#: src/CIType.php:1142
+#: src/CIType.php:1145
 msgid "Reset Existing fields"
 msgstr "Var olan alanları sıfırla"
 
@@ -271,6 +271,7 @@ msgid "See associated tickets"
 msgstr "İlgili destek kayıtlarını görüntüle"
 
 #: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
+#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Hizmet"
@@ -294,7 +295,7 @@ msgstr ""
 msgid "There is already an existing name or the name is invalid"
 msgstr "Bu ad zaten var ya da geçersiz"
 
-#: src/CIType.php:1501 src/CIType.php:1518
+#: src/CIType.php:1504 src/CIType.php:1521
 msgctxt "button"
 msgid "Transfer"
 msgstr "Aktarım"
@@ -305,13 +306,13 @@ msgid_plural "Types CIs"
 msgstr[0] "CI Türü"
 msgstr[1] "CI Türleri"
 
-#: src/Profile.php:242
+#: src/Profile.php:262
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Öge yapılandırması türü"
 msgstr[1] "Öge yapılandırması türleri"
 
-#: src/Profile.php:130 src/Profile.php:218
+#: src/Profile.php:140 src/Profile.php:231
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Öge yapılandırması türü"
@@ -325,7 +326,7 @@ msgstr "Bağlantıyı Güncelle"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1111
+#: src/CIType.php:1114
 msgid "Upload icon"
 msgstr "Yükleme simgesi"
 
