@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 14:27+0000\n"
+"POT-Creation-Date: 2026-09-22 13:59+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
 "Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
 "1000000 == 0 ? 1 : 2;\n"
 
-#: src/Criticity.php:232
+#: src/Criticity.php:240
 msgid "A criticity already exists for this business criticity."
 msgstr "Une criticité existe déjà pour cette criticité business."
 
@@ -31,7 +31,7 @@ msgstr "Une criticité existe déjà pour cette criticité business."
 msgid "Add New Field"
 msgstr "Ajouter un nouveau champ"
 
-#: src/Criticity.php:165
+#: src/Criticity.php:173
 msgid "All levels have already been added"
 msgstr "Tous les niveaux ont déjà été ajoutés"
 
@@ -92,7 +92,7 @@ msgstr "Création échouée"
 msgid "Criteria"
 msgstr "Critère"
 
-#: src/Criticity.php:57 src/Criticity.php:144 src/Criticity_Item.php:54
+#: src/Criticity.php:65 src/Criticity.php:152 src/Criticity_Item.php:54
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Criticité"
@@ -177,11 +177,11 @@ msgstr "Importer un élément de configuration"
 msgid "Infos are already set for this type"
 msgstr "Les informations sont déjà définies pour ce type"
 
-#: src/Criticity.php:226
+#: src/Criticity.php:234
 msgid "Invalid business criticity."
 msgstr "Criticité business invalide."
 
-#: src/Criticity.php:289
+#: src/Criticity.php:297
 msgid "Invalid color."
 msgstr "Couleur invalide."
 
@@ -239,7 +239,7 @@ msgstr "Aucune d'info-bulle défini pour le type d'élément %s"
 msgid "Order"
 msgstr "Ordre"
 
-#: src/Criticity.php:216 src/Criticity.php:276
+#: src/Criticity.php:224 src/Criticity.php:284
 msgid "Please choose a level for criticality"
 msgstr "Veuillez choisir un niveau pour la criticité"
 
@@ -378,7 +378,7 @@ msgstr "Haute"
 msgid "is already present in GLPI"
 msgstr "Est déjà présent dans GLPI ?"
 
-#: hook.php:521
+#: hook.php:537
 msgid "item not found or disabled"
 msgstr "Elément non trouvé ou désactivé"
 

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 14:27+0000\n"
+"POT-Creation-Date: 2026-09-22 13:59+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Soporte Infraestructura Standby, 2023\n"
 "Language-Team: Spanish (Ecuador) (https://app.transifex.com/infotelGLPI/"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: src/Criticity.php:232
+#: src/Criticity.php:240
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Add New Field"
 msgstr "Agregar Nuevo Campo"
 
-#: src/Criticity.php:165
+#: src/Criticity.php:173
 msgid "All levels have already been added"
 msgstr "Ya se han añadido todos los niveles"
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity.php:57 src/Criticity.php:144 src/Criticity_Item.php:54
+#: src/Criticity.php:65 src/Criticity.php:152 src/Criticity_Item.php:54
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Criticidad"
@@ -178,11 +178,11 @@ msgstr "Importar CI"
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Criticity.php:226
+#: src/Criticity.php:234
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:289
+#: src/Criticity.php:297
 msgid "Invalid color."
 msgstr ""
 
@@ -240,7 +240,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:216 src/Criticity.php:276
+#: src/Criticity.php:224 src/Criticity.php:284
 msgid "Please choose a level for criticality"
 msgstr "Por favor elija un nivel de criticidad"
 
@@ -375,7 +375,7 @@ msgstr "alta"
 msgid "is already present in GLPI"
 msgstr "ya está presente en GLPI"
 
-#: hook.php:521
+#: hook.php:537
 msgid "item not found or disabled"
 msgstr "elemento no encontrado o deshabilitado"
 

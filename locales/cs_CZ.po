@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 14:27+0000\n"
+"POT-Creation-Date: 2026-09-22 13:59+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
 "Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: src/Criticity.php:232
+#: src/Criticity.php:240
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Add New Field"
 msgstr "Přidat nové pole"
 
-#: src/Criticity.php:165
+#: src/Criticity.php:173
 msgid "All levels have already been added"
 msgstr "Všechny úrovně byly přidány"
 
@@ -94,7 +94,7 @@ msgstr "Vytvoření selhalo"
 msgid "Criteria"
 msgstr "Kritéria"
 
-#: src/Criticity.php:57 src/Criticity.php:144 src/Criticity_Item.php:54
+#: src/Criticity.php:65 src/Criticity.php:152 src/Criticity_Item.php:54
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Kritičnost"
@@ -181,11 +181,11 @@ msgstr "Importovat CI"
 msgid "Infos are already set for this type"
 msgstr "Informace pro tento typ jsou již nastaveny"
 
-#: src/Criticity.php:226
+#: src/Criticity.php:234
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:289
+#: src/Criticity.php:297
 msgid "Invalid color."
 msgstr ""
 
@@ -244,7 +244,7 @@ msgstr "Pro typ položky %s není nastavena žádná popiska"
 msgid "Order"
 msgstr "Pořadí"
 
-#: src/Criticity.php:216 src/Criticity.php:276
+#: src/Criticity.php:224 src/Criticity.php:284
 msgid "Please choose a level for criticality"
 msgstr "Prosím zvolte úroveň kritičnosti"
 
@@ -386,7 +386,7 @@ msgstr "vysoká"
 msgid "is already present in GLPI"
 msgstr "je již přítomno v GLPI"
 
-#: hook.php:521
+#: hook.php:537
 msgid "item not found or disabled"
 msgstr "položka nenalezena nebo je zakázána"
 

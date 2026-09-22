@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 14:27+0000\n"
+"POT-Creation-Date: 2026-09-22 13:59+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Александр Дюжев <frduke51@gmail.com>, 2021\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/infotelGLPI/"
@@ -25,7 +25,7 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/Criticity.php:232
+#: src/Criticity.php:240
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Add New Field"
 msgstr "Добавить новое поле"
 
-#: src/Criticity.php:165
+#: src/Criticity.php:173
 msgid "All levels have already been added"
 msgstr "Все уровни уже добавлены"
 
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity.php:57 src/Criticity.php:144 src/Criticity_Item.php:54
+#: src/Criticity.php:65 src/Criticity.php:152 src/Criticity_Item.php:54
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Критичность"
@@ -185,11 +185,11 @@ msgstr "Импорт CI"
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Criticity.php:226
+#: src/Criticity.php:234
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:289
+#: src/Criticity.php:297
 msgid "Invalid color."
 msgstr ""
 
@@ -248,7 +248,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:216 src/Criticity.php:276
+#: src/Criticity.php:224 src/Criticity.php:284
 msgid "Please choose a level for criticality"
 msgstr "Пожалуйста, выберите уровень критичности"
 
@@ -388,7 +388,7 @@ msgstr "Высокий"
 msgid "is already present in GLPI"
 msgstr "уже представлено в GLPI"
 
-#: hook.php:521
+#: hook.php:537
 msgid "item not found or disabled"
 msgstr "Устройство не найдено или отключено"
 
