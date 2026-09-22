@@ -181,6 +181,22 @@ function plugin_cmdb_install()
     // collected. The rows can only belong to a CI, that is the one writer.
     $DB->update('glpi_plugin_cmdb_civalues', ['itemtype' => CI::class], ['itemtype' => '']);
 
+    // Criticity colours are read back into CSS positions, both by the criticity panels of the
+    // ticket tab and by the 'color' search datatype the core renders on its own. Neither
+    // escapes the property list, so the rows stored before Criticity::prepareInput() validated
+    // them are cleared here instead of being rendered. One row per business criticity: the
+    // table is small enough to walk.
+    $criticity_rows = $DB->request([
+        'SELECT' => ['id', 'color'],
+        'FROM'   => 'glpi_plugin_cmdb_criticities',
+        'WHERE'  => ['NOT' => ['color' => null]],
+    ]);
+    foreach ($criticity_rows as $criticity_row) {
+        if (Criticity::sanitizeColor($criticity_row['color']) === '') {
+            $DB->update('glpi_plugin_cmdb_criticities', ['color' => null], ['id' => $criticity_row['id']]);
+        }
+    }
+
     Profile::initProfile();
     Profile::createFirstAccess($_SESSION['glpiactiveprofile']['id']);
 

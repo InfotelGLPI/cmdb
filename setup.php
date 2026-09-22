@@ -161,7 +161,7 @@ function plugin_version_cmdb()
         'name'         => __('CMDB', 'cmdb'),
         'version'      => PLUGIN_CMDB_VERSION,
         'license'      => 'GPLv3+',
-        'author'       => "<a href='https//blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD",
+        'author'       => "<a href='https://blogglpi.infotel.com'>Infotel</a>, Xavier CAILLAUD",
         'homepage'     => 'https://github.com/InfotelGLPI/cmdb',
         'requirements' => [
             'glpi' => [

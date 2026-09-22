@@ -41,7 +41,7 @@
                 {% for panel in panels %}
                     {% set collapse_id = dom_id ~ '-' ~ loop.index0 %}
                     <div class="accordion-item">
-                        <h3 class="accordion-header" style="background: {{ panel.color|e('html_attr') }}">
+                        <h3 class="accordion-header"{% if panel.color %} style="background: {{ panel.color|e('html_attr') }}"{% endif %}>
                             <button class="accordion-button bg-transparent" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#{{ collapse_id }}"
                                     aria-expanded="true" aria-controls="{{ collapse_id }}">

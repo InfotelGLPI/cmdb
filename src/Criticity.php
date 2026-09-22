@@ -46,6 +46,14 @@ class Criticity extends CommonDBTM
     public $dohistory = true;
 
     /**
+     * The only colour notation Html::showColorField() produces, and the only one that may
+     * safely reach a style attribute.
+     *
+     * @see self::sanitizeColor()
+     */
+    private const COLOR_PATTERN = '/^#[0-9a-fA-F]{6}$/';
+
+    /**
      * @since version 0.85
      *
      * @param $nb
@@ -285,7 +293,7 @@ class Criticity extends CommonDBTM
         if (isset($input['color'])) {
             // Only the #rrggbb notation Html::showColorField() produces: escaping protects
             // the attribute delimiters but not the CSS property list itself.
-            if (preg_match('/^#[0-9a-fA-F]{6}$/', (string) $input['color']) !== 1) {
+            if (preg_match(self::COLOR_PATTERN, (string) $input['color']) !== 1) {
                 Session::addMessageAfterRedirect(__('Invalid color.', 'cmdb'), false, ERROR);
                 return false;
             }
@@ -295,17 +303,42 @@ class Criticity extends CommonDBTM
     }
 
     /**
+     * Keep a stored colour only when it is one the colour picker could have produced.
+     *
+     * prepareInput() closes the write path, but the rows written before it existed are kept as
+     * they are, and the value is read back into CSS positions that no escaper protects: Twig's
+     * e('html_attr') turns ';' and ':' into character references, which the HTML tokenizer
+     * decodes again before the style attribute is handed to the CSS parser. The search engine
+     * renders the same column through the 'color' datatype declared by
+     * plugin_cmdb_getAddSearchOptions(), which builds "style='border-color: ...'" with
+     * htmlescape() alone, outside of this plugin. So the value is clamped on the way out too,
+     * and an unusable one contributes no declaration at all.
+     *
+     * @param mixed $color
+     *
+     * @return string The colour, or an empty string when it must not be rendered
+     */
+    public static function sanitizeColor($color): string
+    {
+        if (!is_scalar($color) || preg_match(self::COLOR_PATTERN, (string) $color) !== 1) {
+            return '';
+        }
+
+        return (string) $color;
+    }
+
+    /**
      * Returns the color of the criticity
      *
      * @param $businesscriticities_id
      *
-     * @return int
+     * @return int|string
      */
     public static function getColorCriticity($businesscriticities_id)
     {
         $criticity = new self();
         if ($criticity->getFromDBByCrit(['businesscriticities_id' => $businesscriticities_id])) {
-            return $criticity->fields['color'];
+            return self::sanitizeColor($criticity->fields['color']);
         } else {
             return 0;
         }
@@ -372,7 +405,7 @@ class Criticity extends CommonDBTM
 
         foreach ($iterator as $data) {
             $all[$data['id']] = ['name'  => $data['name'],
-                'color' => $data['color']];
+                'color' => self::sanitizeColor($data['color'])];
         }
         return $all;
     }
