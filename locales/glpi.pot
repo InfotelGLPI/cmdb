@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-22 13:59+0000\n"
+"POT-Creation-Date: 2026-09-25 06:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/Criticity.php:240
+#: src/Criticity.php:268
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -57,8 +57,8 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr ""
 
-#: setup.php:161 src/Menu.php:48 src/Cmdb.php:51 src/CI_Cmdb.php:51
-#: src/Profile.php:55
+#: setup.php:161 src/Cmdb.php:51 src/Profile.php:55 src/CI_Cmdb.php:51
+#: src/Menu.php:48
 msgid "CMDB"
 msgstr ""
 
@@ -168,11 +168,11 @@ msgstr ""
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Criticity.php:234
+#: src/Criticity.php:262
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:297
+#: src/Criticity.php:325
 msgid "Invalid color."
 msgstr ""
 
@@ -188,8 +188,8 @@ msgstr ""
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/ImpactIcon.php:315 src/ImpactIcon.php:349
-#: src/OperationProcess_Item.php:191 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:191 src/ImpactIcon.php:315
+#: src/ImpactIcon.php:349 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Is this item presents in glpi ?"
 msgstr ""
 
-#: src/Menu.php:68 src/Profile.php:136
+#: src/Profile.php:136 src/Menu.php:68
 msgid "Item Configuration"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:224 src/Criticity.php:284
+#: src/Criticity.php:250 src/Criticity.php:312
 msgid "Please choose a level for criticality"
 msgstr ""
 
@@ -265,8 +265,8 @@ msgstr ""
 msgid "See associated tickets"
 msgstr ""
 
-#: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
-#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
+#: src/OperationProcessMenu.php:50 src/Profile.php:144 src/Profile.php:189
+#: src/Profile.php:254 src/OperationProcess.php:62
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] ""
@@ -359,7 +359,7 @@ msgstr ""
 msgid "is already present in GLPI"
 msgstr ""
 
-#: hook.php:537
+#: hook.php:541
 msgid "item not found or disabled"
 msgstr ""
 

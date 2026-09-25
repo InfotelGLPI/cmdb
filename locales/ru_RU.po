@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-22 13:59+0000\n"
+"POT-Creation-Date: 2026-09-25 06:44+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Александр Дюжев <frduke51@gmail.com>, 2021\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/infotelGLPI/"
@@ -25,7 +25,7 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/Criticity.php:240
+#: src/Criticity.php:268
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -66,8 +66,8 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Будьте осторожны, наименование не может быть изменено после создания"
 
-#: setup.php:161 src/Menu.php:48 src/Cmdb.php:51 src/CI_Cmdb.php:51
-#: src/Profile.php:55
+#: setup.php:161 src/Cmdb.php:51 src/Profile.php:55 src/CI_Cmdb.php:51
+#: src/Menu.php:48
 msgid "CMDB"
 msgstr "CMDB"
 
@@ -185,11 +185,11 @@ msgstr "Импорт CI"
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Criticity.php:234
+#: src/Criticity.php:262
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:297
+#: src/Criticity.php:325
 msgid "Invalid color."
 msgstr ""
 
@@ -205,8 +205,8 @@ msgstr ""
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/ImpactIcon.php:315 src/ImpactIcon.php:349
-#: src/OperationProcess_Item.php:191 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:191 src/ImpactIcon.php:315
+#: src/ImpactIcon.php:349 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
@@ -218,7 +218,7 @@ msgstr "Неверное имя!"
 msgid "Is this item presents in glpi ?"
 msgstr "Этот предмет есть в GLPI?"
 
-#: src/Menu.php:68 src/Profile.php:136
+#: src/Profile.php:136 src/Menu.php:68
 msgid "Item Configuration"
 msgstr "Конфигурации элемента"
 
@@ -248,7 +248,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:224 src/Criticity.php:284
+#: src/Criticity.php:250 src/Criticity.php:312
 msgid "Please choose a level for criticality"
 msgstr "Пожалуйста, выберите уровень критичности"
 
@@ -284,8 +284,8 @@ msgstr "Просмотр CI"
 msgid "See associated tickets"
 msgstr "Смотреть связанные заявки"
 
-#: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
-#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
+#: src/OperationProcessMenu.php:50 src/Profile.php:144 src/Profile.php:189
+#: src/Profile.php:254 src/OperationProcess.php:62
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Сервис"
@@ -388,7 +388,7 @@ msgstr "Высокий"
 msgid "is already present in GLPI"
 msgstr "уже представлено в GLPI"
 
-#: hook.php:537
+#: hook.php:541
 msgid "item not found or disabled"
 msgstr "Устройство не найдено или отключено"
 

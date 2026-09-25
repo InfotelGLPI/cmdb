@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cmdb plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-22 13:59+0000\n"
+"POT-Creation-Date: 2026-09-25 06:44+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: David Stepan <stepand@tiscali.cz>, 2025\n"
 "Language-Team: Czech (Czech Republic) (https://app.transifex.com/infotelGLPI/"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: src/Criticity.php:240
+#: src/Criticity.php:268
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -64,8 +64,8 @@ msgstr "Základní pole"
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Buďte opatrní, název nelze po vytvoření změnit"
 
-#: setup.php:161 src/Menu.php:48 src/Cmdb.php:51 src/CI_Cmdb.php:51
-#: src/Profile.php:55
+#: setup.php:161 src/Cmdb.php:51 src/Profile.php:55 src/CI_Cmdb.php:51
+#: src/Menu.php:48
 msgid "CMDB"
 msgstr "CMDB"
 
@@ -181,11 +181,11 @@ msgstr "Importovat CI"
 msgid "Infos are already set for this type"
 msgstr "Informace pro tento typ jsou již nastaveny"
 
-#: src/Criticity.php:234
+#: src/Criticity.php:262
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:297
+#: src/Criticity.php:325
 msgid "Invalid color."
 msgstr ""
 
@@ -201,8 +201,8 @@ msgstr ""
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/ImpactIcon.php:315 src/ImpactIcon.php:349
-#: src/OperationProcess_Item.php:191 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:191 src/ImpactIcon.php:315
+#: src/ImpactIcon.php:349 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
@@ -214,7 +214,7 @@ msgstr "Neplatný název!"
 msgid "Is this item presents in glpi ?"
 msgstr "Je tato položka přítomna v glpi?"
 
-#: src/Menu.php:68 src/Profile.php:136
+#: src/Profile.php:136 src/Menu.php:68
 msgid "Item Configuration"
 msgstr "Konfigurační položka"
 
@@ -244,7 +244,7 @@ msgstr "Pro typ položky %s není nastavena žádná popiska"
 msgid "Order"
 msgstr "Pořadí"
 
-#: src/Criticity.php:224 src/Criticity.php:284
+#: src/Criticity.php:250 src/Criticity.php:312
 msgid "Please choose a level for criticality"
 msgstr "Prosím zvolte úroveň kritičnosti"
 
@@ -280,8 +280,8 @@ msgstr "Vidět CI"
 msgid "See associated tickets"
 msgstr "Zobrazit přiřazené požadavky"
 
-#: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
-#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
+#: src/OperationProcessMenu.php:50 src/Profile.php:144 src/Profile.php:189
+#: src/Profile.php:254 src/OperationProcess.php:62
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Služba"
@@ -386,7 +386,7 @@ msgstr "vysoká"
 msgid "is already present in GLPI"
 msgstr "je již přítomno v GLPI"
 
-#: hook.php:537
+#: hook.php:541
 msgid "item not found or disabled"
 msgstr "položka nenalezena nebo je zakázána"
 
