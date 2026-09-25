@@ -210,6 +210,32 @@ class Criticity extends CommonDBTM
     }
 
     /**
+     * The table carries no entities_id, so CommonDBTM::checkEntity() is a no-op on a row:
+     * item-level rights are delegated to the parent business criticity.
+     */
+    private function canReadParent(): bool
+    {
+        $businesscriticities_id = (int) ($this->fields['businesscriticities_id'] ?? 0);
+        return $businesscriticities_id > 0
+            && (new BusinessCriticity())->can($businesscriticities_id, READ);
+    }
+
+    public function canViewItem(): bool
+    {
+        return parent::canViewItem() && $this->canReadParent();
+    }
+
+    public function canUpdateItem(): bool
+    {
+        return parent::canUpdateItem() && $this->canReadParent();
+    }
+
+    public function canPurgeItem(): bool
+    {
+        return parent::canPurgeItem() && $this->canReadParent();
+    }
+
+    /**
      * @since version 0.83.3
      *
      * @see CommonDBTM::prepareInputForAdd()
@@ -230,7 +256,9 @@ class Criticity extends CommonDBTM
         // let it create a row nothing can reach again.
         $businesscriticities_id = (int) ($input['businesscriticities_id'] ?? 0);
         $business_criticity     = new BusinessCriticity();
-        if ($businesscriticities_id <= 0 || !$business_criticity->getFromDB($businesscriticities_id)) {
+        // can(READ) also enforces the entity (and recursivity) of the business criticity, so a
+        // row cannot be attached to one of an entity outside the caller's scope.
+        if ($businesscriticities_id <= 0 || !$business_criticity->can($businesscriticities_id, READ)) {
             Session::addMessageAfterRedirect(__('Invalid business criticity.', 'cmdb'), false, ERROR);
             return false;
         }

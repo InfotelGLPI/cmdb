@@ -45,8 +45,10 @@ if (isset($_POST['key']) && $_POST['key']) {
     $key = $_POST['key'];
 }
 
-// Validate values reflected into inline JS/HTML to prevent reflected XSS
-if ($itemtype !== null && !getItemForItemtype($itemtype)) {
+// Validate values reflected into inline JS/HTML to prevent reflected XSS, and replay the
+// allow-list of the twin endpoint impact_infos_fields.php and of ImpactInfo::prepareInputForAdd():
+// resolving as a class would let any registered itemtype reach getFieldsForItemtype().
+if ($itemtype !== null && !in_array($itemtype, ImpactInfo::getAllowedItemtypes(), true)) {
     throw new BadRequestHttpException();
 }
 // Every caller of this endpoint posts the column key it is refreshing, so a missing key is a

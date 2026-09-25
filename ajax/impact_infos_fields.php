@@ -51,7 +51,7 @@ if ($itemtype !== null && !in_array($itemtype, ImpactInfo::getAllowedItemtypes()
 
 $id = 0;
 if (isset($_POST['id']) && $_POST['id']) {
-    $id = $_POST['id'];
+    $id = (int) $_POST['id'];
 
     $impactInfoField = new ImpactInfoField();
     $impactInfoField->showInfos($itemtype, $id);

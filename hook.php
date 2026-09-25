@@ -218,18 +218,22 @@ function plugin_cmdb_uninstall()
         $impactrelation = new ImpactRelation();
         $impactrelation->deleteByCriteria(["itemtype_source" => $type["name"]]);
         $impactrelation->deleteByCriteria(["itemtype_impacted" => $type["name"]]);
-        $item = $type["name"];
-        $dir = GLPI_ROOT . "/files/_plugins/cmdb/src/";
+        $item = (string) $type["name"];
 
-        // Guard against path traversal / arbitrary file inclusion via a tampered CIType name
-        if (preg_match('/^[A-Za-z0-9_\\\\]+$/', (string) $item) && strpos($item, '..') === false) {
-            $class_file = $dir . basename(str_replace('\\', '/', $item)) . ".php";
-            if (file_exists($class_file)) {
-                include_once($class_file);
-                if (class_exists($item)) {
-                    $item::uninstall();
-                }
-            }
+        // Resolve the generated class file exactly like CIType::cleanDBonPurge() and
+        // plugin_cmdb_rewriteGeneratedClasses() do: under PLUGINCMDB_CLASS_PATH (which honours
+        // a relocated GLPI_PLUGIN_DOC_DIR), from the whitelisted system name, so a tampered
+        // CIType name can neither traverse paths nor reach a class outside the plugin.
+        $system_name = CIType::getSystemName($item);
+        if ($system_name === '' || !str_starts_with($item, 'GlpiPlugin\\Cmdb\\')) {
+            continue;
+        }
+        $class_file = PLUGINCMDB_CLASS_PATH . '/' . ucfirst($system_name) . '.php';
+        if (!class_exists($item) && file_exists($class_file)) {
+            include_once($class_file);
+        }
+        if (class_exists($item) && method_exists($item, 'uninstall')) {
+            $item::uninstall();
         }
     }
     $tables = [
