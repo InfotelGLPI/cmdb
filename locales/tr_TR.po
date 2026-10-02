@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-22 13:59+0000\n"
+"POT-Creation-Date: 2026-09-25 06:44+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2021\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/infotelGLPI/"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/Criticity.php:240
+#: src/Criticity.php:268
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
@@ -61,8 +61,8 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Ad oluşturulduktan sonra değiştirilemeyeceğinden dikkatli olun"
 
-#: setup.php:161 src/Menu.php:48 src/Cmdb.php:51 src/CI_Cmdb.php:51
-#: src/Profile.php:55
+#: setup.php:161 src/Cmdb.php:51 src/Profile.php:55 src/CI_Cmdb.php:51
+#: src/Menu.php:48
 msgid "CMDB"
 msgstr "CMDB"
 
@@ -173,11 +173,11 @@ msgstr "CI İçe Aktar"
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Criticity.php:234
+#: src/Criticity.php:262
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:297
+#: src/Criticity.php:325
 msgid "Invalid color."
 msgstr ""
 
@@ -193,8 +193,8 @@ msgstr ""
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/ImpactIcon.php:315 src/ImpactIcon.php:349
-#: src/OperationProcess_Item.php:191 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:191 src/ImpactIcon.php:315
+#: src/ImpactIcon.php:349 src/ImpactInfo.php:62
 msgid "Invalid item type."
 msgstr ""
 
@@ -206,7 +206,7 @@ msgstr "Ad geçersiz!"
 msgid "Is this item presents in glpi ?"
 msgstr "Bu öge GLPI üzerinde var mı?"
 
-#: src/Menu.php:68 src/Profile.php:136
+#: src/Profile.php:136 src/Menu.php:68
 msgid "Item Configuration"
 msgstr "Öge Yapılandırması"
 
@@ -234,7 +234,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:224 src/Criticity.php:284
+#: src/Criticity.php:250 src/Criticity.php:312
 msgid "Please choose a level for criticality"
 msgstr "Lütfen bir kritiklik düzeyi seçin"
 
@@ -270,8 +270,8 @@ msgstr "CI bak"
 msgid "See associated tickets"
 msgstr "İlgili destek kayıtlarını görüntüle"
 
-#: src/OperationProcessMenu.php:50 src/OperationProcess.php:62
-#: src/Profile.php:144 src/Profile.php:189 src/Profile.php:254
+#: src/OperationProcessMenu.php:50 src/Profile.php:144 src/Profile.php:189
+#: src/Profile.php:254 src/OperationProcess.php:62
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Hizmet"
@@ -364,7 +364,7 @@ msgstr "yüksek"
 msgid "is already present in GLPI"
 msgstr "zaten GLPI üzerinde var"
 
-#: hook.php:537
+#: hook.php:541
 msgid "item not found or disabled"
 msgstr "Öge bulunamadı ya da devre dışı bırakılmış"
 
