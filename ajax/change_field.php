@@ -63,4 +63,4 @@ if ($idCIType <= 0
 }
 
 $fields = new CiFields();
-$fields->setFieldByType($idCIType, $id);
+echo $fields->renderFieldsByType($idCIType, $id);

@@ -1,0 +1,60 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Fields shown in the impact tooltip of an itemtype (ImpactInfoField::showInfos(), loaded by
+   ajax/impact_infos_fields.php into the ImpactInfo form): one column per field source.
+   Adding, removing and the selector reload are handled by public/scripts/impactinfo_fields.js. #}
+<td colspan="2">
+    <div class="container">
+        <div class="row">
+            {% for column in columns %}
+                <div class="col" data-cmdb-fields-column
+                     data-key="{{ column.key }}"
+                     data-itemtype="{{ itemtype }}"
+                     data-dropdown-url="{{ dropdown_url }}">
+                    <div class="d-flex align-items-center m-1">
+                        <label>{{ column.label }}</label>
+                        <div class="ms-2" data-cmdb-fields-select>
+                            {# Core dropdown widget, escaped by the core #}
+                            {{ column.dropdown|raw }}
+                        </div>
+                    </div>
+                    <div data-cmdb-fields-list>
+                        {% for field in column.fields %}
+                            {{ include('@cmdb/impactinfo_field_row.html.twig', {
+                                key: column.key,
+                                field_id: field.field_id,
+                                order: field.order,
+                                label: field.label,
+                            }) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</td>

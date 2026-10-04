@@ -1,0 +1,52 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Item configuration menu (Cmdb::displayMenu()): one tile per CI type, three per row #}
+{% if tiles is not empty %}
+    <div class="center">
+        <table class="tab_cadre" width="30%">
+            <tr><th colspan="3" class="center">{{ __('Display Item Configuration', 'cmdb') }}</th></tr>
+            {% for row in tiles|batch(3) %}
+                <tr class="tab_bg_1">
+                    {% for tile in row %}
+                        <td class="center b">
+                            <a href="{{ tile.link }}">
+                                {% if tile.icon_url is not empty %}
+                                    <img width="64" height="64" src="{{ tile.icon_url }}" alt="">
+                                {% else %}
+                                    <i class="ti ti-adjustments"></i>
+                                {% endif %}
+                                <br>
+                                {{ tile.name }}
+                            </a>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}

@@ -1,0 +1,47 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Criticity of an asset, added to its form (Criticity::addFieldCriticity(), post_item_form
+   hook) or refreshed alone (ajax/criticity_values.php: with_header false). The dropdown is a
+   core widget, escaped by the core. #}
+{% set row %}
+    <tr class="tab_bg_1" id="plugin_cmdb_tr">
+        <td>{{ label }}</td>
+        <td><span style="width:80%">{{ dropdown|raw }}</span></td>
+        {% if pad %}
+            <td colspan="2"></td>
+        {% endif %}
+    </tr>
+{% endset %}
+{% if with_header %}
+    <table class="tab_cadre_fixe">
+        <tr class="tab_bg_1"><th colspan="{{ colspan }}">{{ title }}</th></tr>
+        {{ row }}
+    </table>
+{% else %}
+    {{ row }}
+{% endif %}

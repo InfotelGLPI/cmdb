@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Application\View\TemplateRenderer;
 use Glpi\Exception\Http\BadRequestHttpException;
 use Glpi\Exception\Http\NotFoundHttpException;
 use GlpiPlugin\Cmdb\CiFields;
@@ -71,31 +72,27 @@ if ($_POST["action"] == "reset") {
     if ($cifields->getFromDBByCrit(['plugin_cmdb_citypes_id' => $id])) {
         $tabFieldsTmp[] = $cifields->fields;
 
-        foreach ($tabFieldsTmp as $k => $d) {
-            $i = $d['id'];
-            echo "<tr class='tab_bg_2 center field' id='$i'>";
-            echo "<td>";
-            $name = "nameField[$i]";
-            echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
-            echo "</td>";
-            echo "<td>";
-            Dropdown::showFromArray("typeField[$i]", $tabType, ["value" => $d['typefield'], "width" => 125]);
-            echo "</td>";
-            echo "<i class='fa-2x ti ti-trash pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
-            echo "</tr>";
+        foreach ($tabFieldsTmp as $d) {
+            $i = (int) $d['id'];
+            TemplateRenderer::getInstance()->display('@cmdb/citype_field_row.html.twig', [
+                'is_new'        => false,
+                'row_id'        => $i,
+                'name'          => (string) $d['name'],
+                'type_dropdown' => Dropdown::showFromArray(
+                    "typeField[$i]",
+                    $tabType,
+                    ["value" => $d['typefield'], "width" => 125, 'display' => false],
+                ),
+            ]);
         }
     }
 } elseif ($_POST["action"] == "add") {
     // rows is a numeric row index: cast to int to prevent reflected XSS
-    $rows = (int) $_POST['rows'];
-    echo "<tr class='tab_bg_2 center' id='" . $rows . "'>";
-    echo "<td>";
-    $name = "nameNewField[]";
-    echo Html::input($name, ['value' => '', 'size' => 40, 'required' => 'required']);
-    echo "</td>";
-    echo "<td>";
-    Dropdown::showFromArray("typeNewField[]", $tabType, ["width" => 125]);
-    echo "</td>";
-    echo "<td><i class='fa-2x ti ti-trash pointer'  onclick='deleteField(" . $rows . ");'></i></td>";
-    echo "</tr>";
+    $rows = (int) ($_POST['rows'] ?? 0);
+    TemplateRenderer::getInstance()->display('@cmdb/citype_field_row.html.twig', [
+        'is_new'        => true,
+        'row_id'        => $rows,
+        'name'          => '',
+        'type_dropdown' => Dropdown::showFromArray("typeNewField[]", $tabType, ["width" => 125, 'display' => false]),
+    ]);
 }

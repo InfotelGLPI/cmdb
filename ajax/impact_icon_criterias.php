@@ -27,6 +27,7 @@
  * --------------------------------------------------------------------------
  */
 
+use Glpi\Application\View\TemplateRenderer;
 use GlpiPlugin\Cmdb\ImpactIcon;
 
 header("Content-Type: text/html; charset=UTF-8");
@@ -49,44 +50,23 @@ $impactIcon = new ImpactIcon();
 $is_loaded  = $id > 0 && $impactIcon->getFromDB($id);
 
 if (in_array($itemtype, array_keys(ImpactIcon::getCriterias()))) {
-    // label
-    echo "<td>";
-    switch ($itemtype) {
-        case NetworkEquipment::getType():
-            echo NetworkEquipmentType::getTypeName();
-            break;
-        case Computer::getType():
-            echo ComputerType::getTypeName();
-            break;
-        case Appliance::getType():
-            echo ApplianceType::getTypeName();
-            break;
-    }
-    echo "</td>";
-
-    // value
-    echo "<td>";
     $value = 0; // default value for new NetworkEquipment's networkequipmenttypes_id
     // only set value if the row was really loaded and the saved itemtype correspond
     if ($is_loaded && $impactIcon->fields['itemtype'] === $itemtype) {
         $value = $impactIcon->fields['criteria'];
     }
-    switch ($itemtype) {
-        case NetworkEquipment::getType():
-            NetworkEquipmentType::dropdown([
-                'value' => $value,
-            ]);
-            break;
-        case Computer::getType():
-            ComputerType::dropdown([
-                'value' => $value,
-            ]);
-            break;
-        case Appliance::getType():
-            ApplianceType::dropdown([
-                'value' => $value,
-            ]);
-            break;
+
+    // Type dropdown of the itemtype
+    $types = [
+        NetworkEquipment::getType() => NetworkEquipmentType::class,
+        Computer::getType()         => ComputerType::class,
+        Appliance::getType()        => ApplianceType::class,
+    ];
+    if (isset($types[$itemtype])) {
+        $type_class = $types[$itemtype];
+        TemplateRenderer::getInstance()->display('@cmdb/impacticon_criteria.html.twig', [
+            'label'    => $type_class::getTypeName(),
+            'dropdown' => $type_class::dropdown(['value' => $value, 'display' => false]),
+        ]);
     }
-    echo "</td>";
 }

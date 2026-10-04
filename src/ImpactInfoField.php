@@ -30,6 +30,7 @@
 namespace GlpiPlugin\Cmdb;
 
 use CommonDBTM;
+use Glpi\Application\View\TemplateRenderer;
 use Toolbox;
 
 class ImpactInfoField extends CommonDBTM
@@ -49,116 +50,68 @@ class ImpactInfoField extends CommonDBTM
             'order ASC',
         );
 
-        echo "<td colspan='2'>";
-        echo "<div class='container'>";
-        echo "<div class='row'>";
-
-        // base fields
-        $impactInfoField->createSelectionColumn(
-            $availableFields,
-            $usedFields,
-            array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi',
-            $itemtype,
-        );
-
-        // plugin fields
-        if (array_key_exists('fields', $availableFields)) {
-            $impactInfoField->createSelectionColumn(
+        $columns = [
+            // base fields
+            $impactInfoField->getSelectionColumn(
                 $availableFields,
                 $usedFields,
-                'fields',
+                array_key_exists('cmdb', $availableFields) ? 'cmdb' : 'glpi',
                 $itemtype,
-            );
+            ),
+        ];
+        // plugin fields
+        if (array_key_exists('fields', $availableFields)) {
+            $columns[] = $impactInfoField->getSelectionColumn($availableFields, $usedFields, 'fields', $itemtype);
         }
-        echo "</div>";
-        echo "</div>";
-        echo "</td>";
+
+        TemplateRenderer::getInstance()->display('@cmdb/impactinfo_fields.html.twig', [
+            'itemtype'     => (string) $itemtype,
+            'dropdown_url' => PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields_dropdown.php",
+            'columns'      => $columns,
+        ]);
     }
 
-    public function createSelectionColumn($availableFields, $usedFields, $key, $itemtype)
+    /**
+     * Data of one column of templates/impactinfo_fields.html.twig: its selector of the fields
+     * not used yet, and the fields already shown in the tooltip, in their order.
+     *
+     * @param array<string, array<int, string>> $availableFields
+     * @param array<int, array<string, mixed>>  $usedFields
+     *
+     * @return array{key: string, label: string, dropdown: string, fields: list<array{field_id: int, order: int, label: string}>}
+     */
+    public function getSelectionColumn($availableFields, $usedFields, $key, $itemtype): array
     {
-        echo "<div class='col'>";
-        echo "<div class='d-flex align-items-center m-1'>";
-        echo $key !== 'fields' ? '<label>' . __('Base fields', 'cmdb') . '</label>' : '<label>' . __('Plugin additional fields fields', 'cmdb') . '</label>';
-        echo "<div id='$key-select' class='ms-2'>";
         // showInfos() picks $key from what the itemtype actually offers, but an itemtype with
         // no usable field offers neither 'cmdb' nor 'glpi'. Render the empty column instead of
         // indexing a missing key and pushing null down into array_diff_key().
         $fields = $availableFields[$key] ?? [];
-        $comparaisonArray = [];
-        if ($usedFields) {
-            $usedFields = array_filter($usedFields, fn($e) => $e['type'] === $key);
-            foreach ($usedFields as $field) {
-                $comparaisonArray[$field['field_id']] = $field;
-            }
-        }
-        $unusedFields = array_diff_key($fields, $comparaisonArray);
-        ImpactInfo::makeDropdown($key, $unusedFields, $itemtype);
-        echo "</div>"; // select
-        echo "</div>"; // flex label+select
-        echo "<div id='$key-fields'>";
-        $index = 0;
+        $usedFields = array_filter($usedFields ?: [], fn($e) => $e['type'] === $key);
+
+        $used = [];
+        $rows = [];
         foreach ($usedFields as $field) {
-            // Cast at the source so every downstream interpolation (id/name attributes,
-            // value, inline <script> selectors) carries an int, not a raw DB string.
-            // These columns only ever hold integers today; the cast is the safety net
-            // against any future write path that could store a string and turn this
-            // echo-built markup into a stored XSS sink.
+            // field_id and order only ever hold integers; the cast is the safety net against a
+            // future write path storing a string
             $fieldId = (int) $field['field_id'];
+            $used[$fieldId] = true;
             // A persisted field_id has no guarantee of still resolving: the search option may
-            // have been dropped by a core upgrade, or the Fields container deleted. Skip the
-            // stale row the way ImpactInfo::showInfos() already does, rather than echoing an
-            // undefined key through htmlescape(null).
+            // have been dropped by a core upgrade, or the Fields container deleted
             if (!array_key_exists($fieldId, $fields)) {
                 continue;
             }
-            $label = $fields[$fieldId];
-            $order = (int) $field['order'];
-            // if display is modified here, also modify JS in ImpactInfo::makeDropdown
-            echo "<div class='d-flex align-items-center justify-content-between border rounded m-1 p-2' id='field$key$fieldId'>";
-            echo "<span>";
-            echo "<label>" . __('Order', 'cmdb') . "</label>";
-            echo "<input type='number' name='$key-fields[$fieldId][order]' value='$order' style='max-width: 5rem' class='ms-2'>";
-            echo "</span>";
-            // The 'cmdb' label comes from a user-defined CI field name (stored raw by
-            // GLPI); escape it like every other DB value echoed by this plugin to
-            // prevent stored XSS across the plugin_cmdb_cis / _impactinfos privilege
-            // boundary.
-            echo "<strong>" . htmlescape($label) . "</strong>";
-            echo "<input type='hidden' name='$key-fields[$fieldId][type]' value='$key'>";
-            echo "<input type='hidden' name='$key-fields[$fieldId][field_id]' value='$fieldId'>";
-            echo "<i class=\"fa fa-times mx-2 fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='deletefield$key$fieldId'></i>";
-            echo "</div>";
-            $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields_dropdown.php";
-            // Same reason as ImpactInfo::showForm(): a namespaced itemtype is not a plain
-            // JS string, its backslashes would be consumed as escape sequences.
-            $itemtype_js = json_encode($itemtype, JSON_HEX_TAG | JSON_HEX_AMP);
-            echo "
-    <script>
-        document.getElementById('deletefield$key$fieldId').addEventListener('click', e => {
-            // get all next elements and adjust their order value
-
-            const usedFields = e.target.parentNode.parentNode.querySelectorAll('div[id^=\"field$key\"]');
-                            let values = [];
-                            usedFields.forEach(e => {
-                                const inputValue = e.getElementsByTagName('input')[1];
-                                values.push(inputValue.value);
-                            })
-                            // regenerate the select with the updated options
-                            $('#$key-select').load('$url', {
-                                'key' : '$key',
-                                'itemtype' : $itemtype_js,
-                                'used' : values
-                            });
-            e.target.parentNode.parentNode.removeChild(e.target.parentNode);
-
-        })
-
-    </script>
-    ";
-            $index++;
+            $rows[] = [
+                'field_id' => $fieldId,
+                'order'    => (int) $field['order'],
+                'label'    => (string) $fields[$fieldId],
+            ];
         }
-        echo "</div>";
-        echo '</div>'; // col
+
+        return [
+            'key'      => (string) $key,
+            'label'    => $key !== 'fields' ? __('Base fields', 'cmdb') : __('Plugin additional fields fields', 'cmdb'),
+            'dropdown' => ImpactInfo::makeDropdown($key, array_diff_key($fields, $used), $itemtype),
+            'fields'   => $rows,
+        ];
     }
 }

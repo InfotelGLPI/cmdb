@@ -49,10 +49,10 @@ if ($itemtype !== null && !in_array($itemtype, ImpactInfo::getAllowedItemtypes()
     throw new BadRequestHttpException();
 }
 
-$id = 0;
-if (isset($_POST['id']) && $_POST['id']) {
-    $id = (int) $_POST['id'];
-
-    $impactInfoField = new ImpactInfoField();
-    $impactInfoField->showInfos($itemtype, $id);
+// A new tooltip (id 0) gets the field list as soon as its item type is chosen: the list used
+// to be answered only for an existing tooltip, so picking the type of a new one showed nothing
+if ($itemtype === null) {
+    return;
 }
+$impactInfoField = new ImpactInfoField();
+$impactInfoField->showInfos($itemtype, (int) ($_POST['id'] ?? 0));

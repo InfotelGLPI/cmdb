@@ -321,13 +321,7 @@ class CIType extends CommonDropdown
         global $CFG_GLPI;
 
         if ($this->isNewID($ID)) {
-            echo "<div class='alert alert-warning'>";
-            echo "<i>" . __("With GLPI 11, you can create now custom assets", 'cmdb') . "</i>";
-            echo "<a href='" . $CFG_GLPI['root_doc'] . "/front/asset/assetdefinition.php' style='float:right'>" . __(
-                'Go to custom assets',
-                'cmdb',
-            ) . "</a>";
-            echo "</div>";
+            TemplateRenderer::getInstance()->display('@cmdb/citype_custom_assets.html.twig');
         } else {
             $options["colspan"] = 1;
             $options['formoptions'] = "enctype='multipart/form-data'";
@@ -340,54 +334,23 @@ class CIType extends CommonDropdown
 
             $this->showFormHeader($options);
 
+            $data = [
+                'show_imported_choice' => false,
+                'imported'             => null,
+                'created'              => null,
+            ];
             if ($ID > 0) {
                 if ($this->fields["is_imported"]) {
-                    $this->showImportedItem($ID, $options);
+                    $data['imported'] = $this->getImportedItemData($ID);
                 } else {
-                    echo "<tr cellpadding='2' class='newItem tab_bg_1' style='display:none;'>";
-                    echo "<td width='50%'>" . __('Name');
-                    echo "</td>";
-                    echo "<td width='50%'>";
-                    echo Html::input(
-                        'name',
-                        ['value' => $this->fields['name'], 'size' => 40, 'disabled' => 'disabled'],
-                    );
-                    echo "</td>";
-                    echo "</tr>";
-                    $this->showExistingFields();
-                    $this->showNewFields($ID);
-                    echo "<script>checkboxAction();</script>";
+                    $data['created'] = $this->getCreatedItemData($ID, true);
                 }
             } else {
-                echo "<tr class='tab_bg_1'>";
-                echo "<td>" . __('Is this item presents in glpi ?', 'cmdb') . "</td>";
-                echo "<td>";
-                Html::showCheckbox([
-                    'name' => 'is_imported',
-                    'id' => 'is_imported',
-                    'value' => '1',
-                    'onclick' => "javascript:checkboxAction()",
-                ]);
-
-                echo "</td></tr>\n";
-                $this->showImportedItem($ID, $options);
-                echo "<tr  cellpadding='2' class='newItem tab_bg_1' style='display:none;'>";
-                echo "<td width='50%'>" . __('Name') . "</td>";
-                echo "<td width='50%'>";
-                echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
-                echo "<br><br><div class='alert alert-warning'>
-                     <i class='ti ti-alert-triangle fa-2x'></i><br><br>";
-                echo __("Be careful the name cannot be changed after creation", "cmdb");
-                echo "<br>";
-                echo __("Do not use a plural classname (like 'myobjects')", "cmdb");
-                echo "<br>";
-                echo __("Do not use a classname with spaces (like 'my objects')", "cmdb");
-                echo "</div>";
-                echo "</td>";
-                echo "</tr>";
-                $this->showNewFields($ID);
-                echo "<script>checkboxAction();</script>";
+                $data['show_imported_choice'] = true;
+                $data['imported']             = $this->getImportedItemData($ID);
+                $data['created']              = $this->getCreatedItemData($ID, false);
             }
+            TemplateRenderer::getInstance()->display('@cmdb/citype_form_rows.html.twig', $data);
 
             $this->showFormButtons($options);
         }
@@ -691,86 +654,55 @@ class CIType extends CommonDropdown
      * @global  $CFG_GLPI
      *
      */
-    public function showImportedItem($ID, $options = [])
+    /**
+     * Rows of an imported type: the itemtype selector (refreshing the icons and the columns
+     * over AJAX) and the icon of each of its types.
+     *
+     * @return array{selector: string, icons: string}
+     */
+    public function getImportedItemData($ID): array
     {
         global $CFG_GLPI;
 
-        $tabCIType = self::getTypes();
-
-        echo "<tr class='tab_bg_1' name='importedItem'>";
-        echo "<td>" . __("Import CI", 'cmdb') . "</td>";
-        echo "<td>";
         $tabCIType2    = [];
         $tabCIType2[0] = Dropdown::EMPTY_VALUE;
         $dbu           = new DbUtils();
-        foreach ($tabCIType as $CIType) {
+        foreach (self::getTypes() as $CIType) {
             $ci                  = $dbu->getItemForItemtype($CIType);
             $tabCIType2[$CIType] = $ci::getTypeName(1);
         }
         $url_cmdb_ajax = $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax";
-        if (isset($this->fields["name"])
-          && $this->fields["name"] != "") {
-            $rand   = Dropdown::showFromArray(
-                "name",
-                $tabCIType2,
-                ['value' => $this->fields['name'], 'readonly' => true],
-            );
-            $params = ['itemtype' => '__VALUE__',
-                'id'       => $ID];
-            Ajax::updateItemOnSelectEvent(
-                "dropdown_name$rand",
-                "types_icon",
-                "$url_cmdb_ajax/dropdownTypeByCIType.php",
-                $params,
-            );
-            Ajax::updateItemOnSelectEvent(
-                "dropdown_name$rand",
-                "span_fields",
-                "$url_cmdb_ajax/dropdownInfoFields.php",
-                $params,
-            );
-        } else {
-            $rand   = Dropdown::showFromArray("selectCI", $tabCIType2);
-            $params = ['itemtype' => '__VALUE__',
-                'id'       => $ID];
-            Ajax::updateItemOnSelectEvent(
-                "dropdown_selectCI$rand",
-                "types_icon",
-                "$url_cmdb_ajax/dropdownTypeByCIType.php",
-                $params,
-            );
-            Ajax::updateItemOnSelectEvent(
-                "dropdown_selectCI$rand",
-                "span_fields",
-                "$url_cmdb_ajax/dropdownInfoFields.php",
-                $params,
-            );
-        }
-        echo "</td>";
-        echo "</tr>\n";
-        echo "<tr class='tab_bg_1' name='importedItem'>";
-        echo "<td>" . __("Icon", 'cmdb') . "</td>";
-        echo "<td>";
-        if (isset($this->fields['name'])
-          && $this->fields['name'] != '') {
-            self::selectTypesByCIType($this->fields['name'], $ID);
-        } else {
-            self::selectTypesByCIType('', $ID);
-        }
-        echo "</td>";
-        echo "</tr>\n";
-        //      echo "<tr class='tab_bg_1' name='importedItem'>";
-        //      echo "<td>" . __("Display this fields", 'cmdb') . "</td>";
-        //      echo "<td>";
-        //      if (isset($this->fields['name'])
-        //          && $this->fields['name'] != ''
-        //      ) {
-        //         self::selectCriterias($this->fields['name'], $ID);
-        //      } else {
-        //         self::selectCriterias('', $ID);
-        //      }
-        //      echo "</td>";
-        //      echo "</tr>\n";
+        $has_name      = isset($this->fields["name"]) && $this->fields["name"] != "";
+
+        // An existing imported type keeps its itemtype (read only), a new one picks it
+        $name = $has_name ? 'name' : 'selectCI';
+        $rand = mt_rand();
+        $selector = Dropdown::showFromArray(
+            $name,
+            $tabCIType2,
+            ($has_name ? ['value' => $this->fields['name'], 'readonly' => true] : [])
+            + ['rand' => $rand, 'display' => false],
+        );
+        $params = ['itemtype' => '__VALUE__', 'id' => $ID];
+        $selector .= Ajax::updateItemOnSelectEvent(
+            "dropdown_$name$rand",
+            "types_icon",
+            "$url_cmdb_ajax/dropdownTypeByCIType.php",
+            $params,
+            false,
+        );
+        $selector .= Ajax::updateItemOnSelectEvent(
+            "dropdown_$name$rand",
+            "span_fields",
+            "$url_cmdb_ajax/dropdownInfoFields.php",
+            $params,
+            false,
+        );
+
+        return [
+            'selector' => $selector,
+            'icons'    => self::renderTypesByCIType($has_name ? $this->fields['name'] : '', $ID),
+        ];
     }
 
     /**
@@ -785,15 +717,22 @@ class CIType extends CommonDropdown
      */
     public static function selectTypesByCIType($citype, $ID = 0)
     {
-        global $DB, $CFG_GLPI;
+        echo self::renderTypesByCIType($citype, $ID);
+    }
 
-        echo "<span id='types_icon' name='span_fields'>";
+    /**
+     * Icon panels of the types of an imported itemtype, in #types_icon (refreshed by
+     * ajax/dropdownTypeByCIType.php)
+     */
+    public static function renderTypesByCIType($citype, $ID = 0): string
+    {
+        global $CFG_GLPI;
+
         $tabCIType_type    = [];
         $tabCIType_type[0] = __("Default icon", 'cmdb');
 
         if (!isset($citype) || !$citype) {
-            echo "</span>";
-            return;
+            return self::renderTypesIconSpan([]);
         }
 
         $dbu       = new DbUtils();
@@ -803,8 +742,7 @@ class CIType extends CommonDropdown
         // makes getItemForItemtype() return false, and the $item->isField() call
         // below would then raise a fatal Error. Fail closed like the twin endpoints.
         if ($item === false) {
-            echo "</span>";
-            return;
+            return self::renderTypesIconSpan([]);
         }
         $fieldType = substr($table, 5, -1) . "types_id";
 
@@ -872,12 +810,21 @@ class CIType extends CommonDropdown
             ];
         }
 
-        TemplateRenderer::getInstance()->display('@cmdb/citype_icons.html.twig', [
-            'dom_id' => 'plugin_cmdb_citype_icons',
-            'panels' => $panels,
-        ]);
+        return self::renderTypesIconSpan($panels);
+    }
 
-        echo "</span>";
+    /**
+     * @param list<array{name: string, icon_url: string, input_name: string}> $panels
+     */
+    private static function renderTypesIconSpan(array $panels): string
+    {
+        // The #types_icon span is the target the itemtype selector refreshes
+        return '<span id="types_icon" name="span_fields">'
+            . ($panels === [] ? '' : TemplateRenderer::getInstance()->render('@cmdb/citype_icons.html.twig', [
+                'dom_id' => 'plugin_cmdb_citype_icons',
+                'panels' => $panels,
+            ]))
+            . '</span>';
     }
 
 
@@ -890,35 +837,25 @@ class CIType extends CommonDropdown
      * */
     public static function selectCriterias($citype, $ID = 0)
     {
-        echo "<span id='span_fields' name='span_fields'>";
-
         $dbu = new DbUtils();
 
         // Validate the client-supplied itemtype at the sink: class_exists() accepted any
         // loadable class name, so the dynamic instantiation below built an arbitrary object
         // and getTableForItemType() then derived a table name from it. Resolve it the way
         // the rest of GLPI does and fail closed, like the twin selectTypesByCIType().
-        $target = $dbu->getItemForItemtype((string) $citype);
-        if ($target === false) {
-            echo "</span>";
-            return;
+        $options  = null;
+        $selected = [];
+        if ($dbu->getItemForItemtype((string) $citype) !== false) {
+            $ci_type = new CIType();
+            $ci_type->getFromDB($ID);
+            $selected = explode(',', (string) $ci_type->getField('fields'));
+            $options  = self::getSelectableFields($citype);
         }
 
-        $ci_type = new CIType();
-        $ci_type->getFromDB($ID);
-        $config_fields = explode(',', $ci_type->getField('fields'));
-
-        //Construct list
-        echo "<select class='form-select' name='_fields[]' multiple size='15' style='width:400px'>";
-        foreach (self::getSelectableFields($citype) as $name => $label) {
-            echo "<option value='" . htmlescape($name) . "'";
-            if (in_array($name, $config_fields)) {
-                echo " selected ";
-            }
-            echo ">" . htmlescape($label) . "</option>";
-        }
-
-        echo "</select></span>";
+        TemplateRenderer::getInstance()->display('@cmdb/citype_criterias.html.twig', [
+            'options'  => $options,
+            'selected' => $selected,
+        ]);
     }
 
     /**
@@ -1080,98 +1017,52 @@ class CIType extends CommonDropdown
     /**
      * Show new fields of a non imported type
      */
-    public function showNewFields($ID)
+    /**
+     * Rows of a type created by the plugin: its name, its custom fields (existing ones
+     * editable), the add button and its icon.
+     *
+     * @return array{id: int, name: string, name_locked: bool, fields: list<array<string, mixed>>, icon_url: string, file_input: string}
+     */
+    public function getCreatedItemData($ID, bool $name_locked): array
     {
         global $CFG_GLPI;
-        echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-        echo "<td colspan='2' class='center'><a class='submit btn btn-primary'
-            onclick='addField()'>" . __('Add New Field', 'cmdb') . "</a></td>";
-        echo "</tr>";
 
-        echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-        echo "<td colspan='2' class='center'>";
-        echo "<table id='newfields' class='tab_cadre'>";
-        echo "</table>";
-        echo "</td>";
-        echo "</tr>";
+        $fields = [];
+        if (isset($this->fields['id'])) {
+            $ci_field = new CiFields();
+            foreach ($ci_field->find(['plugin_cmdb_citypes_id' => $this->fields['id']]) as $d) {
+                $i        = (int) $d['id'];
+                $fields[] = [
+                    'is_new'        => false,
+                    'row_id'        => $i,
+                    'name'          => (string) $d['name'],
+                    'type_dropdown' => Dropdown::showFromArray(
+                        "typeField[$i]",
+                        self::getTypeFields(),
+                        ["value" => $d['typefield'], "width" => 125, 'display' => false],
+                    ),
+                ];
+            }
+        }
+
+        $icon_url = '';
         if ($ID > 0) {
             $citype_doc = new CIType_Document();
-            if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID,
-                'types_id'               => 0])) {
-                echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-                echo "<td>" . __('Icon') . "</td>";
-                echo "<td>";
-                // Cast and escape, like the twin fragment of src/Cmdb.php:138-139 and
-                // ImpactIcon::getSpecificValueToDisplay(): documents_id is an int column
-                // today, so this closes a regression path rather than a live XSS.
-                echo "<img width='32' height='32' src='" . htmlescape($CFG_GLPI['root_doc'])
-                 . "/front/document.send.php?docid=" . (int) $citype_doc->fields['documents_id'] . "'/>";
-                echo "</td>";
-                echo "</tr>";
+            if ($citype_doc->getFromDBByCrit(['plugin_cmdb_citypes_id' => $ID, 'types_id' => 0])) {
+                // documents_id is an int column today: cast anyway, like src/Cmdb.php
+                $icon_url = $CFG_GLPI['root_doc'] . "/front/document.send.php?docid="
+                    . (int) $citype_doc->fields['documents_id'];
             }
         }
-        echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-        echo "<td>" . __('Upload icon', 'cmdb') . "</td>";
-        echo "<td>";
 
-        echo Html::file();
-        echo "</td>";
-        echo "</tr>";
-    }
-
-    /**
-     * Show Existing fields of a non imported type
-     * @global  $DB
-     */
-    public function showExistingFields()
-    {
-        global $DB, $CFG_GLPI;
-
-        if (isset($this->fields['id'])) {
-            $id       = $this->fields['id'];
-            $ci_field = new CiFields();
-            $ciFields = $ci_field->find(['plugin_cmdb_citypes_id' => $id]);
-
-            if (count($ciFields) > 0) {
-                $tabFieldsTmp = [];
-                foreach ($ciFields as $data) {
-                    $tabFieldsTmp[] = $data;
-                }
-                echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-                echo "<td class='center' colspan='2'>" . __('Existing fields for this type of CI', 'cmdb') . "</td>";
-                echo "</tr>";
-                echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-                echo "<td colspan='2' class='center'><a class='submit btn btn-primary'
-                    onclick='resetFields($id)'>" . __('Reset Existing fields', 'cmdb') . "</a></td>";
-                echo "</tr>";
-                echo "<tr class='newItem tab_bg_1' style='display:none;'>";
-                echo "<td colspan='2' class='center'>";
-
-                echo "<table id='fields' class='tab_cadre'>";
-                echo "<tr class='tab_bg_2'>";
-                echo "<th>" . __("Fields") . "</th>";
-                echo "<th>" . __("Types") . "</th>";
-                echo "<th>" . __("Actions") . "</th>";
-                echo "</tr>";
-                foreach ($tabFieldsTmp as $k => $d) {
-                    $i = $d['id'];
-                    echo "<tr class='tab_bg_2 center field' id='$i'>";
-                    echo "<td>";
-                    $name = "nameField[$i]";
-                    echo Html::input($name, ['value' => $d['name'], 'size' => 40, 'required' => 'required']);
-                    echo "<td>";
-                    Dropdown::showFromArray("typeField[$i]", self::getTypeFields(), ["value" => $d['typefield'], "width" => 125]);
-
-                    echo "</td>";
-                    echo "<td><i class='fa-2x ti ti-trash pointer' onclick='deleteField($i);addHiddenDeletedField($i);'></i></td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-
-                echo "</td>";
-                echo "</tr>";
-            }
-        }
+        return [
+            'id'          => (int) ($this->fields['id'] ?? 0),
+            'name'        => (string) ($this->fields['name'] ?? ''),
+            'name_locked' => $name_locked,
+            'fields'      => $fields,
+            'icon_url'    => $icon_url,
+            'file_input'  => Html::file(['display' => false]),
+        ];
     }
 
 
@@ -1516,11 +1407,9 @@ class CIType extends CommonDropdown
 
         switch ($ma->getAction()) {
             case 'transfer':
-                echo "&nbsp;" . htmlescape($_SESSION['glpiactive_entity_shortname']);
-                echo "<br><br>" . Html::submit(
-                    _x('button', 'Transfer', 'cmdb'),
-                    ['name' => 'massiveaction', 'class' => 'btn btn-primary'],
-                );
+                TemplateRenderer::getInstance()->display('@cmdb/massive_transfer.html.twig', [
+                    'entity' => (string) ($_SESSION['glpiactive_entity_shortname'] ?? ''),
+                ]);
                 return true;
         }
         return parent::showMassiveActionsSubForm($ma);

@@ -1,0 +1,62 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Impact tooltip of an item (ImpactInfo::showInfos(), loaded by ajax/impact_item_infos.php).
+   The close icon is bound by public/js/cmdb_impact.js through its id. Each group of cells is
+   laid out two per row. A cell value is pre-escaped HTML: escaped text, or the formatted
+   search engine value (line breaks, core tooltip) of the core. #}
+{% if title is not empty %}
+    <div class="d-flex justify-content-between pt-1">
+        <strong>{{ typename }} : <a href="{{ url }}" target="_blank">{{ title }}</a></strong>
+        <i class="ti ti-x fs-2" aria-hidden="true" role="button" id="close-cmdb-tooltip"></i>
+    </div>
+{% else %}
+    <div class="d-flex justify-content-end pt-1">
+        <i class="ti ti-x fs-2" aria-hidden="true" role="button" id="close-cmdb-tooltip"></i>
+    </div>
+{% endif %}
+
+{% if message is not empty %}
+    <div class="text-center">{{ message }}</div>
+{% else %}
+    <table>
+        <tbody>
+            {% for group in groups %}
+                {% set colspan = group|length > 1 ? 1 : 2 %}
+                {% for pair in group|batch(2) %}
+                    <tr>
+                        {% for cell in pair %}
+                            <td colspan="{{ colspan }}" class="{{ colspan == 1 and loop.first ? 'pe-4' : '' }}">
+                                {{ cell.label }} : {{ cell.value|raw }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

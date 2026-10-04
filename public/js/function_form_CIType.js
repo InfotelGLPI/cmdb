@@ -75,8 +75,37 @@ var resetFields = function (id) {
    });
 };
 
-function getRandomInt(min, max) {
-   return Math.floor(Math.random() * (max - min)) + min;
+// Trash icon of a custom field row (templates/citype_field_row.html.twig): the row is removed,
+// and an existing field is posted as deleted
+$(document).on('click', '[data-cmdb-delete-field]', function () {
+   var id = this.dataset.cmdbDeleteField;
+   if (this.dataset.cmdbDeleted === '1') {
+      addHiddenDeletedField(id);
+   }
+   $(this).closest('tr').remove();
+});
+
+// CI type form (templates/citype_form_rows.html.twig): the rows follow the "imported" checkbox,
+// and the field buttons call the helpers above
+$(document).on('change', '#is_imported', checkboxAction);
+$(document).on('click', '[data-cmdb-add-field]', function () {
+   addField();
+});
+$(document).on('click', '[data-cmdb-reset-fields]', function () {
+   resetFields(this.dataset.cmdbResetFields);
+});
+// The form is the main tab, loaded over AJAX after the page itself: the rows are switched
+// once the form is in place (the inline call this replaces ran when the tab was injected)
+function initCITypeForm() {
+   document.querySelectorAll('[data-cmdb-citype-form]:not([data-cmdb-ready])').forEach(function (marker) {
+      marker.dataset.cmdbReady = '1';
+      checkboxAction();
+   });
+}
+$(initCITypeForm);
+$(document).on('ajaxComplete', initCITypeForm);
+
+function getRandomInt(min, max) {   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 var addField = function () {

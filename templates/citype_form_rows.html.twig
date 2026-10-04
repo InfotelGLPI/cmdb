@@ -1,0 +1,118 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Rows of the CI type form (CIType::showForm()), inside the table opened by showFormHeader().
+   Rows of a created type (class newItem) and of an imported one (name importedItem) are
+   switched by checkboxAction() of public/js/function_form_CIType.js, run on load through
+   data-cmdb-citype-form. Core widgets (dropdowns, file input) are escaped by the core. #}
+
+{% if show_imported_choice %}
+    <tr class="tab_bg_1">
+        <td>{{ __('Is this item presents in glpi ?', 'cmdb') }}</td>
+        <td>
+            <input type="checkbox" class="form-check-input" name="is_imported" id="is_imported" value="1">
+        </td>
+    </tr>
+{% endif %}
+
+{% if imported is not null %}
+    <tr class="tab_bg_1" name="importedItem">
+        <td>{{ __('Import CI', 'cmdb') }}</td>
+        <td>{{ imported.selector|raw }}</td>
+    </tr>
+    <tr class="tab_bg_1" name="importedItem">
+        <td>{{ __('Icon', 'cmdb') }}</td>
+        <td>{{ imported.icons|raw }}</td>
+    </tr>
+{% endif %}
+
+{% if created is not null %}
+    <tr class="newItem tab_bg_1" style="display:none;">
+        <td width="50%">{{ __('Name') }}</td>
+        <td width="50%">
+            <input type="text" class="form-control" name="name" value="{{ created.name }}" size="40"
+                   {{ created.name_locked ? 'disabled' : '' }}>
+            {% if not created.name_locked %}
+                <div class="alert alert-warning mt-3">
+                    <i class="ti ti-alert-triangle fa-2x"></i><br><br>
+                    {{ __('Be careful the name cannot be changed after creation', 'cmdb') }}<br>
+                    {{ __("Do not use a plural classname (like 'myobjects')", 'cmdb') }}<br>
+                    {{ __("Do not use a classname with spaces (like 'my objects')", 'cmdb') }}
+                </div>
+            {% endif %}
+        </td>
+    </tr>
+
+    {% if created.fields is not empty %}
+        <tr class="newItem tab_bg_1" style="display:none;">
+            <td class="center" colspan="2">{{ __('Existing fields for this type of CI', 'cmdb') }}</td>
+        </tr>
+        <tr class="newItem tab_bg_1" style="display:none;">
+            <td colspan="2" class="center">
+                <button type="button" class="btn btn-primary" data-cmdb-reset-fields="{{ created.id }}">
+                    {{ __('Reset Existing fields', 'cmdb') }}
+                </button>
+            </td>
+        </tr>
+        <tr class="newItem tab_bg_1" style="display:none;">
+            <td colspan="2" class="center">
+                <table id="fields" class="tab_cadre">
+                    <tr class="tab_bg_2">
+                        <th>{{ __('Fields') }}</th>
+                        <th>{{ __('Types') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
+                    {% for field in created.fields %}
+                        {{ include('@cmdb/citype_field_row.html.twig', field) }}
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    {% endif %}
+
+    <tr class="newItem tab_bg_1" style="display:none;">
+        <td colspan="2" class="center">
+            <button type="button" class="btn btn-primary" data-cmdb-add-field>{{ __('Add New Field', 'cmdb') }}</button>
+        </td>
+    </tr>
+    <tr class="newItem tab_bg_1" style="display:none;">
+        <td colspan="2" class="center">
+            <table id="newfields" class="tab_cadre"></table>
+        </td>
+    </tr>
+    {% if created.icon_url is not empty %}
+        <tr class="newItem tab_bg_1" style="display:none;">
+            <td>{{ __('Icon') }}</td>
+            <td><img width="32" height="32" src="{{ created.icon_url }}" alt=""></td>
+        </tr>
+    {% endif %}
+    <tr class="newItem tab_bg_1" style="display:none;">
+        <td>{{ __('Upload icon', 'cmdb') }}</td>
+        <td>{{ created.file_input|raw }}</td>
+    </tr>
+{% endif %}
+<tr class="d-none"><td colspan="2" data-cmdb-citype-form></td></tr>

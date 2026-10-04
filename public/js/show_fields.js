@@ -32,8 +32,12 @@
  */
 
 
-var changeField = function (idType, id) {
-   $.ajax({
+// CI form (templates/ci_form.html.twig): the custom fields follow the CI type
+$(document).on('change', '[data-cmdb-ci-type] select[name="plugin_cmdb_citypes_id"]', function () {
+   changeField(this, this.closest('[data-cmdb-ci-type]').dataset.cmdbCiType);
+});
+
+var changeField = function (idType, id) {   $.ajax({
       url: '../ajax/change_field.php',
       type: 'POST',
       data: 'idCIType=' + idType.value + '&id=' + id,

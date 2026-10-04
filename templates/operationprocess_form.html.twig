@@ -1,0 +1,55 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Form of a service (OperationProcess::showForm()) #}
+{% extends 'generic_show_form.html.twig' %}
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+{% block form_fields %}
+    {{ fields.textField('name', item.fields['name'], __('Name')) }}
+    {{ fields.dropdownField('GlpiPlugin\\Cmdb\\OperationProcessState', 'plugin_cmdb_operationprocessstates_id',
+        item.fields['plugin_cmdb_operationprocessstates_id'], state_label) }}
+
+    {{ fields.dropdownField('Location', 'locations_id', item.fields['locations_id'], __('Location'), {
+        entity: item.fields['entities_id'],
+    }) }}
+    {{ fields.dropdownField('User', 'users_id_tech', item.fields['users_id_tech'], __('Technician in charge'), {
+        entity: item.fields['entities_id'],
+        right: 'interface',
+    }) }}
+
+    {{ fields.dropdownField('Group', 'groups_id_tech', item.fields['groups_id_tech'], __('Group in charge'), {
+        entity: item.fields['entities_id'],
+        condition: {'is_assign': 1},
+    }) }}
+    {{ fields.dropdownYesNo('is_helpdesk_visible', item.fields['is_helpdesk_visible'], __('Associable to a ticket')) }}
+
+    {{ fields.textareaField('comment', item.fields['comment'], __('Comments'), {
+        full_width: true,
+        enable_richtext: false,
+    }) }}
+{% endblock %}

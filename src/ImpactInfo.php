@@ -30,9 +30,11 @@
 namespace GlpiPlugin\Cmdb;
 
 use CommonDBTM;
+use CommonGLPI;
 use CommonDropdown;
 use DbUtils;
 use Dropdown;
+use Glpi\Application\View\TemplateRenderer;
 use Html;
 use Plugin;
 use PluginFieldsContainer;
@@ -219,70 +221,24 @@ class ImpactInfo extends CommonDBTM
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Item type') . "</td>";
-        echo "<td>";
-        $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields.php";
+        // Item type selector (new tooltip) or name; the field list is loaded by
+        // public/scripts/impactinfo_fields.js
+        $types = null;
         if ($this->isNewID($this->getID())) {
             // all types available for impact analysis, custom assets included
-            $availableTypes = [];
+            $types = [];
             foreach (self::getAllowedItemtypes() as $type) {
-                $availableTypes[$type] = $type::getTypeName();
+                $types[$type] = $type::getTypeName();
             }
-            $rand = mt_rand();
-            Dropdown::showFromArray(
-                'itemtype',
-                $availableTypes,
-                [
-                    'value' => $this->fields['itemtype'],
-                    'rand' => $rand,
-                    'required' => true,
-                    'display_emptychoice' => true,
-                ],
-            );
-            echo "
-            <script>
-                $(document).ready(function() {
-                    const selectType = $('#dropdown_itemtype$rand');
-                    const fieldsForm = $('#fieldsForm');
-                    selectType.change(e => {
-                        fieldsForm[0].innerHTML = '<div class=\"d-flex justify-content-center\"><i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i></div>';
-                        fieldsForm.load('$url', {
-                            'id' : $ID,
-                            'itemtype' : e.target.options[e.target.selectedIndex].value
-                        });
-                    })
-                });
-            </script>
-        ";
-        } else {
-            $itemtype = $this->fields['itemtype'];
-            // A namespaced itemtype — every custom asset, and the CI types of this plugin —
-            // dropped verbatim between JS quotes has its backslashes read as escape sequences:
-            // 'Glpi\CustomAsset\FooAsset' reached the endpoint as "GlpiCustomAssetFooAsset",
-            // which no longer resolves to a class and was answered with a 400. Emit a real JS
-            // literal instead. HEX_TAG/HEX_AMP only: quoting the delimiters would break it.
-            $itemtype_js = json_encode($itemtype, JSON_HEX_TAG | JSON_HEX_AMP);
-            echo htmlescape($itemtype::getTypeName());
-            echo "
-            <script>
-                $(document).ready(function() {
-                    const fieldsForm = $('#fieldsForm');
-                    fieldsForm[0].innerHTML = '<div class=\"d-flex justify-content-center\"><i class=\"fas fa-3x fa-spinner fa-pulse m-2\"></i></div>';
-                    fieldsForm.load('$url', {
-                        'id' : $ID,
-                        'itemtype' : $itemtype_js
-                    });
-                });
-            </script>
-        ";
         }
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1' id='fieldsForm'>";
-        echo "</tr>";
-
+        $itemtype = (string) ($this->fields['itemtype'] ?? '');
+        TemplateRenderer::getInstance()->display('@cmdb/impactinfo_itemtype.html.twig', [
+            'fields_url' => PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields.php",
+            'id'         => (int) $ID,
+            'itemtype'   => $itemtype,
+            'types'      => $types,
+            'typename'   => $types === null && is_a($itemtype, CommonGLPI::class, true) ? $itemtype::getTypeName() : '',
+        ]);
         $this->showFormButtons($options);
 
         return true;
@@ -408,17 +364,11 @@ class ImpactInfo extends CommonDBTM
                 'glpi_plugin_cmdb_impactinfofields.order ASC',
             );
 
-            // tooltip header
-            echo "<div class='d-flex justify-content-between pt-1'>
-            <strong>" . htmlescape($item->getTypeName()) . " : <a href='" . htmlescape($item->getFormUrlWithID(
-                $item->getID(),
-            ) . "&forcetab=main") . "' target='blank'>" . htmlescape($item->getFriendlyName()) . "</a></strong>
-            <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
-        </div>";
+            // Groups of cells of templates/impactinfo_tooltip.html.twig: label (text) and
+            // value (pre-escaped HTML)
+            $groups = [];
             if (count($fieldsToShow)) {
                 global $DB, $CFG_GLPI;
-
-                echo "<table><tbody>";
 
                 // fields for items with searchoptions
                 $baseFields = array_filter($fieldsToShow, fn($e) => ($e['type'] == 'glpi' || $e['type'] == 'cmdb'));
@@ -468,10 +418,8 @@ class ImpactInfo extends CommonDBTM
                     $data = $queryData['data']['rows'][0] ?? [];
                     $dbu = new DbUtils();
                     $baseFields = array_values($baseFields);
+                    $cells = [];
                     foreach ($baseFields as $index => $field) {
-                        if ($index % 2 === 0) {
-                            echo "<tr>";
-                        }
                         // field_id is now confronted with getFieldsForItemtype() at write
                         // time, but rows persisted before that check — or a search option
                         // withdrawn from the itemtype since — would still index a key that
@@ -529,15 +477,11 @@ class ImpactInfo extends CommonDBTM
                             $value = preg_replace('/' . Search::LBHR . '/', '<hr>', $value);
                             $display .= $value;
                         }
-                        $colspan = count($baseFields) > 1 ? 1 : 2;
-                        $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
-                        echo "<td colspan='$colspan' class='$classes'>";
-                        echo htmlescape($label) . ' : ' . $display;
-                        echo "</td>";
-                        // every other infos, or if only one
-                        if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
-                            echo "</tr>";
-                        }
+                        // $display is the formatted value of the search engine (HTML)
+                        $cells[] = ['label' => (string) $label, 'value' => $display];
+                    }
+                    if ($cells !== []) {
+                        $groups[] = $cells;
                     }
                 }
 
@@ -547,13 +491,9 @@ class ImpactInfo extends CommonDBTM
                     $ciValue = new CiValues();
                     $ciField = new CiFields();
                     $cmdbFields = array_values($cmdbFields);
+                    $cells = [];
                     foreach ($cmdbFields as $index => $field) {
-                        if ($index % 2 === 0) {
-                            echo "<tr>";
-                        }
                         $value = '';
-                        $colspan = count($cmdbFields) > 1 ? 1 : 2;
-                        $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
                         if ($ciField->getFromDB($field['field_id'])) {
                             if ($ciValue->getFromDBByCrit([
                                 'itemtype' => $item->getType(),
@@ -562,13 +502,11 @@ class ImpactInfo extends CommonDBTM
                             ])) {
                                 $value = $ciValue->fields['value'];
                             }
-                            echo "<td colspan='$colspan' class='$classes'>";
-                            echo htmlescape($ciField->fields['name']) . ' : ' . htmlescape($value);
-                            echo "</td>";
+                            $cells[] = ['label' => (string) $ciField->fields['name'], 'value' => htmlescape((string) $value)];
                         }
-                        if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
-                            echo "</tr>";
-                        }
+                    }
+                    if ($cells !== []) {
+                        $groups[] = $cells;
                     }
                 }
 
@@ -581,6 +519,7 @@ class ImpactInfo extends CommonDBTM
                         $pluginFieldsContainer = new PluginFieldsContainer();
                         $containers = [];
                         $pluginFields = array_values($pluginFields);
+                        $cells = [];
                         foreach ($pluginFields as $index => $field) {
                             if ($pluginFieldsField->getFromDB($field['field_id'])) {
                                 $container = array_filter(
@@ -666,45 +605,42 @@ class ImpactInfo extends CommonDBTM
                                         $value = $values[$fieldData['name']];
                                     }
                                 }
-                                if ($index % 2 === 0) {
-                                    echo "<tr>";
-                                }
-                                $colspan = count($pluginFields) > 1 ? 1 : 2;
-                                $classes = $colspan == 1 && $index % 2 === 0 ? 'pe-4' : '';
-                                echo "<td colspan='$colspan' class='$classes'>";
-                                echo htmlescape($pluginFieldsField->fields['label']) . ' : ' . htmlescape($value);
-                                echo "</td>";
-                                if (($index === 1 || $index % 2 === 1) || $colspan === 2) {
-                                    echo "</tr>";
-                                }
+                                $cells[] = [
+                                    'label' => (string) $pluginFieldsField->fields['label'],
+                                    'value' => htmlescape((string) $value),
+                                ];
                             }
                         }
-                        echo "</div>";
+                        if ($cells !== []) {
+                            $groups[] = $cells;
+                        }
                     }
                 }
 
-                echo "</table></tbody>";
+                TemplateRenderer::getInstance()->display('@cmdb/impactinfo_tooltip.html.twig', [
+                    'typename' => $item->getTypeName(),
+                    'url'      => $item->getFormUrlWithID($item->getID()) . "&forcetab=main",
+                    'title'    => $item->getFriendlyName(),
+                    'message'  => '',
+                    'groups'   => $groups,
+                ]);
             } else {
-                // tooltip header
-                echo "<div class='d-flex justify-content-end pt-1'>
-            <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
-        </div>";
-                echo "<div class='text-center'>";
                 // Since GLPI 10 getTypeName() is no longer always a code constant: for a
-                // custom asset it is a label an administrator typed and the core stores raw.
-                echo sprintf(__('No tooltip content set for itemtype %s', 'cmdb'), htmlescape($item->getTypeName()));
-                echo '</div>';
+                // custom asset it is a label an administrator typed and the core stores raw
+                // (escaped by the template)
+                TemplateRenderer::getInstance()->display('@cmdb/impactinfo_tooltip.html.twig', [
+                    'title'   => '',
+                    'message' => sprintf(__('No tooltip content set for itemtype %s', 'cmdb'), $item->getTypeName()),
+                    'groups'  => [],
+                ]);
             }
         } else {
-            // tooltip header
-            echo "<div class='d-flex justify-content-end pt-1'>
-            <i class=\"fa fa-times fs-2\" aria-hidden=\"true\" style='cursor:pointer' id='close-cmdb-tooltip'></i>
-        </div>";
-            echo "<div class='text-center'>";
-            // The fallback branch on $itemtype was already escaped; align the other one.
-            $typename = ($item = getItemForItemtype($itemtype)) ? htmlescape($item->getTypeName()) : htmlescape($itemtype);
-            echo sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $typename);
-            echo '</div>';
+            $typename = ($item = getItemForItemtype($itemtype)) ? $item->getTypeName() : (string) $itemtype;
+            TemplateRenderer::getInstance()->display('@cmdb/impactinfo_tooltip.html.twig', [
+                'title'   => '',
+                'message' => sprintf(__('No tooltip set for itemtype %s', 'cmdb'), $typename),
+                'groups'  => [],
+            ]);
         }
     }
 
@@ -712,117 +648,18 @@ class ImpactInfo extends CommonDBTM
      * @param string $key cmdb, glpi, or fields
      * @param array $availableFields options for the dropdown
      * @param string $itemtype
-     * @return void
+     * @return string selector of the fields not used yet (public/scripts/impactinfo_fields.js
+     *                adds the chosen one to the list of its column)
      */
-    public static function makeDropdown($key, $availableFields, $itemtype)
+    public static function makeDropdown($key, $availableFields, $itemtype): string
     {
-
-        $rand = mt_rand();
-        Dropdown::showFromArray(
+        return (string) Dropdown::showFromArray(
             $key,
             $availableFields,
             [
                 'display_emptychoice' => true,
-                'rand' => $rand,
+                'display'             => false,
             ],
         );
-        $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_infos_fields_dropdown.php";
-        // Same reason as showForm(): a namespaced itemtype is not a plain JS string.
-        $itemtype_js = json_encode($itemtype, JSON_HEX_TAG | JSON_HEX_AMP);
-
-        echo "
-            <script>
-                $(document).ready(function() {
-                    const select$key = $('#dropdown_$key$rand');
-                    const col$key = document.getElementById('$key-fields');
-                    const container$key = $('#$key-select');
-                    select$key.change(e => {
-                        let usedFields = col$key.querySelectorAll('div[id^=\"field$key\"]');
-                        const fieldId = e.target.options[e.target.selectedIndex].value
-                        // create an element corresponding to the new field in the displayed list
-                        const newDiv = document.createElement('div');
-                        newDiv.id = 'field$key'+fieldId;
-                        newDiv.className = 'd-flex align-items-center justify-content-between border rounded m-1 p-2';
-                        col$key.append(newDiv);
-
-                        let orderValue = 1;
-                        usedFields.forEach(u => {
-                            const inputOrder = u.querySelector('input[name$=\"[order]\"]');
-                            if (inputOrder.value >= orderValue) orderValue = parseInt(inputOrder.value) + 1;
-                        })
-                        const orderSpan = document.createElement('span');
-                        const orderLabel = document.createElement('label');
-                        orderLabel.innerText = __('Order', 'cmdb');
-                        orderSpan.append(orderLabel);
-                        const orderInput = document.createElement('input');
-                        orderInput.type = 'number';
-                        orderInput.name = '$key-fields['+fieldId+'][order]';
-                        orderInput.value = orderValue;
-                        orderInput.classList = 'ms-2';
-                        orderInput.style.maxWidth = '5rem'
-                        orderSpan.append(orderInput);
-
-                        newDiv.append(orderSpan);
-                        const fieldLabel = document.createElement('strong');
-                        fieldLabel.innerText = e.target.options[e.target.selectedIndex].innerText;
-                        newDiv.append(fieldLabel);
-                        const hiddenInputType = document.createElement('input');
-                        hiddenInputType.type = 'hidden';
-                        hiddenInputType.name = '$key-fields['+fieldId+'][type]';
-                        hiddenInputType.value = '$key';
-                        newDiv.append(hiddenInputType);
-                        const hiddenInputField = document.createElement('input');
-                        hiddenInputField.type = 'hidden';
-                        hiddenInputField.name = '$key-fields['+fieldId+'][field_id]';
-                        hiddenInputField.value = fieldId;
-                        newDiv.append(hiddenInputField);
-                        // add an icon to delete the element
-                        const deleteButton = document.createElement('span');
-                        deleteButton.title = __('Delete');
-                        deleteButton.style.cursor = 'pointer';
-                        deleteButton.classList = 'mx-2';
-                        deleteButton.innerHTML = '<i class=\"fa fa-times fs-2\" aria-hidden=\"true\"></i>';
-                        deleteButton.addEventListener('click', e => {
-                            let nextElement = newDiv.nextElementSibling;
-                            while(nextElement) {
-                                if (nextElement.tagName.toLowerCase() == 'div') {
-                                    const inputOrder = nextElement.querySelector('input[name$=\"[order]\"]');
-                                    inputOrder.value = inputOrder.value - 1;
-                                }
-                                nextElement = nextElement.nextElementSibling;
-                            }
-                            col$key.removeChild(newDiv);
-                            // get all selected fields
-                            const usedFields2 = col$key.querySelectorAll('div[id^=\"field$key\"]');
-                            let values = [];
-                            usedFields2.forEach(e => {
-                                const inputValue = e.getElementsByTagName('input')[1];
-                                values.push(inputValue.value);
-                            })
-                            // regenerate the select with the updated options
-                            container$key.load('$url', {
-                                'key' : '$key',
-                                'itemtype' : $itemtype_js,
-                                'used' : values
-                            });
-                        })
-                        newDiv.append(deleteButton);
-
-                        // get all selected fields
-                        usedFields = col$key.querySelectorAll('div[id^=\"field$key\"]');
-                        let values = [];
-                        usedFields.forEach(e => {
-                            const inputValue = e.querySelector('input[name$=\"[field_id]\"]')
-                            values.push(inputValue.value);
-                        })
-                        // regenerate the select with the updated options
-                        container$key.load('$url', {
-                            'key' : '$key',
-                            'itemtype' : $itemtype_js,
-                            'used' : values
-                        });
-                    })
-                });
-            </script>";
     }
 }

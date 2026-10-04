@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use BusinessCriticity;
 use CommonDBTM;
 use CommonGLPI;
@@ -147,66 +148,33 @@ class Criticity extends CommonDBTM
             $criciticies = $criticity->find();
         }
 
-        echo "<form method='post' action='" . self::getFormURL() . "'>";
-        echo "<div class='spaced'><table class='tab_cadre_fixe'>";
-        echo "<tr><th colspan='4'>" . __('Criticity', 'cmdb') . "</th></tr>";
-
-        echo "<tr><td>" . __('Color') . "</td>";
-        echo "<td>";
-        Html::showColorField(
-            'color',
-            ['value' => $criticity->getField('color')],
-        );
-        echo "</td>";
-
-        echo "<td>";
-        echo __('Level');
-        echo "</td>";
-        echo "<td>";
-
         $used = [];
         foreach ($criciticies as $criciticy) {
             $used[$criciticy['level']] = $criciticy['level'];
         }
 
-        if (5 <= count($used)) {
-            echo __('All levels have already been added', 'cmdb');
-        } else {
-            $number    = [];
-            $number[1] = 1;
-            $number[2] = 2;
-            $number[3] = 3;
-            $number[4] = 4;
-            $number[5] = 5;
-
-            Dropdown::showFromArray('level', $number, ['value' => $criticity->getField('level'),
-                'used'  => $used]);
+        $level_field = null;
+        if (5 > count($used)) {
+            $level_field = Dropdown::showFromArray(
+                'level',
+                [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5],
+                ['value' => $criticity->getField('level'), 'used' => $used, 'display' => false],
+            );
         }
 
-        echo "</td>";
-        echo "</tr>";
-
-        echo Html::hidden('id', ['value' => $criticity->getID()]);
-        echo Html::hidden('businesscriticities_id', ['value' => $ID]);
-
-        if ($criticity->getID() < 1 && self::canCreate()) {
-            echo "<tr><th colspan='4'>";
-            echo Html::submit(_x('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
-            echo "</th></tr>";
-        }
-        if ($criticity->getID() > 0 && self::canUpdate()) {
-            echo "<tr><th colspan='4'>";
-            echo Html::submit(_x('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
-            echo "</th></tr>";
-        }
-        if ($criticity->getID() > 0 && self::canPurge()) {
-            echo "<tr><th colspan='4' style='text-align:right'>";
-            echo Html::submit(_sx('button', 'Delete permanently'), ['name' => 'purge', 'class' => 'btn btn-primary']);
-            echo "</th></tr>";
-        }
-        echo "</table></div>";
-        Html::closeForm();
-
+        TemplateRenderer::getInstance()->display('@cmdb/criticity_form.html.twig', [
+            'action'                 => self::getFormURL(),
+            'color_field'            => Html::showColorField('color', [
+                'value'   => $criticity->getField('color'),
+                'display' => false,
+            ]),
+            'level_field'            => $level_field,
+            'id'                     => (int) $criticity->getID(),
+            'businesscriticities_id' => (int) $ID,
+            'can_add'                => $criticity->getID() < 1 && self::canCreate(),
+            'can_update'             => $criticity->getID() > 0 && self::canUpdate(),
+            'can_purge'              => $criticity->getID() > 0 && self::canPurge(),
+        ]);
     }
 
     /**
@@ -470,30 +438,16 @@ class Criticity extends CommonDBTM
 
         $itemtype = $item::getType();
 
-        echo "<table class='tab_cadre_fixe'><tr class='tab_bg_1'>";
-        $colspan = 4;
-
-        if (strpos($itemtype, "GlpiPlugin\Cmdb") !== false
-              && $itemtype != OperationProcess::class) {
-            $colspan = 2;
-        }
-        echo "<th colspan='$colspan'>" . Cmdb::getTypeName() . "</th>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1' id='plugin_cmdb_tr'>";
-        echo "<td>" . Criticity_Item::getTypeName(1) . "</td>";
-        echo "<td>";
-        $crit = new Criticity();
-        $crit->criticityDropdown(["itemtype" => $itemtype,
-            "items_id" => $item->getID()]);
-        echo "</td>";
-        if (strpos($itemtype, "GlpiPlugin\Cmdb") === false
-            || $itemtype == OperationProcess::class) {
-            echo "<td colspan='2'></td>";
-        }
-        echo "</tr></table>";
-
+        $is_cmdb_class = strpos($itemtype, "GlpiPlugin\Cmdb") !== false && $itemtype != OperationProcess::class;
+        $crit          = new Criticity();
+        TemplateRenderer::getInstance()->display('@cmdb/criticity_field.html.twig', [
+            'with_header' => true,
+            'title'       => Cmdb::getTypeName(),
+            'colspan'     => $is_cmdb_class ? 2 : 4,
+            'label'       => Criticity_Item::getTypeName(1),
+            'dropdown'    => $crit->getCriticityDropdown(['itemtype' => $itemtype, 'items_id' => $item->getID()]),
+            'pad'         => !$is_cmdb_class,
+        ]);
     }
 
     /**
@@ -502,6 +456,16 @@ class Criticity extends CommonDBTM
      * @param array $options
      */
     public function criticityDropdown($options = [])
+    {
+        echo $this->getCriticityDropdown($options);
+    }
+
+    /**
+     * Criticity selector of an asset (empty string for an unknown itemtype)
+     *
+     * @param array<string, mixed> $options
+     */
+    public function getCriticityDropdown($options = []): string
     {
 
         //default options
@@ -521,13 +485,12 @@ class Criticity extends CommonDBTM
         $items_id = (int) ($options['items_id'] ?? 0);
 
         if (!$obj = getItemForItemtype($itemtype)) {
-            return;
+            return '';
         }
         if (!$obj instanceof CommonDBTM) {
-            return;
+            return '';
         }
 
-        echo "<span style='width:80%'>";
 
         $value          = 0;
         $criticity_item = new Criticity_Item();
@@ -545,18 +508,11 @@ class Criticity extends CommonDBTM
         // Read access is enough to reach this dropdown (addFieldCriticity() only checks
         // READ); posting it is an update of the link, so render it read-only rather than
         // offering a control whose submission preUpdateItemCriticity() will now refuse.
-        Dropdown::showFromArray("_plugin_cmdb_criticity_items", $tabCriticity, [
+        return (string) Dropdown::showFromArray("_plugin_cmdb_criticity_items", $tabCriticity, [
             "value"    => $value,
             "readonly" => !Criticity_Item::canUpdate(),
+            'display'  => false,
         ]);
-
-        echo "</span>";
-
-        //      echo "<script type='text/javascript' >
-        //      window.updateTagSelectResults_" . $params['rand'] . " = function () {
-        //
-        //      }
-        //      </script>";
     }
 
 }

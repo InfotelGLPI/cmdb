@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use CommonGLPI;
 use DbUtils;
 use Html;
@@ -116,68 +117,36 @@ class Profile extends \Profile
      * */
     public function showForm($profiles_id = 0, $openform = true, $closeform = true)
     {
-        echo "<div class='firstbloc'>";
         $profile = new \Profile();
-        // Computed once, up front, so that every control below shares the same gate:
-        // the Helpdesk checkbox used to be rendered outside it and disclosed a slice of
-        // the profile configuration to a read-only viewer, on a control the core would
-        // have refused to save anyway.
+        // Computed once, up front, so that every control shares the same gate: the Helpdesk
+        // checkbox used to be rendered outside it and disclosed a slice of the profile
+        // configuration to a read-only viewer, on a control the core would have refused to
+        // save anyway.
         $canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE]);
-        if ($canedit && $openform) {
-            echo "<form method='post' action='" . $profile->getFormURL() . "'>";
 
-            $profile->getFromDB($profiles_id);
-
-            if ($profile->getField('interface') == 'central') {
-
-                $rights = $this->getCIRights();
-                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                    'default_class' => 'tab_bg_2',
-                    'title'         => __('Item Configuration', 'cmdb')]);
-                $rights = $this->getCITypeRights();
-                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                    'default_class' => 'tab_bg_2',
-                    'title'         => __('Type of item configuration', 'cmdb')]);
-                $rights = $this->getOperationProcessRights();
-                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                    'default_class' => 'tab_bg_2',
-                    'title'         => _n('Service', 'Services', 2, 'cmdb')]);
-                $rights = $this->getImpactIconRights();
-                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                    'default_class' => 'tab_bg_2',
-                    'title'         => ImpactIcon::getTypeName(2)]);
-
-                $rights = $this->getImpactInfoRights();
-                $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
-                    'default_class' => 'tab_bg_2',
-                    'title'         => ImpactInfo::getTypeName(2)]);
-            }
+        $matrices = [];
+        if ($canedit && $profile->getFromDB($profiles_id) && $profile->getField('interface') == 'central') {
+            $matrices = [
+                ['rights' => $this->getCIRights(), 'title' => __('Item Configuration', 'cmdb')],
+                ['rights' => $this->getCITypeRights(), 'title' => __('Type of item configuration', 'cmdb')],
+                ['rights' => $this->getOperationProcessRights(), 'title' => _n('Service', 'Services', 2, 'cmdb')],
+                ['rights' => $this->getImpactIconRights(), 'title' => ImpactIcon::getTypeName(2)],
+                ['rights' => $this->getImpactInfoRights(), 'title' => ImpactInfo::getTypeName(2)],
+            ];
         }
 
-        // The Helpdesk right is part of the same editable set as the matrices above.
-        if ($canedit) {
-            echo "<table class='tab_cadre_fixehov'>";
-            echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Helpdesk') . "</th></tr>\n";
+        $open_ticket = $canedit
+            ? ProfileRight::getProfileRights($profiles_id, ['plugin_cmdb_operationprocesses_open_ticket'])['plugin_cmdb_operationprocesses_open_ticket'] ?? 0
+            : 0;
 
-            $effective_rights = ProfileRight::getProfileRights($profiles_id, ['plugin_cmdb_operationprocesses_open_ticket']);
-            echo "<tr class='tab_bg_2'>";
-            echo "<td width='20%'>" . __('Associable items to a ticket') . "</td>";
-            echo "<td colspan='5'>";
-            Html::showCheckbox(['name'    => '_plugin_cmdb_operationprocesses_open_ticket',
-                'checked' => $effective_rights['plugin_cmdb_operationprocesses_open_ticket']]);
-            echo "</td></tr>\n";
-            echo "</table>";
-        }
-
-        if ($canedit && $closeform) {
-            echo "<div class='center'>";
-            echo Html::hidden('id', ['value' => $profiles_id]);
-            echo Html::submit(_sx('button', 'Save'), ['name' => 'update', 'class' => 'btn btn-primary']);
-            echo "</div>\n";
-            Html::closeForm();
-        }
-
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('@cmdb/profile.html.twig', [
+            'canedit'     => $canedit,
+            'action'      => $profile->getFormURL(),
+            'profile'     => $profile,
+            'id'          => (int) $profiles_id,
+            'matrices'    => $matrices,
+            'open_ticket' => (bool) $open_ticket,
+        ]);
     }
 
     /**

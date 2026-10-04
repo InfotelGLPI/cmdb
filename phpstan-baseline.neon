@@ -409,12 +409,6 @@ parameters:
 			path: src/OperationProcess.php
 
 		-
-			message: '#^Parameter \#4 \$toobserve of static method Ajax\:\:updateItem\(\) expects string, false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/OperationProcess.php
-
-		-
 			message: '#^Return type \(GlpiPlugin\\Cmdb\\an\) of method GlpiPlugin\\Cmdb\\OperationProcess\:\:rawSearchOptions\(\) should be compatible with return type \(array\<array\<string, mixed\>\>\) of method CommonDBTM\:\:rawSearchOptions\(\)$#'
 			identifier: method.childReturnType
 			count: 1
@@ -459,12 +453,6 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$operationprocess of static method GlpiPlugin\\Cmdb\\OperationProcess_Item\:\:showForOperationProcess\(\) expects GlpiPlugin\\Cmdb\\OperationProcess, CommonGLPI given\.$#'
 			identifier: argument.type
-			count: 1
-			path: src/OperationProcess_Item.php
-
-		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
 			count: 1
 			path: src/OperationProcess_Item.php
 

@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use CommonDBRelation;
 use CommonDBTM;
 use CommonGLPI;
@@ -250,64 +251,24 @@ class OperationProcess_Item extends CommonDBRelation
 
         $number = count($iterator);
 
-        if (Session::isMultiEntitiesMode()) {
-            $colsup = 1;
-        } else {
-            $colsup = 0;
-        }
-
         if ($canedit) {
-            echo "<div class='firstbloc'>";
-            echo "<form method='post' name='operationprocesses_form$rand' id='operationprocesses_form$rand'
-         action='" . Toolbox::getItemTypeFormURL(OperationProcess::class) . "'>";
-
-            echo "<table class='tab_cadre_fixe'>";
-            echo "<tr class='tab_bg_2'><th colspan='" . ($canedit ? (5 + $colsup) : (4 + $colsup)) . "'>" .
-                 __('Add an item') . "</th></tr>";
-
-            echo "<tr class='tab_bg_1'><td colspan='" . (3 + $colsup) . "' class='center'>";
-            // Html::hidden() forwards every key but "value" to Html::parseAttributes(), so
-            // this emitted <input name="id" plugin_cmdb_operationprocesses_id="..."> with an
-            // empty value: the id the form was supposed to carry never reached addItem(),
-            // which read it back undefined and stored 0.
-            echo Html::hidden('plugin_cmdb_operationprocesses_id', ['value' => $instID]);
-
-            Dropdown::showSelectItemFromItemtypes(['items_id_name'   => 'items_id',
-                'itemtypes'       => OperationProcess::getTypes(),
-                'entity_restrict' => ($operationprocess->fields['is_recursive'] ? -1 : $operationprocess->fields['entities_id']),
-                'checkright'
-                                  => true,
+            TemplateRenderer::getInstance()->display('@cmdb/operationprocess_add_item.html.twig', [
+                'action'   => Toolbox::getItemTypeFormURL(OperationProcess::class),
+                'title'    => __('Add an item'),
+                'hidden'   => ['plugin_cmdb_operationprocesses_id' => $instID],
+                'selector' => Dropdown::showSelectItemFromItemtypes([
+                    'items_id_name'   => 'items_id',
+                    'itemtypes'       => OperationProcess::getTypes(),
+                    'entity_restrict' => ($operationprocess->fields['is_recursive'] ? -1 : $operationprocess->fields['entities_id']),
+                    'checkright'      => true,
+                    'display'         => false,
+                ]),
+                'button'   => _x('button', 'Add'),
             ]);
-            echo "</td>";
-            echo "<td colspan='2' class='tab_bg_2'>";
-            echo Html::submit(_sx('button', 'Add'), ['name' => 'additem', 'class' => 'btn btn-primary']);
-            echo "</td></tr>";
-            echo "</table>";
-            Html::closeForm();
-            echo "</div>";
         }
 
-        echo "<div class='spaced'>";
-        if ($canedit && $number) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = [];
-            Html::showMassiveActions($massiveactionparams);
-        }
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr>";
-
-        if ($canedit && $number) {
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-        }
-
-        echo "<th>" . __('Type') . "</th>";
-        echo "<th>" . __('Name') . "</th>";
-        if (Session::isMultiEntitiesMode()) {
-            echo "<th>" . __('Entity') . "</th>";
-        }
-        echo "</tr>";
-
-        $dbu = new DbUtils();
+        $dbu     = new DbUtils();
+        $entries = [];
 
         foreach ($iterator as $data) {
             $itemType = $data["itemtype"];
@@ -331,13 +292,15 @@ class OperationProcess_Item extends CommonDBRelation
                 $operationprocess_table = 'glpi_plugin_cmdb_operationprocesses_items';
                 $fk                     = 'plugin_cmdb_operationprocesses_id';
 
+                // The legacy request($tables, $criteria) signature is refused by GLPI 11
+                // ("Missing table name"): the tables go to FROM
                 $iterator_item = $DB->request(
-                    [$operationprocess_table, $itemTable],
-                    ['SELECT'    => [
-                        "$itemTable.*",
-                        "$operationprocess_table.id AS items_id",
-                        "glpi_entities.id AS entity",
-                    ],
+                    ['FROM'      => [$operationprocess_table, $itemTable],
+                        'SELECT'    => [
+                            "$itemTable.*",
+                            "$operationprocess_table.id AS items_id",
+                            "glpi_entities.id AS entity",
+                        ],
                         'LEFT JOIN' => [
                             'glpi_entities' => [
                                 'FKEY' => [
@@ -356,62 +319,57 @@ class OperationProcess_Item extends CommonDBRelation
                 );
 
                 if (count($iterator_item)) {
-
                     Session::initNavigateListItems(
                         $itemType,
                         OperationProcess::getTypeName(2) . " = " . $operationprocess->fields['name'],
                     );
 
-                    foreach ($iterator_item as $data) {
-                        $item->getFromDB($data["id"]);
-
-                        Session::addToNavigateListItems($itemType, $data["id"]);
+                    foreach ($iterator_item as $row) {
+                        Session::addToNavigateListItems($itemType, $row["id"]);
 
                         $ID = "";
-
-                        if ($_SESSION["glpiis_ids_visible"] || empty($data["name"])) {
-                            $ID = " (" . $data["id"] . ")";
+                        if ($_SESSION["glpiis_ids_visible"] || empty($row["name"])) {
+                            $ID = " (" . $row["id"] . ")";
                         }
-
-                        $link = Toolbox::getItemTypeFormURL($itemType);
-                        $n    = $data["name"];
+                        $n = $row["name"];
                         if ($itemType == "User") {
-                            $n = $dbu->getUserName($data["id"]);
-                        }
-                        $name = "<a href=\"" . htmlescape($link) . "?id=" . (int) $data["id"] . "\">"
-                                . htmlescape($n) . htmlescape($ID) . "</a>";
-
-                        echo "<tr class='tab_bg_1'>";
-
-                        if ($canedit) {
-                            echo "<td width='10'>";
-                            Html::showMassiveActionCheckBox(__CLASS__, $data["items_id"]);
-                            echo "</td>";
-                        }
-                        // registerType() lets any itemtype be linked here, including a custom
-                        // asset whose type name is free text: escape it like the sibling cells.
-                        echo "<td class='center'>" . htmlescape($item::getTypeName(1)) . "</td>";
-
-                        echo "<td class='center' " . (isset($data['is_deleted']) && $data['is_deleted'] ? "class='tab_bg_2_2'" : "") .
-                             ">" . $name . "</td>";
-
-                        if (Session::isMultiEntitiesMode()) {
-                            echo "<td class='center'>" . htmlescape(Dropdown::getDropdownName("glpi_entities", $data['entity'])) . "</td>";
+                            $n = $dbu->getUserName($row["id"]);
                         }
 
-                        echo "</tr>";
+                        $entries[] = [
+                            'itemtype' => self::class,
+                            'id'       => $row["items_id"],
+                            'row_class' => !empty($row['is_deleted']) ? 'tab_bg_2_2' : '',
+                            // registerType() lets any itemtype be linked here, including a
+                            // custom asset whose type name is free text: escaped by the datatable
+                            'type'     => $item::getTypeName(1),
+                            'name'     => "<a href=\"" . htmlescape(Toolbox::getItemTypeFormURL($itemType)) . "?id=" . (int) $row["id"] . "\">"
+                                          . htmlescape($n) . htmlescape($ID) . "</a>",
+                            'entity'   => Dropdown::getDropdownName("glpi_entities", $row['entity']),
+                        ];
                     }
                 }
             }
         }
-        echo "</table>";
 
-        if ($canedit && $number) {
-            $paramsma['ontop'] = false;
-            Html::showMassiveActions($paramsma);
-            Html::closeForm();
+        $columns = ['type' => __('Type'), 'name' => __('Name')];
+        if (Session::isMultiEntitiesMode()) {
+            $columns['entity'] = __('Entity');
         }
-        echo "</div>";
+        TemplateRenderer::getInstance()->display('components/datatable.html.twig', [
+            'is_tab'              => true,
+            'nofilter'            => true,
+            'columns'             => $columns,
+            'formatters'          => ['name' => 'raw_html'],
+            'entries'             => $entries,
+            'total_number'        => count($entries),
+            'filtered_number'     => count($entries),
+            'showmassiveactions'  => $canedit && $number,
+            'massiveactionparams' => [
+                'num_displayed' => count($entries),
+                'container'     => 'mass' . str_replace('\\', '', self::class) . $rand,
+            ],
+        ]);
     }
 
     /**
@@ -528,60 +486,33 @@ class OperationProcess_Item extends CommonDBRelation
                                              ),
             );
 
-            echo "<div class='firstbloc'>";
-
             if (Session::haveRight('plugin_cmdb_operationprocesses', READ)
                 && ($nb > count($used))) {
-                echo "<form name='operationprocess_form$rand' id='operationprocess_form$rand' method='post'
-                   action='" . Toolbox::getItemTypeFormURL(OperationProcess::class) . "'>";
-                echo "<table class='tab_cadre_fixe'>";
-                echo "<tr class='tab_bg_1'>";
-                echo "<td colspan='4' class='center'>";
-                echo Html::hidden('entities_id', ['value' => $entity]);
-                echo Html::hidden('is_recursive', ['value' => $is_recursive]);
-                echo Html::hidden('itemtype', ['value' => $item->getType()]);
-                echo Html::hidden('items_id', ['value' => $ID]);
-
+                $hidden = [
+                    'entities_id'  => $entity,
+                    'is_recursive' => (int) $is_recursive,
+                    'itemtype'     => $item->getType(),
+                    'items_id'     => $ID,
+                ];
                 if ($item->getType() == 'Ticket') {
-                    echo Html::hidden('tickets_id', ['value' => $ID]);
+                    $hidden['tickets_id'] = $ID;
                 }
-
-                OperationProcess::dropdownOperationProcess(['entity' => $entities,
-                    'used'   => $used]);
-
-                echo "</td><td class='center' width='20%'>";
-                echo Html::submit(_sx('button', 'Associate a service', 'cmdb'), ['name' => 'additem', 'class' => 'btn btn-primary']);
-                echo "</td>";
-                echo "</tr>";
-                echo "</table>";
-                Html::closeForm();
+                TemplateRenderer::getInstance()->display('@cmdb/operationprocess_add_item.html.twig', [
+                    'action'   => Toolbox::getItemTypeFormURL(OperationProcess::class),
+                    'title'    => '',
+                    'hidden'   => $hidden,
+                    'selector' => OperationProcess::dropdownOperationProcess([
+                        'entity'  => $entities,
+                        'used'    => $used,
+                        'display' => false,
+                    ]),
+                    'button'   => __('Associate a service', 'cmdb'),
+                ]);
             }
-
-            echo "</div>";
         }
 
-        echo "<div class='spaced'>";
-        if ($canedit && $number && ($withtemplate < 2)) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = ['num_displayed' => $number];
-            Html::showMassiveActions($massiveactionparams);
-        }
-        echo "<table class='tab_cadre_fixe'>";
-
-        echo "<tr>";
-        if ($canedit && $number && ($withtemplate < 2)) {
-            echo "<th width='10'>" . Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand) . "</th>";
-        }
-        echo "<th>" . __('Name') . "</th>";
-        if (Session::isMultiEntitiesMode()) {
-            echo "<th>" . __('Entity') . "</th>";
-        }
-        echo "<th>" . OperationProcessState::getTypeName(1) . "</th>";
-        echo "</tr>";
-        $used = [];
-
+        $entries = [];
         if ($number) {
-
             Session::initNavigateListItems(
                 OperationProcess::class,
                 //TRANS : %1$s is the itemtype name,
@@ -603,33 +534,39 @@ class OperationProcess_Item extends CommonDBRelation
 
                 Session::addToNavigateListItems(OperationProcess::class, $operationprocessID);
 
-                $used[$operationprocessID] = $operationprocessID;
-
-                echo "<tr class='tab_bg_1" . ($data["is_deleted"] ? "_2" : "") . "'>";
-                if ($canedit && ($withtemplate < 2)) {
-                    echo "<td width='10'>";
-                    Html::showMassiveActionCheckBox(__CLASS__, $data["assocID"]);
-                    echo "</td>";
-                }
-                echo "<td class='center'>$link</td>";
-                if (Session::isMultiEntitiesMode()) {
-                    echo "<td class='center'>" . htmlescape(Dropdown::getDropdownName("glpi_entities", $data['entities_id'])) .
-                         "</td>";
-                }
-                echo "<td>" . htmlescape(Dropdown::getDropdownName(
-                    "glpi_plugin_cmdb_operationprocessstates",
-                    $data["plugin_cmdb_operationprocessstates_id"],
-                )) . "</td>";
-                echo "</tr>";
+                $entries[] = [
+                    'itemtype'  => self::class,
+                    'id'        => $data["assocID"],
+                    'row_class' => $data["is_deleted"] ? 'tab_bg_1_2' : '',
+                    'name'      => $link,
+                    'entity'    => Dropdown::getDropdownName("glpi_entities", $data['entities_id']),
+                    'state'     => Dropdown::getDropdownName(
+                        "glpi_plugin_cmdb_operationprocessstates",
+                        $data["plugin_cmdb_operationprocessstates_id"],
+                    ),
+                ];
             }
         }
 
-        echo "</table>";
-        if ($canedit && $number && ($withtemplate < 2)) {
-            $massiveactionparams['ontop'] = false;
-            Html::showMassiveActions($massiveactionparams);
-            Html::closeForm();
+        $columns = ['name' => __('Name')];
+        if (Session::isMultiEntitiesMode()) {
+            $columns['entity'] = __('Entity');
         }
-        echo "</div>";
+        $columns['state'] = OperationProcessState::getTypeName(1);
+        TemplateRenderer::getInstance()->display('components/datatable.html.twig', [
+            'is_tab'              => true,
+            'nofilter'            => true,
+            'columns'             => $columns,
+            // getLink() of the core, escaped by the core
+            'formatters'          => ['name' => 'raw_html'],
+            'entries'             => $entries,
+            'total_number'        => count($entries),
+            'filtered_number'     => count($entries),
+            'showmassiveactions'  => $canedit && $number && $withtemplate < 2,
+            'massiveactionparams' => [
+                'num_displayed' => count($entries),
+                'container'     => 'mass' . str_replace('\\', '', self::class) . $rand,
+            ],
+        ]);
     }
 }

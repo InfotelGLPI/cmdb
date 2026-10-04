@@ -140,14 +140,14 @@ class Cmdb_Ticket extends CommonDBRelation
             if (!empty($impactedItems['nodes'])) {
                 self::showImpactedItems($impactedItems);
             } else {
-                echo "<p>";
-                echo __("Elements linked to the ticket aren't imported in CMDB", "cmdb");
-                echo "</p>";
+                TemplateRenderer::getInstance()->display('@cmdb/ticket_impact_empty.html.twig', [
+                    'message' => __("Elements linked to the ticket aren't imported in CMDB", "cmdb"),
+                ]);
             }
         } else {
-            echo "<p>";
-            echo __("No elements of CMDB linked to the ticket", "cmdb");
-            echo "</p>";
+            TemplateRenderer::getInstance()->display('@cmdb/ticket_impact_empty.html.twig', [
+                'message' => __("No elements of CMDB linked to the ticket", "cmdb"),
+            ]);
         }
     }
 

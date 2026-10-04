@@ -146,6 +146,9 @@ function plugin_init_cmdb()
         $PLUGIN_HOOKS['item_purge']['cmdb'][PluginFieldsField::class] = 'plugin_cmdb_item_purge';
 
         $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'js/cmdb_impact.js';
+        // Delegated handlers of the forms migrated to Twig (public/scripts/)
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'scripts/impactinfo_fields.js';
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['cmdb'][] = 'scripts/impacticon_form.js';
 
 
         $PLUGIN_HOOKS[Hooks::POST_INIT]['cmdb'] = 'plugin_cmdb_postinit';

@@ -1,5 +1,3 @@
-<?php
-
 /**
  * -------------------------------------------------------------------------
  * cmdb plugin for GLPI
@@ -27,26 +25,24 @@
  * --------------------------------------------------------------------------
  */
 
-use Glpi\Application\View\TemplateRenderer;
-use GlpiPlugin\Cmdb\CI;
-use GlpiPlugin\Cmdb\Criticity;
-use GlpiPlugin\Cmdb\Criticity_Item;
+// Impact icon form (templates/impacticon_form.html.twig): the criteria row (type of the item)
+// follows the chosen item type, and is filled on load for the current one. The form can be
+// opened inside an AJAX response, hence the listener delegated to the document.
+(function () {
+    function loadCriterias(holder) {
+        const select = holder.querySelector('select[name="itemtype"]');
+        const target = document.getElementById('criteria_row');
+        if (select === null || target === null) {
+            return;
+        }
+        $(target).load(holder.dataset.url, {id: holder.dataset.id, itemtype: select.value});
+    }
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+    $(document).on('change', '[data-cmdb-impacticon] select[name="itemtype"]', function () {
+        loadCriterias(this.closest('[data-cmdb-impacticon]'));
+    });
 
-// Replay the business allow-list at the sink rather than accepting any instantiable
-// class of the GLPI registry: Criticity_Item::getCIType() is the very list
-// Criticity::addFieldCriticity() consults to decide whether the field is offered at all.
-// The former 'ticket' lowercase literal matched no GLPI itemtype and had no caller.
-$itemtype = (string) ($_REQUEST['itemtype'] ?? '');
-if (!in_array($itemtype, Criticity_Item::getCIType(), true)) {
-    throw new \Glpi\Exception\Http\BadRequestHttpException();
-}
-
-$crit = new Criticity();
-TemplateRenderer::getInstance()->display('@cmdb/criticity_field.html.twig', [
-    'with_header' => false,
-    'label'       => Criticity_Item::getTypeName(1),
-    'dropdown'    => $crit->getCriticityDropdown(["itemtype" => $itemtype]),
-    'pad'         => $itemtype != CI::class,
-]);
+    $(function () {
+        document.querySelectorAll('[data-cmdb-impacticon]').forEach(loadCriterias);
+    });
+})();

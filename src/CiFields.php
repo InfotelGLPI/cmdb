@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use CommonDBTM;
 use DbUtils;
 use Dropdown;
@@ -211,13 +212,25 @@ class CiFields extends CommonDBTM
      */
     public function setFieldByType($idType, $id, $itemtype = CI::class)
     {
-        if ($res = $this->find(['plugin_cmdb_citypes_id' => $idType])) {
-            if (count($res) > 0) {
-                foreach ($res as $data) {
-                    self::setFieldInput($data, $id, $itemtype);
-                }
-            }
+        echo $this->renderFieldsByType($idType, $id, $itemtype);
+    }
+
+    /**
+     * Rows of the custom fields of a CI type (templates/cifield_rows.html.twig)
+     */
+    public function renderFieldsByType($idType, $id, $itemtype = CI::class): string
+    {
+        $fields = [];
+        foreach ($this->find(['plugin_cmdb_citypes_id' => $idType]) as $data) {
+            $fields[] = [
+                'label' => (string) $data['name'],
+                'input' => self::getFieldInput($data, $id, $itemtype),
+            ];
         }
+
+        return TemplateRenderer::getInstance()->render('@cmdb/cifield_rows.html.twig', [
+            'fields' => $fields,
+        ]);
     }
 
     /**
@@ -226,10 +239,16 @@ class CiFields extends CommonDBTM
      */
     public static function setFieldInput($field, $idCi, $itemtype = CI::class)
     {
+        TemplateRenderer::getInstance()->display('@cmdb/cifield_rows.html.twig', [
+            'fields' => [['label' => (string) $field['name'], 'input' => self::getFieldInput($field, $idCi, $itemtype)]],
+        ]);
+    }
 
-        echo "<tr class='field tab_bg_1'>";
-        echo "<td>" . htmlescape($field['name']) . "</td>";
-        echo "<td>";
+    /**
+     * Input of a custom field, matching its type (core widgets, escaped by the core)
+     */
+    public static function getFieldInput($field, $idCi, $itemtype = CI::class): string
+    {
         $value = "";
         $id    = $field["id"];
         $name  = "newfield[$id]";
@@ -245,32 +264,28 @@ class CiFields extends CommonDBTM
         }
         switch ($field['typefield']) {
             case 0:
-                echo Html::input($name, ['value' => $value, 'style' => 'width: 200px']);
-                break;
+                return Html::input($name, ['value' => $value, 'style' => 'width: 200px']);
             case 1:
-                Html::textarea(['name'              => $name,
+                return (string) Html::textarea(['name'              => $name,
                     'value'             => $value,
                     'cols'              => '100',
                     'rows'              => '8',
                     'enable_richtext'   => false,
-                    'enable_fileupload' => false]);
-                break;
+                    'enable_fileupload' => false,
+                    'display'           => false]);
             case 2:
-                Html::showDateField($name, ['value' => $value]);
-                break;
+                return (string) Html::showDateField($name, ['value' => $value, 'display' => false]);
             case 3:
-                echo Html::input($name, ['value' => $value, 'size' => 40]);
-                break;
+                return Html::input($name, ['value' => $value, 'size' => 40]);
             case 4:
-                Dropdown::showFromArray($name, ['0' => __('No'),
+                return (string) Dropdown::showFromArray($name, ['0' => __('No'),
                     '1' => __('Yes')], ["value" => $value,
-                        "width" => 100]);
-                break;
+                        "width" => 100,
+                        'display' => false]);
         }
-        echo "</td>";
-        echo "</tr>";
-    }
 
+        return '';
+    }
 
     /**
      * @param $idCI
@@ -279,6 +294,9 @@ class CiFields extends CommonDBTM
     public function getContentFieldsCI($idCI, $CIType)
     {
         global $DB;
+
+        // Label and value (text) of each field, rendered by templates/cifield_content.html.twig
+        $lines = [];
 
         if ($CIType['is_imported']) {
             $ciType = new CIType();
@@ -306,21 +324,17 @@ class CiFields extends CommonDBTM
 
                             switch ($searchOption['datatype']) {
                                 case 'bool':
-                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
-                                    Dropdown::getYesNo($itemclass->fields[$field]) . "</p>";
+                                    $lines[] = ['label' => (string) $searchOption['name'], 'value' => (string) Dropdown::getYesNo($itemclass->fields[$field])];
                                     break;
                                 case 'datetime':
-                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
-                                    Html::convDateTime($itemclass->fields[$field]) . "</p>";
+                                    $lines[] = ['label' => (string) $searchOption['name'], 'value' => (string) Html::convDateTime($itemclass->fields[$field])];
                                     break;
                                 case 'date':
-                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
-                                    Html::convDate($itemclass->fields[$field]) . "</p>";
+                                    $lines[] = ['label' => (string) $searchOption['name'], 'value' => (string) Html::convDate($itemclass->fields[$field])];
                                     break;
                                 case 'string':
                                 case 'itemlink':
-                                    echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" .
-                                    htmlescape($itemclass->fields[$field]) . "</p>";
+                                    $lines[] = ['label' => (string) $searchOption['name'], 'value' => (string) $itemclass->fields[$field]];
                                     break;
                             }
                         }
@@ -339,7 +353,7 @@ class CiFields extends CommonDBTM
                             $itemtype_rel = $dbu->getItemTypeForTable($searchOption['table']);
                             $item_rel     = $dbu->getItemForItemtype($itemtype_rel);
                             $item_rel->getFromDB($itemclass->fields[$field]);
-                            echo "<p><span>" . htmlescape($searchOption['name']) . " : </span>" . htmlescape($item_rel->fields['name']) . "</p>";
+                            $lines[] = ['label' => (string) $searchOption['name'], 'value' => (string) $item_rel->fields['name']];
                         }
                     }
                 }
@@ -356,11 +370,13 @@ class CiFields extends CommonDBTM
             );
 
             foreach ($iterator as $data) {
-                echo "<p>" . htmlescape($data['name']) . " : " . htmlescape(CiFields::setValue(
-                    $data['typefield'],
-                    $data['value'],
-                )) . "</p>";
+                $lines[] = [
+                    'label' => (string) $data['name'],
+                    'value' => (string) CiFields::setValue($data['typefield'], $data['value']),
+                ];
             }
         }
+
+        TemplateRenderer::getInstance()->display('@cmdb/cifield_content.html.twig', ['lines' => $lines]);
     }
 }

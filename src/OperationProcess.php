@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use Ajax;
 use Change_Item;
 use CommonDBTM;
@@ -246,82 +247,11 @@ class OperationProcess extends CommonDBTM
     {
 
         $this->initForm($ID, $options);
-        $this->showFormHeader($options);
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __('Name') . "</td>";
-        echo "<td>";
-        echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
-        echo "</td>";
-        echo "<td>" . OperationProcessState::getTypeName(1) . "</td>";
-        echo "<td>";
-        Dropdown::show(OperationProcessState::class, ['name'  => "plugin_cmdb_operationprocessstates_id",
-            'value' => $this->fields["plugin_cmdb_operationprocessstates_id"],
+        TemplateRenderer::getInstance()->display('@cmdb/operationprocess_form.html.twig', [
+            'item'        => $this,
+            'params'      => $options,
+            'state_label' => OperationProcessState::getTypeName(1),
         ]);
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __('Location') . "</td>";
-        echo "<td>";
-        Location::dropdown(['value'  => $this->fields["locations_id"],
-            'entity' => $this->fields["entities_id"]]);
-        echo "</td>";
-
-        echo "<td>" . __('Technician in charge') . "</td><td>";
-        User::dropdown(['name'   => "users_id_tech",
-            'value'  => $this->fields["users_id_tech"],
-            'entity' => $this->fields["entities_id"],
-            'right'  => 'interface']);
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td>" . __('Group in charge') . "</td><td>";
-        Group::dropdown(['name'      => 'groups_id_tech',
-            'value'     => $this->fields['groups_id_tech'],
-            'entity'    => $this->fields['entities_id'],
-            'condition' => ['is_assign' => 1]]);
-        echo "</td>";
-
-        echo "<td>" . __('Associable to a ticket') . "</td><td>";
-        Dropdown::showYesNo('is_helpdesk_visible', $this->fields['is_helpdesk_visible']);
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td class='center' colspan = '4'>";
-        printf(__('Last update on %s'), Html::convDateTime($this->fields["date_mod"]));
-        echo "</td>";
-
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1'>";
-
-        echo "<td colspan = '4'>";
-        echo "<table cellpadding='2' cellspacing='2' border='0'><tr><td>";
-        echo __('Comments') . "</td></tr>";
-        echo "<tr>";
-        echo "<td class='center'>";
-        Html::textarea(['name'              => 'comment',
-            'cols'              => '100',
-            'rows'              => '8',
-            'value'             => $this->fields["comment"],
-            'enable_richtext'   => false,
-            'enable_fileupload' => false]);
-        echo "</td></tr></table>";
-        echo "</td>";
-
-        echo "</tr>";
-
-        $this->showFormButtons($options);
 
         return true;
     }
@@ -333,7 +263,7 @@ class OperationProcess extends CommonDBTM
      */
     public static function dropdownOperationProcess($options = [])
     {
-        global $DB, $CFG_GLPI;
+        global $DB;
 
         $p['name']    = 'plugin_cmdb_operationprocesses_id';
         $p['entity']  = '';
@@ -390,7 +320,7 @@ class OperationProcess extends CommonDBTM
         $out .= Ajax::updateItemOnSelectEvent(
             $field_id,
             "show_" . $p['name'] . $rand,
-            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationprocesses.php",
+            PLUGIN_CMDB_WEBDIR . "/ajax/dropdownStateOperationprocesses.php",
             $params,
             false,
         );
@@ -400,8 +330,11 @@ class OperationProcess extends CommonDBTM
         $params['operationprocessstate'] = 0;
         $out                             .= Ajax::updateItem(
             "show_" . $p['name'] . $rand,
-            $CFG_GLPI['root_doc'] . "/plugins/cmdb/ajax/dropdownStateOperationprocesses.php",
+            PLUGIN_CMDB_WEBDIR . "/ajax/dropdownStateOperationprocesses.php",
             $params,
+            // $display is the 5th parameter: false used to land on $toobserve, so the
+            // script was printed even when the dropdown was asked as a string
+            '',
             false,
         );
         if ($p['display']) {

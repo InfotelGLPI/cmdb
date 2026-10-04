@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use Appliance;
 use ApplianceType;
 use CartridgeItem;
@@ -229,77 +230,33 @@ class ImpactIcon extends CommonDBTM
         $this->initForm($ID, $options);
         $this->showFormHeader($options);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Item type') . "</td>";
-        echo "<td>";
         // all types available for impact analysis, custom assets included
         $availableTypes = [];
         foreach (self::getAllowedItemtypes() as $type) {
             $availableTypes[$type] = $type::getTypeName();
         }
-        $rand = mt_rand();
-        Dropdown::showFromArray(
-            'itemtype',
-            $availableTypes,
-            [
-                'value' => $this->fields['itemtype'],
-                'rand' => $rand,
+
+        TemplateRenderer::getInstance()->display('@cmdb/impacticon_form.html.twig', [
+            'criteria_url'  => PLUGIN_CMDB_WEBDIR . "/ajax/impact_icon_criterias.php",
+            'id'            => (int) $ID,
+            'type_dropdown' => Dropdown::showFromArray('itemtype', $availableTypes, [
+                'value'    => $this->fields['itemtype'],
                 'required' => true,
-            ],
-        );
-        $url = PLUGIN_CMDB_WEBDIR . "/ajax/impact_icon_criterias.php";
-        echo "
-            <script>
-                $(document).ready(function() {
-                    const selectType = $('#dropdown_itemtype$rand');
-                    const criteriaRow = $('#criteria_row');
-                    selectType.change(e => {
-                        criteriaRow.load('$url', {
-                            'id' : $ID,
-                            'itemtype' : e.target.options[e.target.selectedIndex].value
-                        });
-                    })
-                    selectType.trigger('change');
-                });
-            </script>
-        ";
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1' id='criteria_row'>";
-        echo "</tr>";
-
-        if (!$this->isNewID($ID)) {
-            echo "<tr class='tab_bg_1'>";
-            echo "<td>" . __('Current icon', 'cmdb') . "</td>";
-            echo "<td>";
-            // Escaped at the sink, whatever the column is guaranteed to hold upstream:
-            // checkIconInput() constrains documents_id to an existing integer id today, but
-            // this is the only echo of the plugin that interpolated a value into an attribute
-            // without going through htmlescape(), as plugin_cmdb_giveItem() does in hook.php.
-            $iconPath = PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc="
-                . (int) $this->fields['documents_id'];
-            echo "<img src='" . htmlescape($iconPath) . "' style='height: 50px; width: 50px'>";
-            echo "</td>";
-            echo "</tr>";
-        }
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Icon file', 'cmdb') . "</td>";
-        echo "<td>";
-        echo Html::file(
-            [
-                'name' => 'filename',
-                'required' => $this->isNewID($ID),
+                'display'  => false,
+            ]),
+            // documents_id is constrained to an existing integer id by checkIconInput()
+            'icon_url'      => $this->isNewID($ID)
+                ? ''
+                : PLUGIN_CMDB_WEBDIR . "/front/impacticon.send.php?idDoc=" . (int) $this->fields['documents_id'],
+            'file_input'    => Html::file([
+                'name'       => 'filename',
+                'required'   => $this->isNewID($ID),
                 'onlyimages' => true,
-            ],
-        );
-        echo "</td>";
-        echo "</tr>";
-
+                'display'    => false,
+            ]),
+        ]);
 
         $this->showFormButtons($options);
-
         return true;
     }
 

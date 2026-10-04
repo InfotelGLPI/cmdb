@@ -1,0 +1,51 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Add form of the items of a service (OperationProcess_Item::showForOperationProcess()) and of
+   the services of an item (OperationProcess_Item::showForItem()). The selector is a core
+   widget, escaped by the core. #}
+<div class="firstbloc">
+    <form method="post" action="{{ action }}">
+        <table class="tab_cadre_fixe">
+            {% if title is not empty %}
+                <tr class="tab_bg_2"><th colspan="2">{{ title }}</th></tr>
+            {% endif %}
+            <tr class="tab_bg_1">
+                <td class="center">
+                    {% for name, value in hidden %}
+                        <input type="hidden" name="{{ name }}" value="{{ value }}">
+                    {% endfor %}
+                    {{ selector|raw }}
+                </td>
+                <td class="center" width="20%">
+                    <button type="submit" name="additem" class="btn btn-primary">{{ button }}</button>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+    </form>
+</div>

@@ -76,4 +76,4 @@ if ($used) {
     $used = $tmp;
 }
 $unusedFields = count($used) ? array_diff_key($fields, $used) : $fields;
-ImpactInfo::makeDropdown($key, $unusedFields, $itemtype);
+echo ImpactInfo::makeDropdown($key, $unusedFields, $itemtype);

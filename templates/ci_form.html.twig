@@ -1,0 +1,38 @@
+{#
+ # -------------------------------------------------------------------------
+ # cmdb plugin for GLPI
+ # Copyright (C) 2020-2026 by the cmdb Development Team.
+ #
+ # https://github.com/InfotelGLPI/cmdb
+ # -------------------------------------------------------------------------
+ #
+ # LICENSE
+ #
+ # This file is part of cmdb.
+ #
+ # cmdb is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # cmdb is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with cmdb. If not, see <http://www.gnu.org/licenses/>.
+ # --------------------------------------------------------------------------
+ #}
+
+{# Rows of the CI form (CI::showForm()), inside the table opened by showFormHeader(). The CI type
+   selector reloads the custom fields (public/js/show_fields.js, data-cmdb-ci-type). #}
+<tr class="tab_bg_1">
+    <td>{{ __('Name') }}</td>
+    <td><input type="text" class="form-control" name="name" value="{{ name }}" size="40"></td>
+</tr>
+<tr class="tab_bg_1 fieldCI">
+    <td>{{ type_label }}</td>
+    <td data-cmdb-ci-type="{{ id }}">{{ type_dropdown|raw }}</td>
+</tr>
+{{ fields_rows|raw }}

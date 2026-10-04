@@ -29,6 +29,7 @@
 
 namespace GlpiPlugin\Cmdb;
 
+use Glpi\Application\View\TemplateRenderer;
 use CommonDBTM;
 use CommonITILObject;
 use DbUtils;
@@ -128,28 +129,20 @@ class CI extends CommonDBTM
         $options["colspan"] = 1;
         $this->showFormHeader($options);
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Name') . "</td>";
-        echo "<td>";
-        echo Html::input('name', ['value' => $this->fields['name'], 'size' => 40]);
-        echo "</td>";
-        echo "</tr>";
-
-        echo "<tr class='tab_bg_1 fieldCI'>";
-        echo "<td>" . CIType::getTypeName(1) . "</td>";
-        echo "<td>";
-        $idType = $this->setSelectCITypes($ID);
-        echo "</td>";
-        echo "</tr>";
+        [$idType, $type_dropdown] = $this->getSelectCITypes($ID);
 
         $cifields = new CiFields();
-        if (!isset($this->fields["plugin_cmdb_citypes_id"])
-          || $this->fields["plugin_cmdb_citypes_id"] == "") {
-            $cifields->setFieldByType($idType, $ID);
-        } else {
-            $cifields->setFieldByType($this->fields["plugin_cmdb_citypes_id"], $ID);
-        }
+        $type_id  = (!isset($this->fields["plugin_cmdb_citypes_id"]) || $this->fields["plugin_cmdb_citypes_id"] == "")
+            ? $idType
+            : $this->fields["plugin_cmdb_citypes_id"];
 
+        TemplateRenderer::getInstance()->display('@cmdb/ci_form.html.twig', [
+            'name'          => (string) ($this->fields['name'] ?? ''),
+            'id'            => isset($ID) && $ID !== '' ? (int) $ID : -1,
+            'type_label'    => CIType::getTypeName(1),
+            'type_dropdown' => $type_dropdown,
+            'fields_rows'   => $cifields->renderFieldsByType($type_id, $ID),
+        ]);
         $this->showFormButtons($options);
 
         return true;
@@ -161,6 +154,19 @@ class CI extends CommonDBTM
      * @return int|mixed
      */
     public function setSelectCITypes($id)
+    {
+        [$idType, $dropdown] = $this->getSelectCITypes($id);
+        echo $dropdown;
+
+        return $idType;
+    }
+
+    /**
+     * CI type selector of a CI and the type it preselects
+     *
+     * @return array{0: int|mixed, 1: string}
+     */
+    public function getSelectCITypes($id): array
     {
         global $DB;
         $tabCIType = [];
@@ -207,9 +213,13 @@ class CI extends CommonDBTM
             $data   = $iterator->current();
             $idType = $data['plugin_cmdb_citypes_id'];
         }
-        Dropdown::showFromArray("plugin_cmdb_citypes_id", $tabCIType, ["on_change" => "changeField(this,$id)",
-            "value"     => $idType]);
-        return $idType;
+        // The custom fields follow the type (public/js/show_fields.js, data-cmdb-ci-type)
+        $dropdown = Dropdown::showFromArray("plugin_cmdb_citypes_id", $tabCIType, [
+            "value"   => $idType,
+            'display' => false,
+        ]);
+
+        return [$idType, $dropdown];
     }
 
 
