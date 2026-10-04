@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Xavier CAILLAUD <thetsmr@gmail.com>, 2026
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,14 +14,12 @@ msgstr ""
 "POT-Creation-Date: 2026-10-04 18:39+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Xavier CAILLAUD <thetsmr@gmail.com>, 2026\n"
-"Language-Team: French (France) (https://app.transifex.com/infotelGLPI/"
-"teams/124557/fr_FR/)\n"
-"Language: fr_FR\n"
+"Language-Team: French (France) (https://app.transifex.com/infotelGLPI/teams/124557/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
-"1000000 == 0 ? 1 : 2;\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: src/Criticity.php:236
 msgid "A criticity already exists for this business criticity."
@@ -29,12 +27,12 @@ msgstr "Une criticité existe déjà pour cette criticité business."
 
 #: templates/citype_form_rows.html.twig:87
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 #: templates/criticity_form.html.twig:48
 msgctxt "button"
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: templates/citype_form_rows.html.twig:99
 msgid "Add New Field"
@@ -54,15 +52,15 @@ msgstr "Zone de texte"
 
 #: templates/profile.html.twig:44
 msgid "Associable items to a ticket"
-msgstr ""
+msgstr "Objets associables à un ticket"
 
 #: templates/operationprocess_form.html.twig:49
 msgid "Associable to a ticket"
-msgstr ""
+msgstr "Associer à un ticket"
 
 #: src/OperationProcess_Item.php:509
 msgid "Associate a service"
-msgstr ""
+msgstr "Associer un service"
 
 #: src/OperationProcess_Item.php:106 src/OperationProcess_Item.php:108
 msgid "Attached service"
@@ -86,11 +84,11 @@ msgstr "CMDB"
 
 #: templates/criticity_form.html.twig:34
 msgid "Color"
-msgstr ""
+msgstr "Couleur"
 
 #: templates/operationprocess_form.html.twig:51
 msgid "Comments"
-msgstr ""
+msgstr "Commentaires"
 
 #: src/CI.php:58
 msgid "Configuration Item"
@@ -135,7 +133,7 @@ msgstr "Icône par défaut"
 #: templates/impactinfo_field_row.html.twig:38
 #: templates/citype_field_row.html.twig:42
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: src/CI_Cmdb.php:80
 msgid "Delete Link"
@@ -144,7 +142,7 @@ msgstr "Supprimer un lien"
 #: templates/criticity_form.html.twig:58
 msgctxt "button"
 msgid "Delete permanently"
-msgstr ""
+msgstr "Supprimer déinitivement"
 
 #: src/Cmdb_Ticket.php:231
 msgid "Direct impact"
@@ -176,7 +174,7 @@ msgstr "Exporter en PNG"
 
 #: templates/citype_form_rows.html.twig:85
 msgid "Fields"
-msgstr ""
+msgstr "Champs"
 
 #: templates/citype_custom_assets.html.twig:31
 msgid "Go to custom assets"
@@ -184,11 +182,11 @@ msgstr "Aller aux actifs personnalisés"
 
 #: templates/operationprocess_form.html.twig:45
 msgid "Group in charge"
-msgstr ""
+msgstr "Groupe en charge"
 
 #: templates/profile.html.twig:42
 msgid "Helpdesk"
-msgstr ""
+msgstr "Helpdesk"
 
 #: src/ImpactIcon.php:67 templates/citype_form_rows.html.twig:48
 #: templates/citype_form_rows.html.twig:109
@@ -272,20 +270,20 @@ msgstr[2] "Elément de configuration"
 #: templates/impactinfo_itemtype.html.twig:32
 #: templates/impacticon_form.html.twig:32
 msgid "Item type"
-msgstr ""
+msgstr "Type d'objet"
 
 #: templates/criticity_form.html.twig:36
 msgid "Level"
-msgstr ""
+msgstr "Niveau"
 
 #: templates/operationprocess_form.html.twig:37
 msgid "Location"
-msgstr ""
+msgstr "Lieu"
 
 #: templates/operationprocess_form.html.twig:33
 #: templates/citype_form_rows.html.twig:55 templates/ci_form.html.twig:31
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/Cmdb_Ticket.php:149
 msgid "No elements of CMDB linked to the ticket"
@@ -336,7 +334,7 @@ msgstr "Réinitialiser le zoom"
 #: templates/profile.html.twig:56 templates/criticity_form.html.twig:53
 msgctxt "button"
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarder"
 
 #: src/CI_Cmdb.php:77
 msgid "See CI"
@@ -367,7 +365,7 @@ msgstr "Chaîne de texte"
 
 #: templates/operationprocess_form.html.twig:40
 msgid "Technician in charge"
-msgstr ""
+msgstr "Technicien en charge"
 
 #: src/ImpactIcon.php:386
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
@@ -405,7 +403,7 @@ msgstr[2] "Types d'élément de configuration"
 
 #: templates/citype_form_rows.html.twig:86
 msgid "Types"
-msgstr ""
+msgstr "Types"
 
 #: src/CI_Cmdb.php:79
 msgid "Update Link"
@@ -476,7 +474,3 @@ msgstr "Très haute"
 #: install/update_110_111.php:83
 msgid "very low"
 msgstr "Très faible"
-
-#~ msgctxt "button"
-#~ msgid "Associate a service"
-#~ msgstr "Associer un service"
