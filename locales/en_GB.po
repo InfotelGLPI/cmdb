@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-25 06:44+0000\n"
+"POT-Creation-Date: 2026-10-04 18:39+0000\n"
 "PO-Revision-Date: 2020-07-30 14:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,15 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/Criticity.php:268
+#: src/Criticity.php:236
 msgid "A criticity already exists for this business criticity."
 msgstr ""
 
-#: src/CIType.php:1088
+#: templates/citype_form_rows.html.twig:87
+msgid "Actions"
+msgstr ""
+
+#: templates/criticity_form.html.twig:48
+msgctxt "button"
+msgid "Add"
+msgstr ""
+
+#: templates/citype_form_rows.html.twig:99
 msgid "Add New Field"
 msgstr "Add New Field"
 
-#: src/Criticity.php:173
+#: templates/criticity_form.html.twig:39
 msgid "All levels have already been added"
 msgstr "All levels have already been added"
 
@@ -38,31 +47,46 @@ msgstr ""
 msgid "Area Text"
 msgstr "Area Text"
 
-#: src/OperationProcess_Item.php:553
-msgctxt "button"
-msgid "Associate a service"
-msgstr "Associate a service"
+#: templates/profile.html.twig:44
+msgid "Associable items to a ticket"
+msgstr ""
 
-#: src/OperationProcess_Item.php:105 src/OperationProcess_Item.php:107
+#: templates/operationprocess_form.html.twig:49
+msgid "Associable to a ticket"
+msgstr ""
+
+#: src/OperationProcess_Item.php:509
+msgid "Associate a service"
+msgstr ""
+
+#: src/OperationProcess_Item.php:106 src/OperationProcess_Item.php:108
 msgid "Attached service"
 msgid_plural "Attached services"
 msgstr[0] "Attached service"
 msgstr[1] "Attached services"
 
-#: src/ImpactInfoField.php:82
+#: src/ImpactInfoField.php:112
 msgid "Base fields"
 msgstr ""
 
-#: src/CIType.php:380
+#: templates/citype_form_rows.html.twig:62
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Be careful the name cannot be changed after creation"
 
-#: setup.php:161 src/Cmdb.php:51 src/Profile.php:55 src/CI_Cmdb.php:51
+#: setup.php:164 src/Cmdb.php:52 src/Profile.php:56 src/CI_Cmdb.php:50
 #: src/Menu.php:48
 msgid "CMDB"
 msgstr "CMDB"
 
-#: src/CI.php:57
+#: templates/criticity_form.html.twig:34
+msgid "Color"
+msgstr ""
+
+#: templates/operationprocess_form.html.twig:51
+msgid "Comments"
+msgstr ""
+
+#: src/CI.php:58
 msgid "Configuration Item"
 msgid_plural "Configuration Items"
 msgstr[0] "Configuration Item"
@@ -72,7 +96,7 @@ msgstr[1] "Configuration Items"
 msgid "Configure Type of Item Configuration"
 msgstr "Configure Type of Item Configuration"
 
-#: src/CI_Cmdb.php:79
+#: src/CI_Cmdb.php:78
 msgid "Create Link"
 msgstr "Create Link"
 
@@ -81,41 +105,52 @@ msgstr "Create Link"
 msgid "Creation failed"
 msgstr ""
 
-#: src/ImpactIcon.php:126
+#: src/ImpactIcon.php:127
 msgid "Criteria"
 msgstr ""
 
-#: src/Criticity.php:65 src/Criticity.php:152 src/Criticity_Item.php:54
+#: src/Criticity.php:66 src/Criticity_Item.php:54
+#: templates/criticity_form.html.twig:32
 msgid "Criticity"
 msgid_plural "Criticities"
 msgstr[0] "Criticity"
 msgstr[1] "Criticities"
 
-#: src/ImpactIcon.php:274
+#: templates/impacticon_form.html.twig:38
 msgid "Current icon"
 msgstr ""
 
-#: src/CIType.php:792
+#: src/CIType.php:732
 msgid "Default icon"
 msgstr "Default icon"
 
-#: src/CI_Cmdb.php:81
+#: templates/impactinfo_field_row.html.twig:38
+#: templates/citype_field_row.html.twig:42
+msgid "Delete"
+msgstr ""
+
+#: src/CI_Cmdb.php:80
 msgid "Delete Link"
 msgstr "Delete Link"
+
+#: templates/criticity_form.html.twig:58
+msgctxt "button"
+msgid "Delete permanently"
+msgstr ""
 
 #: src/Cmdb_Ticket.php:231
 msgid "Direct impact"
 msgstr "Direct impact"
 
-#: src/Cmdb.php:88
+#: templates/cmdb_menu.html.twig:32
 msgid "Display Item Configuration"
 msgstr "Display Item Configuration"
 
-#: src/CIType.php:384
+#: templates/citype_form_rows.html.twig:64
 msgid "Do not use a classname with spaces (like 'my objects')"
 msgstr "Do not use a classname with spaces (like 'my objects')"
 
-#: src/CIType.php:382
+#: templates/citype_form_rows.html.twig:63
 msgid "Do not use a plural classname (like 'myobjects')"
 msgstr "Do not use a plural classname (like 'myobjects')"
 
@@ -123,31 +158,44 @@ msgstr "Do not use a plural classname (like 'myobjects')"
 msgid "Elements linked to the ticket aren't imported in CMDB"
 msgstr "Elements linked to the ticket aren't imported in CMDB"
 
-#: src/CIType.php:1141
+#: templates/citype_form_rows.html.twig:72
 msgid "Existing fields for this type of CI"
 msgstr "Existing fields for this type of CI"
 
-#: src/CI_Cmdb.php:85
+#: src/CI_Cmdb.php:84
 msgid "Export PNG"
 msgstr "Export PNG"
 
-#: src/CIType.php:327
+#: templates/citype_form_rows.html.twig:85
+msgid "Fields"
+msgstr ""
+
+#: templates/citype_custom_assets.html.twig:31
 msgid "Go to custom assets"
 msgstr ""
 
-#: src/ImpactIcon.php:66 src/CIType.php:752
+#: templates/operationprocess_form.html.twig:45
+msgid "Group in charge"
+msgstr ""
+
+#: templates/profile.html.twig:42
+msgid "Helpdesk"
+msgstr ""
+
+#: src/ImpactIcon.php:67 templates/citype_form_rows.html.twig:48
+#: templates/citype_form_rows.html.twig:109
 msgid "Icon"
 msgid_plural "Icons"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: Default document to files attached to tickets : %d is the ticket id
-#: src/CIType.php:1233
+#: src/CIType.php:1124
 #, php-format
 msgid "Icon CIType %d"
 msgstr "Icon CIType %d"
 
-#: src/ImpactIcon.php:288
+#: templates/impacticon_form.html.twig:43
 msgid "Icon file"
 msgstr ""
 
@@ -160,7 +208,7 @@ msgstr ""
 msgid "Impacted items"
 msgstr "Impacted items"
 
-#: src/CIType.php:701
+#: templates/citype_form_rows.html.twig:44
 msgid "Import CI"
 msgstr "Import CI"
 
@@ -168,76 +216,94 @@ msgstr "Import CI"
 msgid "Infos are already set for this type"
 msgstr ""
 
-#: src/Criticity.php:262
+#: src/Criticity.php:230
 msgid "Invalid business criticity."
 msgstr ""
 
-#: src/Criticity.php:325
+#: src/Criticity.php:293
 msgid "Invalid color."
 msgstr ""
 
-#: src/ImpactIcon.php:361 src/ImpactIcon.php:366
+#: src/ImpactIcon.php:318 src/ImpactIcon.php:323
 msgid "Invalid criteria."
 msgstr ""
 
-#: src/CiFields.php:79
+#: src/CiFields.php:80
 msgid "Invalid field type."
 msgstr ""
 
-#: src/ImpactIcon.php:382 src/ImpactIcon.php:421
+#: src/ImpactIcon.php:339 src/ImpactIcon.php:378
 msgid "Invalid icon file."
 msgstr ""
 
-#: src/OperationProcess_Item.php:191 src/ImpactIcon.php:315
-#: src/ImpactIcon.php:349 src/ImpactInfo.php:62
+#: src/OperationProcess_Item.php:192 src/ImpactIcon.php:272
+#: src/ImpactIcon.php:306 src/ImpactInfo.php:64
 msgid "Invalid item type."
 msgstr ""
 
-#: src/CI.php:226
+#: src/CI.php:236
 msgid "Invalid name !"
 msgstr "Invalid name !"
 
-#: src/CIType.php:363
+#: templates/citype_form_rows.html.twig:35
 msgid "Is this item presents in glpi ?"
 msgstr "Is this item presents in glpi ?"
 
-#: src/Profile.php:136 src/Menu.php:68
+#: src/Profile.php:130 src/Menu.php:68
 msgid "Item Configuration"
 msgstr "Item Configuration"
 
-#: src/Profile.php:218 src/Profile.php:258
+#: src/Profile.php:187 src/Profile.php:227
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Item configuration"
 msgstr[1] "Items configuration"
 
+#: templates/impactinfo_itemtype.html.twig:32
+#: templates/impacticon_form.html.twig:32
+msgid "Item type"
+msgstr ""
+
+#: templates/criticity_form.html.twig:36
+msgid "Level"
+msgstr ""
+
+#: templates/operationprocess_form.html.twig:37
+msgid "Location"
+msgstr ""
+
+#: templates/operationprocess_form.html.twig:33
+#: templates/citype_form_rows.html.twig:55 templates/ci_form.html.twig:31
+msgid "Name"
+msgstr ""
+
 #: src/Cmdb_Ticket.php:149
 msgid "No elements of CMDB linked to the ticket"
 msgstr "No elements of CMDB linked to the ticket"
 
-#: src/ImpactInfo.php:695
+#: src/ImpactInfo.php:633
 #, php-format
 msgid "No tooltip content set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfo.php:706
+#: src/ImpactInfo.php:641
 #, php-format
 msgid "No tooltip set for itemtype %s"
 msgstr ""
 
-#: src/ImpactInfoField.php:120
+#: templates/impactinfo_field_row.html.twig:32
 msgid "Order"
 msgstr ""
 
-#: src/Criticity.php:250 src/Criticity.php:312
+#: src/Criticity.php:218 src/Criticity.php:280
 msgid "Please choose a level for criticality"
 msgstr "Please choose a level for criticality"
 
-#: src/CIType.php:448
+#: src/CIType.php:411
 msgid "Please, choose an imported CI !"
 msgstr "Please, choose an imported CI !"
 
-#: src/ImpactInfoField.php:82
+#: src/ImpactInfoField.php:112
 msgid "Plugin additional fields fields"
 msgstr ""
 
@@ -245,28 +311,33 @@ msgstr ""
 msgid "Proximity"
 msgstr "Proximity"
 
-#: src/CI_Cmdb.php:87
+#: src/CI_Cmdb.php:86
 msgid "Purge CMDB"
 msgstr "Purge CMDB"
 
-#: src/CIType.php:1145
+#: templates/citype_form_rows.html.twig:77
 msgid "Reset Existing fields"
 msgstr "Reset Existing fields"
 
-#: src/CI_Cmdb.php:84
+#: src/CI_Cmdb.php:83
 msgid "Reset Zoom"
 msgstr "Reset Zoom"
 
-#: src/CI_Cmdb.php:78
+#: templates/profile.html.twig:56 templates/criticity_form.html.twig:53
+msgctxt "button"
+msgid "Save"
+msgstr ""
+
+#: src/CI_Cmdb.php:77
 msgid "See CI"
 msgstr "See CI"
 
-#: src/CI_Cmdb.php:86
+#: src/CI_Cmdb.php:85
 msgid "See associated tickets"
 msgstr "See associated tickets"
 
-#: src/OperationProcessMenu.php:50 src/Profile.php:144 src/Profile.php:189
-#: src/Profile.php:254 src/OperationProcess.php:62
+#: src/OperationProcessMenu.php:50 src/Profile.php:132 src/Profile.php:158
+#: src/Profile.php:223 src/OperationProcess.php:63
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Service"
@@ -282,15 +353,19 @@ msgstr[1] "States of service"
 msgid "String"
 msgstr "String"
 
-#: src/ImpactIcon.php:429
+#: templates/operationprocess_form.html.twig:40
+msgid "Technician in charge"
+msgstr ""
+
+#: src/ImpactIcon.php:386
 msgid "The icon must be a PNG, JPEG, GIF or WEBP image."
 msgstr ""
 
-#: src/CIType.php:468
+#: src/CIType.php:431
 msgid "There is already an existing name or the name is invalid"
 msgstr "There is already an existing name or the name is invalid"
 
-#: src/CIType.php:1504 src/CIType.php:1521
+#: src/CIType.php:1395 templates/massive_transfer.html.twig:31
 msgctxt "button"
 msgid "Transfer"
 msgstr "Transfer"
@@ -301,19 +376,23 @@ msgid_plural "Types CIs"
 msgstr[0] "Type CI"
 msgstr[1] "Types CIs"
 
-#: src/Profile.php:262
+#: src/Profile.php:231
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of Item Configuration"
 msgstr[1] "Types of item configuration"
 
-#: src/Profile.php:140 src/Profile.php:231
+#: src/Profile.php:131 src/Profile.php:200
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Type of item configuration"
 msgstr[1] "Types of item configuration"
 
-#: src/CI_Cmdb.php:80
+#: templates/citype_form_rows.html.twig:86
+msgid "Types"
+msgstr ""
+
+#: src/CI_Cmdb.php:79
 msgid "Update Link"
 msgstr "Update Link"
 
@@ -321,7 +400,7 @@ msgstr "Update Link"
 msgid "Update failed"
 msgstr ""
 
-#: src/CIType.php:1114
+#: templates/citype_form_rows.html.twig:114
 msgid "Upload icon"
 msgstr "Upload icon"
 
@@ -331,7 +410,7 @@ msgid ""
 "objets to core"
 msgstr ""
 
-#: src/CIType.php:325
+#: templates/citype_custom_assets.html.twig:30
 msgid "With GLPI 11, you can create now custom assets"
 msgstr ""
 
@@ -343,11 +422,11 @@ msgstr "Yes/No"
 msgid "You can't delete this item, because this item is used on CMDB !"
 msgstr "You can't delete this item, because this item is used on CMDB !"
 
-#: src/CI_Cmdb.php:82
+#: src/CI_Cmdb.php:81
 msgid "Zoom in"
 msgstr "Zoom in"
 
-#: src/CI_Cmdb.php:83
+#: src/CI_Cmdb.php:82
 msgid "Zoom out"
 msgstr "Zoom out"
 
@@ -378,6 +457,10 @@ msgstr "very high"
 #: install/update_110_111.php:83
 msgid "very low"
 msgstr "very low"
+
+#~ msgctxt "button"
+#~ msgid "Associate a service"
+#~ msgstr "Associate a service"
 
 #~ msgid "Create baseline"
 #~ msgstr "Create baseline"
