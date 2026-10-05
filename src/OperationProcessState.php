@@ -36,7 +36,7 @@ use CommonDropdown;
  */
 class OperationProcessState extends CommonDropdown
 {
-    public static $rightname = "plugin_cmdb_operationprocesses";
+    public static string $rightname = "plugin_cmdb_operationprocesses";
 
     /**
      * @since version 0.85

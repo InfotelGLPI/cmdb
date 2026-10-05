@@ -30,7 +30,7 @@
 use Glpi\Exception\Http\NotFoundHttpException;
 use GlpiPlugin\Cmdb\CIType;
 
-Session::checkRight('plugin_cmdb_citypes', UPDATE);
+Session::checkRight(CIType::$rightname, UPDATE);
 
 // The id was read raw and the return of getFromDB() was dropped: checkRight() above only
 // carries the global profile bitmask, while CIType is entity-assigned — getCiTypesByEntity()

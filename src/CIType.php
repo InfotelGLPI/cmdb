@@ -53,15 +53,15 @@ use Toolbox;
  */
 class CIType extends CommonDropdown
 {
-    public static $typeCI = ["Budget", "Contact", "Document", "ComputerVirtualMachine", "Reminder", "KnowbaseItem"];
+    public static $typeCI = ["Budget", "Contact", "Document", "ItemVirtualMachine", "Reminder", "KnowbaseItem"];
     //CANNOT use :( No fields entities
     //
     public static $typeField;
 
-    public static $rightname = "plugin_cmdb_citypes";
+    public static string $rightname = "plugin_cmdb_citypes";
 
-    public $dohistory  = true;
-    protected $usenotepad = true;
+    public bool $dohistory  = true;
+    protected bool $usenotepad = true;
 
     /**
      * Constructor

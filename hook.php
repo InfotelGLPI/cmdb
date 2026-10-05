@@ -103,6 +103,13 @@ function plugin_cmdb_install()
 
     plugin_cmdb_rewriteGeneratedClasses();
 
+    // GLPI 12 removed the ComputerVirtualMachine class (replaced by ItemVirtualMachine since
+    // GLPI 11): repoint the imported CI type and every itemtype reference to the new class
+    $DB->update('glpi_plugin_cmdb_citypes', ['name' => 'ItemVirtualMachine'], ['name' => 'ComputerVirtualMachine']);
+    foreach (['criticities_items', 'operationprocesses_items', 'civalues', 'impacticons', 'impactinfos'] as $table) {
+        $DB->update("glpi_plugin_cmdb_$table", ['itemtype' => 'ItemVirtualMachine'], ['itemtype' => 'ComputerVirtualMachine']);
+    }
+
     //DisplayPreferences Migration
     $classes = [
         'PluginCmdbOperationprocess' => OperationProcess::class,
@@ -429,7 +436,7 @@ function plugin_cmdb_getDropdown()
  */
 function plugin_cmdb_AssignToTicket($types)
 {
-    if (Session::haveRight("plugin_cmdb_operationprocesses_open_ticket", "1")) {
+    if (Session::haveRight(Profile::RIGHT_OPERATIONPROCESSES_OPEN_TICKET, 1)) {
         $types[OperationProcess::class] = OperationProcess::getTypeName(2);
     }
 
@@ -474,7 +481,7 @@ function plugin_cmdb_getAddSearchOptions($itemtype)
 
     if (in_array($itemtype, Criticity_Item::getCIType())) {
         if (!in_array($itemtype, $CFG_GLPI['infocom_types'])) {
-            if (Session::haveRight("plugin_cmdb_cis", READ)) {
+            if (Session::haveRight(CI::$rightname, READ)) {
                 $sopt[8010]['table'] = 'glpi_plugin_cmdb_criticities_items';
                 $sopt[8010]['field'] = 'plugin_cmdb_criticities_id';
                 $sopt[8010]['name'] = Criticity_Item::getTypeName(1);

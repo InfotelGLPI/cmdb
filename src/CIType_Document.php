@@ -36,5 +36,5 @@ use CommonDBTM;
  */
 class CIType_Document extends CommonDBTM
 {
-    public static $rightname = "plugin_cmdb_citypes";
+    public static string $rightname = "plugin_cmdb_citypes";
 }

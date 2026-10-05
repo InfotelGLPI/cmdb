@@ -45,15 +45,15 @@ use Toolbox;
 class OperationProcess_Item extends CommonDBRelation
 {
     // From CommonDBRelation
-    public static $itemtype_1    = OperationProcess::class;
-    public static $items_id_1    = 'plugin_cmdb_operationprocesses_id';
-    public static $take_entity_1 = false;
+    public static ?string $itemtype_1    = OperationProcess::class;
+    public static ?string $items_id_1    = 'plugin_cmdb_operationprocesses_id';
+    public static bool $take_entity_1 = false;
 
-    public static $itemtype_2    = 'itemtype';
-    public static $items_id_2    = 'items_id';
-    public static $take_entity_2 = true;
+    public static ?string $itemtype_2    = 'itemtype';
+    public static ?string $items_id_2    = 'items_id';
+    public static bool $take_entity_2 = true;
 
-    public static $rightname = "plugin_cmdb_operationprocesses";
+    public static string $rightname = "plugin_cmdb_operationprocesses";
 
     /**
      * Clean table when item is purged
@@ -108,7 +108,7 @@ class OperationProcess_Item extends CommonDBRelation
                 return self::createTabEntry(_n('Attached service', 'Attached services', 2, 'cmdb'));
 
             } elseif (in_array($item->getType(), OperationProcess::getTypes(true))
-                       && Session::haveRight('plugin_cmdb_operationprocesses', READ)) {
+                       && Session::haveRight(OperationProcess::$rightname, READ)) {
                 if ($_SESSION['glpishow_count_on_tabs']) {
                     return self::createTabEntry(OperationProcess::getTypeName(2), self::countForItem($item));
                 }
@@ -391,7 +391,7 @@ class OperationProcess_Item extends CommonDBRelation
         if ($item->isNewID($ID)) {
             return false;
         }
-        if (!Session::haveRight('plugin_cmdb_operationprocesses', READ)) {
+        if (!Session::haveRight(OperationProcess::$rightname, READ)) {
             return false;
         }
 
@@ -486,7 +486,7 @@ class OperationProcess_Item extends CommonDBRelation
                                              ),
             );
 
-            if (Session::haveRight('plugin_cmdb_operationprocesses', READ)
+            if (Session::haveRight(OperationProcess::$rightname, READ)
                 && ($nb > count($used))) {
                 $hidden = [
                     'entities_id'  => $entity,

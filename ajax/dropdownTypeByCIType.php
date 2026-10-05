@@ -34,7 +34,7 @@ if (strpos($_SERVER['PHP_SELF'], "dropdownTypeByCIType.php")) {
     header("Content-Type: text/html; charset=UTF-8");
     Html::header_nocache();
 }
-Session::checkRight('plugin_cmdb_citypes', UPDATE);
+Session::checkRight(CIType::$rightname, UPDATE);
 
 // Same allow-list as the twin endpoint: both are wired on the same dropdown by
 // CIType::showImportedItem(), so both accept exactly what it offers.

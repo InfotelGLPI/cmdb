@@ -46,7 +46,7 @@ use Toolbox;
 
 class ImpactInfo extends CommonDBTM
 {
-    public static $rightname = 'plugin_cmdb_impactinfos';
+    public static string $rightname = 'plugin_cmdb_impactinfos';
 
     public static function getTypeName($nb = 0)
     {

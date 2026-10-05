@@ -44,9 +44,9 @@ use Toolbox;
  */
 class CI extends CommonDBTM
 {
-    public static $rightname  = "plugin_cmdb_cis";
-    public $dohistory  = true;
-    protected $usenotepad = true;
+    public static string $rightname  = "plugin_cmdb_cis";
+    public bool $dohistory  = true;
+    protected bool $usenotepad = true;
 
     /**
      * Return the localized name of the current Type

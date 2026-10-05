@@ -37,7 +37,7 @@ use CommonGLPI;
  */
 class CI_Cmdb extends CommonDBTM
 {
-    public static $rightname = "plugin_cmdb_cis";
+    public static string $rightname = "plugin_cmdb_cis";
 
     /**
      * Return the localized name of the current Type

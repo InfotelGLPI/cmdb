@@ -36,7 +36,7 @@ use CommonGLPI;
  */
 class OperationProcessMenu extends CommonGLPI
 {
-    public static $rightname = 'plugin_cmdb_operationprocesses';
+    public static string $rightname = 'plugin_cmdb_operationprocesses';
 
     /**
      * Get menu name

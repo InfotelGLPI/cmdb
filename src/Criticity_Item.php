@@ -40,7 +40,7 @@ use Log;
  */
 class Criticity_Item extends CommonDBTM
 {
-    public static $rightname = "plugin_cmdb_cis";
+    public static string $rightname = "plugin_cmdb_cis";
 
     public const HISTORY_CRITICITY = 20;
 

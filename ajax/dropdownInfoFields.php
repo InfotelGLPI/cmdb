@@ -34,7 +34,7 @@ if (strpos($_SERVER['PHP_SELF'], "dropdownInfoFields.php")) {
     header("Content-Type: text/html; charset=UTF-8");
     Html::header_nocache();
 }
-Session::checkRight('plugin_cmdb_citypes', UPDATE);
+Session::checkRight(CIType::$rightname, UPDATE);
 
 // Replay at the sink the very list the dropdown of CIType::showImportedItem() is built
 // from: any other itemtype was never offered to this user and has no business reaching the

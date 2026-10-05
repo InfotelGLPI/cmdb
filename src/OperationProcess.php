@@ -47,9 +47,9 @@ use User;
  */
 class OperationProcess extends CommonDBTM
 {
-    public $dohistory  = true;
-    public static $rightname  = "plugin_cmdb_operationprocesses";
-    protected $usenotepad = true;
+    public bool $dohistory  = true;
+    public static string $rightname  = "plugin_cmdb_operationprocesses";
+    protected bool $usenotepad = true;
 
     public static $types = ['User', 'Group'];
 

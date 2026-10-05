@@ -43,12 +43,6 @@ parameters:
 			path: front/operationprocess.form.php
 
 		-
-			message: '#^Parameter \#2 \$right of static method Session\:\:haveRight\(\) expects int, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: hook.php
-
-		-
 			message: '#^Parameter \#1 \$ver of class Migration constructor expects string, int given\.$#'
 			identifier: argument.type
 			count: 1
@@ -321,7 +315,7 @@ parameters:
 		-
 			message: '#^Instantiating an object from an unrestricted dynamic string is forbidden \(see https\://github\.com/glpi\-project/phpstan\-glpi\?tab\=readme\-ov\-file\#forbiddynamicinstantiationrule\)\.$#'
 			identifier: glpi.forbidDynamicInstantiation
-			count: 2
+			count: 1
 			path: src/ImpactIcon.php
 
 		-

@@ -42,9 +42,9 @@ use Session;
  */
 class Criticity extends CommonDBTM
 {
-    public static $rightname = "plugin_cmdb_cis";
+    public static string $rightname = "plugin_cmdb_cis";
 
-    public $dohistory = true;
+    public bool $dohistory = true;
 
     /**
      * The only colour notation Html::showColorField() produces, and the only one that may

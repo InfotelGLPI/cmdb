@@ -32,7 +32,7 @@ use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\Criticity;
 use GlpiPlugin\Cmdb\Criticity_Item;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+Session::checkRight(CI::$rightname, UPDATE);
 
 // Replay the business allow-list at the sink rather than accepting any instantiable
 // class of the GLPI registry: Criticity_Item::getCIType() is the very list

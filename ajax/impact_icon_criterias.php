@@ -33,7 +33,7 @@ use GlpiPlugin\Cmdb\ImpactIcon;
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
 
-Session::checkRight('plugin_cmdb_impacticons', UPDATE);
+Session::checkRight(ImpactIcon::$rightname, UPDATE);
 
 $itemtype = null;
 if (isset($_POST['itemtype']) && $_POST['itemtype']) {

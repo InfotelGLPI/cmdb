@@ -168,8 +168,8 @@ function plugin_version_cmdb()
         'homepage'     => 'https://github.com/InfotelGLPI/cmdb',
         'requirements' => [
             'glpi' => [
-                'min' => '11.0',
-                'max' => '12.0',
+                'min' => '11.0.99',
+                'max' => '12.0.99',
                 'dev' => false,
             ],
         ]];

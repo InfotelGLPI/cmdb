@@ -42,7 +42,7 @@ use Ticket;
  */
 class Cmdb_Ticket extends CommonDBRelation
 {
-    public static $rightname = "plugin_cmdb_cis";
+    public static string $rightname = "plugin_cmdb_cis";
 
     /**
      * Get Tab Name used for itemtype

@@ -35,7 +35,7 @@ use Toolbox;
 
 class ImpactInfoField extends CommonDBTM
 {
-    public static $rightname = 'plugin_cmdb_impactinfos';
+    public static string $rightname = 'plugin_cmdb_impactinfos';
 
     public function showInfos($itemtype, $id)
     {

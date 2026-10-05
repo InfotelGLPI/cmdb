@@ -32,7 +32,7 @@ use GlpiPlugin\Cmdb\CI;
 use GlpiPlugin\Cmdb\CiFields;
 use GlpiPlugin\Cmdb\CIType;
 
-Session::checkRight('plugin_cmdb_cis', UPDATE);
+Session::checkRight(CI::$rightname, UPDATE);
 
 // checkRight() above only tests the global profile bitmask; it carries no entity notion.
 // When editing an existing CI, enforce a real per-record read (right + entity) on the

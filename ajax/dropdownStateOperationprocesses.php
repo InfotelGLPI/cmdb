@@ -36,7 +36,7 @@ if (strpos($_SERVER['PHP_SELF'], "dropdownStateOperationprocesses.php")) {
     Html::header_nocache();
 }
 
-Session::checkRight('plugin_cmdb_operationprocesses', READ);
+Session::checkRight(OperationProcess::$rightname, READ);
 
 // Make a select box
 if (isset($_POST["operationprocessstate"])) {

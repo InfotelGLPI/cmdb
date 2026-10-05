@@ -41,7 +41,10 @@ use Session;
  */
 class Profile extends \Profile
 {
-    public static $rightname = "profile";
+    public static string $rightname = "profile";
+
+    // Secondary plugin right, granting the "Associate to a ticket" action on operation processes
+    public const RIGHT_OPERATIONPROCESSES_OPEN_TICKET = 'plugin_cmdb_operationprocesses_open_ticket';
 
     /**
      * @param CommonGLPI $item

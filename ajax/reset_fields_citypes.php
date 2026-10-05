@@ -33,7 +33,7 @@ use Glpi\Exception\Http\NotFoundHttpException;
 use GlpiPlugin\Cmdb\CiFields;
 use GlpiPlugin\Cmdb\CIType;
 
-Session::checkRight('plugin_cmdb_citypes', UPDATE);
+Session::checkRight(CIType::$rightname, UPDATE);
 
 // The list of field types used to be rebuilt from $_POST['tabType'], exploded on the comma:
 // the browser supplied both the labels and the values of the dropdown that decides how every

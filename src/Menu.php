@@ -36,7 +36,7 @@ use CommonGLPI;
  */
 class Menu extends CommonGLPI
 {
-    public static $rightname = 'plugin_cmdb_cis';
+    public static string $rightname = 'plugin_cmdb_cis';
 
     /**
      * Return the localized name of the current Type
