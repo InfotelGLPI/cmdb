@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-04 18:39+0000\n"
+"POT-Creation-Date: 2026-10-05 13:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Александр Дюжев <frduke51@gmail.com>, 2021\n"
 "Language-Team: Russian (Russia) (https://www.transifex.com/infotelGLPI/"
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Будьте осторожны, наименование не может быть изменено после создания"
 
-#: setup.php:164 src/Cmdb.php:52 src/Profile.php:56 src/CI_Cmdb.php:50
+#: setup.php:164 src/Cmdb.php:52 src/Profile.php:59 src/CI_Cmdb.php:50
 #: src/Menu.php:48
 msgid "CMDB"
 msgstr "CMDB"
@@ -266,11 +266,11 @@ msgstr "Неверное имя!"
 msgid "Is this item presents in glpi ?"
 msgstr "Этот предмет есть в GLPI?"
 
-#: src/Profile.php:130 src/Menu.php:68
+#: src/Profile.php:133 src/Menu.php:68
 msgid "Item Configuration"
 msgstr "Конфигурации элемента"
 
-#: src/Profile.php:187 src/Profile.php:227
+#: src/Profile.php:190 src/Profile.php:230
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Настройка устройства"
@@ -355,8 +355,8 @@ msgstr "Просмотр CI"
 msgid "See associated tickets"
 msgstr "Смотреть связанные заявки"
 
-#: src/OperationProcessMenu.php:50 src/Profile.php:132 src/Profile.php:158
-#: src/Profile.php:223 src/OperationProcess.php:63
+#: src/OperationProcessMenu.php:50 src/Profile.php:135 src/Profile.php:161
+#: src/Profile.php:226 src/OperationProcess.php:63
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Сервис"
@@ -401,7 +401,7 @@ msgstr[1] "Типы CI"
 msgstr[2] "Типы CI"
 msgstr[3] "Типы CI"
 
-#: src/Profile.php:231
+#: src/Profile.php:234
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Тип настройки устройства"
@@ -409,7 +409,7 @@ msgstr[1] "Типы настройки устройств"
 msgstr[2] "Типов настройки устройств"
 msgstr[3] "Типы настройки устройств"
 
-#: src/Profile.php:131 src/Profile.php:200
+#: src/Profile.php:134 src/Profile.php:203
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Тип настройки устройства"
@@ -467,7 +467,7 @@ msgstr "Высокий"
 msgid "is already present in GLPI"
 msgstr "уже представлено в GLPI"
 
-#: hook.php:541
+#: hook.php:548
 msgid "item not found or disabled"
 msgstr "Устройство не найдено или отключено"
 

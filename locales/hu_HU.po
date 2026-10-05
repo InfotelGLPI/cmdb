@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - CMDB plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-04 18:39+0000\n"
+"POT-Creation-Date: 2026-10-05 13:33+0000\n"
 "PO-Revision-Date: 2020-11-02 15:46+0000\n"
 "Last-Translator: Árpád Bögöthy, 2024\n"
 "Language-Team: Hungarian (Hungary) (https://app.transifex.com/infotelGLPI/"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Be careful the name cannot be changed after creation"
 msgstr "Vigyázz, a név nem változtatható meg a létrehozás után."
 
-#: setup.php:164 src/Cmdb.php:52 src/Profile.php:56 src/CI_Cmdb.php:50
+#: setup.php:164 src/Cmdb.php:52 src/Profile.php:59 src/CI_Cmdb.php:50
 #: src/Menu.php:48
 msgid "CMDB"
 msgstr "CMDB"
@@ -254,11 +254,11 @@ msgstr "Érvénytelen név!"
 msgid "Is this item presents in glpi ?"
 msgstr "Ez az elem jelen van a glpi-ben?"
 
-#: src/Profile.php:130 src/Menu.php:68
+#: src/Profile.php:133 src/Menu.php:68
 msgid "Item Configuration"
 msgstr "Elem konfiguráció"
 
-#: src/Profile.php:187 src/Profile.php:227
+#: src/Profile.php:190 src/Profile.php:230
 msgid "Item configuration"
 msgid_plural "Items configuration"
 msgstr[0] "Elem konfiguráció"
@@ -341,8 +341,8 @@ msgstr "Lásd CI"
 msgid "See associated tickets"
 msgstr "Kapcsolódó jegyek megtekintése"
 
-#: src/OperationProcessMenu.php:50 src/Profile.php:132 src/Profile.php:158
-#: src/Profile.php:223 src/OperationProcess.php:63
+#: src/OperationProcessMenu.php:50 src/Profile.php:135 src/Profile.php:161
+#: src/Profile.php:226 src/OperationProcess.php:63
 msgid "Service"
 msgid_plural "Services"
 msgstr[0] "Szolgáltatások"
@@ -381,13 +381,13 @@ msgid_plural "Types CIs"
 msgstr[0] "CI típus"
 msgstr[1] "CI Típusai"
 
-#: src/Profile.php:231
+#: src/Profile.php:234
 msgid "Type of Item Configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Az elem konfiguráció típusa"
 msgstr[1] "Az elem konfiguráció típusai"
 
-#: src/Profile.php:131 src/Profile.php:200
+#: src/Profile.php:134 src/Profile.php:203
 msgid "Type of item configuration"
 msgid_plural "Types of item configuration"
 msgstr[0] "Az elem konfiguráció típusa"
@@ -443,7 +443,7 @@ msgstr "magas"
 msgid "is already present in GLPI"
 msgstr "már létezik a GLPI-ben"
 
-#: hook.php:541
+#: hook.php:548
 msgid "item not found or disabled"
 msgstr "elem nem található vagy tiltva van"
 
