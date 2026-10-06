@@ -129,12 +129,17 @@
         reloadSelector(column);
     });
 
-    // Existing tooltip: its item type is fixed, the list is loaded right away
-    $(function () {
-        document.querySelectorAll('[data-cmdb-impactinfo]').forEach((holder) => {
+    // Existing tooltip: its item type is fixed, the list is loaded right away. The form is a
+    // tab loaded over AJAX after the document is ready, hence glpi.tab.loaded too; data-loaded
+    // keeps a tab reloaded around an already filled form from fetching the list twice.
+    function loadExistingFields() {
+        document.querySelectorAll('[data-cmdb-impactinfo]:not([data-loaded])').forEach((holder) => {
             if (holder.querySelector('select[name="itemtype"]') === null) {
+                holder.dataset.loaded = '1';
                 loadFields(holder, holder.dataset.itemtype);
             }
         });
-    });
+    }
+    $(loadExistingFields);
+    $(document).on('glpi.tab.loaded', loadExistingFields);
 })();
