@@ -315,7 +315,7 @@ class OperationProcess_Item extends CommonDBRelation
                                            'FKEY'                             => [$itemTable              => 'id',
                                                $operationprocess_table => 'items_id'],
                                        ],
-                        'ORDER'     => "glpi_entities.completename, $itemTable.$column"],
+                        'ORDER'     => ['glpi_entities.completename', "$itemTable.$column"]],
                 );
 
                 if (count($iterator_item)) {
